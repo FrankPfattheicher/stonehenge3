@@ -1,1 +1,3 @@
-# stonehenge3
+# stonehenge3 - WebMVVM
+
+Let's try to port it to .net Core...
