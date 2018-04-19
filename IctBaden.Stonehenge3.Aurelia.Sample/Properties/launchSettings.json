@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "IctBaden.Stonehenge3.Aurelia.Sample": {
+      "commandName": "Project",
+      "commandLineArgs": "/localhost"
+    }
+  }
+}
