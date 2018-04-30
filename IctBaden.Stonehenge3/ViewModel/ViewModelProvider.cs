@@ -1,17 +1,15 @@
-﻿using System.Web;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Web;
+using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Resources;
+using Newtonsoft.Json;
 
-namespace IctBaden.Stonehenge2.ViewModel
+namespace IctBaden.Stonehenge3.ViewModel
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
-    using Core;
-    using Resources;
-
-    using Newtonsoft.Json;
-
     public class ViewModelProvider : IStonehengeResourceProvider
     {
         public void Dispose()
@@ -112,8 +110,7 @@ namespace IctBaden.Stonehenge2.ViewModel
             var events = session.CollectEvents();
             if (events.Count > 0)
             {
-                var activeVm = session.ViewModel as ActiveViewModel;
-                if (activeVm != null)
+                if (session.ViewModel is ActiveViewModel activeVm)
                 {
                     foreach (var property in events)
                     {
@@ -128,7 +125,7 @@ namespace IctBaden.Stonehenge2.ViewModel
             return new Resource(resourceName, "ViewModelProvider", ResourceType.Json, json, Resource.Cache.None);
         }
 
-        private static void AddStonehengeInternalProperties(List<string> data, ActiveViewModel activeVm)
+        private static void AddStonehengeInternalProperties(ICollection<string> data, ActiveViewModel activeVm)
         {
             if (!string.IsNullOrEmpty(activeVm.MessageBoxTitle) || !string.IsNullOrEmpty(activeVm.MessageBoxText))
             {
@@ -195,8 +192,7 @@ namespace IctBaden.Stonehenge2.ViewModel
         {
             try
             {
-                var activeVm = vm as ActiveViewModel;
-                if (activeVm != null)
+                if (vm is ActiveViewModel activeVm)
                 {
                     var pi = activeVm.GetPropertyInfo(propName);
                     if ((pi == null) || !pi.CanWrite)
@@ -207,8 +203,7 @@ namespace IctBaden.Stonehenge2.ViewModel
                         object structObj = activeVm.TryGetMember(propName);
                         if (structObj != null)
                         {
-                            var members = JsonConvert.DeserializeObject(newValue, typeof(Dictionary<string, string>)) as Dictionary<string, string>;
-                            if (members != null)
+                            if (JsonConvert.DeserializeObject(newValue, typeof(Dictionary<string, string>)) is Dictionary<string, string> members)
                             {
                                 foreach (var member in members)
                                 {
@@ -250,11 +245,10 @@ namespace IctBaden.Stonehenge2.ViewModel
         private static string GetViewModelJson(object viewModel)
         {
             var ty = viewModel.GetType();
-            Trace.TraceInformation("Stonehenge2.ViewModelProvider: viewModel=" + ty.Name);
+            Trace.TraceInformation("Stonehenge3.ViewModelProvider: viewModel=" + ty.Name);
 
             var data = new List<string>();
-            var activeVm = viewModel as ActiveViewModel;
-            if (activeVm != null)
+            if (viewModel is ActiveViewModel activeVm)
             {
                 foreach (var model in activeVm.ActiveModels)
                 {

@@ -1,7 +1,7 @@
-﻿namespace IctBaden.Stonehenge2.Core
-{
-    using IctBaden.Stonehenge2.Hosting;
+﻿using IctBaden.Stonehenge3.Hosting;
 
+namespace IctBaden.Stonehenge3.Core
+{
     public class AppWindow
     {
         public AppWindow(IStonehengeHost host)

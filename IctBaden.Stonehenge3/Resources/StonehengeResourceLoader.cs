@@ -1,15 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.ViewModel;
 
-namespace IctBaden.Stonehenge2.Resources
+namespace IctBaden.Stonehenge3.Resources
 {
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-
-    using Core;
-    using ViewModel;
-
     public class StonehengeResourceLoader : IStonehengeResourceProvider
     {
         public List<IStonehengeResourceProvider> Loaders { get; }

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace IctBaden.Stonehenge2.Client
+namespace IctBaden.Stonehenge3.Client
 {
     public static class ContentDeliveryNetworkSupport
     {
@@ -33,10 +33,7 @@ namespace IctBaden.Stonehenge2.Client
 
                 return _cdnLookup;
             }
-            set
-            {
-                _cdnLookup = value;
-            }
+            set => _cdnLookup = value;
         }
 
         public static string RersolveHostsHtml(string page, bool isSecureConnection)
@@ -49,7 +46,7 @@ namespace IctBaden.Stonehenge2.Client
 
             var resultlines = from line in page.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
                               let isScriptSource = script.Match(line)
-                              let source = isScriptSource.Groups["c"].Value.Split(new[] { '/' }).Last()
+                              let source = isScriptSource.Groups["c"].Value.Split('/').Last()
                               select (isScriptSource.Success && CdnLookup.ContainsKey(source)) ?
                                      isScriptSource.Groups["a"].Value.Replace(isScriptSource.Groups["b"].Value, CdnLookup[source].Replace("http://", protocol)) : line;
 
@@ -66,7 +63,7 @@ namespace IctBaden.Stonehenge2.Client
 
             var resultlines = from line in page.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
                               let isMapPath = script.Match(line)
-                              let source = isMapPath.Groups["path"].Value.Split(new[] { '/' }).Last() + ".js"
+                              let source = isMapPath.Groups["path"].Value.Split('/').Last() + ".js"
                               select (isMapPath.Success && CdnLookup.ContainsKey(source)) ?
                                      isMapPath.Groups["map"].Value.Replace(isMapPath.Groups["path"].Value, CdnLookup[source].Replace("http://", protocol)).Replace(".js'", "'") : line;
 

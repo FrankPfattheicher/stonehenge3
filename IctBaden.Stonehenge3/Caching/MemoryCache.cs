@@ -1,4 +1,4 @@
-﻿namespace IctBaden.Stonehenge2.Caching
+﻿namespace IctBaden.Stonehenge3.Caching
 {
     using System.Collections.Generic;
 

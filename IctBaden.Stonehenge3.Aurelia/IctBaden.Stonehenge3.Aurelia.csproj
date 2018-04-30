@@ -1,0 +1,86 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
+    <FileVersion>3.0.0.0</FileVersion>
+    <Version>3.0.0</Version>
+    <Authors>Frank Pfattheicher</Authors>
+    <Company>ICT Baden GmbH</Company>
+    <Product>Web Application Framework</Product>
+    <Copyright>Copyright ©2013-2018 ICT Baden GmbH</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="app\config.js" />
+    <None Remove="app\favicon.ico" />
+    <None Remove="app\icon.png" />
+    <None Remove="app\index.html" />
+    <None Remove="app\jsconfig.json" />
+    <None Remove="app\jspm_packages\npm\font-awesome%404.5.0\css\font-awesome.css" />
+    <None Remove="app\jspm_packages\npm\font-awesome%404.5.0\css\font-awesome.css.map" />
+    <None Remove="app\jspm_packages\npm\font-awesome%404.5.0\css\font-awesome.min.css" />
+    <None Remove="app\jspm_packages\npm\font-awesome%404.5.0\fonts\fontawesome-webfont.eot" />
+    <None Remove="app\jspm_packages\npm\font-awesome%404.5.0\fonts\fontawesome-webfont.svg" />
+    <None Remove="app\jspm_packages\npm\font-awesome%404.5.0\fonts\fontawesome-webfont.ttf" />
+    <None Remove="app\jspm_packages\npm\font-awesome%404.5.0\fonts\fontawesome-webfont.woff" />
+    <None Remove="app\jspm_packages\npm\font-awesome%404.5.0\fonts\fontawesome-webfont.woff2" />
+    <None Remove="app\jspm_packages\npm\font-awesome%404.5.0\fonts\FontAwesome.otf" />
+    <None Remove="app\jspm_packages\system-csp-production.js" />
+    <None Remove="app\jspm_packages\system-csp-production.js.map" />
+    <None Remove="app\jspm_packages\system-csp-production.src.js" />
+    <None Remove="app\jspm_packages\system-polyfills.js" />
+    <None Remove="app\jspm_packages\system-polyfills.js.map" />
+    <None Remove="app\jspm_packages\system-polyfills.src.js" />
+    <None Remove="app\jspm_packages\system.js" />
+    <None Remove="app\jspm_packages\system.js.map" />
+    <None Remove="app\jspm_packages\system.src.js" />
+    <None Remove="app\package.json" />
+    <None Remove="app\src\app.html" />
+    <None Remove="app\src\aurelia-babel.js" />
+    <None Remove="app\src\aurelia.js" />
+    <None Remove="app\styles\styles.css" />
+    <None Remove="Client\stonehengeApp.js" />
+    <None Remove="Client\stonehengeController.js" />
+    <None Remove="Client\stonehengeElement.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="app\config.js" />
+    <EmbeddedResource Include="app\favicon.ico" />
+    <EmbeddedResource Include="app\icon.png" />
+    <EmbeddedResource Include="app\index.html" />
+    <EmbeddedResource Include="app\jsconfig.json" />
+    <EmbeddedResource Include="app\jspm_packages\npm\font-awesome@4.5.0\css\font-awesome.css" />
+    <EmbeddedResource Include="app\jspm_packages\npm\font-awesome@4.5.0\css\font-awesome.css.map" />
+    <EmbeddedResource Include="app\jspm_packages\npm\font-awesome@4.5.0\css\font-awesome.min.css" />
+    <EmbeddedResource Include="app\jspm_packages\npm\font-awesome@4.5.0\fonts\fontawesome-webfont.eot" />
+    <EmbeddedResource Include="app\jspm_packages\npm\font-awesome@4.5.0\fonts\fontawesome-webfont.svg" />
+    <EmbeddedResource Include="app\jspm_packages\npm\font-awesome@4.5.0\fonts\fontawesome-webfont.ttf" />
+    <EmbeddedResource Include="app\jspm_packages\npm\font-awesome@4.5.0\fonts\fontawesome-webfont.woff" />
+    <EmbeddedResource Include="app\jspm_packages\npm\font-awesome@4.5.0\fonts\fontawesome-webfont.woff2" />
+    <EmbeddedResource Include="app\jspm_packages\npm\font-awesome@4.5.0\fonts\FontAwesome.otf" />
+    <EmbeddedResource Include="app\jspm_packages\system-csp-production.js" />
+    <EmbeddedResource Include="app\jspm_packages\system-csp-production.js.map" />
+    <EmbeddedResource Include="app\jspm_packages\system-csp-production.src.js" />
+    <EmbeddedResource Include="app\jspm_packages\system-polyfills.js" />
+    <EmbeddedResource Include="app\jspm_packages\system-polyfills.js.map" />
+    <EmbeddedResource Include="app\jspm_packages\system-polyfills.src.js" />
+    <EmbeddedResource Include="app\jspm_packages\system.js" />
+    <EmbeddedResource Include="app\jspm_packages\system.js.map" />
+    <EmbeddedResource Include="app\jspm_packages\system.src.js" />
+    <EmbeddedResource Include="app\package.json" />
+    <EmbeddedResource Include="app\src\app.html" />
+    <EmbeddedResource Include="app\src\aurelia-babel.js" />
+    <EmbeddedResource Include="app\src\aurelia.js" />
+    <EmbeddedResource Include="app\styles\styles.css" />
+    <EmbeddedResource Include="Client\stonehengeApp.js" />
+    <EmbeddedResource Include="Client\stonehengeController.js" />
+    <EmbeddedResource Include="Client\stonehengeElement.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IctBaden.Stonehenge3\IctBaden.Stonehenge3.csproj" />
+  </ItemGroup>
+
+</Project>

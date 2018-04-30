@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
 
-namespace IctBaden.Stonehenge2.Types
+namespace IctBaden.Stonehenge3.Types
 {
     public class NamingConverter
     {

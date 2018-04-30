@@ -1,9 +1,9 @@
-﻿namespace IctBaden.Stonehenge2.Core
-{
-    using System;
-    using System.Diagnostics;
-    using System.Threading;
+﻿using System;
+using System.Diagnostics;
+using System.Threading;
 
+namespace IctBaden.Stonehenge3.Core
+{
     public class PassiveTimer : IComparable
     {
         private bool _locked;

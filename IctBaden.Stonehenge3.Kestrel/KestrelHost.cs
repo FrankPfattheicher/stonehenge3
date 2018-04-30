@@ -1,16 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
-using IctBaden.Stonehenge2.Hosting;
-using IctBaden.Stonehenge2.Resources;
+using IctBaden.Stonehenge3.Hosting;
+using IctBaden.Stonehenge3.Resources;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Memory;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace IctBaden.Stonehenge3.Kestrel
 {
     public class KestrelHost : IStonehengeHost
     {
         private IWebHost _webApp;
+        // ReSharper disable once NotAccessedField.Local
         private readonly IStonehengeResourceProvider _resourceLoader;
 
         public KestrelHost(IStonehengeResourceProvider loader)
@@ -33,8 +39,25 @@ namespace IctBaden.Stonehenge3.Kestrel
                           + ":"
                           + (hostPort != 0 ? hostPort : (useSsl ? 443 : 80));
 
-                _webApp = WebHost.CreateDefaultBuilder(new string[0])
+
+                var mem = new MemoryConfigurationSource()
+                {
+                    InitialData = new[] 
+                    {
+                        new KeyValuePair<string, string>( "AppTitle", AppTitle)
+                    }
+                };
+
+                var config = new ConfigurationBuilder()
+                    .Add(mem)
+                    .Build();
+
+                _webApp = new WebHostBuilder()
+                    .UseConfiguration(config)
+                    .ConfigureServices(s => { s.AddSingleton<IConfiguration>(config); })
+                    .ConfigureServices(s => { s.AddSingleton(_resourceLoader); })
                     .UseStartup<Startup>()
+                    .UseKestrel()
                     .UseUrls(BaseUrl)
                     .Build();
 
@@ -42,8 +65,7 @@ namespace IctBaden.Stonehenge3.Kestrel
             }
             catch (Exception ex)
             {
-                var inner = ex.InnerException as HttpListenerException;
-                if ((inner != null) && (inner.ErrorCode == 5))
+                if ((ex.InnerException is HttpListenerException inner) && (inner.ErrorCode == 5))
                 {
                     Trace.TraceError($"Access denied: Try netsh http delete urlacl {BaseUrl}");
                 }
@@ -58,7 +80,7 @@ namespace IctBaden.Stonehenge3.Kestrel
                     ex = ex.InnerException;
                     message += Environment.NewLine + "    " + ex.Message;
                 }
-                Trace.TraceError("KatanaHost.Start: " + message);
+                Trace.TraceError("KestrelHost.Start: " + message);
                 _webApp = null;
             }
             return _webApp != null;

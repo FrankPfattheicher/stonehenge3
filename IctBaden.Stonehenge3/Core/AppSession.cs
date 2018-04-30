@@ -1,19 +1,17 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using IctBaden.Stonehenge3.ViewModel;
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 
-namespace IctBaden.Stonehenge2.Core
+namespace IctBaden.Stonehenge3.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Reflection;
-    using System.Threading;
-
-    using ViewModel;
-
     public class AppSession : INotifyPropertyChanged
     {
         public string AppInstanceId { get; private set; }
@@ -35,7 +33,7 @@ namespace IctBaden.Stonehenge2.Core
         public DateTime LastUserAction { get; private set; }
 
         private readonly Guid _id;
-        public string Id => _id.ToString("N");
+        public string Id => $"{_id:N}";
 
         public string PermanentSessionId { get; private set; }
 
@@ -72,14 +70,14 @@ namespace IctBaden.Stonehenge2.Core
                 (_viewModel as IDisposable)?.Dispose();
 
                 _viewModel = value;
-                var npc = value as INotifyPropertyChanged;
-                if (npc != null)
+                if (value is INotifyPropertyChanged npc)
                 {
                     npc.PropertyChanged += (sender, args) =>
                     {
-                        var avm = sender as ActiveViewModel;
-                        if (avm == null)
+                        if (!(sender is ActiveViewModel avm))
+                        {
                             return;
+                        }
                         lock (avm.Session._events)
                         {
                             avm.Session.EventAdd(args.PropertyName);
@@ -236,7 +234,7 @@ namespace IctBaden.Stonehenge2.Core
             {
                 if (Assembly.GetEntryAssembly() == null) return;
                 var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? ".";
-                var cfg = Path.Combine(path, "stonehenge2.cfg");
+                var cfg = Path.Combine(path, "Stonehenge3.cfg");
                 if (!File.Exists(cfg)) return;
 
                 var settings = File.ReadAllLines(cfg);

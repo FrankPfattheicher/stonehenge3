@@ -1,8 +1,9 @@
 ﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
-namespace IctBaden.Stonehenge2.Resources
-{
-    using System;
 
+using System;
+
+namespace IctBaden.Stonehenge3.Resources
+{
     public class Resource
     {
         public string ContentType { get; private set; }

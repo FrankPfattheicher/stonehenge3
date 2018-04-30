@@ -1,7 +1,7 @@
-namespace IctBaden.Stonehenge2.ViewModel
-{
-    using System;
+using System;
 
+namespace IctBaden.Stonehenge3.ViewModel
+{
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class ActionMethodAttribute : Attribute
     {

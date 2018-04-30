@@ -1,4 +1,4 @@
-﻿namespace IctBaden.Stonehenge2.ViewModel
+﻿namespace IctBaden.Stonehenge3.ViewModel
 {
     public class ActiveModel
     {

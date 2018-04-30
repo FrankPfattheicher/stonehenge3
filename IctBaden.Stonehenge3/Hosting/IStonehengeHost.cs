@@ -1,4 +1,4 @@
-﻿namespace IctBaden.Stonehenge2.Hosting
+﻿namespace IctBaden.Stonehenge3.Hosting
 {
     public interface IStonehengeHost
     {

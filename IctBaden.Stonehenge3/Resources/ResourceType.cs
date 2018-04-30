@@ -1,14 +1,14 @@
-﻿namespace IctBaden.Stonehenge2.Resources
-{
-    using System.Collections.Generic;
-    using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
+namespace IctBaden.Stonehenge3.Resources
+{
     public class ResourceType
     {
         public string Extension { get; }
-        public string ContentType { get; private set; }
+        public string ContentType { get; }
 
-        public bool IsBinary { get; private set; }
+        public bool IsBinary { get; }
 
         public ResourceType(string extension, string contentType, bool isBinary)
         {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using IctBaden.Stonehenge2.Core;
-using IctBaden.Stonehenge2.Resources;
+using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Kestrel.Middleware;
+using IctBaden.Stonehenge3.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -11,13 +11,15 @@ namespace IctBaden.Stonehenge3.Kestrel
 {
     public class Startup
     {
-        public string _appTitle;
-        public IStonehengeResourceProvider _resourceLoader;
+        private readonly string _appTitle;
+        private readonly IStonehengeResourceProvider _resourceLoader;
         private readonly List<AppSession> _appSessions = new List<AppSession>();
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IStonehengeResourceProvider resourceLoader)
         {
             Configuration = configuration;
+            _resourceLoader = resourceLoader;
+            _appTitle = Configuration["AppTitle"];
         }
 
         public IConfiguration Configuration { get; }
@@ -25,17 +27,11 @@ namespace IctBaden.Stonehenge3.Kestrel
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
             app.UseMiddleware<ServerExceptionLogger>();
             //TODO app.UseMiddleware<StonehengeAcme>();
             //TODO app.UseCompression();

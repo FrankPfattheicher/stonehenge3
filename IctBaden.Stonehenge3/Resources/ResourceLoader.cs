@@ -1,16 +1,16 @@
 ﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
-namespace IctBaden.Stonehenge2.Resources
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using IctBaden.Stonehenge3.Core;
+
+namespace IctBaden.Stonehenge3.Resources
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-
-    using Core;
-
     public class ResourceLoader : IStonehengeResourceProvider
     {
         internal class AssemblyResource

@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace IctBaden.Stonehenge2.ViewModel
+namespace IctBaden.Stonehenge3.ViewModel
 {
     public static class JsonSerializer
     {
@@ -60,10 +60,10 @@ namespace IctBaden.Stonehenge2.ViewModel
                 return data;
             }
 
-            var enumerable = obj as IEnumerable;
-            if (enumerable != null)
+            if (obj is IEnumerable enumerable)
             {
                 var elements = new List<string>();
+                // ReSharper disable once LoopCanBeConvertedToQuery
                 foreach (var element in enumerable)
                 {
                     elements.Add(SerializeObjectString(null, element));

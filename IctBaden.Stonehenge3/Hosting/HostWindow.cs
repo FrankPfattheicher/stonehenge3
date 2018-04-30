@@ -2,10 +2,8 @@
 using System.Diagnostics;
 using System.IO;
 using System.Web;
-using System.Windows;
-using IctBaden.Stonehenge3.Hosting;
 
-namespace IctBaden.Stonehenge2.Hosting
+namespace IctBaden.Stonehenge3.Hosting
 {
     public class HostWindow
     {
@@ -29,6 +27,8 @@ namespace IctBaden.Stonehenge2.Hosting
                 //    screen.Height = 600;
                 //}
                 //return new Point(screen.Width, screen.Height);
+                
+                // ReSharper disable once ArrangeAccessorOwnerBody
                 return new Point(800, 600);
             }
         }

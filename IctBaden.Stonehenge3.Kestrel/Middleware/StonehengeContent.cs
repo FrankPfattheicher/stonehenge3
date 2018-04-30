@@ -6,8 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using IctBaden.Stonehenge2.Core;
-using IctBaden.Stonehenge2.Resources;
+using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Resources;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -35,19 +35,16 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 var requestVerb = context.Request.Method;
                 var cookiesHeader = context.Request.Headers
                                          .FirstOrDefault(h => h.Key == "Cookie").Value.ToString() ?? "";
-                    var requestCookies = cookiesHeader
+                var requestCookies = cookiesHeader
                     .Split(';')
                     .Select(s => s.Trim())
                     .Select(s => s.Split('='));
                 var cookies = new Dictionary<string, string>();
-                if(requestCookies != null)
+                foreach (var cookie in requestCookies)
                 {
-                    foreach (var cookie in requestCookies)
+                    if (!cookies.ContainsKey(cookie[0]) && (cookie.Length > 1))
                     {
-                        if (!cookies.ContainsKey(cookie[0]) && (cookie.Length > 1))
-                        {
-                            cookies.Add(cookie[0], cookie[1]);
-                        }
+                        cookies.Add(cookie[0], cookie[1]);
                     }
                 }
                 var queryString = HttpUtility.ParseQueryString(context.Request.QueryString.ToString());
@@ -58,8 +55,8 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 switch (requestVerb)
                 {
                     case "GET":
-                        appSession.Accessed(cookies, false);
-                        content = resourceLoader.Get(appSession, resourceName, parameters);
+                        appSession?.Accessed(cookies, false);
+                        content = resourceLoader?.Get(appSession, resourceName, parameters);
                         if (string.Compare(resourceName, "index.html", StringComparison.InvariantCultureIgnoreCase) == 0)
                         {
                             HandleIndexContent(context, content);
@@ -67,7 +64,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                         break;
 
                     case "POST":
-                        appSession.Accessed(cookies, true);
+                        appSession?.Accessed(cookies, true);
                         var body = new StreamReader(context.Request.Body).ReadToEndAsync().Result;
 
                         var formData = new Dictionary<string, string>();
@@ -87,7 +84,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                             }
                         }
 
-                        content = resourceLoader.Post(appSession, resourceName, parameters, formData);
+                        content = resourceLoader?.Post(appSession, resourceName, parameters, formData);
                         break;
                 }
 
@@ -110,7 +107,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                         context.Response.Headers.Add("Cache-Control", new[] { "max-age=86400" });
                         break;
                 }
-                if (!appSession.StonehengeCookieSet)
+                if (appSession?.StonehengeCookieSet == false)
                 {
                     context.Response.Headers.Add("Set-Cookie",
                         appSession.SecureCookies

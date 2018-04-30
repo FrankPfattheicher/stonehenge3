@@ -25,22 +25,20 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using IctBaden.Stonehenge2.Resources;
-using IctBaden.Stonehenge3.ViewModel;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Dynamic;
+using System.Linq;
+using System.Reflection;
+using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Resources;
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 
-namespace IctBaden.Stonehenge2.ViewModel
+namespace IctBaden.Stonehenge3.ViewModel
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Diagnostics;
-    using System.Dynamic;
-    using System.Linq;
-    using System.Reflection;
-    using Core;
-
     public class ActiveViewModel : DynamicObject, ICustomTypeDescriptor, INotifyPropertyChanged
     {
         #region helper classes

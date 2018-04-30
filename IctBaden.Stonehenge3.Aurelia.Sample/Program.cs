@@ -1,15 +1,34 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
-using IctBaden.Stonehenge2.Hosting;
-using IctBaden.Stonehenge2.Resources;
+using IctBaden.Stonehenge3.Caching;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Kestrel;
+using IctBaden.Stonehenge3.Resources;
+using IctBaden.Stonehenge3.SimpleHttp;
 
 namespace IctBaden.Stonehenge3.Aurelia.Sample
 {
     class Program
     {
-                    private static IStonehengeHost _server;
+        /// <summary>
+        /// Not included in .NET Standard 2.0
+        /// </summary>
+        public class ConsoleTraceListener : TextWriterTraceListener
+        {
+            public ConsoleTraceListener() : base(Console.Out)
+            {
+            }
+            public ConsoleTraceListener(bool useErrorStream) : base(useErrorStream ? Console.Error : Console.Out)
+            {
+            }
+            public override void Close()
+            {
+                // No resources to clean up.
+            }
+        }
+
+        private static IStonehengeHost _server;
 
         /// <summary>
         /// The main entry point for the application.
@@ -17,8 +36,9 @@ namespace IctBaden.Stonehenge3.Aurelia.Sample
         [STAThread]
         static void Main()
         {
-            //var consoleListener = new ConsoleTraceListener { Filter = new EventTypeFilter(SourceLevels.All) };
-            //Trace.Listeners.Add(consoleListener);
+            //var consoleListener = new  ConsoleTraceListener { Filter = new EventTypeFilter(SourceLevels.All) };
+            var consoleListener = new ConsoleTraceListener();
+            Trace.Listeners.Add(consoleListener);
 
             Console.WriteLine(@"");
             Console.WriteLine(@"Stonehenge 3 sample");
@@ -27,8 +47,8 @@ namespace IctBaden.Stonehenge3.Aurelia.Sample
             // Select client framework
             Console.WriteLine(@"Using client framework aurelia");
             var loader = StonehengeResourceLoader.CreateDefaultLoader();
-            //var aurelia = new AureliaResourceProvider();
-            //aurelia.InitProvider(loader, "Sample", "start");
+            var aurelia = new AureliaResourceProvider();
+            aurelia.InitProvider(loader, "Sample", "start");
 
             // Select hosting technology
             var hosting = "owin";
@@ -39,10 +59,10 @@ namespace IctBaden.Stonehenge3.Aurelia.Sample
                     Console.WriteLine(@"Using Kestrel hosting");
                     _server = new KestrelHost(loader);
                     break;
-                //case "simple":
-                //    Console.WriteLine(@"Using simple http hosting");
-                //    _server = new SimpleHttpHost(loader, new MemoryCache());
-                //    break;
+                case "simple":
+                    Console.WriteLine(@"Using simple http hosting");
+                    _server = new SimpleHttpHost(loader, new MemoryCache());
+                    break;
             }
 
             Console.WriteLine(@"Starting server");

@@ -5,9 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using IctBaden.Stonehenge2.Core;
+using IctBaden.Stonehenge3.Core;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Owin;
 
 namespace IctBaden.Stonehenge3.Kestrel.Middleware
 {
@@ -32,18 +31,18 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             var cookie = context.Request.Headers.FirstOrDefault(h => h.Key == "Cookie");
             var stonehengeId = context.Request.Query["stonehenge-id"];
             //TODO
-            //if ((cookie.Value != null) && (cookie.Value.Length > 0))
-            //{
-            //    // workaround for double stonehenge-id values in cookie - take the last one
-            //    var match = new Regex("stonehenge-id=([a-f0-9A-F]+)", RegexOptions.RightToLeft)
-            //        .Match(cookie.Value[cookie.Value.Length - 1]);
-            //    if (match.Success)
-            //    {
-            //        stonehengeId = match.Groups[1].Value;
-            //    }
-            //}
+            if (!string.IsNullOrEmpty(cookie.Value.ToString()))
+            {
+                // workaround for double stonehenge-id values in cookie - take the last one
+                var match = new Regex("stonehenge-id=([a-f0-9A-F]+)", RegexOptions.RightToLeft)
+                    .Match(cookie.Value.ToString());
+                if (match.Success)
+                {
+                    stonehengeId = match.Groups[1].Value;
+                }
+            }
 
-            Trace.TraceInformation($"Stonehenge2.Katana[{stonehengeId}] Begin {context.Request.Method} {path}");
+            Trace.TraceInformation($"Stonehenge3.Kestrel[{stonehengeId}] Begin {context.Request.Method} {path}");
 
             var appSessions = context.Items["stonehenge.AppSessions"] as List<AppSession>
                 ?? new List<AppSession>();
@@ -62,7 +61,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
 
                 context.Response.Redirect("/Index.html?stonehenge-id=" + session.Id);
                 //TODO
-                Trace.TraceInformation($"Stonehenge2.Katana[{stonehengeId}] From IP {"RemoteIpAddress"}:{"RemotePort"} - redirect to {session.Id}");
+                Trace.TraceInformation($"Stonehenge3.Kestrel[{stonehengeId}] From IP {"RemoteIpAddress"}:{"RemotePort"} - redirect to {session.Id}");
                 return;
             }
 
@@ -83,12 +82,12 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             if (canceled)//TODO .IsCancellationRequested)
             {
                 Trace.TraceWarning(
-                    $"Stonehenge2.Katana[{stonehengeId}] Canceled {context.Request.Method}={context.Response.StatusCode} {path}, {timer.ElapsedMilliseconds}ms");
+                    $"Stonehenge3.Kestrel[{stonehengeId}] Canceled {context.Request.Method}={context.Response.StatusCode} {path}, {timer.ElapsedMilliseconds}ms");
                 throw new TaskCanceledException();
             }
 
             Trace.TraceInformation(
-                $"Stonehenge2.Katana[{stonehengeId}] End {context.Request.Method}={context.Response.StatusCode} {path}, {timer.ElapsedMilliseconds}ms");
+                $"Stonehenge3.Kestrel[{stonehengeId}] End {context.Request.Method}={context.Response.StatusCode} {path}, {timer.ElapsedMilliseconds}ms");
         }
 
         private void CleanupTimedOutSessions(List<AppSession> appSessions)
@@ -100,9 +99,9 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 vm?.Dispose();
                 timedOut.ViewModel = null;
                 appSessions.Remove(timedOut);
-                Trace.TraceInformation($"Stonehenge2.Katana Session timed out {timedOut.Id}.");
+                Trace.TraceInformation($"Stonehenge3.Kestrel Session timed out {timedOut.Id}.");
             }
-            Trace.TraceInformation($"Stonehenge2.Katana {appSessions.Count} sessions.");
+            Trace.TraceInformation($"Stonehenge3.Kestrel {appSessions.Count} sessions.");
         }
 
         private AppSession NewSession(List<AppSession> appSessions, HttpContext context)
@@ -112,7 +111,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             var isLocal = context.Items.ContainsKey("server.IsLocal") && (bool)context.Items["server.IsLocal"];
             session.Initialize(context.Request.Host.Value, isLocal, "RemoteIpAddress", userAgent);
             appSessions.Add(session);
-            Trace.TraceInformation($"Stonehenge2.Katana New session {session.Id}. {appSessions.Count} sessions.");
+            Trace.TraceInformation($"Stonehenge3.Kestrel New session {session.Id}. {appSessions.Count} sessions.");
             return session;
         }
     }

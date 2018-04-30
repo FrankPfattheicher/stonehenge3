@@ -1,11 +1,10 @@
-﻿namespace IctBaden.Stonehenge2.Resources
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using IctBaden.Stonehenge3.Core;
+
+namespace IctBaden.Stonehenge3.Resources
 {
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-
-    using Core;
-
     public class FileLoader : IStonehengeResourceProvider
     {
         public string RootPath { get; }
