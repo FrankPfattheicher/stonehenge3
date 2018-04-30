@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Memory;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +16,9 @@ namespace IctBaden.Stonehenge3.Kestrel
     public class KestrelHost : IStonehengeHost
     {
         private IWebHost _webApp;
+        private Task _host;
+        private CancellationTokenSource _cancel;
+        
         // ReSharper disable once NotAccessedField.Local
         private readonly IStonehengeResourceProvider _resourceLoader;
 
@@ -61,7 +64,8 @@ namespace IctBaden.Stonehenge3.Kestrel
                     .UseUrls(BaseUrl)
                     .Build();
 
-                _webApp.Run();
+                _cancel = new CancellationTokenSource();
+                _host = _webApp.RunAsync(_cancel.Token);
             }
             catch (Exception ex)
             {
@@ -88,8 +92,18 @@ namespace IctBaden.Stonehenge3.Kestrel
 
         public void Terminate()
         {
+            Trace.TraceInformation("KestrelHost.Terminate: Cancel WebApp");
+            _cancel.Cancel();
+                
+            Trace.TraceInformation("KestrelHost.Terminate: Host...");
+            _host?.Wait();
+            _host?.Dispose();
+            
+            Trace.TraceInformation("KestrelHost.Terminate: WebApp...");
             _webApp?.Dispose();
             _webApp = null;
+            
+            Trace.TraceInformation("KestrelHost.Terminate: Terminated.");
         }
     }
 }

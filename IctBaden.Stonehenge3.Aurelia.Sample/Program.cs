@@ -9,32 +9,15 @@ using IctBaden.Stonehenge3.SimpleHttp;
 
 namespace IctBaden.Stonehenge3.Aurelia.Sample
 {
-    class Program
+    internal static class Program
     {
-        /// <summary>
-        /// Not included in .NET Standard 2.0
-        /// </summary>
-        public class ConsoleTraceListener : TextWriterTraceListener
-        {
-            public ConsoleTraceListener() : base(Console.Out)
-            {
-            }
-            public ConsoleTraceListener(bool useErrorStream) : base(useErrorStream ? Console.Error : Console.Out)
-            {
-            }
-            public override void Close()
-            {
-                // No resources to clean up.
-            }
-        }
-
         private static IStonehengeHost _server;
 
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             //var consoleListener = new  ConsoleTraceListener { Filter = new EventTypeFilter(SourceLevels.All) };
             var consoleListener = new ConsoleTraceListener();
@@ -73,7 +56,14 @@ namespace IctBaden.Stonehenge3.Aurelia.Sample
             if (_server.Start("Sample", false, host, 32000))
             {
                 Console.WriteLine(@"Started server on: " + _server.BaseUrl);
-                terminate.WaitOne();
+
+                var wnd = new HostWindow(_server);
+                if (!wnd.Open())
+                {
+                    Trace.TraceError("Failed to open main window.");
+                    terminate.WaitOne();                    
+                }
+                
                 Console.WriteLine(@"Server terminated.");
             }
             else
@@ -84,7 +74,8 @@ namespace IctBaden.Stonehenge3.Aurelia.Sample
 #pragma warning disable 0162
             // ReSharper disable once HeuristicUnreachableCode
             _server.Terminate();
-            // ReSharper disable once FunctionNeverReturns
+            
+            Environment.Exit(0);
         }
     }
 }

@@ -7,11 +7,11 @@ namespace IctBaden.Stonehenge3.Hosting
 {
     public class HostWindow
     {
-        public string Title { get; set; }
-        public Point WindowSize { get; set; }
-        public string HostUrl { get; set; }
+        private readonly string _title;
+        private readonly Point _windowSize;
+        private readonly string _hostUrl;
 
-        public static Point DefaultWindowSize
+        private static Point DefaultWindowSize
         {
             get
             {
@@ -33,15 +33,16 @@ namespace IctBaden.Stonehenge3.Hosting
             }
         }
 
-        public HostWindow(string title, string hostUrl)
-            : this(title, DefaultWindowSize, hostUrl)
+        public HostWindow(IStonehengeHost server)
+            : this(server, DefaultWindowSize)
         { 
         }
-        public HostWindow(string title, Point windowSize, string hostUrl)
+        // ReSharper disable once MemberCanBePrivate.Global
+        public HostWindow(IStonehengeHost server, Point windowSize)
         {
-            Title = title;
-            WindowSize = windowSize;
-            HostUrl = hostUrl;
+            _title = server.AppTitle;
+            _windowSize = windowSize;
+            _hostUrl = server.BaseUrl.Replace("*", "localhost");
         }
 
         /// <summary>
@@ -78,16 +79,23 @@ namespace IctBaden.Stonehenge3.Hosting
 
         private bool ShowWindowChrome(string path)
         {
-            var cmd = Environment.OSVersion.Platform == PlatformID.Unix ? "chromium-browser" : "chrome.exe";
-            var parameter = $"--app={HostUrl}/?title={HttpUtility.UrlEncode(Title)} --window-size={WindowSize.X},{WindowSize.Y} --disable-translate --user-data-dir=\"{path}\"";
-            var ui = Process.Start(cmd, parameter);
-            if (ui == null)
+            try
+            {
+                var cmd = Environment.OSVersion.Platform == PlatformID.Unix ? "chromium" : "chrome.exe";
+                var parameter = $"--app={_hostUrl}/?title={HttpUtility.UrlEncode(_title)} --window-size={_windowSize.X},{_windowSize.Y} --disable-translate --user-data-dir=\"{path}\"";
+                var ui = Process.Start(cmd, parameter);
+                if (ui == null)
+                {
+                    return false;
+                }
+                Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _hostUrl);
+                ui.WaitForExit();
+                return true;
+            }
+            catch (Exception)
             {
                 return false;
             }
-            Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, HostUrl);
-            ui.WaitForExit();
-            return true;
         }
 
         
@@ -96,15 +104,22 @@ namespace IctBaden.Stonehenge3.Hosting
             if (Environment.OSVersion.Platform != PlatformID.Unix)
                 return false;
 
-            var parameter = $"{HostUrl}/?title={HttpUtility.UrlEncode(Title)}";
-            var ui = Process.Start("epiphany", parameter);
-            if (ui == null)
+            try
+            {
+                var parameter = $"{_hostUrl}/?title={HttpUtility.UrlEncode(_title)}";
+                var ui = Process.Start("epiphany", parameter);
+                if (ui == null)
+                {
+                    return false;
+                }
+                Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _hostUrl);
+                ui.WaitForExit();
+                return true;
+            }
+            catch (Exception)
             {
                 return false;
             }
-            Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, HostUrl);
-            ui.WaitForExit();
-            return true;
         }
 
         private bool ShowWindowMidori(string path)
@@ -112,15 +127,22 @@ namespace IctBaden.Stonehenge3.Hosting
             if (Environment.OSVersion.Platform != PlatformID.Unix)
                 return false;
 
-            var parameter = $"-e Navigationbar -c {path} -a {HostUrl}/?title={HttpUtility.UrlEncode(Title)}";
-            var ui = Process.Start("midori", parameter);
-            if (ui == null)
+            try
+            {
+                var parameter = $"-e Navigationbar -c {path} -a {_hostUrl}/?title={HttpUtility.UrlEncode(_title)}";
+                var ui = Process.Start("midori", parameter);
+                if (ui == null)
+                {
+                    return false;
+                }
+                Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _hostUrl);
+                ui.WaitForExit();
+                return true;
+            }
+            catch (Exception)
             {
                 return false;
             }
-            Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, HostUrl);
-            ui.WaitForExit();
-            return true;
         }
 
         private bool ShowWindowInternetExplorer()
@@ -128,33 +150,44 @@ namespace IctBaden.Stonehenge3.Hosting
             if (Environment.OSVersion.Platform == PlatformID.Unix)
                 return false;
 
-            const string cmd = "iexplore.exe";
-            var parameter = $"-private {HostUrl}/?title={HttpUtility.UrlEncode(Title)}";
-            var ui = Process.Start(cmd, parameter);
-            if (ui == null)
+            try
+            {
+                const string cmd = "iexplore.exe";
+                var parameter = $"-private {_hostUrl}/?title={HttpUtility.UrlEncode(_title)}";
+                var ui = Process.Start(cmd, parameter);
+                if (ui == null)
+                {
+                    return false;
+                }
+                Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _hostUrl);
+                ui.WaitForExit();
+                return true;
+            }
+            catch (Exception)
             {
                 return false;
             }
-            Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, HostUrl);
-            ui.WaitForExit();
-            return true;
         }
 
         private bool ShowWindowFirefox()
         {
-            if (Environment.OSVersion.Platform == PlatformID.Unix)
-                return false;
-
-            const string cmd = "firefox.exe";
-            var parameter = $"{HostUrl}/?title={HttpUtility.UrlEncode(Title)} -width {WindowSize.X} -height {WindowSize.Y}";
-            var ui = Process.Start(cmd, parameter);
-            if (ui == null)
+            try
+            {
+                var cmd = Environment.OSVersion.Platform == PlatformID.Unix ? "firefox" : "firefox.exe";
+                var parameter = $"{_hostUrl}/?title={HttpUtility.UrlEncode(_title)} -width {_windowSize.X} -height {_windowSize.Y}";
+                var ui = Process.Start(cmd, parameter);
+                if (ui == null)
+                {
+                    return false;
+                }
+                Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _hostUrl);
+                ui.WaitForExit();
+                return true;
+            }
+            catch (Exception)
             {
                 return false;
             }
-            Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, HostUrl);
-            ui.WaitForExit();
-            return true;
         }
 
         private bool ShowWindowSafari()
@@ -162,16 +195,23 @@ namespace IctBaden.Stonehenge3.Hosting
             if (Environment.OSVersion.Platform == PlatformID.Unix)
                 return false;
 
-            const string cmd = "safari.exe";
-            var parameter = $"-url {HostUrl}/?title={HttpUtility.UrlEncode(Title)} -width {WindowSize.X} -height {WindowSize.Y}";
-            var ui = Process.Start(cmd, parameter);
-            if (ui == null)
+            try
+            {
+                const string cmd = "safari.exe";
+                var parameter = $"-url {_hostUrl}/?title={HttpUtility.UrlEncode(_title)} -width {_windowSize.X} -height {_windowSize.Y}";
+                var ui = Process.Start(cmd, parameter);
+                if (ui == null)
+                {
+                    return false;
+                }
+                Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _hostUrl);
+                ui.WaitForExit();
+                return true;
+            }
+            catch (Exception)
             {
                 return false;
             }
-            Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, HostUrl);
-            ui.WaitForExit();
-            return true;
         }
 
     }
