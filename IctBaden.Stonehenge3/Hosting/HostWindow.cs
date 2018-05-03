@@ -11,6 +11,8 @@ namespace IctBaden.Stonehenge3.Hosting
         private readonly Point _windowSize;
         private readonly string _hostUrl;
 
+        public string LastError;
+
         private static Point DefaultWindowSize
         {
             get
@@ -27,7 +29,7 @@ namespace IctBaden.Stonehenge3.Hosting
                 //    screen.Height = 600;
                 //}
                 //return new Point(screen.Width, screen.Height);
-                
+
                 // ReSharper disable once ArrangeAccessorOwnerBody
                 return new Point(800, 600);
             }
@@ -35,7 +37,7 @@ namespace IctBaden.Stonehenge3.Hosting
 
         public HostWindow(IStonehengeHost server)
             : this(server, DefaultWindowSize)
-        { 
+        {
         }
         // ReSharper disable once MemberCanBePrivate.Global
         public HostWindow(IStonehengeHost server, Point windowSize)
@@ -57,11 +59,12 @@ namespace IctBaden.Stonehenge3.Hosting
 
             var opened = ShowWindowMidori(path) ||
                          ShowWindowEpiphany() ||
-                         ShowWindowChrome(path) ||
+                         ShowWindowChrome1(path) ||
+                         ShowWindowChrome2(path) ||
                          ShowWindowInternetExplorer() ||
                          ShowWindowFirefox() ||
                          ShowWindowSafari();
-            if(!opened)
+            if (!opened)
             {
                 Trace.TraceError("Could not create main window");
             }
@@ -77,11 +80,40 @@ namespace IctBaden.Stonehenge3.Hosting
             return opened;
         }
 
-        private bool ShowWindowChrome(string path)
+        private bool ShowWindowChrome1(string path)
         {
             try
             {
-                var cmd = Environment.OSVersion.Platform == PlatformID.Unix ? "chromium" : "chrome.exe";
+                var pi = new ProcessStartInfo
+                {
+                    FileName = Environment.OSVersion.Platform == PlatformID.Unix ? "chromium" : "chrome",
+                    CreateNoWindow = true,
+                    Arguments = $"--app={_hostUrl}/?title={HttpUtility.UrlEncode(_title)} --window-size={_windowSize.X},{_windowSize.Y} --disable-translate --user-data-dir=\"{path}\"",
+                    UseShellExecute = true
+                };
+                var ui = Process.Start(pi);
+                if (ui == null)
+                {
+                    return false;
+                }
+
+                Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _hostUrl);
+                ui.WaitForExit();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LastError = ex.Message;
+                return false;
+            }
+        }
+
+        private bool ShowWindowChrome2(string path)
+        {
+            try
+
+            {
+                var cmd = Environment.OSVersion.Platform == PlatformID.Unix ? "chromium-browser" : "chrome.exe";
                 var parameter = $"--app={_hostUrl}/?title={HttpUtility.UrlEncode(_title)} --window-size={_windowSize.X},{_windowSize.Y} --disable-translate --user-data-dir=\"{path}\"";
                 var ui = Process.Start(cmd, parameter);
                 if (ui == null)
@@ -92,13 +124,14 @@ namespace IctBaden.Stonehenge3.Hosting
                 ui.WaitForExit();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LastError = ex.Message;
                 return false;
             }
         }
 
-        
+
         private bool ShowWindowEpiphany()
         {
             if (Environment.OSVersion.Platform != PlatformID.Unix)
@@ -116,8 +149,9 @@ namespace IctBaden.Stonehenge3.Hosting
                 ui.WaitForExit();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LastError = ex.Message;
                 return false;
             }
         }
@@ -139,8 +173,9 @@ namespace IctBaden.Stonehenge3.Hosting
                 ui.WaitForExit();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LastError = ex.Message;
                 return false;
             }
         }
@@ -163,8 +198,9 @@ namespace IctBaden.Stonehenge3.Hosting
                 ui.WaitForExit();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LastError = ex.Message;
                 return false;
             }
         }
@@ -184,8 +220,9 @@ namespace IctBaden.Stonehenge3.Hosting
                 ui.WaitForExit();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LastError = ex.Message;
                 return false;
             }
         }
@@ -208,8 +245,9 @@ namespace IctBaden.Stonehenge3.Hosting
                 ui.WaitForExit();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LastError = ex.Message;
                 return false;
             }
         }
