@@ -9,6 +9,8 @@ using System.Web;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Resources;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -18,6 +20,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
     {
       private readonly RequestDelegate _next;
 
+        // ReSharper disable once UnusedMember.Global
         public StonehengeContent(RequestDelegate next)
         {
             _next = next;
@@ -34,7 +37,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 var appSession = context.Items["stonehenge.AppSession"] as AppSession;
                 var requestVerb = context.Request.Method;
                 var cookiesHeader = context.Request.Headers
-                                         .FirstOrDefault(h => h.Key == "Cookie").Value.ToString() ?? "";
+                    .FirstOrDefault(h => h.Key == HeaderNames.Cookie).Value.ToString();
                 var requestCookies = cookiesHeader
                     .Split(';')
                     .Select(s => s.Trim())
@@ -101,7 +104,8 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                         break;
                     case Resource.Cache.Revalidate:
                         context.Response.Headers.Add("Cache-Control", new[] { "max-age=3600", "must-revalidate", "proxy-revalidate" });
-                        //TODO: context.Response.ETag = appSession.GetResourceETag(path);
+                        var etag = appSession?.GetResourceETag(path);
+                        context.Response.Headers.Add(HeaderNames.ETag, new StringValues(etag));
                         break;
                     case Resource.Cache.OneDay:
                         context.Response.Headers.Add("Cache-Control", new[] { "max-age=86400" });

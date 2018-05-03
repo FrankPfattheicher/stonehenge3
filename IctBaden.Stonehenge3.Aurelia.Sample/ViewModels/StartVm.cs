@@ -48,7 +48,7 @@ namespace IctBaden.Stonehenge3.Aurelia.Sample.ViewModels
         [ActionMethod]
         public void ShowMessageBox()
         {
-            MessageBox("Stonehenge 2", $"Server side message box request. {Test}");
+            MessageBox("Stonehenge 3", $"Server side message box request. {Test}");
         }
 
         [ActionMethod]

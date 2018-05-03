@@ -14,6 +14,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
     {
         private readonly RequestDelegate _next;
 
+        // ReSharper disable once UnusedMember.Global
         public StonehengeSession(RequestDelegate next)
         {
             _next = next;
@@ -21,16 +22,14 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
 
         public async Task Invoke(HttpContext context)
         {
-            var canceled = false; // TODO context.Connection.Request.CallCancelled;
+            var canceled = context.RequestAborted.IsCancellationRequested;
 
             var timer = new Stopwatch();
             timer.Start();
 
             var path = context.Request.Path.ToString();
-            //var stonehengeId = context.Request.Cookies["stonehenge-id"] ?? context.Request.Query["stonehenge-id"];
             var cookie = context.Request.Headers.FirstOrDefault(h => h.Key == "Cookie");
             var stonehengeId = context.Request.Query["stonehenge-id"];
-            //TODO
             if (!string.IsNullOrEmpty(cookie.Value.ToString()))
             {
                 // workaround for double stonehenge-id values in cookie - take the last one
@@ -60,8 +59,9 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                         : new[] { "stonehenge-id=" + session.Id });
 
                 context.Response.Redirect("/Index.html?stonehenge-id=" + session.Id);
-                //TODO
-                Trace.TraceInformation($"Stonehenge3.Kestrel[{stonehengeId}] From IP {"RemoteIpAddress"}:{"RemotePort"} - redirect to {session.Id}");
+                var remoteIp = context.Connection.RemoteIpAddress;
+                var remotePort = context.Connection.RemotePort;
+                Trace.TraceInformation($"Stonehenge3.Kestrel[{stonehengeId}] From IP {remoteIp}:{remotePort} - redirect to {session.Id}");
                 return;
             }
 
@@ -79,7 +79,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
 
             timer.Stop();
 
-            if (canceled)//TODO .IsCancellationRequested)
+            if (canceled)
             {
                 Trace.TraceWarning(
                     $"Stonehenge3.Kestrel[{stonehengeId}] Canceled {context.Request.Method}={context.Response.StatusCode} {path}, {timer.ElapsedMilliseconds}ms");
