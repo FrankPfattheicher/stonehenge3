@@ -14,5 +14,13 @@ This version is based on .NET Standard 2.0.
 
 ## Still supported 
 
-V2.0	- Lin
-V1.x	- Link
+V2.0 - .NET Full Framework V4.6
+V1.x - .NET Full Framework V4.6
+
+
+## SampleFull with target framework V4.7.1
+The application is able tu use netstandard 2.0 libraries adding the following lines to lines to the csproj file.
+
+	<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+

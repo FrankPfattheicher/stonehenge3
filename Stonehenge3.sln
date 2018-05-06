@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IctBaden.Stonehenge3", "IctBaden.Stonehenge3\IctBaden.Stonehenge3.csproj", "{6EDD2AF6-4B40-47E8-AF90-599EC3986A58}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IctBaden.Stonehenge3.Aurelia.Sample", "IctBaden.Stonehenge3.Aurelia.Sample\IctBaden.Stonehenge3.Aurelia.Sample.csproj", "{565F4D3F-D2EC-4E0C-90A7-C56919AAE1E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IctBaden.Stonehenge3.Aurelia.SampleCore", "IctBaden.Stonehenge3.Aurelia.SampleCore\IctBaden.Stonehenge3.Aurelia.SampleCore.csproj", "{565F4D3F-D2EC-4E0C-90A7-C56919AAE1E7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IctBaden.Stonehenge3.Kestrel", "IctBaden.Stonehenge3.Kestrel\IctBaden.Stonehenge3.Kestrel.csproj", "{AE823FE8-F7F0-4FC2-849C-D7C8DEB7FD58}"
 EndProject
@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Stonehenge3-AssemblyInfo.cs = Stonehenge3-AssemblyInfo.cs
 		stonehenge3.nuspec = stonehenge3.nuspec
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IctBaden.Stonehenge3.Aurelia.SampleFull", "IctBaden.Stonehenge3.Aurelia.SampleFull\IctBaden.Stonehenge3.Aurelia.SampleFull.csproj", "{5F59343B-013F-4830-9528-E83B6F8866BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{49D2D92A-7334-4602-8040-1C95B532E327}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49D2D92A-7334-4602-8040-1C95B532E327}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49D2D92A-7334-4602-8040-1C95B532E327}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F59343B-013F-4830-9528-E83B6F8866BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F59343B-013F-4830-9528-E83B6F8866BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F59343B-013F-4830-9528-E83B6F8866BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F59343B-013F-4830-9528-E83B6F8866BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

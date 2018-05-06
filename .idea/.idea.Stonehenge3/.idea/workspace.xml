@@ -1,7 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7b369cd1-ddb5-403b-acb6-e6125ffcf5e6" name="Default" comment="" />
+    <list default="true" id="7b369cd1-ddb5-403b-acb6-e6125ffcf5e6" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Stonehenge3/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Stonehenge3/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Stonehenge3/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Stonehenge3/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ConsoleTraceListener.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/IctBaden.Stonehenge3.Aurelia.Sample.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/Properties/launchSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ViewModels/CookieVm.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ViewModels/StartVm.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ViewModels/TreeNode.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ViewModels/TreeVm.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/app/cookie.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/app/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/app/start.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/app/styles/theme.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/app/styles/themeblue.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/app/styles/themedark.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/app/tree-node.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/app/tree-view.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/app/tree.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Stonehenge3.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Stonehenge3.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Stonehenge3.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Stonehenge3.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/Controllers/ValuesController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/Properties/launchSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/Startup.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/WebApplication1.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/appsettings.Development.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/appsettings.json" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -10,30 +40,30 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/38791172-C4E9-44E9-8DB7-19B1650C49F6/e6/06e15e37/Thread.cs" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ViewModels/StartVm.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/Program.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A7516D39-0BBE-4AB5-ABB7-C880BEC2C910/94/ac67e99c/UvLoopHandle.cs" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Kestrel/KestrelHost.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3/Hosting/HostWindow.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A7516D39-0BBE-4AB5-ABB7-C880BEC2C910/4c/673d6440/LibuvThread.cs" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3/Hosting/IStonehengeHost.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/98977278-493E-494E-9758-AECE610C68D5/77/14aff193/ExecutionContext.cs" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ConsoleTraceListener.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Kestrel/KestrelHost.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleFull/app.config" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleFull/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleFull/ViewModels/CookieVm.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ConsoleTraceListener.cs" />
         <option value="$PROJECT_DIR$/IctBaden.Stonehenge3/Hosting/HostWindow.cs" />
-        <option value="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/Program.cs" />
         <option value="$PROJECT_DIR$/IctBaden.Stonehenge3.Kestrel/KestrelHost.cs" />
+        <option value="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ViewModels/CookieVm.cs" />
+        <option value="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ViewModels/StartVm.cs" />
+        <option value="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ViewModels/TreeVm.cs" />
+        <option value="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/Program.cs" />
+        <option value="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleFull/Program.cs" />
       </list>
     </option>
   </component>
@@ -44,10 +74,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="465" />
-    <option name="y" value="265" />
+    <option name="x" value="462" />
+    <option name="y" value="260" />
     <option name="width" value="2114" />
-    <option name="height" value="1259" />
+    <option name="height" value="1264" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -63,17 +93,7 @@
           <expand>
             <path>
               <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
-              <item name="Stonehenge3 (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
-            </path>
-            <path>
-              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
-              <item name="Stonehenge3 (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="IctBaden.Stonehenge3.Aurelia.Sample" type="977d5f41:SolutionExplorerNodeRider" />
-            </path>
-            <path>
-              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
-              <item name="Stonehenge3 (5 projects)" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="IctBaden.Stonehenge3.Kestrel" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Stonehenge3 (6 projects)" type="977d5f41:SolutionExplorerNodeRider" />
             </path>
           </expand>
           <select />
@@ -86,6 +106,7 @@
   <component name="PropertiesComponent">
     <property name="Rider.ProjectViewActivator.IsNotFirstRun" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleCore/ViewModels/TreeVm.cs" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RunDashboard">
@@ -132,11 +153,14 @@
       <option name="presentableId" value="Default" />
       <updated>1525100538800</updated>
       <workItem from="1525100540242" duration="3623000" />
+      <workItem from="1525634802277" duration="378000" />
+      <workItem from="1525635246735" duration="176000" />
+      <workItem from="1525639236158" duration="66000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3623000" />
+    <option name="totallyTimeSpent" value="4243000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -148,31 +172,31 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="51" y="25" width="1693" height="1295" extended-state="6" />
+    <frame x="-7" y="-7" width="2208" height="1208" extended-state="6" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Errors In Solution" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Unit Tests" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="right" id="Errors In Solution" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Unit Tests" order="7" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32960412" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="NuGet" weight="0.32960412" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20947176" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Build" weight="0.32960412" />
-      <window_info anchor="right" id="Database" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="NuGet" order="7" weight="0.32960412" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20920692" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Build" order="7" weight="0.32876712" />
+      <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39931154" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,140 +212,37 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/app/start.html">
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleFull/TreeNode.cs">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleFull/TreeVm.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="29" column="45" selection-start-line="29" selection-start-column="31" selection-end-line="29" selection-end-column="45" />
+        <state relative-caret-position="420">
+          <caret line="30" column="14" lean-forward="true" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ViewModels/StartVm.cs">
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ViewModels/CookieVm.cs" />
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ViewModels/StartVm.cs" />
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ViewModels/TreeVm.cs" />
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/Program.cs" />
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleFull/Program.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="42" column="49" lean-forward="true" selection-start-line="42" selection-start-column="49" selection-end-line="42" selection-end-column="49" />
-          <folding>
-            <marker date="1525100482670" expanded="false" signature="6:171" ph="..." />
-            <marker date="1525100482670" expanded="true" signature="229:2625" ph="{...}" />
-            <marker date="1525100482670" expanded="true" signature="287:2623" ph="{...}" />
-            <marker date="1525100482670" expanded="true" signature="633:1136" ph="{...}" />
-            <marker date="1525100482670" expanded="true" signature="759:1094" ph="{...}" />
-            <marker date="1525100482670" expanded="true" signature="830:1001" ph="{...}" />
-            <marker date="1525100482670" expanded="true" signature="1167:1252" ph="{...}" />
-            <marker date="1525100482670" expanded="true" signature="1326:1387" ph="{...}" />
-            <marker date="1525100482670" expanded="true" signature="1448:1552" ph="{...}" />
-            <marker date="1525100482670" expanded="true" signature="1613:1665" ph="{...}" />
-            <marker date="1525100482670" expanded="true" signature="1726:1782" ph="{...}" />
-            <marker date="1525100482670" expanded="true" signature="1853:2617" ph="{...}" />
-            <marker date="1525100482670" expanded="true" signature="1910:2458" ph="{...}" />
-          </folding>
+        <state relative-caret-position="105">
+          <caret line="7" column="5" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ConsoleTraceListener.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="18" column="21" lean-forward="true" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
-          <folding>
-            <marker date="1525103999219" expanded="false" signature="6:39" ph="..." />
-            <marker date="1525103999219" expanded="true" signature="86:630" ph="{...}" />
-            <marker date="1525103999219" expanded="true" signature="93:190" ph="/// Not included in .NET Standard 2.0 ... " />
-            <marker date="1525103999219" expanded="true" signature="256:628" ph="{...}" />
-            <marker date="1525103999219" expanded="true" signature="320:340" ph="{...}" />
-            <marker date="1525103999219" expanded="true" signature="504:524" ph="{...}" />
-            <marker date="1525103999219" expanded="true" signature="561:622" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/98977278-493E-494E-9758-AECE610C68D5/77/14aff193/ExecutionContext.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="92" column="8" selection-start-line="92" selection-start-column="8" selection-end-line="92" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A7516D39-0BBE-4AB5-ABB7-C880BEC2C910/94/ac67e99c/UvLoopHandle.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="27" column="6" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/38791172-C4E9-44E9-8DB7-19B1650C49F6/e6/06e15e37/Thread.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="76" column="6" selection-start-line="76" selection-start-column="6" selection-end-line="76" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A7516D39-0BBE-4AB5-ABB7-C880BEC2C910/4c/673d6440/LibuvThread.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="276" column="8" selection-start-line="276" selection-start-column="8" selection-end-line="276" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/Program.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="62" column="65" selection-start-line="62" selection-start-column="65" selection-end-line="62" selection-end-column="65" />
-          <folding>
-            <marker date="1525104143017" expanded="false" signature="6:248" ph="..." />
-            <marker date="1525104143017" expanded="true" signature="295:2893" ph="{...}" />
-            <marker date="1525104143017" expanded="true" signature="331:2891" ph="{...}" />
-            <marker date="1525104143017" expanded="true" signature="395:485" ph="/// The main entry point for the application. ... " />
-            <marker date="1525104143017" expanded="true" signature="540:2885" ph="{...}" />
-            <marker date="1525104143017" expanded="true" signature="1391:1799" ph="{...}" />
-            <marker date="1525104143017" expanded="true" signature="2142:2573" ph="{...}" />
-            <marker date="1525104143017" expanded="true" signature="2318:2484" ph="{...}" />
-            <marker date="1525104143017" expanded="true" signature="2590:2703" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/app/start.html" />
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ConsoleTraceListener.cs" />
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/98977278-493E-494E-9758-AECE610C68D5/77/14aff193/ExecutionContext.cs" />
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A7516D39-0BBE-4AB5-ABB7-C880BEC2C910/94/ac67e99c/UvLoopHandle.cs" />
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/38791172-C4E9-44E9-8DB7-19B1650C49F6/e6/06e15e37/Thread.cs" />
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A7516D39-0BBE-4AB5-ABB7-C880BEC2C910/4c/673d6440/LibuvThread.cs" />
     <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3/Hosting/HostWindow.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="223">
           <caret line="52" column="18" selection-start-line="52" selection-start-column="18" selection-end-line="52" selection-end-column="18" />
-          <folding>
-            <marker date="1525104147400" expanded="true" signature="6:74" ph="..." />
-            <marker date="1525104147400" expanded="true" signature="114:6994" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="144:6992" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="324:1003" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="350:993" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="381:935" ph="/* var screen = System.Windows.Forms.Screen.PrimaryScreen.Bounds; ... */" />
-            <marker date="1525104147400" expanded="true" signature="1100:1121" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="1249:1410" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="1420:1585" ph="/// Open a UI window using an installed browser  ... " />
-            <marker date="1525104147400" expanded="true" signature="1612:2372" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="2090:2184" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="2201:2263" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="2294:2335" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="2424:3190" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="2450:3092" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="2842:2912" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="3122:3180" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="3242:3909" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="3366:3811" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="3561:3631" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="3841:3899" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="3961:4656" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="4085:4558" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="4308:4378" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="4588:4646" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="4707:5427" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="4831:5329" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="5079:5149" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="5359:5417" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="5469:6183" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="5495:6085" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="5835:5905" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="6115:6173" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="6224:6985" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="6348:6887" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="6637:6707" ph="{...}" />
-            <marker date="1525104147400" expanded="true" signature="6917:6975" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -329,14 +250,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
           <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
-          <folding>
-            <marker date="1525100483090" expanded="true" signature="38:1051" ph="{...}" />
-            <marker date="1525100483090" expanded="true" signature="77:1049" ph="{...}" />
-            <marker date="1525100483090" expanded="true" signature="92:172" ph="/// The applicatioons title to use. ... " />
-            <marker date="1525100483090" expanded="true" signature="215:333" ph="/// Gives the base URL the hosting service is using for the initial page. ... " />
-            <marker date="1525100483090" expanded="true" signature="375:832" ph="/// Start hosting service. ... " />
-            <marker date="1525100483090" expanded="true" signature="942:1017" ph="/// Terminate hosting service. ... " />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -344,21 +257,34 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="37" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ViewModels/CookieVm.cs" />
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ViewModels/StartVm.cs" />
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ViewModels/TreeVm.cs" />
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/Program.cs" />
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleFull/TreeNode.cs" />
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleFull/TreeVm.cs" />
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleFull/app.config">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleFull/ViewModels/CookieVm.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
           <folding>
-            <marker date="1525104160131" expanded="true" signature="6:394" ph="..." />
-            <marker date="1525104160131" expanded="true" signature="434:3748" ph="{...}" />
-            <marker date="1525104160131" expanded="true" signature="483:3746" ph="{...}" />
-            <marker date="1525104160131" expanded="true" signature="800:858" ph="{...}" />
-            <marker date="1525104160131" expanded="true" signature="1053:3205" ph="{...}" />
-            <marker date="1525104160131" expanded="true" signature="1110:2261" ph="{...}" />
-            <marker date="1525104160131" expanded="true" signature="1420:1604" ph="{...}" />
-            <marker date="1525104160131" expanded="true" signature="1483:1586" ph="{...}" />
-            <marker date="1525104160131" expanded="true" signature="2294:3159" ph="{...}" />
-            <marker date="1525104160131" expanded="true" signature="2406:2538" ph="{...}" />
-            <marker date="1525104160131" expanded="true" signature="2652:2799" ph="{...}" />
-            <marker date="1525104160131" expanded="true" signature="2892:3046" ph="{...}" />
-            <marker date="1525104160131" expanded="true" signature="3238:3740" ph="{...}" />
+            <marker date="1525639143608" expanded="false" signature="6:70" ph="..." />
+            <marker date="1525639143608" expanded="true" signature="132:508" ph="{...}" />
+            <marker date="1525639143608" expanded="true" signature="178:506" ph="{...}" />
+            <marker date="1525639143608" expanded="true" signature="479:499" ph="{...}" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleFull/Program.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1080">
+          <caret line="79" column="5" selection-start-line="79" selection-start-column="5" selection-end-line="79" selection-end-column="5" />
         </state>
       </provider>
     </entry>

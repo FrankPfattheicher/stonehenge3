@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace IctBaden.Stonehenge3.Aurelia.Sample.ViewModels
+namespace IctBaden.Stonehenge3.Aurelia.SampleFull.ViewModels
 {
     public class TreeNode
     {

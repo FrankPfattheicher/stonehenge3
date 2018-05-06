@@ -7,7 +7,7 @@ using IctBaden.Stonehenge3.Kestrel;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.SimpleHttp;
 
-namespace IctBaden.Stonehenge3.Aurelia.Sample
+namespace IctBaden.Stonehenge3.Aurelia.SampleCore
 {
     internal static class Program
     {

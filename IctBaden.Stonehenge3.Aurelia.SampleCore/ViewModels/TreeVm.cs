@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using IctBaden.Stonehenge3.ViewModel;
+using System.Collections.Generic;
 using IctBaden.Stonehenge3.Core;
-using IctBaden.Stonehenge3.ViewModel;
 
-namespace IctBaden.Stonehenge3.Aurelia.Sample.ViewModels
+namespace IctBaden.Stonehenge3.Aurelia.SampleCore.ViewModels
 {
     public class TreeVm : ActiveViewModel
     {

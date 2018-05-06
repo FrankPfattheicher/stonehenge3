@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace IctBaden.Stonehenge3.Aurelia.Sample
+namespace IctBaden.Stonehenge3.Aurelia.SampleCore
 {
     /// <inheritdoc />
     /// <summary>

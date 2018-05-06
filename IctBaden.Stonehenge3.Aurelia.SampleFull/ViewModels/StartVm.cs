@@ -5,7 +5,7 @@ using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.ViewModel;
 
-namespace IctBaden.Stonehenge3.Aurelia.Sample.ViewModels
+namespace IctBaden.Stonehenge3.Aurelia.SampleFull.ViewModels
 {
     public class StartVm : ActiveViewModel, IDisposable
     {
