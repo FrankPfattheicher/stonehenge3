@@ -44,7 +44,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
             var thread = _listenerThread;
             _listenerThread = null;
 
-            thread?.Abort();
+            thread?.Join(TimeSpan.FromSeconds(10));
         }
 
         public void Listen()
