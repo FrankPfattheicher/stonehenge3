@@ -4,11 +4,13 @@ using IctBaden.Stonehenge3.Core;
 
 namespace IctBaden.Stonehenge3.Aurelia.SampleCore.ViewModels
 {
+    // ReSharper disable once UnusedMember.Global
     public class TreeVm : ActiveViewModel
     {
         private readonly TreeNode _world;
         public List<TreeNode> RootNodes => new List<TreeNode>() { _world };
 
+        // ReSharper disable once UnusedMember.Global
         public TreeVm(AppSession session) : base (session)
         {
             _world = new TreeNode(null)
@@ -41,6 +43,7 @@ namespace IctBaden.Stonehenge3.Aurelia.SampleCore.ViewModels
         }
 
         [ActionMethod]
+        // ReSharper disable once UnusedMember.Global
         public void TreeToggle(string nodeId)
         {
             var node = RootNodes[0].FindNodeById(nodeId);
@@ -50,6 +53,7 @@ namespace IctBaden.Stonehenge3.Aurelia.SampleCore.ViewModels
         }
 
         [ActionMethod]
+        // ReSharper disable once UnusedMember.Global
         public void TreeSelect(string nodeId)
         {
             var node = _world.FindNodeById(nodeId);

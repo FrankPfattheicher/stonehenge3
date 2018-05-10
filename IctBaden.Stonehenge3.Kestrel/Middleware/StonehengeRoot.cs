@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 namespace IctBaden.Stonehenge3.Kestrel.Middleware
@@ -9,6 +7,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
     {
         private readonly RequestDelegate _next;
 
+        // ReSharper disable once UnusedMember.Global
         public StonehengeRoot(RequestDelegate next)
         {
             _next = next;

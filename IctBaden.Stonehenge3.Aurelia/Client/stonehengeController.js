@@ -102,10 +102,14 @@ export class stonehengeViewModelName {
                     else {
                         scope.StonehengeSession = match[1];
                     }
-                    let data = JSON.parse(response.response);
+                    try {
+                        let data = JSON.parse(response.response);
+                        scope.StonehengeSetViewModelData(scope, data);
+                    } catch (error) {
+                        if (console && console.log) console.log(error);
+                    } 
                     scope.StonehengeInitialLoading = false;
                     scope.StonehengeIsLoading = false;
-                    scope.StonehengeSetViewModelData(scope, data);
                     if (scope.StonehengePollEventsActive == null) {
                         setTimeout(function() { scope.StonehengePollEvents(scope, true); }, scope.StonehengePollDelay);
                     }

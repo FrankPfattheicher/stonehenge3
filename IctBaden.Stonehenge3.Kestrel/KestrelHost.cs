@@ -94,14 +94,28 @@ namespace IctBaden.Stonehenge3.Kestrel
         {
             Trace.TraceInformation("KestrelHost.Terminate: Cancel WebApp");
             _cancel.Cancel();
-                
-            Trace.TraceInformation("KestrelHost.Terminate: Host...");
-            _host?.Wait();
-            _host?.Dispose();
-            
-            Trace.TraceInformation("KestrelHost.Terminate: WebApp...");
-            _webApp?.Dispose();
-            _webApp = null;
+
+            try
+            {
+                Trace.TraceInformation("KestrelHost.Terminate: Host...");
+                _host?.Wait();
+                _host?.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            try
+            {
+                Trace.TraceInformation("KestrelHost.Terminate: WebApp...");
+                _webApp?.Dispose();
+                _webApp = null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             
             Trace.TraceInformation("KestrelHost.Terminate: Terminated.");
         }

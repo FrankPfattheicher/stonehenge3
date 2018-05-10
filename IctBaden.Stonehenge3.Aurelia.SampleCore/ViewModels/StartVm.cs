@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.ViewModel;
 
 namespace IctBaden.Stonehenge3.Aurelia.SampleCore.ViewModels
 {
+    // ReSharper disable once UnusedMember.Global
     public class StartVm : ActiveViewModel, IDisposable
     {
         public string TimeStamp => DateTime.Now.ToLongTimeString();
@@ -14,50 +16,58 @@ namespace IctBaden.Stonehenge3.Aurelia.SampleCore.ViewModels
         public string Test { get; set; }
         public string Version => Assembly.GetEntryAssembly().GetName().Version.ToString(2);
 
-        private Thread _updater;
+        private Task _updater;
+        private readonly CancellationTokenSource _cancelUpdate;
 
+        // ReSharper disable once UnusedMember.Global
         public StartVm(AppSession session) : base (session)
         {
             Numeric = 123.456;
             Test = "54321";
-            _updater = new Thread(
+
+            _cancelUpdate = new CancellationTokenSource();
+            _updater = new Task(
                 () =>
                     {
-                        while (_updater != null)
+                        while ((_updater != null) && !_cancelUpdate.IsCancellationRequested)
                         {
-                            Thread.Sleep(10000);
+                            Task.Delay(10000, _cancelUpdate.Token);
                             NotifyPropertyChanged(nameof(TimeStamp));
                         }
                         // ReSharper disable once FunctionNeverReturns
-                    });
+                    }, _cancelUpdate.Token);
             _updater.Start();
         }
 
         public void Dispose()
         {
-            //_updater.Interrupt();
+            _cancelUpdate.Cancel();
             _updater = null;
         }
 
         [ActionMethod]
+        // ReSharper disable once UnusedMember.Global
         public void Save(int number, string text)
         {
             Test = number + Test + text;
         }
 
         [ActionMethod]
+        // ReSharper disable once UnusedMember.Global
         public void ShowMessageBox()
         {
             MessageBox("Stonehenge 3", $"Server side message box request. {Test}");
         }
 
         [ActionMethod]
+        // ReSharper disable once UnusedMember.Global
         public void NavigateToTree()
         {
             NavigateTo("tree");
         }
 
         [ActionMethod]
+        // ReSharper disable once UnusedMember.Global
         public void NavigateOnPage()
         {
             NavigateTo("#pagetop");
