@@ -13,6 +13,12 @@
         string BaseUrl { get; }
 
         /// <summary>
+        /// Disables redirection with session id as URL parameter.
+        /// Requires all clients are able to use cookies.
+        /// </summary>
+        bool DisableSessionIdUrlParameter { get; set; }
+
+        /// <summary>
         /// Start hosting service.
         /// </summary>
         /// <param name="title"></param>

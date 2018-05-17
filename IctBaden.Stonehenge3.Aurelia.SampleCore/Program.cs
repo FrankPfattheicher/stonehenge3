@@ -40,7 +40,7 @@ namespace IctBaden.Stonehenge3.Aurelia.SampleCore
             {
                 case "owin":
                     Console.WriteLine(@"Using Kestrel hosting");
-                    _server = new KestrelHost(loader);
+                    _server = new KestrelHost(loader) { DisableSessionIdUrlParameter = true };
                     break;
                 case "simple":
                     Console.WriteLine(@"Using simple http hosting");

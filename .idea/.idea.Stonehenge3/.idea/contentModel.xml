@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="$USER_HOME$/.Rider2018.1/system/resharper-host/local/Transient/ReSharperHost/v12/SolutionCaches/_Stonehenge3.-1692041934.00" t="ExcludeRecursive" />
-    <e p="$PROJECT_DIR$" t="IncludeFlat">
+    <e p="C:\ICT Baden\stonehenge3" t="IncludeFlat">
+      <e p="build.bat" t="Include" />
+      <e p="build.fsx" t="Include" />
+      <e p="icon64.png" t="Include" />
       <e p="IctBaden.Stonehenge3" t="IncludeRecursive">
+        <e p="app" t="Include">
+          <e p="favicon.ico" t="Include" />
+          <e p="icon.png" t="Include" />
+          <e p="icon32.png" t="Include" />
+        </e>
+        <e p="bin" t="ExcludeRecursive" />
         <e p="Caching" t="Include">
           <e p="IStonehengeSessionCache.cs" t="Include" />
           <e p="MemoryCache.cs" t="Include" />
@@ -22,6 +30,13 @@
           <e p="Point.cs" t="Include" />
         </e>
         <e p="IctBaden.Stonehenge3.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.0" t="Include">
+              <e p="IctBaden.Stonehenge3.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
         <e p="Properties" t="Include">
           <e p="AssemblyInfo.cs" t="Include" />
         </e>
@@ -45,30 +60,8 @@
           <e p="JsonSerializer.cs" t="Include" />
           <e p="ViewModelProvider.cs" t="Include" />
         </e>
-        <e p="app" t="Include">
-          <e p="favicon.ico" t="Include" />
-          <e p="icon.png" t="Include" />
-          <e p="icon32.png" t="Include" />
-        </e>
-        <e p="bin" t="ExcludeRecursive" />
-        <e p="obj" t="ExcludeRecursive">
-          <e p="Debug" t="Include">
-            <e p="netstandard2.0" t="Include">
-              <e p="IctBaden.Stonehenge3.AssemblyInfo.cs" t="Include" />
-            </e>
-          </e>
-        </e>
       </e>
       <e p="IctBaden.Stonehenge3.Aurelia" t="IncludeRecursive">
-        <e p="AureliaResourceProvider.cs" t="Include" />
-        <e p="Client" t="Include">
-          <e p="AureliaAppCreator.cs" t="Include" />
-          <e p="stonehengeApp.js" t="Include" />
-          <e p="stonehengeController - fetch.js" t="Include" />
-          <e p="stonehengeController.js" t="Include" />
-          <e p="stonehengeElement.js" t="Include" />
-        </e>
-        <e p="IctBaden.Stonehenge3.Aurelia.csproj" t="IncludeRecursive" />
         <e p="app" t="Include">
           <e p="config.js" t="Include" />
           <e p="favicon.ico" t="Include" />
@@ -83,7 +76,6 @@
                 <e p="jquery@2.2.0" t="Include">
                   <e p=".gitignore" t="Include" />
                   <e p=".jspm-hash" t="Include" />
-                  <e p="README.md" t="Include" />
                   <e p="bower.json" t="Include" />
                   <e p="component.json" t="Include" />
                   <e p="composer.json" t="Include" />
@@ -93,12 +85,12 @@
                   <e p="jquery.min.js" t="Include" />
                   <e p="jquery.min.map" t="Include" />
                   <e p="package.json" t="Include" />
+                  <e p="README.md" t="Include" />
                 </e>
                 <e p="jquery@2.2.0.js" t="Include" />
                 <e p="jquery@2.2.1" t="Include">
                   <e p=".gitignore" t="Include" />
                   <e p=".jspm-hash" t="Include" />
-                  <e p="README.md" t="Include" />
                   <e p="bower.json" t="Include" />
                   <e p="component.json" t="Include" />
                   <e p="composer.json" t="Include" />
@@ -108,6 +100,7 @@
                   <e p="jquery.min.js" t="Include" />
                   <e p="jquery.min.map" t="Include" />
                   <e p="package.json" t="Include" />
+                  <e p="README.md" t="Include" />
                 </e>
                 <e p="jquery@2.2.1.js" t="Include" />
               </e>
@@ -118,16 +111,16 @@
                   <e p=".jspm-hash" t="Include" />
                   <e p=".senv" t="Include" />
                   <e p=".travis.yml" t="Include" />
-                  <e p="LICENSE" t="Include" />
-                  <e p="MAINTAINING.md" t="Include" />
-                  <e p="Makefile" t="Include" />
-                  <e p="README.md" t="Include" />
                   <e p="bower.json" t="Include" />
                   <e p="examples" t="Include">
                     <e p="index.html" t="Include" />
                   </e>
                   <e p="fetch.js" t="Include" />
+                  <e p="LICENSE" t="Include" />
+                  <e p="MAINTAINING.md" t="Include" />
+                  <e p="Makefile" t="Include" />
                   <e p="package.json" t="Include" />
+                  <e p="README.md" t="Include" />
                   <e p="script" t="Include">
                     <e p="phantomjs" t="Include" />
                     <e p="saucelabs" t="Include" />
@@ -151,16 +144,16 @@
                   <e p=".jspm-hash" t="Include" />
                   <e p=".senv" t="Include" />
                   <e p=".travis.yml" t="Include" />
-                  <e p="LICENSE" t="Include" />
-                  <e p="MAINTAINING.md" t="Include" />
-                  <e p="Makefile" t="Include" />
-                  <e p="README.md" t="Include" />
                   <e p="bower.json" t="Include" />
                   <e p="examples" t="Include">
                     <e p="index.html" t="Include" />
                   </e>
                   <e p="fetch.js" t="Include" />
+                  <e p="LICENSE" t="Include" />
+                  <e p="MAINTAINING.md" t="Include" />
+                  <e p="Makefile" t="Include" />
                   <e p="package.json" t="Include" />
+                  <e p="README.md" t="Include" />
                   <e p="script" t="Include">
                     <e p="phantomjs" t="Include" />
                     <e p="saucelabs" t="Include" />
@@ -215,22 +208,22 @@
                 <e p="plugin-css@0.1.20" t="Include">
                   <e p=".gitignore" t="Include" />
                   <e p=".jspm-hash" t="Include" />
-                  <e p="LICENSE" t="Include" />
-                  <e p="README.md" t="Include" />
                   <e p="css-builder.js" t="Include" />
                   <e p="css.js" t="Include" />
+                  <e p="LICENSE" t="Include" />
                   <e p="package.json" t="Include" />
+                  <e p="README.md" t="Include" />
                   <e p="test.css" t="Include" />
                   <e p="test.html" t="Include" />
                 </e>
                 <e p="plugin-css@0.1.20.js" t="Include" />
                 <e p="plugin-json@0.1.0" t="Include">
                   <e p=".jspm-hash" t="Include" />
-                  <e p="LICENSE" t="Include" />
-                  <e p="README.md" t="Include" />
                   <e p="json.js" t="Include" />
                   <e p="json.json" t="Include" />
+                  <e p="LICENSE" t="Include" />
                   <e p="package.json" t="Include" />
+                  <e p="README.md" t="Include" />
                   <e p="test.html" t="Include" />
                 </e>
                 <e p="plugin-json@0.1.0.js" t="Include" />
@@ -238,8 +231,8 @@
                   <e p=".gitignore" t="Include" />
                   <e p=".jspm-hash" t="Include" />
                   <e p="LICENSE" t="Include" />
-                  <e p="README.md" t="Include" />
                   <e p="package.json" t="Include" />
+                  <e p="README.md" t="Include" />
                   <e p="test.html" t="Include" />
                   <e p="text.js" t="Include" />
                   <e p="text.txt" t="Include" />
@@ -249,8 +242,8 @@
                   <e p=".gitignore" t="Include" />
                   <e p=".jspm-hash" t="Include" />
                   <e p="LICENSE" t="Include" />
-                  <e p="README.md" t="Include" />
                   <e p="package.json" t="Include" />
+                  <e p="README.md" t="Include" />
                   <e p="test.html" t="Include" />
                   <e p="text.js" t="Include" />
                   <e p="text.txt" t="Include" />
@@ -292,10 +285,10 @@
                 <e p=".npmignore" t="Include" />
                 <e p=".travis.yml" t="Include" />
                 <e p=".zuul.yml" t="Include" />
-                <e p="LICENSE" t="Include" />
-                <e p="README.md" t="Include" />
                 <e p="assert.js" t="Include" />
+                <e p="LICENSE" t="Include" />
                 <e p="package.json" t="Include" />
+                <e p="README.md" t="Include" />
                 <e p="test.js" t="Include" />
               </e>
               <e p="assert@1.3.0.js" t="Include" />
@@ -667,11 +660,10 @@
                 <e p="external-helpers.min.js" t="Include" />
                 <e p="index.js" t="Include" />
                 <e p="lib" t="Include">
-                  <e p="README.md" t="Include" />
                   <e p="api" t="Include">
-                    <e p="README.md" t="Include" />
                     <e p="browser.js" t="Include" />
                     <e p="node.js" t="Include" />
+                    <e p="README.md" t="Include" />
                     <e p="register" t="Include">
                       <e p="browser.js" t="Include" />
                       <e p="cache.js" t="Include" />
@@ -685,10 +677,8 @@
                     </e>
                   </e>
                   <e p="generation" t="Include">
-                    <e p="README.md" t="Include" />
                     <e p="buffer.js" t="Include" />
                     <e p="generators" t="Include">
-                      <e p="README.md" t="Include" />
                       <e p="base.js" t="Include" />
                       <e p="classes.js" t="Include" />
                       <e p="comprehensions.js" t="Include" />
@@ -697,6 +687,7 @@
                       <e p="jsx.js" t="Include" />
                       <e p="methods.js" t="Include" />
                       <e p="modules.js" t="Include" />
+                      <e p="README.md" t="Include" />
                       <e p="statements.js" t="Include" />
                       <e p="template-literals.js" t="Include" />
                       <e p="types.js" t="Include" />
@@ -709,40 +700,40 @@
                       <e p="whitespace.js" t="Include" />
                     </e>
                     <e p="position.js" t="Include" />
+                    <e p="README.md" t="Include" />
                     <e p="source-map.js" t="Include" />
                     <e p="whitespace.js" t="Include" />
                   </e>
                   <e p="helpers" t="Include">
-                    <e p="README.md" t="Include" />
                     <e p="code-frame.js" t="Include" />
                     <e p="merge.js" t="Include" />
                     <e p="normalize-ast.js" t="Include" />
                     <e p="object.js" t="Include" />
                     <e p="parse.js" t="Include" />
+                    <e p="README.md" t="Include" />
                   </e>
                   <e p="messages.js" t="Include" />
                   <e p="polyfill.js" t="Include" />
+                  <e p="README.md" t="Include" />
                   <e p="tools" t="Include">
-                    <e p="README.md" t="Include" />
                     <e p="build-external-helpers.js" t="Include" />
+                    <e p="README.md" t="Include" />
                   </e>
                   <e p="transformation" t="Include">
-                    <e p="README.md" t="Include" />
                     <e p="file" t="Include">
-                      <e p="README.md" t="Include" />
                       <e p="index.js" t="Include" />
                       <e p="logger.js" t="Include" />
                       <e p="options" t="Include">
-                        <e p="README.md" t="Include" />
                         <e p="config.json" t="Include" />
                         <e p="index.js" t="Include" />
                         <e p="option-manager.js" t="Include" />
                         <e p="parsers.js" t="Include" />
+                        <e p="README.md" t="Include" />
                       </e>
                       <e p="plugin-manager.js" t="Include" />
+                      <e p="README.md" t="Include" />
                     </e>
                     <e p="helpers" t="Include">
-                      <e p="README.md" t="Include" />
                       <e p="build-binary-assignment-operator-transformer.js" t="Include" />
                       <e p="build-comprehension.js" t="Include" />
                       <e p="build-conditional-assignment-operator-transformer.js" t="Include" />
@@ -754,13 +745,13 @@
                       <e p="memoise-decorators.js" t="Include" />
                       <e p="name-method.js" t="Include" />
                       <e p="react.js" t="Include" />
+                      <e p="README.md" t="Include" />
                       <e p="regex.js" t="Include" />
                       <e p="remap-async-to-generator.js" t="Include" />
                       <e p="replace-supers.js" t="Include" />
                     </e>
                     <e p="index.js" t="Include" />
                     <e p="modules" t="Include">
-                      <e p="README.md" t="Include" />
                       <e p="_default.js" t="Include" />
                       <e p="_strict.js" t="Include" />
                       <e p="amd-strict.js" t="Include" />
@@ -773,6 +764,7 @@
                         <e p="metadata.js" t="Include" />
                         <e p="remaps.js" t="Include" />
                       </e>
+                      <e p="README.md" t="Include" />
                       <e p="system.js" t="Include" />
                       <e p="umd-strict.js" t="Include" />
                       <e p="umd.js" t="Include" />
@@ -780,9 +772,9 @@
                     <e p="pipeline.js" t="Include" />
                     <e p="plugin-pass.js" t="Include" />
                     <e p="plugin.js" t="Include" />
+                    <e p="README.md" t="Include" />
                     <e p="transformer.js" t="Include" />
                     <e p="transformers" t="Include">
-                      <e p="README.md" t="Include" />
                       <e p="aliases.json" t="Include" />
                       <e p="deprecated.json" t="Include" />
                       <e p="es3" t="Include">
@@ -860,6 +852,7 @@
                         <e p="regenerator.js" t="Include" />
                         <e p="strict.js" t="Include" />
                       </e>
+                      <e p="README.md" t="Include" />
                       <e p="spec" t="Include">
                         <e p="block-scoped-functions.js" t="Include" />
                         <e p="function-name.js" t="Include" />
@@ -870,12 +863,10 @@
                     </e>
                   </e>
                   <e p="traversal" t="Include">
-                    <e p="README.md" t="Include" />
                     <e p="context.js" t="Include" />
                     <e p="hub.js" t="Include" />
                     <e p="index.js" t="Include" />
                     <e p="path" t="Include">
-                      <e p="README.md" t="Include" />
                       <e p="ancestry.js" t="Include" />
                       <e p="comments.js" t="Include" />
                       <e p="context.js" t="Include" />
@@ -884,10 +875,10 @@
                       <e p="family.js" t="Include" />
                       <e p="index.js" t="Include" />
                       <e p="inference" t="Include">
-                        <e p="README.md" t="Include" />
                         <e p="index.js" t="Include" />
                         <e p="inferer-reference.js" t="Include" />
                         <e p="inferers.js" t="Include" />
+                        <e p="README.md" t="Include" />
                       </e>
                       <e p="introspection.js" t="Include" />
                       <e p="lib" t="Include">
@@ -896,18 +887,19 @@
                         <e p="virtual-types.js" t="Include" />
                       </e>
                       <e p="modification.js" t="Include" />
+                      <e p="README.md" t="Include" />
                       <e p="removal.js" t="Include" />
                       <e p="replacement.js" t="Include" />
                     </e>
+                    <e p="README.md" t="Include" />
                     <e p="scope" t="Include">
-                      <e p="README.md" t="Include" />
                       <e p="binding.js" t="Include" />
                       <e p="index.js" t="Include" />
+                      <e p="README.md" t="Include" />
                     </e>
                     <e p="visitors.js" t="Include" />
                   </e>
-                  <e p="types" t="Include">
-                    <e p="README.md" t="Include" />
+                  <e p="Types" t="Include">
                     <e p="converters.js" t="Include" />
                     <e p="definitions" t="Include">
                       <e p="core.js" t="Include" />
@@ -921,6 +913,7 @@
                     </e>
                     <e p="flow.js" t="Include" />
                     <e p="index.js" t="Include" />
+                    <e p="README.md" t="Include" />
                     <e p="retrievers.js" t="Include" />
                     <e p="validators.js" t="Include" />
                   </e>
@@ -937,7 +930,6 @@
                 <e p=".jspm-hash" t="Include" />
                 <e p=".jspm.errors" t="Include" />
                 <e p=".npmignore" t="Include" />
-                <e p="README.md" t="Include" />
                 <e p="core-js" t="Include">
                   <e p="array" t="Include">
                     <e p="concat.js" t="Include" />
@@ -1196,6 +1188,7 @@
                   <e p="typeof.js" t="Include" />
                 </e>
                 <e p="package.json" t="Include" />
+                <e p="README.md" t="Include" />
                 <e p="regenerator" t="Include">
                   <e p="index.js" t="Include" />
                   <e p="runtime.js" t="Include" />
@@ -1204,19 +1197,16 @@
               </e>
               <e p="core-js@2.0.3" t="Include">
                 <e p=".jspm-hash" t="Include" />
-                <e p="CHANGELOG.md" t="Include" />
-                <e p="Gruntfile.js" t="Include" />
-                <e p="LICENSE" t="Include" />
-                <e p="README.md" t="Include" />
                 <e p="bower.json" t="Include" />
                 <e p="build" t="Include">
-                  <e p="Gruntfile.ls" t="Include" />
                   <e p="build.ls" t="Include" />
                   <e p="config.js" t="Include" />
+                  <e p="Gruntfile.ls" t="Include" />
                   <e p="index.js" t="Include" />
                 </e>
                 <e p="build.js" t="Include" />
-                <e p="client" t="Include">
+                <e p="CHANGELOG.md" t="Include" />
+                <e p="Client" t="Include">
                   <e p="core.js" t="Include" />
                   <e p="core.min.js" t="Include" />
                   <e p="core.min.js.map" t="Include" />
@@ -1227,7 +1217,7 @@
                   <e p="shim.min.js" t="Include" />
                   <e p="shim.min.js.map" t="Include" />
                 </e>
-                <e p="core" t="Include">
+                <e p="Core" t="Include">
                   <e p="_.js" t="Include" />
                   <e p="delay.js" t="Include" />
                   <e p="dict.js" t="Include" />
@@ -1559,9 +1549,10 @@
                   <e p="weak-map.js" t="Include" />
                   <e p="weak-set.js" t="Include" />
                 </e>
+                <e p="Gruntfile.js" t="Include" />
                 <e p="index.js" t="Include" />
                 <e p="library" t="Include">
-                  <e p="core" t="Include">
+                  <e p="Core" t="Include">
                     <e p="_.js" t="Include" />
                     <e p="delay.js" t="Include" />
                     <e p="dict.js" t="Include" />
@@ -2163,6 +2154,7 @@
                   <e p="web.js" t="Include" />
                 </e>
                 <e p="library.js" t="Include" />
+                <e p="LICENSE" t="Include" />
                 <e p="modules" t="Include">
                   <e p="_.js" t="Include" />
                   <e p="_a-function.js" t="Include" />
@@ -2434,6 +2426,7 @@
                   <e p="web.timers.js" t="Include" />
                 </e>
                 <e p="package.json" t="Include" />
+                <e p="README.md" t="Include" />
                 <e p="shim.js" t="Include" />
                 <e p="stage" t="Include">
                   <e p="0.js" t="Include" />
@@ -2457,21 +2450,20 @@
               <e p="font-awesome@4.5.0" t="Include">
                 <e p=".jspm-hash" t="Include" />
                 <e p=".npmignore" t="Include" />
-                <e p="HELP-US-OUT.txt" t="Include" />
-                <e p="README.md" t="Include" />
                 <e p="css" t="Include">
                   <e p="font-awesome.css" t="Include" />
                   <e p="font-awesome.css.map" t="Include" />
                   <e p="font-awesome.min.css" t="Include" />
                 </e>
                 <e p="fonts" t="Include">
-                  <e p="FontAwesome.otf" t="Include" />
                   <e p="fontawesome-webfont.eot" t="Include" />
                   <e p="fontawesome-webfont.svg" t="Include" />
                   <e p="fontawesome-webfont.ttf" t="Include" />
                   <e p="fontawesome-webfont.woff" t="Include" />
                   <e p="fontawesome-webfont.woff2" t="Include" />
+                  <e p="FontAwesome.otf" t="Include" />
                 </e>
+                <e p="HELP-US-OUT.txt" t="Include" />
                 <e p="less" t="Include">
                   <e p="animated.less" t="Include" />
                   <e p="bordered-pulled.less" t="Include" />
@@ -2488,6 +2480,7 @@
                   <e p="variables.less" t="Include" />
                 </e>
                 <e p="package.json" t="Include" />
+                <e p="README.md" t="Include" />
                 <e p="scss" t="Include">
                   <e p="_animated.scss" t="Include" />
                   <e p="_bordered-pulled.scss" t="Include" />
@@ -2507,28 +2500,28 @@
               <e p="font-awesome@4.5.0.js" t="Include" />
               <e p="inherits@2.0.1" t="Include">
                 <e p=".jspm-hash" t="Include" />
-                <e p="LICENSE" t="Include" />
-                <e p="README.md" t="Include" />
                 <e p="inherits.js" t="Include" />
                 <e p="inherits_browser.js" t="Include" />
+                <e p="LICENSE" t="Include" />
                 <e p="package.json" t="Include" />
+                <e p="README.md" t="Include" />
               </e>
               <e p="inherits@2.0.1.js" t="Include" />
               <e p="path-browserify@0.0.0" t="Include">
                 <e p=".jspm-hash" t="Include" />
-                <e p="LICENSE" t="Include" />
                 <e p="index.js" t="Include" />
+                <e p="LICENSE" t="Include" />
                 <e p="package.json" t="Include" />
                 <e p="readme.markdown" t="Include" />
               </e>
               <e p="path-browserify@0.0.0.js" t="Include" />
               <e p="process@0.11.2" t="Include">
                 <e p=".jspm-hash" t="Include" />
-                <e p="LICENSE" t="Include" />
-                <e p="README.md" t="Include" />
                 <e p="browser.js" t="Include" />
                 <e p="index.js" t="Include" />
+                <e p="LICENSE" t="Include" />
                 <e p="package.json" t="Include" />
+                <e p="README.md" t="Include" />
                 <e p="test.js" t="Include" />
               </e>
               <e p="process@0.11.2.js" t="Include" />
@@ -2538,8 +2531,8 @@
                 <e p=".travis.yml" t="Include" />
                 <e p=".zuul.yml" t="Include" />
                 <e p="LICENSE" t="Include" />
-                <e p="README.md" t="Include" />
                 <e p="package.json" t="Include" />
+                <e p="README.md" t="Include" />
                 <e p="support" t="Include">
                   <e p="isBuffer.js" t="Include" />
                   <e p="isBufferBrowser.js" t="Include" />
@@ -2582,7 +2575,16 @@
             <e p="styles.css" t="Include" />
           </e>
         </e>
+        <e p="AureliaResourceProvider.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="Client" t="Include">
+          <e p="AureliaAppCreator.cs" t="Include" />
+          <e p="stonehengeApp.js" t="Include" />
+          <e p="stonehengeController - fetch.js" t="Include" />
+          <e p="stonehengeController.js" t="Include" />
+          <e p="stonehengeElement.js" t="Include" />
+        </e>
+        <e p="IctBaden.Stonehenge3.Aurelia.csproj" t="IncludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netstandard2.0" t="Include">
@@ -2592,18 +2594,6 @@
         </e>
       </e>
       <e p="IctBaden.Stonehenge3.Aurelia.SampleCore" t="IncludeRecursive">
-        <e p="ConsoleTraceListener.cs" t="Include" />
-        <e p="IctBaden.Stonehenge3.Aurelia.SampleCore.csproj" t="IncludeRecursive" />
-        <e p="Program.cs" t="Include" />
-        <e p="Properties" t="Include">
-          <e p="launchSettings.json" t="Include" />
-        </e>
-        <e p="ViewModels" t="Include">
-          <e p="CookieVm.cs" t="Include" />
-          <e p="StartVm.cs" t="Include" />
-          <e p="TreeNode.cs" t="Include" />
-          <e p="TreeVm.cs" t="Include" />
-        </e>
         <e p="app" t="Include">
           <e p="cookie.html" t="Include" />
           <e p="index.html" t="Include" />
@@ -2618,6 +2608,8 @@
           <e p="tree.html" t="Include" />
         </e>
         <e p="bin" t="ExcludeRecursive" />
+        <e p="ConsoleTraceListener.cs" t="Include" />
+        <e p="IctBaden.Stonehenge3.Aurelia.SampleCore.csproj" t="IncludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp2.0" t="Include">
@@ -2625,12 +2617,9 @@
             </e>
           </e>
         </e>
-      </e>
-      <e p="IctBaden.Stonehenge3.Aurelia.SampleFull" t="IncludeRecursive">
-        <e p="IctBaden.Stonehenge3.Aurelia.SampleFull.csproj" t="IncludeRecursive" />
         <e p="Program.cs" t="Include" />
         <e p="Properties" t="Include">
-          <e p="AssemblyInfo.cs" t="Include" />
+          <e p="launchSettings.json" t="Include" />
         </e>
         <e p="ViewModels" t="Include">
           <e p="CookieVm.cs" t="Include" />
@@ -2638,6 +2627,8 @@
           <e p="TreeNode.cs" t="Include" />
           <e p="TreeVm.cs" t="Include" />
         </e>
+      </e>
+      <e p="IctBaden.Stonehenge3.Aurelia.SampleFull" t="IncludeRecursive">
         <e p="app" t="Include">
           <e p="cookie.html" t="Include" />
           <e p="index.html" t="Include" />
@@ -2653,9 +2644,22 @@
         </e>
         <e p="app.config" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="IctBaden.Stonehenge3.Aurelia.SampleFull.csproj" t="IncludeRecursive" />
         <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="ViewModels" t="Include">
+          <e p="CookieVm.cs" t="Include" />
+          <e p="StartVm.cs" t="Include" />
+          <e p="TreeNode.cs" t="Include" />
+          <e p="TreeVm.cs" t="Include" />
+        </e>
       </e>
       <e p="IctBaden.Stonehenge3.Kestrel" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
         <e p="IctBaden.Stonehenge3.Kestrel.csproj" t="IncludeRecursive" />
         <e p="KestrelHost.cs" t="Include" />
         <e p="Middleware" t="Include">
@@ -2665,8 +2669,6 @@
           <e p="StonehengeRoot.cs" t="Include" />
           <e p="StonehengeSession.cs" t="Include" />
         </e>
-        <e p="Startup.cs" t="Include" />
-        <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netstandard2.0" t="Include">
@@ -2674,13 +2676,11 @@
             </e>
           </e>
         </e>
+        <e p="Startup.cs" t="Include" />
       </e>
       <e p="IctBaden.Stonehenge3.SimpleHttp" t="IncludeRecursive">
-        <e p="IctBaden.Stonehenge3.SimpleHttp.csproj" t="IncludeRecursive" />
-        <e p="SimpleHttpHost.cs" t="Include" />
-        <e p="SimpleHttpProcessor.cs" t="Include" />
-        <e p="SimpleHttpServer.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="IctBaden.Stonehenge3.SimpleHttp.csproj" t="IncludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netstandard2.0" t="Include">
@@ -2688,18 +2688,19 @@
             </e>
           </e>
         </e>
+        <e p="SimpleHttpHost.cs" t="Include" />
+        <e p="SimpleHttpProcessor.cs" t="Include" />
+        <e p="SimpleHttpServer.cs" t="Include" />
       </e>
       <e p="NuGet.exe" t="Include" />
+      <e p="packages" t="ExcludeRecursive" />
       <e p="README.md" t="Include" />
       <e p="ReleaseNotes3.md" t="Include" />
       <e p="Solution Items" t="Include" />
       <e p="Stonehenge3-AssemblyInfo.cs" t="Include" />
-      <e p="Stonehenge3.sln" t="IncludeFlat" />
-      <e p="build.bat" t="Include" />
-      <e p="build.fsx" t="Include" />
-      <e p="icon64.png" t="Include" />
-      <e p="packages" t="ExcludeRecursive" />
       <e p="stonehenge3.nuspec" t="Include" />
+      <e p="Stonehenge3.sln" t="IncludeFlat" />
     </e>
+    <e p="C:\Users\fpf\.Rider2018.1\system\resharper-host\local\Transient\ReSharperHost\v12\SolutionCaches\_Stonehenge3.-138056777.00" t="ExcludeRecursive" />
   </component>
 </project>

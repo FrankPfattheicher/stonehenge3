@@ -58,7 +58,16 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                         ? new[] { "stonehenge-id=" + session.Id, "Secure" }
                         : new[] { "stonehenge-id=" + session.Id });
 
-                context.Response.Redirect("/Index.html?stonehenge-id=" + session.Id);
+                var disableUrlParam = (bool)context.Items["stonehenge.DisableSessionIdUrlParameter"];
+                if (disableUrlParam)
+                {
+                    context.Response.Redirect("/Index.html");
+                }
+                else
+                {
+                    context.Response.Redirect("/Index.html?stonehenge-id=" + session.Id);
+                }
+
                 var remoteIp = context.Connection.RemoteIpAddress;
                 var remotePort = context.Connection.RemotePort;
                 Trace.TraceInformation($"Stonehenge3.Kestrel[{stonehengeId}] From IP {remoteIp}:{remotePort} - redirect to {session.Id}");

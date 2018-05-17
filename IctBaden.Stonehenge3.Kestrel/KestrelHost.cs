@@ -22,6 +22,8 @@ namespace IctBaden.Stonehenge3.Kestrel
         // ReSharper disable once NotAccessedField.Local
         private readonly IStonehengeResourceProvider _resourceLoader;
 
+        public bool DisableSessionIdUrlParameter { get; set; }
+
         public KestrelHost(IStonehengeResourceProvider loader)
         {
             _resourceLoader = loader;
@@ -47,7 +49,8 @@ namespace IctBaden.Stonehenge3.Kestrel
                 {
                     InitialData = new[] 
                     {
-                        new KeyValuePair<string, string>( "AppTitle", AppTitle)
+                        new KeyValuePair<string, string>( "AppTitle", AppTitle),
+                        new KeyValuePair<string, string>( "DisableSessionIdUrlParameter", DisableSessionIdUrlParameter.ToString())
                     }
                 };
 
@@ -93,7 +96,7 @@ namespace IctBaden.Stonehenge3.Kestrel
         public void Terminate()
         {
             Trace.TraceInformation("KestrelHost.Terminate: Cancel WebApp");
-            _cancel.Cancel();
+            _cancel?.Cancel();
 
             try
             {

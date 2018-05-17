@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="7b369cd1-ddb5-403b-acb6-e6125ffcf5e6" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Stonehenge3/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Stonehenge3/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Stonehenge3/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Stonehenge3/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IctBaden.Stonehenge3.SimpleHttp/SimpleHttpServer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/IctBaden.Stonehenge3.SimpleHttp/SimpleHttpServer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stonehenge3.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Stonehenge3.sln.DotSettings.user" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,32 +12,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SimpleHttpServer.cs" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.SimpleHttp/SimpleHttpServer.cs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="430">
-              <caret line="45" selection-start-line="45" selection-end-line="45" />
-              <folding>
-                <marker date="1525856853552" expanded="false" signature="6:124" ph="..." />
-                <marker date="1525856853552" expanded="true" signature="167:2253" ph="{...}" />
-                <marker date="1525856853552" expanded="true" signature="174:293" ph="/// Based on David Jeske's work. ... " />
-                <marker date="1525856853552" expanded="true" signature="329:2250" ph="{...}" />
-                <marker date="1525856853552" expanded="true" signature="546:621" ph="{...}" />
-                <marker date="1525856853552" expanded="true" signature="650:786" ph="{...}" />
-                <marker date="1525856853552" expanded="true" signature="818:1112" ph="{...}" />
-                <marker date="1525856853552" expanded="true" signature="1142:1796" ph="{...}" />
-                <marker date="1525856853552" expanded="true" signature="1286:1786" ph="{...}" />
-                <marker date="1525856853552" expanded="true" signature="1320:1650" ph="{...}" />
-                <marker date="1525856853552" expanded="true" signature="1687:1772" ph="{...}" />
-                <marker date="1525856853552" expanded="true" signature="2004:2066" ph="{...}" />
-                <marker date="1525856853552" expanded="true" signature="2166:2244" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -51,14 +23,14 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.SimpleHttp/SimpleHttpServer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleFull/Program.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Kestrel/KestrelHost.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleFull/app.config" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3/Hosting/HostWindow.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.SimpleHttp/SimpleHttpServer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3/Hosting/IStonehengeHost.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Kestrel/KestrelHost.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleFull/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleFull/ViewModels/CookieVm.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/build.fsx" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3/Hosting/IStonehengeHost.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleFull/app.config" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -82,10 +54,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="462" />
+    <option name="x" value="460" />
     <option name="y" value="260" />
-    <option name="width" value="2114" />
-    <option name="height" value="1264" />
+    <option name="width" value="2115" />
+    <option name="height" value="1265" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -189,11 +161,12 @@
       <workItem from="1525639236158" duration="66000" />
       <workItem from="1525856693056" duration="183000" />
       <workItem from="1525857347171" duration="75000" />
+      <workItem from="1526542171751" duration="104000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4501000" />
+    <option name="totallyTimeSpent" value="4605000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -205,18 +178,18 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="51" y="25" width="1693" height="1295" extended-state="6" />
+    <frame x="-6" y="-6" width="1549" height="837" extended-state="6" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="right" id="Errors In Solution" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Unit Tests" order="7" />
+      <window_info anchor="bottom" id="Unit Tests" order="7" weight="0.3292011" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32960412" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3292011" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="NuGet" order="7" weight="0.32960412" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21432908" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21405335" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Build" order="7" weight="0.32874355" />
       <window_info anchor="right" id="Database" order="3" />
@@ -227,9 +200,9 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -247,33 +220,49 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.SimpleHttp/SimpleHttpServer.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
+        <state relative-caret-position="675">
           <caret line="45" selection-start-line="45" selection-end-line="45" />
           <folding>
-            <marker date="1525856853552" expanded="false" signature="6:124" ph="..." />
-            <marker date="1525856853552" expanded="true" signature="167:2253" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="174:293" ph="/// Based on David Jeske's work. ... " />
-            <marker date="1525856853552" expanded="true" signature="329:2250" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="546:621" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="650:786" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="818:1112" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="1142:1796" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="1286:1786" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="1320:1650" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="1687:1772" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="2004:2066" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="2166:2244" ph="{...}" />
+            <marker date="1526376531926" expanded="false" signature="6:124" ph="..." />
+            <marker date="1526376531926" expanded="true" signature="167:2253" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="174:293" ph="/// Based on David Jeske's work. ... " />
+            <marker date="1526376531926" expanded="true" signature="329:2250" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="546:621" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="650:786" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="818:1112" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="1142:1796" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="1286:1786" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="1320:1650" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="1687:1772" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="2004:2066" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="2166:2244" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/share/dotnet/sdk/2.1.105/Microsoft.Common.CurrentVersion.targets">
+    <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.SimpleHttp/SimpleHttpServer.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16875">
-          <caret line="1125" column="4" selection-start-line="1125" selection-start-column="4" selection-end-line="1125" selection-end-column="4" />
+        <state relative-caret-position="600">
+          <caret line="45" selection-start-line="45" selection-end-line="45" />
+          <folding>
+            <marker date="1526376531926" expanded="false" signature="6:124" ph="..." />
+            <marker date="1526376531926" expanded="true" signature="167:2253" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="174:293" ph="/// Based on David Jeske's work. ... " />
+            <marker date="1526376531926" expanded="true" signature="329:2250" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="546:621" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="650:786" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="818:1112" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="1142:1796" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="1286:1786" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="1320:1650" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="1687:1772" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="2004:2066" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="2166:2244" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file:///usr/share/dotnet/sdk/2.1.105/Microsoft.Common.CurrentVersion.targets" />
     <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.SampleFull/TreeVm.cs" />
     <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ViewModels/CookieVm.cs" />
     <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.Aurelia.Sample/ViewModels/StartVm.cs" />
@@ -326,31 +315,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/share/dotnet/sdk/2.1.105/Microsoft.Common.CurrentVersion.targets">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="1125" column="4" selection-start-line="1125" selection-start-column="4" selection-end-line="1125" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///usr/share/dotnet/sdk/2.1.105/Microsoft.Common.CurrentVersion.targets" />
     <entry file="file://$PROJECT_DIR$/IctBaden.Stonehenge3.SimpleHttp/SimpleHttpServer.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="45" selection-start-line="45" selection-end-line="45" />
+        <state relative-caret-position="115">
+          <caret line="24" column="24" lean-forward="true" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
           <folding>
-            <marker date="1525856853552" expanded="false" signature="6:124" ph="..." />
-            <marker date="1525856853552" expanded="true" signature="167:2253" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="174:293" ph="/// Based on David Jeske's work. ... " />
-            <marker date="1525856853552" expanded="true" signature="329:2250" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="546:621" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="650:786" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="818:1112" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="1142:1796" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="1286:1786" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="1320:1650" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="1687:1772" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="2004:2066" ph="{...}" />
-            <marker date="1525856853552" expanded="true" signature="2166:2244" ph="{...}" />
+            <marker date="1526376531926" expanded="false" signature="6:124" ph="..." />
+            <marker date="1526376531926" expanded="true" signature="167:2253" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="174:293" ph="/// Based on David Jeske's work. ... " />
+            <marker date="1526376531926" expanded="true" signature="329:2250" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="546:621" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="650:786" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="818:1112" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="1142:1796" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="1286:1786" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="1320:1650" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="1687:1772" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="2004:2066" ph="{...}" />
+            <marker date="1526376531926" expanded="true" signature="2166:2244" ph="{...}" />
           </folding>
         </state>
       </provider>
