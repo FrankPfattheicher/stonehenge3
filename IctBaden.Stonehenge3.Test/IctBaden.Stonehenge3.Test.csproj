@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="app\image.jpg" />
+    <None Remove="app\lib\TestScript.js" />
+    <None Remove="app\test.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="app\image.jpg" />
+    <EmbeddedResource Include="app\lib\TestScript.js" />
+    <EmbeddedResource Include="app\test.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IctBaden.Stonehenge3\IctBaden.Stonehenge3.csproj" />
+  </ItemGroup>
+
+</Project>

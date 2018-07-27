@@ -31,6 +31,7 @@ namespace IctBaden.Stonehenge3.Resources
         private readonly List<Assembly> _assemblies;
         private readonly Lazy<Dictionary<string, AssemblyResource>> _resources;
 
+        // ReSharper disable once UnusedMember.Global
         public ResourceLoader()
             : this(new []
                        {
