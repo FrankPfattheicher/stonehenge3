@@ -1,46 +1,48 @@
-﻿
-#r @"packages\FAKE\tools\FakeLib.dll"
-open Fake
-open Fake.AssemblyInfoFile
-open System.IO
+﻿[<RequireQualifiedAccess>]
+module FakeBuild
 
-let NUnit = Fake.Testing.NUnit3.NUnit3
+#r @"packages\FAKE\tools\FakeLib.dll"
+
+open Fake
+open Fake.IO
+open Fake.IO.Globbing.Operators
+open Fake.IO.FileSystemOperators
 
 let release =
-    ReadFile "ReleaseNotes3.md"
-    |> ReleaseNotesHelper.parseReleaseNotes
+    File.read "ReleaseNotes3.md"
+    |> Fake.Core.ReleaseNotes.parse
 
 // Properties
-let buildDir46 = @".\builds46"
+let buildDir = @".\builds"
 let testsDir = @".\tests"
 let artifactsDir = @".\Artifacts"
 
-let CreateDirs dirs = for dir in dirs do CreateDir dir
+let CreateDirs dirs = for dir in dirs do Directory.create dir
 
-Target "Clean" (fun _ ->
+Fake.Core.Target.create  "Clean" (fun _ ->
     CreateDirs [artifactsDir]
-    CleanDirs [artifactsDir]
-    CleanDirs [testsDir]
-    CleanDirs [buildDir46]
+    Shell.cleanDirs [artifactsDir]
+    Shell.cleanDirs [testsDir]
+    Shell.cleanDirs [buildDir]
 )
 
-Target "CreatePackage" (fun _ ->
+Fake.Core.Target.create "CreatePackage" (fun _ ->
     // Copy all the package files into a package folder
-    let libFile46 = buildDir46 </> @"IctBaden.Stonehenge3.dll"
-    if Fake.FileHelper.TestFile libFile46
-    then CleanDir @".\nuget"
-         CreateDir @".\nuget\lib" 
-         CreateDir @".\nuget\lib\net46" 
-         CopyFiles @".\nuget\lib\net46" [ libFile46; 
-                                          buildDir46 </> @"IctBaden.Stonehenge3.pdb";
-                                          buildDir46 </> @"IctBaden.Stonehenge3.Aurelia.dll"; 
-                                          buildDir46 </> @"IctBaden.Stonehenge3.Aurelia.pdb"; 
-                                          buildDir46 </> @"IctBaden.Stonehenge3.Kestrel.dll"; 
-                                          buildDir46 </> @"IctBaden.Stonehenge3.Kestrel.pdb"; 
-                                          buildDir46 </> @"IctBaden.Stonehenge3.SimpleHttp.dll"; 
-                                          buildDir46 </> @"IctBaden.Stonehenge3.SimpleHttp.pdb"
+    let libFile46 = buildDir </> @"IctBaden.Stonehenge3.dll"
+    if Shell.testFile libFile46
+    then Shell.cleanDir @".\nuget"
+         Directory.create @".\nuget\lib" 
+         Directory.create @".\nuget\lib\net46" 
+         Shell.copyFiles @".\nuget\lib\net46" [ libFile46; 
+                                          buildDir </> @"IctBaden.Stonehenge3.pdb";
+                                          buildDir </> @"IctBaden.Stonehenge3.Aurelia.dll"; 
+                                          buildDir </> @"IctBaden.Stonehenge3.Aurelia.pdb"; 
+                                          buildDir </> @"IctBaden.Stonehenge3.Kestrel.dll"; 
+                                          buildDir </> @"IctBaden.Stonehenge3.Kestrel.pdb"; 
+                                          buildDir </> @"IctBaden.Stonehenge3.SimpleHttp.dll"; 
+                                          buildDir </> @"IctBaden.Stonehenge3.SimpleHttp.pdb"
                                         ]
-         NuGet (fun p -> 
+         Fake.DotNet.NuGet.NuGet.NuGet (fun p -> 
         {p with
             Authors = [ "Frank Pfattheicher" ]
             Project = "IctBaden.Stonehenge3"
@@ -81,33 +83,29 @@ Target "CreatePackage" (fun _ ->
         printfn "*****************************************************" 
 )
 
-Target "Build46" (fun _ ->
+Fake.Core.Target.create "BuildAll" (fun _ ->
      !! @".\**\*.csproj" 
      -- @".\**\*Test.csproj"
-      |> MSBuildRelease buildDir46 "Build"
-      |> Log "Build-Output: "
+      |> Fake.DotNet.MSBuild.runRelease id buildDir "Build"
+      |> Fake.Core.Trace.logItems "Build-Output: "
 )
 
-Target "Build46Tests" (fun _ ->
+Fake.Core.Target.create "BuildAllTests" (fun _ ->
      !! @".\**\*Test.csproj"
-      |> MSBuildRelease testsDir "Build"
-      |> Log "TestBuild-Output: "
+      |> Fake.DotNet.MSBuild.runRelease id testsDir "Build"
+      |> Fake.Core.Trace.logItems "TestBuild-Output: "
 )
 
-Target "Run46Tests" (fun _ ->
+Fake.Core.Target.create "RunAllTests" (fun _ ->
     !! (testsDir + @"\*Test.dll")
-      |> NUnit (fun p -> 
-      {p with 
-        ShadowCopy = false
-        WorkingDir = artifactsDir
-      })
+    |> Fake.DotNet.Testing.XUnit2.run (fun p -> { p with  HtmlOutputPath = Some(testsDir </> "xunit.html") } )
 )
 
 // Dependencies
-"Clean"
-  ==> "Build46"
-  ==> "Build46Tests"
-  ==> "Run46Tests"
-  ==> "CreatePackage"
+//"Clean"
+//  ==> "BuildAll"
+//  ==> "BuildAllTests"
+//  ==> "RunAllTests"
+//  ==> "CreatePackage"
 
-RunTargetOrDefault "CreatePackage"
+Fake.Core.Target.runOrDefault "RunAllTests"

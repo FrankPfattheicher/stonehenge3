@@ -3,3 +3,7 @@
 bin
 obj
 packages
+/.fake
+/builds
+/tests
+/xunit.html
