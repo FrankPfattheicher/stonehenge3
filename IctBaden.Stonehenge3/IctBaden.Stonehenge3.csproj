@@ -8,6 +8,7 @@
     <Authors>Frank Pfattheicher</Authors>
     <Product>Web Application Framework</Product>
     <Version>3.0.0</Version>
+    <ApplicationIcon>app\favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>

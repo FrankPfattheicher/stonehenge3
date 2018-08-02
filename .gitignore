@@ -1,9 +1,10 @@
 .vs
 .idea
+.fake
 bin
 obj
-packages
-/.fake
+/packages
 /builds
 /tests
+/artifacts
 /xunit.html

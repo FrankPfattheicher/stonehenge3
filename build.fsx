@@ -2,11 +2,16 @@
 module FakeBuild
 
 #r @"packages\FAKE\tools\FakeLib.dll"
+#r "paket:
+nuget Fake.Core.Target
+nuget Fake.DotNet.Testing.VSTest //"
 
 open Fake
 open Fake.IO
 open Fake.IO.Globbing.Operators
 open Fake.IO.FileSystemOperators
+open Fake.Core.TargetOperators
+open Fake.DotNet.Testing.VSTest
 
 let release =
     File.read "ReleaseNotes3.md"
@@ -15,7 +20,7 @@ let release =
 // Properties
 let buildDir = @".\builds"
 let testsDir = @".\tests"
-let artifactsDir = @".\Artifacts"
+let artifactsDir = @".\artifacts"
 
 let CreateDirs dirs = for dir in dirs do Directory.create dir
 
@@ -28,12 +33,12 @@ Fake.Core.Target.create  "Clean" (fun _ ->
 
 Fake.Core.Target.create "CreatePackage" (fun _ ->
     // Copy all the package files into a package folder
-    let libFile46 = buildDir </> @"IctBaden.Stonehenge3.dll"
-    if Shell.testFile libFile46
+    let libFile = buildDir </> @"IctBaden.Stonehenge3.dll"
+    if Shell.testFile libFile
     then Shell.cleanDir @".\nuget"
          Directory.create @".\nuget\lib" 
-         Directory.create @".\nuget\lib\net46" 
-         Shell.copyFiles @".\nuget\lib\net46" [ libFile46; 
+         Directory.create @".\nuget\lib\netstandard2.0" 
+         Shell.copyFiles @".\nuget\lib\netstandard2.0" [ libFile; 
                                           buildDir </> @"IctBaden.Stonehenge3.pdb";
                                           buildDir </> @"IctBaden.Stonehenge3.Aurelia.dll"; 
                                           buildDir </> @"IctBaden.Stonehenge3.Aurelia.pdb"; 
@@ -53,21 +58,21 @@ Fake.Core.Target.create "CreatePackage" (fun _ ->
             Version = release.NugetVersion
             ReleaseNotes = release.Notes.Head
             Files = [ 
-                      (@"lib/net46/IctBaden.Stonehenge3.dll", Some "lib/net46", None)
-                      (@"lib/net46/IctBaden.Stonehenge3.pdb", Some "lib/net46", None) 
-                      (@"lib/net46/IctBaden.Stonehenge3.Aurelia.dll", Some "lib/net46", None)
-                      (@"lib/net46/IctBaden.Stonehenge3.Aurelia.pdb", Some "lib/net46", None) 
-                      (@"lib/net46/IctBaden.Stonehenge3.Kestrel.dll", Some "lib/net46", None)
-                      (@"lib/net46/IctBaden.Stonehenge3.Kestrel.pdb", Some "lib/net46", None) 
-                      (@"lib/net46/IctBaden.Stonehenge3.SimpleHttp.dll", Some "lib/net46", None)
-                      (@"lib/net46/IctBaden.Stonehenge3.SimpleHttp.pdb", Some "lib/net46", None) 
+                      (@"lib/netstandard2.0/IctBaden.Stonehenge3.dll", Some "lib/net", None)
+                      (@"lib/netstandard2.0/IctBaden.Stonehenge3.pdb", Some "lib/net", None) 
+                      (@"lib/netstandard2.0/IctBaden.Stonehenge3.Aurelia.dll", Some "lib/net", None)
+                      (@"lib/netstandard2.0/IctBaden.Stonehenge3.Aurelia.pdb", Some "lib/net", None) 
+                      (@"lib/netstandard2.0/IctBaden.Stonehenge3.Kestrel.dll", Some "lib/net", None)
+                      (@"lib/netstandard2.0/IctBaden.Stonehenge3.Kestrel.pdb", Some "lib/net", None) 
+                      (@"lib/netstandard2.0/IctBaden.Stonehenge3.SimpleHttp.dll", Some "lib/net", None)
+                      (@"lib/netstandard2.0/IctBaden.Stonehenge3.SimpleHttp.pdb", Some "lib/net", None) 
                     ]
-            ReferencesByFramework = [ { FrameworkVersion  = "net46"; References = [ "IctBaden.Stonehenge3.dll"; 
+            ReferencesByFramework = [ { FrameworkVersion  = "net"; References = [ "IctBaden.Stonehenge3.dll"; 
                                                                                     "IctBaden.Stonehenge3.Aurelia.dll";
                                                                                     "IctBaden.Stonehenge3.Kestrel.dll";
                                                                                     "IctBaden.Stonehenge3.SimpleHttp.dll"
                                                                                   ] } ]
-            DependenciesByFramework = [ { FrameworkVersion  = "net46"; Dependencies = [ "Microsoft.Owin", "3.1.0";
+            DependenciesByFramework = [ { FrameworkVersion  = "net"; Dependencies = [ "Microsoft.Owin", "3.1.0";
                                                                                         "Microsoft.Owin.Diagnostics", "3.1.0";
                                                                                         "Microsoft.Owin.Host.HttpListener", "3.1.0";
                                                                                         "Microsoft.Owin.Hosting", "3.1.0";
@@ -97,15 +102,17 @@ Fake.Core.Target.create "BuildAllTests" (fun _ ->
 )
 
 Fake.Core.Target.create "RunAllTests" (fun _ ->
-    !! (testsDir + @"\*Test.dll")
-    |> Fake.DotNet.Testing.XUnit2.run (fun p -> { p with  HtmlOutputPath = Some(testsDir </> "xunit.html") } )
+     !! (testsDir @@ @"\*Test.dll")
+       |> Fake.DotNet.Testing.VSTest (fun p -> { p with SettingsPath = "Local.RunSettings" })
 )
 
-// Dependencies
-//"Clean"
-//  ==> "BuildAll"
-//  ==> "BuildAllTests"
-//  ==> "RunAllTests"
-//  ==> "CreatePackage"
 
-Fake.Core.Target.runOrDefault "RunAllTests"
+// Dependencies
+"Clean"
+  ==> "BuildAll"
+  ==> "BuildAllTests"
+  ==> "RunAllTests"
+  ==> "CreatePackage"
+
+Fake.Core.Target.runOrDefault "CreatePackage"
+

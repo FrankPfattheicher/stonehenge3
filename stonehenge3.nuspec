@@ -1,21 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-    <id>@project@</id>
-    <version>@build.number@</version>
-    <authors>@authors@</authors>
-    <owners>@authors@</owners>
-    <summary>@summary@</summary>
-    <licenseUrl>https://github.com/FrankPfattheicher/stonehenge2</licenseUrl>
-    <projectUrl>https://github.com/FrankPfattheicher/stonehenge2</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/FrankPfattheicher/stonehenge2/master/icon64.png</iconUrl>
+    <id>IctBaden.Stonehenge3</id>
+    <version>3.0.0</version>
+    <authors>Frank Pfattheicher</authors>
+    <owners>Frank Pfattheicher</owners>
+    <summary>Web Application Framework</summary>
+    <licenseUrl>https://github.com/FrankPfattheicher/stonehenge3</licenseUrl>
+    <projectUrl>https://github.com/FrankPfattheicher/stonehenge3</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/FrankPfattheicher/stonehenge3/master/icon64.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>@description@</description>
-    <releaseNotes>@releaseNotes@</releaseNotes>
+    <description>Web Application Framework</description>
+    <releaseNotes></releaseNotes>
     <copyright>Copyright ICT Baden GmbH 2013-2017</copyright>
-    <tags>.NET Framework HTML Owin Kestrel Aurelia Angular</tags>
-    @dependencies@
-    @references@
+    <tags>.NET Core HTML CSS Kestrel Aurelia</tags>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Microsoft.AspNetCore.Hosting" version="2.0.2" />
+        <dependency id="Microsoft.AspNetCore.Hosting.Abstractions" version="2.0.2" />
+        <dependency id="Microsoft.AspNetCore.Http.Abstractions" version="2.0.2" />
+        <dependency id="Microsoft.AspNetCore.Server.Kestrel" version="2.0.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="2.0.1" />
+        <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="2.0.0" />
+        <dependency id="Newtonsoft.Json" version="11.0.2" />
+      </group>
+    </dependencies>
+    <references>
+      <group targetFramework=".NETStandard2.0">
+        <reference file="IctBaden.Stonehenge3.dll" />
+        <reference file="IctBaden.Stonehenge3.Aurelia.dll" />
+        <reference file="IctBaden.Stonehenge3.Kestrel.dll" />
+        <reference file="IctBaden.Stonehenge3.SimpleHttp.dll" />
+      </group>
+    </references>
   </metadata>
-  @files@
 </package>
