@@ -44,8 +44,8 @@ namespace IctBaden.Stonehenge3.Test.Resources
         [Fact]
         public void Load_from_file_icon_png()
         {
-            _fileTest.CreateBinaryFile("icon.png");
-            var resource = _loader.Get(_session, "icon.png", new Dictionary<string, string>());
+            _fileTest.CreateBinaryFile("icon1.png");
+            var resource = _loader.Get(_session, "icon1.png", new Dictionary<string, string>());
             Assert.NotNull(resource);
             Assert.Equal("image/png", resource.ContentType);
             Assert.True(resource.IsBinary);
@@ -67,8 +67,8 @@ namespace IctBaden.Stonehenge3.Test.Resources
         [Fact]
         public void Load_from_file_over_resource_icon_png()
         {
-            _fileTest.CreateTextFile("index.html");
-            var resource = _loader.Get(_session, "index.html", new Dictionary<string, string>());
+            _fileTest.CreateTextFile("index1.html");
+            var resource = _loader.Get(_session, "index1.html", new Dictionary<string, string>());
             Assert.NotNull(resource);
             Assert.Equal("text/html", resource.ContentType);
             Assert.False(resource.IsBinary);
