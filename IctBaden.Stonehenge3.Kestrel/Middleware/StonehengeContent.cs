@@ -32,7 +32,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             try
             {
                 var response = context.Response.Body;
-                var resourceLoader = context.Items["stonehenge.ResourceLoader"] as StonehengeResourceLoader;
+                var resourceLoader = context.Items["stonehenge.ResourceLoader"] as IStonehengeResourceProvider;
                 var resourceName = path.Substring(1);
                 var appSession = context.Items["stonehenge.AppSession"] as AppSession;
                 var requestVerb = context.Request.Method;
@@ -60,7 +60,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                     case "GET":
                         appSession?.Accessed(cookies, false);
                         content = resourceLoader?.Get(appSession, resourceName, parameters);
-                        if (string.Compare(resourceName, "index.html", StringComparison.InvariantCultureIgnoreCase) == 0)
+                        if ((content != null) && (string.Compare(resourceName, "index.html", StringComparison.InvariantCultureIgnoreCase) == 0))
                         {
                             HandleIndexContent(context, content);
                         }

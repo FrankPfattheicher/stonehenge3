@@ -13,6 +13,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
         private readonly RequestDelegate _next;
         private static Dictionary<string, string> _headers;
 
+        // ReSharper disable once UnusedMember.Global
         public StonehengeHeaders(RequestDelegate next)
         {
             _next = next;

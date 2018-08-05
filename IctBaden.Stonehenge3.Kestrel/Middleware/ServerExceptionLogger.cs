@@ -11,6 +11,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
     {
         private readonly RequestDelegate _next;
 
+        // ReSharper disable once UnusedMember.Global
         public ServerExceptionLogger(RequestDelegate next)
         {
             _next = next;
