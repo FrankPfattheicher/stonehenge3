@@ -1,4 +1,5 @@
 
+* 3.0.8 - Added all remaining tests from V2.
 * 3.0.7 - Added more tests. Fixed IResourceProvider context item
 * 3.0.6 - Tests using different file names
 * 3.0.5 - nuspec updated
