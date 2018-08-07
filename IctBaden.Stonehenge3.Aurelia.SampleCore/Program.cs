@@ -34,11 +34,11 @@ namespace IctBaden.Stonehenge3.Aurelia.SampleCore
             aurelia.InitProvider(loader, "Sample", "start");
 
             // Select hosting technology
-            var hosting = "owin";
+            var hosting = "kestrel";
             if (Environment.CommandLine.Contains("/Simple")) { hosting = "simple"; }
             switch (hosting)
             {
-                case "owin":
+                case "kestrel":
                     Console.WriteLine(@"Using Kestrel hosting");
                     _server = new KestrelHost(loader) { DisableSessionIdUrlParameter = true };
                     break;
