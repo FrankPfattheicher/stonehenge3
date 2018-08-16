@@ -35,7 +35,7 @@ namespace IctBaden.Stonehenge3.Vue
             }
             AddResourceContent();
             appCreator.CreateApplication();
-            appCreator.CreateControllers();
+            appCreator.CreateComponents();
             appCreator.CreateElements();
         }
 

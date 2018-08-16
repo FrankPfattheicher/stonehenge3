@@ -32,7 +32,7 @@ namespace IctBaden.Stonehenge3.Resources
         {
             var disableCache = false;
 
-            if (resourceName.Contains("${"))
+            if (resourceName.Contains("${") || resourceName.Contains("{{"))
             {
                 resourceName = ReplaceFields(session, resourceName);
                 disableCache = true;
@@ -56,6 +56,12 @@ namespace IctBaden.Stonehenge3.Resources
             while (resourceName.Length > 0)
             {
                 var start = resourceName.IndexOf("${", StringComparison.InvariantCulture);
+                var closing = 1;
+                if (start == -1)
+                {
+                    start = resourceName.IndexOf("{{", StringComparison.InvariantCulture);
+                    closing = 2;
+                }
                 if (start == -1)
                 {
                     replaced += resourceName;
@@ -73,7 +79,7 @@ namespace IctBaden.Stonehenge3.Resources
                     replaced += session.Cookies[field];
                 }
 
-                resourceName = resourceName.Substring(end + 1);
+                resourceName = resourceName.Substring(end + closing);
             }
             return replaced;
         }

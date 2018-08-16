@@ -31,7 +31,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
             Console.WriteLine(@"Using client framework aurelia");
             var loader = StonehengeResourceLoader.CreateDefaultLoader();
             var aurelia = new VueResourceProvider();
-            aurelia.InitProvider(loader, "Sample", "start");
+            aurelia.InitProvider(loader, "VueSample", "start");
 
             // Select hosting technology
             var hosting = "kestrel";
@@ -53,7 +53,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
             Console.CancelKeyPress += (sender, eventArgs) => { terminate.Set(); };
 
             var host = Environment.CommandLine.Contains("/localhost") ? "localhost" : "*";
-            if (_server.Start("Sample", false, host, 32000))
+            if (_server.Start("VueSample", false, host, 32000))
             {
                 Console.WriteLine(@"Started server on: " + _server.BaseUrl);
 

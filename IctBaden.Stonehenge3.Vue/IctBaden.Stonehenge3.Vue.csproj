@@ -1,9 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="app\favicon.ico" />
     <None Remove="app\icon.png" />
@@ -11,17 +9,21 @@
     <None Remove="app\styles\styles.css" />
     <None Remove="Client\stonehengeApp.js" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="app\favicon.ico" />
     <EmbeddedResource Include="app\icon.png" />
     <EmbeddedResource Include="app\index.html" />
-    <EmbeddedResource Include="app\styles\styles.css" />
     <EmbeddedResource Include="Client\stonehengeApp.js" />
+    <None Remove="Client\stonehengeComponent.js" />
+    <EmbeddedResource Include="Client\stonehengeComponent.js" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\IctBaden.Stonehenge3\IctBaden.Stonehenge3.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Folder Include="app\src" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="app\styles\styles.css" />
+  </ItemGroup>
 </Project>

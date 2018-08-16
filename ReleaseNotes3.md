@@ -1,4 +1,5 @@
 
+* 3.0.10 - Initial Vue VM support - no callbacks yet.
 * 3.0.9 - Started working on Vue support.
 * 3.0.8 - Added all remaining tests from V2.
 * 3.0.7 - Added more tests. Fixed IResourceProvider context item

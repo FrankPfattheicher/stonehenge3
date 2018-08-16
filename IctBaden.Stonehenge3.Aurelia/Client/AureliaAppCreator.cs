@@ -18,8 +18,8 @@ namespace IctBaden.Stonehenge3.Aurelia.Client
         private readonly string _rootPage;
         private readonly Dictionary<string, Resource> _aureliaContent;
 
-        private static readonly string ControllerTemplate = LoadResourceText("IctBaden.Stonehenge3.Aurelia.Client.stonehengeController.js");
-        private static readonly string ElementTemplate = LoadResourceText("IctBaden.Stonehenge3.Aurelia.Client.stonehengeElement.js");
+        private static readonly string ControllerTemplate = LoadResourceText("IctBaden.Stonehenge3.Vue.Client.stonehengeController.js");
+        private static readonly string ElementTemplate = LoadResourceText("IctBaden.Stonehenge3.Vue.Client.stonehengeElement.js");
 
         public AureliaAppCreator(string appTitle, string rootPage, Dictionary<string, Resource> aureliaContent)
         {

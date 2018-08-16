@@ -1,30 +1,65 @@
 ﻿
-const NotFound = { template: '<p>Page not found</p>' }
-const Home = { template: '<div id="app">Home {{message}}</div>' }
-const Index = { template: '<div id="app">Index {{message}}<script src="start.js"></script></div>' }
+function makeRequest(url) {
+    return new Promise(function (resolve, reject) {
 
-const routes = {
-    '/Index.html#test': Home,
-    '/Index.html': Index
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.onload = function () {
+            if (this.status >= 200 && this.status < 300) {
+                resolve(xhr.responseText);
+            } else {
+                reject({
+                    status: this.status,
+                    statusText: xhr.statusText
+                });
+            }
+        };
+        xhr.onerror = function () {
+            reject({
+                status: this.status,
+                statusText: xhr.statusText
+            });
+        };
+        xhr.send();
+    });
 }
 
-new Vue({
-    el: '#app',
-    data: {
-        currentRoute: window.location.pathname
-    },
-    computed: {
-        ViewComponent() {
-            return routes[this.currentRoute] || NotFound
-        }
-    },
-    render(h) { return h(this.ViewComponent) }
-})
+async function loadComponent(name) {
 
-var app = new Vue({
-    el: '#app',
+    const srcRequest = makeRequest(name + '.js');
+    const templateRequest = makeRequest(name + '.html');
+
+    let src;
+    let srcText;
+    let templateText;
+    [templateText, srcText] = await Promise.all([templateRequest, srcRequest]);
+
+    src = eval(srcText)();
+
+    return Vue.component('stonehenge_' + name, {
+            template: templateText,
+            data: src.data,
+            methods: src.methods
+        }
+    );
+}
+
+// Router
+const routes = [
+    //stonehengeAppRoutes
+];
+
+const router = new VueRouter({
+    routes: routes
+});
+
+// App
+const app = new Vue({
     data: {
-        message: 'Hello Vue!'
-    }
-})
+        makeRequest: makeRequest,
+        routes: routes,
+        title: 'stonehengeAppTitle'
+    },
+    router: router
+}).$mount('#app');
 

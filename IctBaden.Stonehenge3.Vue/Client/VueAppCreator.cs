@@ -18,7 +18,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
         private readonly string _rootPage;
         private readonly Dictionary<string, Resource> _vueContent;
 
-        private static readonly string ControllerTemplate = LoadResourceText("IctBaden.Stonehenge3.Vue.Client.stonehengeController.js");
+        private static readonly string ControllerTemplate = LoadResourceText("IctBaden.Stonehenge3.Vue.Client.stonehengeComponent.js");
         private static readonly string ElementTemplate = LoadResourceText("IctBaden.Stonehenge3.Vue.Client.stonehengeElement.js");
 
         public VueAppCreator(string appTitle, string rootPage, Dictionary<string, Resource> vueContent)
@@ -58,18 +58,25 @@ namespace IctBaden.Stonehenge3.Vue.Client
         {
             const string routesInsertPoint = "//stonehengeAppRoutes";
             const string stonehengeAppTitleInsertPoint = "stonehengeAppTitle";
-            const string pageTemplate = "{{ route: [{0}'{1}'], name: '{1}', moduleId: './{2}', title:'{3}', nav: {4} }}";
+            const string pageTemplate = "{{ path: '{0}', name: '{1}', title: '{2}', component: () => Promise.resolve(loadComponent('{3}')), visible: {4} }}";
             
             var pages = _vueContent
                 .Select(res => new {  res.Value.Name, Vm = res.Value.ViewModel })
                 .OrderBy(route => route.Vm.SortIndex)
                 .Select(route => string.Format(pageTemplate,
-                                            route.Name == _rootPage ? "''," : "",
-                                            route.Name,
+                                            "/" + route.Name,
                                             route.Name,
                                             route.Vm.Title,
-                                            route.Vm.Visible ? "true" : "false" ));
+                                            route.Name,
+                                            route.Vm.Visible ? "true" : "false" ))
+                .ToList();
 
+            var startPage = _vueContent.FirstOrDefault(page => page.Value.Name == _rootPage);
+            if(startPage.Key != null)
+            {
+                pages.Insert(0, string.Format(pageTemplate, "", "", startPage.Value.ViewModel.Title, startPage.Value.Name, "false"));
+            }
+            
             var routes = string.Join("," + Environment.NewLine, pages);
             pageText = pageText
                 .Replace(routesInsertPoint, routes)
@@ -79,7 +86,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
         }
 
 
-        public void CreateControllers()
+        public void CreateComponents()
         {
             var viewModels = _vueContent
                 .Where(res => res.Value.ViewModel?.VmName != null)
@@ -99,7 +106,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
                     else
                     {
                         Trace.TraceInformation($"VueAppCreater.CreateControllers: {viewModel.ViewModel.VmName} => src.{viewModel.Name}.js");
-                        var resource = new Resource($"src.{viewModel.Name}.js", "VueResourceProvider", ResourceType.Js, controllerJs, Resource.Cache.Revalidate);
+                        var resource = new Resource($"{viewModel.Name}.js", "VueResourceProvider", ResourceType.Js, controllerJs, Resource.Cache.Revalidate);
                         _vueContent.Add(resource.Name, resource);
                     }
                 }
@@ -138,7 +145,15 @@ namespace IctBaden.Stonehenge3.Vue.Client
 
             var text = ControllerTemplate.Replace("stonehengeViewModelName", vmName);
 
-            var postbackPropNames = GetPostbackPropNames(vmType).Select(name => "'" + name + "'");
+            var properyNames = GetPropNames(vmType);
+            if (properyNames.Count > 0)
+            {
+                var propDefs = properyNames.Select(pn => pn + " : null\r\n");
+                text = text.Replace("//stonehengeProperties", "," + string.Join(",", propDefs));
+            }
+            
+            var postbackPropNames = GetPostbackPropNames(vmType, properyNames)
+                .Select(name => "'" + name + "'");
             text = text.Replace("'propNames'", string.Join(",", postbackPropNames));
 
             // supply functions for action methods
@@ -170,10 +185,10 @@ namespace IctBaden.Stonehenge3.Vue.Client
             return text.Replace("/*commands*/", actionMethods.ToString());
         }
 
-        private static List<string> GetPostbackPropNames(Type vmType)
+        
+        
+        private static List<string> GetPropNames(Type vmType)
         {
-            var postbackPropNames = new List<string>();
-
             // properties
             var vmProps = new List<PropertyDescriptor>();
             var sessionCtor = vmType.GetConstructors().FirstOrDefault(ctor => ctor.GetParameters().Length == 1);
@@ -186,7 +201,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
             catch (Exception ex)
             {
                 Trace.TraceError($"Failed to create ViewModel '{vmType.Name}' : " + ex.Message);
-                return postbackPropNames;
+                return new List<string>();
             }
             var activeVm = viewModel as ActiveViewModel;
             if (activeVm != null)
@@ -200,13 +215,34 @@ namespace IctBaden.Stonehenge3.Vue.Client
             var disposeVm = viewModel as IDisposable;
             disposeVm?.Dispose();
 
-            var assignPropNames = (from prop in vmProps
-                                   let bindable = prop.Attributes.OfType<BindableAttribute>().ToArray()
-                                   where (bindable.Length <= 0) || bindable[0].Bindable
-                                   select prop.Name).ToList();
+            var properyNames = (from prop in vmProps
+                let bindable = prop.Attributes.OfType<BindableAttribute>().ToArray()
+                where (bindable.Length <= 0) || bindable[0].Bindable
+                select prop.Name).ToList();
+
+            return properyNames;
+        }
+        
+        private static List<string> GetPostbackPropNames(Type vmType, List<string> properyNames)
+        {
+            var postbackPropNames = new List<string>();
+
+            var sessionCtor = vmType.GetConstructors().FirstOrDefault(ctor => ctor.GetParameters().Length == 1);
+            var session = new AppSession();
+            object viewModel;
+            try
+            {
+                viewModel = (sessionCtor != null) ? Activator.CreateInstance(vmType, session) : Activator.CreateInstance(vmType);
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"Failed to create ViewModel '{vmType.Name}' : " + ex.Message);
+                return new List<string>();
+            }
+            var activeVm = viewModel as ActiveViewModel;
 
             // do not send ReadOnly or OneWay bound properties back
-            foreach (var propName in assignPropNames)
+            foreach (var propName in properyNames)
             {
                 var prop = vmType.GetProperty(propName);
                 if (prop == null)
