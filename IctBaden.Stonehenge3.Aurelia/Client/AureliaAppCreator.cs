@@ -18,8 +18,8 @@ namespace IctBaden.Stonehenge3.Aurelia.Client
         private readonly string _rootPage;
         private readonly Dictionary<string, Resource> _aureliaContent;
 
-        private static readonly string ControllerTemplate = LoadResourceText("IctBaden.Stonehenge3.Vue.Client.stonehengeController.js");
-        private static readonly string ElementTemplate = LoadResourceText("IctBaden.Stonehenge3.Vue.Client.stonehengeElement.js");
+        private static readonly string ControllerTemplate = LoadResourceText("IctBaden.Stonehenge3.Aurelia.Client.stonehengeController.js");
+        private static readonly string ElementTemplate = LoadResourceText("IctBaden.Stonehenge3.Aurelia.Client.stonehengeElement.js");
 
         public AureliaAppCreator(string appTitle, string rootPage, Dictionary<string, Resource> aureliaContent)
         {
@@ -30,7 +30,11 @@ namespace IctBaden.Stonehenge3.Aurelia.Client
 
         private static string LoadResourceText(string resourceName)
         {
-            var assembly = Assembly.GetAssembly(typeof(AureliaAppCreator));
+            return LoadResourceText(Assembly.GetAssembly(typeof(AureliaAppCreator)), resourceName);
+        }
+
+        private static string LoadResourceText(Assembly assembly, string resourceName)
+        {
             var resourceText = string.Empty;
 
             using (var stream = assembly.GetManifestResourceStream(resourceName))
@@ -99,6 +103,14 @@ namespace IctBaden.Stonehenge3.Aurelia.Client
                     else
                     {
                         Trace.TraceInformation($"AureliaAppCreater.CreateControllers: {viewModel.ViewModel.VmName} => src.{viewModel.Name}.js");
+
+                        var assembly = Assembly.GetEntryAssembly();
+                        var userjs = LoadResourceText(assembly, $"{assembly.GetName().Name}.app.{viewModel.Name}_user.js");
+                        if (!string.IsNullOrWhiteSpace(userjs))
+                        {
+                            controllerJs += userjs;
+                        }
+
                         var resource = new Resource($"src.{viewModel.Name}.js", "AureliaResourceProvider", ResourceType.Js, controllerJs, Resource.Cache.Revalidate);
                         _aureliaContent.Add(resource.Name, resource);
                     }

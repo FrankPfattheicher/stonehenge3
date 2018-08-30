@@ -1,4 +1,5 @@
 
+* 3.0.11 - Support for controller extension vmname_user.js added as in stonehenge 1.
 * 3.0.10 - Initial Vue VM support - no callbacks yet.
 * 3.0.9 - Started working on Vue support.
 * 3.0.8 - Added all remaining tests from V2.

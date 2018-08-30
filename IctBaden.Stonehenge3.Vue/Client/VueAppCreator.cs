@@ -30,7 +30,11 @@ namespace IctBaden.Stonehenge3.Vue.Client
 
         private static string LoadResourceText(string resourceName)
         {
-            var assembly = Assembly.GetAssembly(typeof(VueAppCreator));
+            return LoadResourceText(Assembly.GetAssembly(typeof(VueAppCreator)), resourceName);
+        }
+
+        private static string LoadResourceText(Assembly assembly, string resourceName)
+        {
             var resourceText = string.Empty;
 
             using (var stream = assembly.GetManifestResourceStream(resourceName))
@@ -106,6 +110,14 @@ namespace IctBaden.Stonehenge3.Vue.Client
                     else
                     {
                         Trace.TraceInformation($"VueAppCreater.CreateControllers: {viewModel.ViewModel.VmName} => src.{viewModel.Name}.js");
+
+                        var assembly = Assembly.GetEntryAssembly();
+                        var userjs = LoadResourceText(assembly, $"{assembly.GetName().Name}.app.{viewModel.Name}_user.js");
+                        if (!string.IsNullOrWhiteSpace(userjs))
+                        {
+                            controllerJs += userjs;
+                        }
+
                         var resource = new Resource($"{viewModel.Name}.js", "VueResourceProvider", ResourceType.Js, controllerJs, Resource.Cache.Revalidate);
                         _vueContent.Add(resource.Name, resource);
                     }

@@ -12,6 +12,7 @@
     <None Remove="app\cookie.html" />
     <None Remove="app\index.html" />
     <None Remove="app\start.html" />
+    <None Remove="app\start_user.js" />
     <None Remove="app\styles\theme.css" />
     <None Remove="app\styles\themeblue.css" />
     <None Remove="app\styles\themedark.css" />
@@ -23,6 +24,7 @@
     <EmbeddedResource Include="app\cookie.html" />
     <EmbeddedResource Include="app\index.html" />
     <EmbeddedResource Include="app\start.html" />
+    <EmbeddedResource Include="app\start_user.js" />
     <EmbeddedResource Include="app\styles\theme.css" />
     <EmbeddedResource Include="app\styles\themeblue.css" />
     <EmbeddedResource Include="app\styles\themedark.css" />
