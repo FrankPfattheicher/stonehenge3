@@ -114,7 +114,7 @@ export class stonehengeViewModelName {
                                 user_InitialLoaded(scope);
                             } catch (e) { }
                         }
-                    }
+                    } 
                     scope.StonehengeInitialLoading = false;
                     scope.StonehengeIsLoading = false;
                     if (scope.StonehengePollEventsActive == null) {
@@ -161,6 +161,13 @@ export class stonehengeViewModelName {
                     } 
                 } else {
                     viewmodel[propertyName] = data[propertyName];
+                }
+            }
+            if (!viewmodel.StonehengeInitialLoading) {
+                if (typeof (user_DataLoaded) == 'function') {
+                    try {
+                        user_DataLoaded(viewmodel);
+                    } catch (e) { }
                 }
             }
         };
