@@ -108,6 +108,13 @@ export class stonehengeViewModelName {
                     } catch (error) {
                         if (console && console.log) console.log(error);
                     } 
+                    if (scope.StonehengeInitialLoading) {
+                        if (typeof (user_InitialLoaded) == 'function') {
+                            try {
+                                user_InitialLoaded(scope);
+                            } catch (e) { }
+                        }
+                    }
                     scope.StonehengeInitialLoading = false;
                     scope.StonehengeIsLoading = false;
                     if (scope.StonehengePollEventsActive == null) {

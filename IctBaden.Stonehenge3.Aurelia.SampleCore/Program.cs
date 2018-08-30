@@ -19,7 +19,6 @@ namespace IctBaden.Stonehenge3.Aurelia.SampleCore
         [STAThread]
         private static void Main()
         {
-            //var consoleListener = new  ConsoleTraceListener { Filter = new EventTypeFilter(SourceLevels.All) };
             var consoleListener = new ConsoleTraceListener();
             Trace.Listeners.Add(consoleListener);
 
