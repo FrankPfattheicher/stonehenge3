@@ -23,7 +23,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
         public StartVm(AppSession session) : base (session)
         {
             Numeric = 123.456;
-            Test = "54321";
+            Test = "abcd";
 
             _cancelUpdate = new CancellationTokenSource();
             _updater = new Task(

@@ -62,7 +62,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
         {
             const string routesInsertPoint = "//stonehengeAppRoutes";
             const string stonehengeAppTitleInsertPoint = "stonehengeAppTitle";
-            const string pageTemplate = "{{ path: '{0}', name: '{1}', title: '{2}', component: () => Promise.resolve(loadComponent('{3}')), visible: {4} }}";
+            const string pageTemplate = "{{ path: '{0}', name: '{1}', title: '{2}', component: () => Promise.resolve(stonehengeLoadComponent('{3}')), visible: {4} }}";
             
             var pages = _vueContent
                 .Select(res => new {  res.Value.Name, Vm = res.Value.ViewModel })
@@ -169,9 +169,9 @@ namespace IctBaden.Stonehenge3.Vue.Client
             text = text.Replace("'propNames'", string.Join(",", postbackPropNames));
 
             // supply functions for action methods
-            const string methodTemplate = @"this.stonehengeMethodName = function({paramNames}) { this.StonehengePost(this, '/ViewModel/stonehengeViewModelName/stonehengeMethodName{paramValues}'); }";
+            const string methodTemplate = @"stonehengeMethodName: function({paramNames}) { app.stonehengeViewModelName.StonehengePost('/ViewModel/stonehengeViewModelName/stonehengeMethodName{paramValues}'); }";
 
-            var actionMethods = new StringBuilder();
+            var actionMethods = new List<string>();
             foreach (var methodInfo in vmType.GetMethods().Where(methodInfo => methodInfo.GetCustomAttributes(false).OfType<ActionMethodAttribute>().Any()))
             {
                 //var method = (methodInfo.GetParameters().Length > 0)
@@ -190,11 +190,11 @@ namespace IctBaden.Stonehenge3.Vue.Client
                     .Replace("{paramValues}", paramValues)
                     .Replace("+''", string.Empty);
 
-                actionMethods.AppendLine(method);
+                actionMethods.Add(method);
             }
 
 
-            return text.Replace("/*commands*/", actionMethods.ToString());
+            return text.Replace("/*commands*/", string.Join("," + Environment.NewLine, actionMethods));
         }
 
         

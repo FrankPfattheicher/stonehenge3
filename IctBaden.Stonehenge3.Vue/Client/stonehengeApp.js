@@ -1,5 +1,5 @@
 ﻿
-function makeRequest(url) {
+function stonehengeMakeRequest(url) {
     return new Promise(function (resolve, reject) {
 
         const xhr = new XMLHttpRequest();
@@ -24,10 +24,10 @@ function makeRequest(url) {
     });
 }
 
-async function loadComponent(name) {
+async function stonehengeLoadComponent(name) {
 
-    const srcRequest = makeRequest(name + '.js');
-    const templateRequest = makeRequest(name + '.html');
+    const srcRequest = stonehengeMakeRequest(name + '.js');
+    const templateRequest = stonehengeMakeRequest(name + '.html');
 
     let src;
     let srcText;
@@ -44,6 +44,24 @@ async function loadComponent(name) {
     );
 }
 
+function stonehengeGetCookie(name) {
+    var i = 0; //Suchposition im Cookie
+    var suche = name + "=";
+    var maxlen = document.cookie.length;
+    while (i < maxlen) {
+        if (document.cookie.substring(i, i + suche.length) === suche) {
+            var ende = document.cookie.indexOf(";", i + suche.length);
+            if (ende < 0) {
+                ende = maxlen;
+            }
+            var cook = document.cookie.substring(i + suche.length, ende);
+            return unescape(cook);
+        }
+        i++;
+    }
+    return "";
+}
+
 // Router
 const routes = [
     //stonehengeAppRoutes
@@ -56,7 +74,7 @@ const router = new VueRouter({
 // App
 const app = new Vue({
     data: {
-        makeRequest: makeRequest,
+        stonehengeMakeRequest: stonehengeMakeRequest,
         routes: routes,
         title: 'stonehengeAppTitle'
     },
