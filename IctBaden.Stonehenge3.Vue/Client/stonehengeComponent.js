@@ -24,7 +24,7 @@ stonehengeViewModelName = function component() {
                         } catch (error) {
                             // ignore
                             if (console && console.log) {
-                                console.log("error: " + error);
+                                console.log("stonehengeViewModelName error: " + error);
                             }
                         }
                     } else {
@@ -38,7 +38,7 @@ stonehengeViewModelName = function component() {
                         // ignore
                         if (console && console.log) {
                             console.log("script: " + script);
-                            console.log("error: " + error);
+                            console.log("stonehengeViewModelName error: " + error);
                         }
                     }
                 } else {
@@ -78,9 +78,9 @@ stonehengeViewModelName = function component() {
                     }
                 })
                 .catch(error => {
-                    if (error.responseType !== "abort") {
+                    if (error.status >= 400) {
                         this.StonehengeIsDisconnected = true;
-                        //debugger;
+                        debugger;
                         window.location.reload();
                     }
                 });
@@ -104,11 +104,10 @@ stonehengeViewModelName = function component() {
                     if (app.stonehengeViewModelName.model.StonehengePollEventsActive !== null) {
                         app.stonehengeViewModelName.model.StonehengeIsDisconnected = true;
                     }
-                    if (error.responseType !== "abort") {
-                        //debugger;
-                        if (status === 200) {
-                            setTimeout(function () { window.location.reload(); }, 1000);
-                        }
+                    if (error.status >= 400) {
+                        debugger;
+                        setTimeout(function () { window.location.reload(); }, 1000);
+                    } else { 
                         app.stonehengeViewModelName.model.StonehengePollEventsActive = null;
                         if (!app.stonehengeViewModelName.model.StonehengePostActive) {
                             setTimeout(function () { app.stonehengeViewModelName.StonehengePollEvents(true); }, app.stonehengeViewModelName.model.StonehengePollDelay);
@@ -156,7 +155,7 @@ stonehengeViewModelName = function component() {
                     window.location.reload();
                 });
 
-            console.log('vm loaded');
+            console.log('stonehengeViewModelName loaded');
         },
 
         model: {
@@ -175,7 +174,7 @@ stonehengeViewModelName = function component() {
         },
 
         data: function () {
-            console.log('get data');
+            console.log('stonehengeViewModelName get data');
             //debugger;
             app.stonehengeViewModelName.StonehengeGetViewModel();
             app.stonehengeViewModelName.model.StonehengeActive = true;

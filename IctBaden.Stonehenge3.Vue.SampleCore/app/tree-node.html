@@ -1,15 +1,16 @@
 <!--CustomElement:node-->
-<template>
-
-    <li if.bind="node.IsVisible" >
-      <div class="${node.Class}" >
-          <span if.bind="node.HasChildren" click.delegate="fireEvent('toggle', node.Id)" class="${node.Icon}" style="cursor: pointer;"></span>
-          <span if.bind="!node.HasChildren" click.delegate="fireEvent('toggle', node.Id)" class="fa fa-circle-thin"></span>
-        <span click.delegate="fireEvent('select', node.Id)" style="cursor: pointer;">&nbsp;${node.Name}</span>
+<div>
+    
+    <li v-if="node.IsVisible" >
+      <div :class="node.Class" >
+          <span v-if="node.HasChildren" :class="node.Icon" style="cursor: pointer;" v-on:click="$emit('toggle', node.Id)"></span>
+          <span v-else class="far fa-circle" v-on:click="$emit('toggle', node.Id)"></span>
+        <span style="cursor: pointer;" v-on:click="$emit('select', node.Id)">&nbsp;{{node.Name}}</span>
       </div>
       <ul style="list-style-type: none;">
-          <tree-node repeat.for="child of node.Children" node.bind="child"/>
+          <tree-node v-for="child of node.Children" v-bind:node="child" :key="child.Id" 
+                     v-on:select="$emit('select', $event)" v-on:toggle="$emit('toggle', $event)"/>
       </ul>
     </li>
 	
-</template>
+</div>

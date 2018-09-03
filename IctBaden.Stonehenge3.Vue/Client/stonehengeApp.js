@@ -43,7 +43,6 @@ async function stonehengeLoadComponent(name) {
         }
     );
 }
-
 function stonehengeGetCookie(name) {
     var i = 0; //Suchposition im Cookie
     var suche = name + "=";
@@ -70,6 +69,10 @@ const routes = [
 const router = new VueRouter({
     routes: routes
 });
+
+// Components
+
+//stonehengeElements
 
 // App
 const app = new Vue({

@@ -9,6 +9,7 @@ using System.Text;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.ViewModel;
+using Newtonsoft.Json;
 
 namespace IctBaden.Stonehenge3.Vue.Client
 {
@@ -53,6 +54,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
         {
             var applicationJs = LoadResourceText("IctBaden.Stonehenge3.Vue.Client.stonehengeApp.js");
             applicationJs = InsertRoutes(applicationJs);
+            applicationJs = InsertElements(applicationJs);
 
             var resource = new Resource("app.js", "VueResourceProvider", ResourceType.Html, applicationJs, Resource.Cache.Revalidate);
             _vueContent.Add("app.js", resource);
@@ -65,6 +67,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
             const string pageTemplate = "{{ path: '{0}', name: '{1}', title: '{2}', component: () => Promise.resolve(stonehengeLoadComponent('{3}')), visible: {4} }}";
             
             var pages = _vueContent
+                .Where(res => res.Value.ViewModel?.ElementName == null)
                 .Select(res => new {  res.Value.Name, Vm = res.Value.ViewModel })
                 .OrderBy(route => route.Vm.SortIndex)
                 .Select(route => string.Format(pageTemplate,
@@ -277,7 +280,15 @@ namespace IctBaden.Stonehenge3.Vue.Client
             return postbackPropNames;
         }
 
-        public void CreateElements()
+        private string InsertElements(string pageText)
+        {
+            const string elementsInsertPoint = "//stonehengeElements";
+            var elements = CreateElements();
+
+            return pageText.Replace(elementsInsertPoint, string.Join(Environment.NewLine, elements));
+        }
+
+        public List<string> CreateElements()
         {
             var customElements = _vueContent
                .Where(res => res.Value.ViewModel?.ElementName != null)
@@ -285,17 +296,29 @@ namespace IctBaden.Stonehenge3.Vue.Client
                .Distinct()
                .ToList();
 
+            var assembly = Assembly.GetEntryAssembly();
+            var elements = new List<string>();
             foreach (var element in customElements)
             {
-                var elementJs = ElementTemplate.Replace("stonehengeCustomElementClass", element.ViewModel.ElementName);
-                elementJs = elementJs.Replace("stonehengeCustomElementName", element.Name.Replace("_", "-"));
+                var elementJs = ElementTemplate.Replace("stonehengeCustomElementName", element.ViewModel.ElementName);
+                var sourceIndex = element.Source.IndexOf(".app.", StringComparison.InvariantCultureIgnoreCase);
+                var source = Path.GetFileNameWithoutExtension(element.Source.Substring(sourceIndex + 5));
+                elementJs = elementJs.Replace("stonehengeViewModelName", source);
 
-                var bindings = element.ViewModel?.Bindings?.Select(b => $"@bindable('{b}')") ?? new List<string>() { string.Empty };
-                elementJs = elementJs.Replace("//@bindable", string.Join(Environment.NewLine, bindings));
+                var bindings = element.ViewModel?.Bindings?.Select(b => $"'{b}'") ?? new List<string>() { string.Empty };
+                elementJs = elementJs.Replace("stonehengeCustomElementProps", string.Join(Environment.NewLine, bindings));
 
-                var resource = new Resource($"src.{element.Name}.js", "VueResourceProvider", ResourceType.Js, elementJs, Resource.Cache.Revalidate);
+                var template = LoadResourceText(assembly, $"{assembly.GetName().Name}.app.{source}.html");
+                template = JsonConvert.SerializeObject(template);
+                elementJs = elementJs.Replace("'stonehengeElementTemplate'", template);
+
+                elements.Add(elementJs);
+
+                var resource = new Resource($"{element.Name}.js", "VueResourceProvider", ResourceType.Js, elementJs, Resource.Cache.Revalidate);
                 _vueContent.Add(resource.Name, resource);
             }
+
+            return elements;
         }
     }
 }

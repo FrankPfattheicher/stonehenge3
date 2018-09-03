@@ -1,4 +1,5 @@
 
+* 3.0.15 - Vue custom elements support added.
 * 3.0.14 - Vue callback support added.
 * 3.0.13 - Support for user_DataLoaded added.
 * 3.0.12 - Support for user_InitialLoaded added.

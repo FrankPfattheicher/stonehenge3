@@ -1,11 +1,9 @@
 <!--ViewModel:TreeVm-->
 <!--Title:TreeView-->
 <div>
-    <require from='./tree-view'></require>
-    
     <h3>A TreeView</h3>
 
-    <tree-view rootnodes.bind="RootNodes" toggle.delegate="TreeToggle($event.detail.value)" select.delegate="TreeSelect($event.detail.value)"/>
-    
+    <tree-view v-bind:rootnodes="RootNodes" 
+               v-on:select="TreeSelect($event)" v-on:toggle="TreeToggle($event)"/>
 
 </div>
