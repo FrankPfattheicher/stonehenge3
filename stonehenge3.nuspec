@@ -5,15 +5,15 @@
     <version>3.0.0</version>
     <authors>Frank Pfattheicher</authors>
     <owners>Frank Pfattheicher</owners>
-    <summary>Web Application Framework</summary>
+    <summary>X-Platform & Web Application Framework</summary>
     <licenseUrl>https://github.com/FrankPfattheicher/stonehenge3</licenseUrl>
     <projectUrl>https://github.com/FrankPfattheicher/stonehenge3</projectUrl>
-    <iconUrl>https://github.com/FrankPfattheicher/stonehenge3/blob/ad7f7ea6d7cbae16224429cbb20cb35abe7d7c7a/icon64.png?raw=true</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/FrankPfattheicher/stonehenge3/master/icon64.png?token=AA4PvJkXQWEtBHv7EPl669bjX6GpQWLzks5bmTBbwA%3D%3D</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Web Application Framework</description>
+    <description>X-Platform & Web Application Framework</description>
     <releaseNotes></releaseNotes>
-    <copyright>Copyright ICT Baden GmbH 2013-2017</copyright>
-    <tags>.NET Core HTML CSS Kestrel Aurelia</tags>
+    <copyright>Copyright ICT Baden GmbH 2013-2018</copyright>
+    <tags>.NET Core HTML CSS Kestrel Aurelia Vue</tags>
     <dependencies>
       <group targetFramework=".NETStandard2.0">
         <dependency id="Microsoft.AspNetCore.Hosting" version="2.0.2" />
@@ -29,6 +29,7 @@
       <group targetFramework=".NETStandard2.0">
         <reference file="IctBaden.Stonehenge3.dll" />
         <reference file="IctBaden.Stonehenge3.Aurelia.dll" />
+        <reference file="IctBaden.Stonehenge3.Vue.dll" />
         <reference file="IctBaden.Stonehenge3.Kestrel.dll" />
         <reference file="IctBaden.Stonehenge3.SimpleHttp.dll" />
       </group>
