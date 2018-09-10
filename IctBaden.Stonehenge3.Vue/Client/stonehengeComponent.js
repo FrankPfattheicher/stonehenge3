@@ -46,10 +46,16 @@ stonehengeViewModelName = function component() {
                     this.model[propertyName] = vmdata[propertyName];
                 }
             }
-            if (!this.StonehengeInitialLoading) {
-                if (typeof (app.stonehengeViewModelName.user_DataLoaded) == 'function') {
+            if (app.stonehengeViewModelName.model.StonehengeInitialLoading) {
+                if (typeof (stonehengeViewModelName_InitialLoaded) == 'function') {
                     try {
-                        app.stonehengeViewModelName.user_DataLoaded(this);
+                        stonehengeViewModelName_InitialLoaded(app.stonehengeViewModelName.model);
+                    } catch (e) { }
+                }
+            } else {
+                if (typeof (stonehengeViewModelName_DataLoaded) == 'function') {
+                    try {
+                        stonehengeViewModelName_DataLoaded(app.stonehengeViewModelName.model);
                     } catch (e) { }
                 }
             }
@@ -134,13 +140,6 @@ stonehengeViewModelName = function component() {
                     } catch (error) {
                         if (console && console.log) console.log(error);
                     }
-                    if (app.stonehengeViewModelName.model.StonehengeInitialLoading) {
-                        if (typeof (app.stonehengeViewModelName.user_InitialLoaded) == 'function') {
-                            try {
-                                app.stonehengeViewModelName.user_InitialLoaded(app.stonehengeViewModelName.model);
-                            } catch (e) { }
-                        }
-                    } 
                     app.stonehengeViewModelName.model.StonehengeInitialLoading = false;
                     app.stonehengeViewModelName.model.StonehengeIsLoading = false;
                     if (app.stonehengeViewModelName.model.StonehengePollEventsActive === null) {

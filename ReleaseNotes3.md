@@ -1,4 +1,5 @@
 
+* 3.0.17 - Vue VmName_InitialLoaded and VmName_DataLoaded support added.
 * 3.0.16 - Vue added to nuget package. Logo color #600060
 * 3.0.15 - Vue custom elements support added.
 * 3.0.14 - Vue callback support added.
