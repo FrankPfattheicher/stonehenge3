@@ -43,7 +43,7 @@ namespace IctBaden.Stonehenge3.Test.Resources
             Assert.NotNull(resource);
             Assert.Equal("image/png", resource.ContentType);
             Assert.True(resource.IsBinary);
-            Assert.Equal(179, resource.Data.Length);
+            Assert.Equal(201, resource.Data.Length);
         }
 
         [Fact]
@@ -53,7 +53,7 @@ namespace IctBaden.Stonehenge3.Test.Resources
             Assert.NotNull(resource);
             Assert.Equal("image/png", resource.ContentType);
             Assert.True(resource.IsBinary);
-            Assert.Equal(227, resource.Data.Length);
+            Assert.Equal(354, resource.Data.Length);
         }
 
         [Fact]
