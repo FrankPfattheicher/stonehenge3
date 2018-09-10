@@ -5,12 +5,12 @@
     <version>3.0.0</version>
     <authors>Frank Pfattheicher</authors>
     <owners>Frank Pfattheicher</owners>
-    <summary>X-Platform & Web Application Framework</summary>
+    <summary>X-Platform Web Application Framework</summary>
     <licenseUrl>https://github.com/FrankPfattheicher/stonehenge3</licenseUrl>
     <projectUrl>https://github.com/FrankPfattheicher/stonehenge3</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/FrankPfattheicher/stonehenge3/master/icon64.png?token=AA4PvJkXQWEtBHv7EPl669bjX6GpQWLzks5bmTBbwA%3D%3D</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>X-Platform & Web Application Framework</description>
+    <description>X-Platform Web Application Framework</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright ICT Baden GmbH 2013-2018</copyright>
     <tags>.NET Core HTML CSS Kestrel Aurelia Vue</tags>
