@@ -90,10 +90,13 @@ namespace IctBaden.Stonehenge3.Resources
                                  {
                                      Assembly.GetEntryAssembly(),
                                      Assembly.GetExecutingAssembly(),
-                                     Assembly.GetAssembly(typeof(ResourceLoader))
-                                 };
+                                     Assembly.GetAssembly(typeof(ResourceLoader)),
+                                     Assembly.GetCallingAssembly()
+                                 }
+                .Distinct()
+                .ToList();
 
-            var resLoader = new ResourceLoader(assemblies);
+            var resLoader = new ResourceLoader(assemblies, Assembly.GetCallingAssembly());
 
             var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? Directory.GetCurrentDirectory();
             var fileLoader = new FileLoader(Path.Combine(path, "App"));

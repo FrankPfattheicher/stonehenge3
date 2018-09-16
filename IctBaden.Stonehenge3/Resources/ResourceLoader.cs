@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using IctBaden.Stonehenge3.Client;
 using IctBaden.Stonehenge3.Core;
 
 namespace IctBaden.Stonehenge3.Resources
@@ -29,27 +30,18 @@ namespace IctBaden.Stonehenge3.Resources
             }
         }
         private readonly List<Assembly> _assemblies;
+        private readonly Assembly _userAssembly;
         private readonly Lazy<Dictionary<string, AssemblyResource>> _resources;
-
-        // ReSharper disable once UnusedMember.Global
-        public ResourceLoader()
-            : this(new []
-                       {
-                           Assembly.GetEntryAssembly(), 
-                           Assembly.GetExecutingAssembly()
-                       })
-        {
-
-        }
 
         public void Dispose()
         {
             _assemblies.Clear();
         }
 
-        public ResourceLoader(IEnumerable<Assembly> assembliesToUse)
+        public ResourceLoader(IEnumerable<Assembly> assembliesToUse, Assembly userAssembly)
         {
             _assemblies = assembliesToUse.ToList();
+            _userAssembly = userAssembly;
             _resources = new Lazy<Dictionary<string, AssemblyResource>>(
                 () =>
                 {
@@ -151,6 +143,10 @@ namespace IctBaden.Stonehenge3.Resources
                         {
                             var text = reader.ReadToEnd();
                             Debug.WriteLine($"ResourceLoader({resourceName}): {asmResource.Value.FullName}");
+                            if (resourceName.EndsWith("index.html", StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                text = UserStyleSheets.InsertUserCssLinks(_userAssembly, "", text, session.SubDomain);
+                            }
                             return new Resource(resourceName, "res://" + asmResource.Value.FullName, resourceType, text, Resource.Cache.Revalidate);
                         }
                     }

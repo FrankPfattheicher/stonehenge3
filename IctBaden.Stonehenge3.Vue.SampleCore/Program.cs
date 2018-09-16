@@ -30,8 +30,8 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
             // Select client framework
             Console.WriteLine(@"Using client framework aurelia");
             var loader = StonehengeResourceLoader.CreateDefaultLoader();
-            var aurelia = new VueResourceProvider();
-            aurelia.InitProvider(loader, "VueSample", "start");
+            var vue = new VueResourceProvider();
+            vue.InitProvider(loader, "VueSample", "start");
 
             // Select hosting technology
             var hosting = "kestrel";

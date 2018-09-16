@@ -145,8 +145,9 @@ namespace IctBaden.Stonehenge3.Core
                     return string.Empty;
 
                 var parts = HostDomain.Split('.');
-                int val;
-                var isNumeric = int.TryParse(parts[0], out val);
+                if (parts.Length == 1) return string.Empty;
+
+                var isNumeric = int.TryParse(parts[0], out _);
                 return isNumeric ? HostDomain : parts[0];
             }
         }

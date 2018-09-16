@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using IctBaden.Stonehenge3.Client;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.Types;
@@ -17,7 +18,12 @@ namespace IctBaden.Stonehenge3.Vue
         private Dictionary<string, Resource> _vueContent;
 
         // ReSharper disable once UnusedMember.Global
-        public void InitProvider(StonehengeResourceLoader loader, string appTitle, string rootPage) => InitProvider(loader, appTitle, rootPage, null);
+        public void InitProvider(StonehengeResourceLoader loader, string appTitle, string rootPage)
+        {
+            var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            var appFilesPath = Path.Combine(path, "app");
+            InitProvider(loader, appTitle, rootPage, appFilesPath);
+        }
 
         public void InitProvider(StonehengeResourceLoader loader, string appTitle, string rootPage, string appFilesPath)
         {
@@ -29,10 +35,7 @@ namespace IctBaden.Stonehenge3.Vue
 
             var appCreator = new VueAppCreator(appTitle, rootPage, _vueContent);
 
-            if (!string.IsNullOrEmpty(appFilesPath))
-            {
-                AddFileSystemContent(appFilesPath);
-            }
+            AddFileSystemContent(appFilesPath);
             AddResourceContent();
             appCreator.CreateApplication();
             appCreator.CreateComponents();

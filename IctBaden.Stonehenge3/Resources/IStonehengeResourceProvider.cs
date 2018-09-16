@@ -9,6 +9,5 @@ namespace IctBaden.Stonehenge3.Resources
         Resource Get(AppSession session, string resourceName, Dictionary<string, string> parameters);
 
         Resource Post(AppSession session, string resourceName, Dictionary<string, string> parameters, Dictionary<string, string> formData);
-
     }
 }

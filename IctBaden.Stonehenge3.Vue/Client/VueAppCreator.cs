@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.ViewModel;
@@ -218,8 +217,8 @@ namespace IctBaden.Stonehenge3.Vue.Client
                 Trace.TraceError($"Failed to create ViewModel '{vmType.Name}' : " + ex.Message);
                 return new List<string>();
             }
-            var activeVm = viewModel as ActiveViewModel;
-            if (activeVm != null)
+
+            if (viewModel is ActiveViewModel activeVm)
             {
                 vmProps.AddRange(from PropertyDescriptor prop in activeVm.GetProperties() select prop);
             }
