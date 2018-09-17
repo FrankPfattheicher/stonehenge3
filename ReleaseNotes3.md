@@ -1,4 +1,5 @@
 
+* 3.0.19 - Vue added element method hooks. Sample using D3 gauges. Automatic adding links to user scripts in scripts folder.
 * 3.0.18 - Vue fixed adding user styles. Test added.
 * 3.0.17 - Vue VmName_InitialLoaded and VmName_DataLoaded support added.
 * 3.0.16 - Vue added to nuget package. Logo color #600060

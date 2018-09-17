@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Resources;
@@ -16,11 +17,14 @@ namespace IctBaden.Stonehenge3.Test.Resources
         public ResourceLoaderTests()
         {
             var assemblies = new List<Assembly>
-                                 {
-                                     Assembly.GetAssembly(typeof(ResourceLoader)),
-                                     Assembly.GetExecutingAssembly()
-                                 };
-            _loader = new ResourceLoader(assemblies);
+                 {
+                     Assembly.GetAssembly(typeof(ResourceLoader)),
+                     Assembly.GetExecutingAssembly(),
+                     Assembly.GetCallingAssembly()
+                 }
+                .Distinct()
+                .ToList();
+            _loader = new ResourceLoader(assemblies, Assembly.GetCallingAssembly());
         }
 
         public void Dispose()

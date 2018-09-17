@@ -1,9 +1,21 @@
 <!--ViewModel:TreeVm-->
 <!--Title:TreeView-->
 <div>
+<div class="row">
     <h3>A TreeView</h3>
-
-    <tree-view v-bind:rootnodes="RootNodes" 
-               v-on:select="TreeSelect($event)" v-on:toggle="TreeToggle($event)"/>
-
+</div>
+    <div class="row" style="margin-left: 30px;">
+        <div class="col-md-2">
+        <tree-view v-bind:rootnodes="RootNodes" 
+                   v-on:select="TreeSelect($event)" v-on:toggle="TreeToggle($event)"/>
+        </div>
+        <div class="col-md-2">
+            <strong>{{SelectedContinent}}&nbsp;</strong>
+            <gauge v-bind:gaugedata="Area"></gauge>
+        </div>
+        <div class="col-md-2">
+            <strong>&nbsp;</strong>
+            <gauge v-bind:gaugedata="Countries"></gauge>
+        </div>
+    </div>
 </div>

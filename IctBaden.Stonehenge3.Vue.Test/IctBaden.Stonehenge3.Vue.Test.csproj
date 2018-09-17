@@ -8,11 +8,13 @@
 
   <ItemGroup>
     <None Remove="app\start.html" />
+    <None Remove="app\styles\userstyles - Copy.css" />
     <None Remove="app\styles\userstyles.css" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="app\start.html" />
+    <EmbeddedResource Include="app\scripts\userscripts.js" />
     <EmbeddedResource Include="app\styles\userstyles.css" />
   </ItemGroup>
 

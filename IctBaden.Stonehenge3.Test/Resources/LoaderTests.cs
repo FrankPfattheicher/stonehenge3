@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Resources;
@@ -18,11 +19,14 @@ namespace IctBaden.Stonehenge3.Test.Resources
         public LoaderTests()
         {
             var assemblies = new List<Assembly>
-                                 {
-                                     Assembly.GetAssembly(typeof(ResourceLoader)),
-                                     Assembly.GetExecutingAssembly()
-                                 };
-            var resLoader = new ResourceLoader(assemblies);
+                {
+                    Assembly.GetAssembly(typeof(ResourceLoader)),
+                    Assembly.GetExecutingAssembly(),
+                    Assembly.GetCallingAssembly()
+                }
+                .Distinct()
+                .ToList();
+            var resLoader = new ResourceLoader(assemblies, Assembly.GetCallingAssembly());
             var fileLoader = new FileLoader(Path.GetTempPath());
 
             _loader = new StonehengeResourceLoader(new List<IStonehengeResourceProvider>
@@ -44,8 +48,9 @@ namespace IctBaden.Stonehenge3.Test.Resources
         [Fact]
         public void Load_from_file_icon_png()
         {
-            _fileTest.CreateBinaryFile("icon1.png");
-            var resource = _loader.Get(_session, "icon1.png", new Dictionary<string, string>());
+            var name = $"icon_{Guid.NewGuid():N}.png";
+            _fileTest.CreateBinaryFile(name);
+            var resource = _loader.Get(_session, name, new Dictionary<string, string>());
             Assert.NotNull(resource);
             Assert.Equal("image/png", resource.ContentType);
             Assert.True(resource.IsBinary);
@@ -67,8 +72,9 @@ namespace IctBaden.Stonehenge3.Test.Resources
         [Fact]
         public void Load_from_file_over_resource_icon_png()
         {
-            _fileTest.CreateTextFile("index1.html");
-            var resource = _loader.Get(_session, "index1.html", new Dictionary<string, string>());
+            var name = $"index_{Guid.NewGuid():N}.html";
+            _fileTest.CreateTextFile(name);
+            var resource = _loader.Get(_session, name, new Dictionary<string, string>());
             Assert.NotNull(resource);
             Assert.Equal("text/html", resource.ContentType);
             Assert.False(resource.IsBinary);

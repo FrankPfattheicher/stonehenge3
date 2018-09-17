@@ -311,6 +311,10 @@ namespace IctBaden.Stonehenge3.Vue.Client
                 template = JsonConvert.SerializeObject(template);
                 elementJs = elementJs.Replace("'stonehengeElementTemplate'", template);
 
+                var methods = LoadResourceText(assembly, $"{assembly.GetName().Name}.app.{source}.js");
+                if (!string.IsNullOrEmpty(methods)) methods = "," + methods;
+                elementJs = elementJs.Replace("//stonehengeElementMethods", methods);
+
                 elements.Add(elementJs);
 
                 var resource = new Resource($"{element.Name}.js", "VueResourceProvider", ResourceType.Js, elementJs, Resource.Cache.Revalidate);

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.ViewModel;
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 
 namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
 {
@@ -10,36 +12,81 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
         private readonly TreeNode _world;
         public List<TreeNode> RootNodes => new List<TreeNode>() { _world };
 
+        public List<Continent> Continents;
+        public int TotalArea;
+        public int TotalCountries;
+
+        public string SelectedContinent { get; private set; }
+        public GaugeData Area { get; private set; }
+        public GaugeData Countries { get; private set; }
+
         // ReSharper disable once UnusedMember.Global
         public TreeVm(AppSession session) : base (session)
         {
-            _world = new TreeNode(null)
+            Continents = new List<Continent>
             {
-                Name = "world",
+                new Continent { Name = "Asia", Area = 44579, Countries = 50, IsChild = true },
+                new Continent { Name = "Africa", Area = 30370, Countries = 54 },
+                new Continent { Name = "North America", Area = 24709, Countries = 23, IsChild = true },
+                new Continent { Name = "South America", Area = 17840, Countries = 12, IsChild = true },
+                new Continent { Name = "Antarctica", Area = 14000, Countries = 0 },
+                new Continent { Name = "Europe", Area = 10180, Countries = 51, IsChild = true },
+                new Continent { Name = "Australia", Area = 8600, Countries = 14 }
+            };
+
+            TotalArea = Continents.Select(c => c.Area).Sum();
+            TotalCountries = Continents.Select(c => c.Countries).Sum();
+
+            Continents.Add(new Continent
+            {
+                Name = "America",
+                Area = Continents.Where(c => c.Name.Contains("America")).Select(c => c.Area).Sum(),
+                Countries = Continents.Where(c => c.Name.Contains("America")).Select(c => c.Countries).Sum(),
+                Children = Continents.Where(c => c.Name.Contains("America")).ToList()
+            });
+            Continents.Add(new Continent
+            {
+                Name = "Eurasia",
+                Area = Continents.Where(c => c.Name.Contains("Eur") || c.Name.Contains("sia")).Select(c => c.Area).Sum(),
+                Countries = Continents.Where(c => c.Name.Contains("Eur") || c.Name.Contains("sia")).Select(c => c.Countries).Sum(),
+                Children = Continents.Where(c => c.Name.Contains("Eur") || c.Name.Contains("sia")).ToList()
+            });
+
+            _world = new TreeNode(null, null)
+            {
+                Name = "World",
                 IsExpanded = true
             };
 
-            var america = new TreeNode(_world) { Name = "America" };
-            america.Children = new List<TreeNode>
+            foreach (var continent in Continents.Where(c => !c.IsChild))
             {
-                new TreeNode(america) {Name = "North America"},
-                new TreeNode(america) {Name = "South America"}
+                _world.Children.Add(CreateTreeNode(_world, continent));
+            }
+
+            Area = new GaugeData
+            {
+                Name = "Area",
+                Value = 0,
+                MaxValue = TotalArea,
+                Units = "[1000 km²]"
             };
-            var eurasia = new TreeNode(_world) { Name = "Eurasia" };
-            eurasia.Children = new List<TreeNode>
+            Countries = new GaugeData
             {
-                new TreeNode(eurasia) {Name = "Europe"},
-                new TreeNode(eurasia) {Name = "Asia"}
+                Name = "Countries",
+                Value = 0,
+                MaxValue = TotalCountries,
+                Units = ""
             };
 
-            _world.Children = new List<TreeNode>
-            {
-                america,
-                eurasia,
-                new TreeNode(_world) {Name = "Africa"},
-                new TreeNode(_world) {Name = "Australia"},
-                new TreeNode(_world) {Name = "Antarctica"}
-            };
+        }
+
+    private TreeNode CreateTreeNode(TreeNode parent, Continent continent)
+        {
+            var node = new TreeNode(parent, continent) { Name = continent.Name };
+            node.Children = continent.Children
+                .Select(c => new TreeNode(node, c) {Name = c.Name})
+                .ToList();
+            return node;
         }
 
         [ActionMethod]
@@ -64,6 +111,25 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
                 treeNode.IsSelected = false;
             }
             node.IsSelected = true;
+            SelectedContinent = node.Name;
+
+            if (node.Continent != null)
+            {
+                Area.Value = node.Continent.Area;
+                Countries.Value = node.Continent.Countries;
+            }
+            else
+            {
+                Area.Value = TotalArea;
+                Countries.Value = TotalCountries;
+            }
+
+            NotifyPropertiesChanged(new []
+            {
+                nameof(SelectedContinent),
+                nameof(Area),
+                nameof(Countries)
+            });
         }
 
     }

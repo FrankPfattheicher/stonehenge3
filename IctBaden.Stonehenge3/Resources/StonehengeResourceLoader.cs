@@ -87,12 +87,12 @@ namespace IctBaden.Stonehenge3.Resources
         public static StonehengeResourceLoader CreateDefaultLoader()
         {
             var assemblies = new List<Assembly>
-                                 {
-                                     Assembly.GetEntryAssembly(),
-                                     Assembly.GetExecutingAssembly(),
-                                     Assembly.GetAssembly(typeof(ResourceLoader)),
-                                     Assembly.GetCallingAssembly()
-                                 }
+                 {
+                     Assembly.GetEntryAssembly(),
+                     Assembly.GetExecutingAssembly(),
+                     Assembly.GetAssembly(typeof(ResourceLoader)),
+                     Assembly.GetCallingAssembly()
+                 }
                 .Distinct()
                 .ToList();
 

@@ -145,7 +145,8 @@ namespace IctBaden.Stonehenge3.Resources
                             Debug.WriteLine($"ResourceLoader({resourceName}): {asmResource.Value.FullName}");
                             if (resourceName.EndsWith("index.html", StringComparison.InvariantCultureIgnoreCase))
                             {
-                                text = UserStyleSheets.InsertUserCssLinks(_userAssembly, "", text, session.SubDomain);
+                                text = UserContentLinks.InsertUserCssLinks(_userAssembly, "", text, session.SubDomain);
+                                text = UserContentLinks.InsertUserJsLinks(_userAssembly, "", text);
                             }
                             return new Resource(resourceName, "res://" + asmResource.Value.FullName, resourceType, text, Resource.Cache.Revalidate);
                         }

@@ -21,7 +21,6 @@ namespace IctBaden.Stonehenge3.Vue.Test
         [Fact]
         public void IndexShouldContainUserStylesRef()
         {
-
             var response = string.Empty;
             try
             {
@@ -37,6 +36,26 @@ namespace IctBaden.Stonehenge3.Vue.Test
 
             Assert.NotNull(response);
             Assert.Contains("userstyles.css", response);
+        }
+
+        [Fact]
+        public void IndexShouldContainUserScriptsRef()
+        {
+            var response = string.Empty;
+            try
+            {
+                using (var client = new RedirectableWebClient())
+                {
+                    response = client.DownloadString(_app.BaseUrl);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            Assert.NotNull(response);
+            Assert.Contains("userscripts.js", response);
         }
 
     }

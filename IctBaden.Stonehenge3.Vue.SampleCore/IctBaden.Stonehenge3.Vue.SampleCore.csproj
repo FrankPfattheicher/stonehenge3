@@ -5,25 +5,39 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="app\cookie.html" />
+    <None Remove="app\gauge.html" />
+    <None Remove="app\gauge.js" />
+    <None Remove="app\scripts\c3.js" />
+    <None Remove="app\scripts\d3.js" />
+    <None Remove="app\scripts\d3.v5.js" />
     <None Remove="app\start.html" />
     <None Remove="app\start_user.js" />
+    <None Remove="app\styles\c3.css" />
     <None Remove="app\tree-node.html" />
+    <None Remove="app\tree-node.js" />
     <None Remove="app\tree-view.html" />
     <None Remove="app\tree.html" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="app\cookie.html" />
+    <EmbeddedResource Include="app\gauge.html" />
+    <EmbeddedResource Include="app\gauge.js" />
+    <EmbeddedResource Include="app\scripts\c3.js" />
+    <EmbeddedResource Include="app\scripts\d3.js" />
+    <EmbeddedResource Include="app\scripts\d3.v5.js" />
     <EmbeddedResource Include="app\start.html" />
     <EmbeddedResource Include="app\start_user.js" />
+    <EmbeddedResource Include="app\styles\c3.css" />
     <EmbeddedResource Include="app\tree-node.html" />
+    <EmbeddedResource Include="app\tree-node.js" />
     <EmbeddedResource Include="app\tree-view.html" />
     <EmbeddedResource Include="app\tree.html" />
     <None Remove="app\styles\theme.css" />
-    <EmbeddedResource Include="app\styles\theme.css" />
+    <EmbeddedResource Include="app\theme\theme.css" />
     <None Remove="app\styles\themeblue.css" />
-    <EmbeddedResource Include="app\styles\themeblue.css" />
+    <EmbeddedResource Include="app\theme\themeblue.css" />
     <None Remove="app\styles\themedark.css" />
-    <EmbeddedResource Include="app\styles\themedark.css" />
+    <EmbeddedResource Include="app\theme\themedark.css" />
     <None Remove="app\index.html" />
     <EmbeddedResource Include="app\index.html" />
   </ItemGroup>

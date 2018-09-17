@@ -2,5 +2,6 @@
     {
         props: [stonehengeCustomElementProps],
         template: 'stonehengeElementTemplate'
+        //stonehengeElementMethods
     });
 
