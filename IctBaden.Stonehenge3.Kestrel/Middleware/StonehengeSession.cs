@@ -20,6 +20,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             _next = next;
         }
 
+        // ReSharper disable once UnusedMember.Global
         public async Task Invoke(HttpContext context)
         {
             var canceled = context.RequestAborted.IsCancellationRequested;

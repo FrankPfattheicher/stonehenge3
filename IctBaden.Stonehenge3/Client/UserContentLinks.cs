@@ -31,9 +31,9 @@ namespace IctBaden.Stonehenge3.Client
                     styleSheets = string.Join(Environment.NewLine, links);
                 }
 
-                var ressourceBaseName = userAssembly.GetName().Name + ".";
-                var baseNameStyles = ressourceBaseName + "app.styles.";
-                var baseNameTheme = ressourceBaseName + "app.themes.";
+                var ressourceBaseName = userAssembly.GetName().Name + ".app.";
+                var baseNameStyles = ressourceBaseName + "styles.";
+                var baseNameTheme = ressourceBaseName + "themes.";
                 var ressourceNames = userAssembly.GetManifestResourceNames();
                 var cssRessources = ressourceNames.Where(name => name.EndsWith(".css")).ToList();
                 // styles first

@@ -37,7 +37,12 @@ namespace IctBaden.Stonehenge3.ViewModel
             }
 
             var vmType = session.ViewModel.GetType();
-            if (vmType.Name != vmTypeName) return null;
+            if (vmType.Name != vmTypeName)
+            {
+                Trace.TraceWarning($"Stonehenge3.ViewModelProvider: Request for VM={vmTypeName}, current VM={vmType.Name}");
+                return new Resource(resourceName, "ViewModelProvider", 
+                    ResourceType.Json, "{ \"StonehengeContinuePolling\":false }", Resource.Cache.None);
+            }
 
             var method = vmType.GetMethod(methodName);
             if (method == null) return null;
@@ -57,8 +62,8 @@ namespace IctBaden.Stonehenge3.ViewModel
             catch (Exception ex)
             {
                 if (ex.InnerException != null) ex = ex.InnerException;
-                Trace.TraceError(ex.Message);
-                Trace.TraceError(ex.StackTrace);
+                Trace.TraceError("Stonehenge3.ViewModelProvider: " + ex.Message);
+                Trace.TraceError("Stonehenge3.ViewModelProvider: " + ex.StackTrace);
                 Debug.Assert(false);
                 // ReSharper disable once HeuristicUnreachableCode
                 return new Resource(resourceName, "ViewModelProvider", ResourceType.Json, GetViewModelJson(ex), Resource.Cache.None);
@@ -75,8 +80,7 @@ namespace IctBaden.Stonehenge3.ViewModel
             }
             else if (resourceName.StartsWith("Events/"))
             {
-                if (SetViewModel(session, resourceName))
-                    return GetEvents(session, resourceName);
+                return GetEvents(session, resourceName);
             }
             else if (resourceName.StartsWith("Data/"))
             {
@@ -106,6 +110,19 @@ namespace IctBaden.Stonehenge3.ViewModel
 
         private static Resource GetEvents(AppSession session, string resourceName)
         {
+            var parts = resourceName.Split('/');
+            if (parts.Length < 2) return null;
+
+            var vmTypeName = parts[1];
+            var vmType = session.ViewModel.GetType();
+
+            string json;
+            if (vmTypeName != vmType.Name)
+            {
+                json = "{ \"StonehengeContinuePolling\":false }";
+                return new Resource(resourceName, "ViewModelProvider", ResourceType.Json, json, Resource.Cache.None);
+            }
+
             var data = new List<string> { "\"StonehengeContinuePolling\":true" };
             var events = session.CollectEvents();
             if (events.Count > 0)
@@ -121,7 +138,7 @@ namespace IctBaden.Stonehenge3.ViewModel
                 }
             }
 
-            var json = "{" + string.Join(",", data) + "}";
+            json = "{" + string.Join(",", data) + "}";
             return new Resource(resourceName, "ViewModelProvider", ResourceType.Json, json, Resource.Cache.None);
         }
 

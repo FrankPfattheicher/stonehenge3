@@ -105,7 +105,6 @@ namespace IctBaden.Stonehenge3.Core
                 disposable?.Dispose();
             }
 
-
             var asm = Assembly.GetEntryAssembly();
             var vmtype = asm.GetTypes().FirstOrDefault(type => type.FullName?.EndsWith(typeName) ?? false);
             if (vmtype == null)

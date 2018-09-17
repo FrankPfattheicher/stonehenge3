@@ -35,7 +35,7 @@ namespace IctBaden.Stonehenge3.Vue.Test
             }
 
             Assert.NotNull(response);
-            Assert.Contains("userstyles.css", response);
+            Assert.Contains("'styles/userstyles.css'", response);
         }
 
         [Fact]
@@ -55,7 +55,7 @@ namespace IctBaden.Stonehenge3.Vue.Test
             }
 
             Assert.NotNull(response);
-            Assert.Contains("userscripts.js", response);
+            Assert.Contains("'scripts/userscripts.js'", response);
         }
 
     }
