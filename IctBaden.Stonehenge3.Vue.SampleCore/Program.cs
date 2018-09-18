@@ -57,13 +57,17 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
             {
                 Console.WriteLine(@"Started server on: " + _server.BaseUrl);
 
-                //var wnd = new HostWindow(_server);
-                //if (!wnd.Open())
-                //{
-                //    Trace.TraceError("Failed to open main window.");
-                    terminate.WaitOne();
-                //}
+                if (Environment.CommandLine.Contains("/window"))
+                {
+                    var wnd = new HostWindow(_server);
+                    if (!wnd.Open())
+                    {
+                        Trace.TraceError("Failed to open main window.");
+                        terminate.Set();
+                    }
+                }
 
+                terminate.WaitOne();
                 Console.WriteLine(@"Server terminated.");
             }
             else

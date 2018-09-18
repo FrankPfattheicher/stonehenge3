@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
+using System.Numerics;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using IctBaden.Stonehenge3.Hosting;
@@ -39,11 +41,19 @@ namespace IctBaden.Stonehenge3.Kestrel
 
             try
             {
-                BaseUrl = (useSsl ? "https://" : "http://")
-                          + (hostAddress ?? "*")
-                          + ":"
-                          + (hostPort != 0 ? hostPort : (useSsl ? 443 : 80));
+                if (hostAddress == null) hostAddress = "*";
+                if (hostPort == 0) hostPort = useSsl ? 443 : 80;
 
+                var listenAddress = (hostAddress == "*")
+                    ? IPAddress.Any
+                    : IPAddress.Parse(hostAddress);
+
+                BaseUrl = (useSsl ? "https://" : "http://") + hostAddress + ":" + hostPort;
+
+                if (useSsl)
+                {
+                    throw new NotSupportedException("https is currently not supported - use reverse proxy");
+                }
 
                 var mem = new MemoryConfigurationSource()
                 {
@@ -63,8 +73,21 @@ namespace IctBaden.Stonehenge3.Kestrel
                     .ConfigureServices(s => { s.AddSingleton<IConfiguration>(config); })
                     .ConfigureServices(s => { s.AddSingleton(_resourceLoader); })
                     .UseStartup<Startup>()
-                    .UseKestrel()
-                    .UseUrls(BaseUrl)
+                    .UseKestrel(options =>
+                    {
+                        // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+                        if(useSsl)
+                        {
+                            options.Listen(listenAddress, hostPort, listenOptions =>
+                            {
+                                listenOptions.UseHttps();
+                            });
+                        }
+                        else
+                        {
+                            options.Listen(listenAddress, hostPort);
+                        }
+                    })
                     .Build();
 
                 _cancel = new CancellationTokenSource();
@@ -92,6 +115,32 @@ namespace IctBaden.Stonehenge3.Kestrel
             }
             return _webApp != null;
         }
+
+        // use BouncyCastle nuget package
+        //private static X509Certificate2 GenerateCertificate(string certName)
+        //{
+        //    var keypairgen = new RsaKeyPairGenerator();
+        //    keypairgen.Init(new KeyGenerationParameters(new SecureRandom(new CryptoApiRandomGenerator()), 1024));
+
+        //    var keypair = keypairgen.GenerateKeyPair();
+
+        //    var gen = new X509V3CertificateGenerator();
+
+        //    var CN = new X509Name("CN=" + certName);
+        //    var SN = BigInteger.ProbablePrime(120, new Random());
+
+        //    gen.SetSerialNumber(SN);
+        //    gen.SetSubjectDN(CN);
+        //    gen.SetIssuerDN(CN);
+        //    gen.SetNotAfter(DateTime.MaxValue);
+        //    gen.SetNotBefore(DateTime.Now.Subtract(new TimeSpan(7, 0, 0, 0)));
+        //    gen.SetSignatureAlgorithm("MD5WithRSA");
+        //    gen.SetPublicKey(keypair.Public);
+
+        //    var newCert = gen.Generate(keypair.Private);
+
+        //    return new X509Certificate2(DotNetUtilities.ToX509Certificate((Org.BouncyCastle.X509.X509Certificate)newCert));
+        //}
 
         public void Terminate()
         {
