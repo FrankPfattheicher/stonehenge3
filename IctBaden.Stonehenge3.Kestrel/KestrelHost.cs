@@ -41,12 +41,21 @@ namespace IctBaden.Stonehenge3.Kestrel
 
             try
             {
-                if (hostAddress == null) hostAddress = "*";
+                IPAddress listenAddress;
+                switch (hostAddress)
+                {
+                    case null:
+                    case "*":
+                        listenAddress = IPAddress.Any;
+                        break;
+                    case "localhost":
+                        listenAddress = IPAddress.Loopback;
+                        break;
+                    default:
+                        listenAddress = IPAddress.Parse(hostAddress);
+                        break;
+                }
                 if (hostPort == 0) hostPort = useSsl ? 443 : 80;
-
-                var listenAddress = (hostAddress == "*")
-                    ? IPAddress.Any
-                    : IPAddress.Parse(hostAddress);
 
                 BaseUrl = (useSsl ? "https://" : "http://") + hostAddress + ":" + hostPort;
 

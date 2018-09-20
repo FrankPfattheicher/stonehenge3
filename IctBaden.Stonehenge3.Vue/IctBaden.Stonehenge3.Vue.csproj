@@ -3,6 +3,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="app\src\**" />
+    <EmbeddedResource Remove="app\src\**" />
+    <None Remove="app\src\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="app\favicon.ico" />
     <None Remove="app\icon.png" />
     <None Remove="app\index.html" />
@@ -21,9 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IctBaden.Stonehenge3\IctBaden.Stonehenge3.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="app\src" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="app\styles\styles.css" />
