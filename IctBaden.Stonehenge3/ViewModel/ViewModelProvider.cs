@@ -114,10 +114,10 @@ namespace IctBaden.Stonehenge3.ViewModel
             if (parts.Length < 2) return null;
 
             var vmTypeName = parts[1];
-            var vmType = session.ViewModel.GetType();
+            var vmType = session.ViewModel?.GetType();
 
             string json;
-            if (vmTypeName != vmType.Name)
+            if (vmTypeName != vmType?.Name)
             {
                 json = "{ \"StonehengeContinuePolling\":false }";
                 return new Resource(resourceName, "ViewModelProvider", ResourceType.Json, json, Resource.Cache.None);

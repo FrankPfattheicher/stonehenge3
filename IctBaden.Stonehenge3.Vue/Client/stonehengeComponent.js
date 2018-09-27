@@ -98,10 +98,14 @@ stonehengeViewModelName = function component() {
             var ts = new Date().getTime();
             app.stonehengeViewModelName.model.StonehengePollEventsActive = app.$http.get('/Events/stonehengeViewModelName?ts=' + ts)
                 .then(response => {
-                    let data = JSON.parse(response.bodyText);
-                    app.stonehengeViewModelName.model.StonehengePollEventsActive = null;
-                    app.stonehengeViewModelName.model.StonehengeIsDisconnected = false;
-                    app.stonehengeViewModelName.StonehengeSetViewModelData(data);
+                    try {
+                        let data = JSON.parse(response.bodyText);
+                        app.stonehengeViewModelName.model.StonehengePollEventsActive = null;
+                        app.stonehengeViewModelName.model.StonehengeIsDisconnected = false;
+                        app.stonehengeViewModelName.StonehengeSetViewModelData(data);
+                    } catch (error) {
+                        setTimeout(function () { window.location.reload(); }, 100);
+                    }
                     if (continuePolling || app.stonehengeViewModelName.model.StonehengeContinuePolling) {
                         setTimeout(function () { app.stonehengeViewModelName.StonehengePollEvents(false); }, app.stonehengeViewModelName.model.StonehengePollDelay);
                     }
@@ -111,9 +115,8 @@ stonehengeViewModelName = function component() {
                         app.stonehengeViewModelName.model.StonehengeIsDisconnected = true;
                     }
                     if (error.status >= 400) {
-                        debugger;
                         setTimeout(function () { window.location.reload(); }, 1000);
-                    } else { 
+                    } else {
                         app.stonehengeViewModelName.model.StonehengePollEventsActive = null;
                         if (!app.stonehengeViewModelName.model.StonehengePostActive) {
                             setTimeout(function () { app.stonehengeViewModelName.StonehengePollEvents(true); }, app.stonehengeViewModelName.model.StonehengePollDelay);

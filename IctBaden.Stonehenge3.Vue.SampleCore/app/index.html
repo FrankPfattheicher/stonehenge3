@@ -6,21 +6,24 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
-    
-    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css"/>
-    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
+
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="theme/theme{{theme}}.css">
     <!--stonehengeUserStylesheets-->
-    
-    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script></head>
+
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
     <!--stonehengeUserScripts-->
+
+</head>
+
 <body>
 
 
-<div id="app">
+    <div id="app">
 
-    <b-navbar toggleable="md" type="dark" variant="info">
+        <b-navbar toggleable="md" type="dark" variant="info">
 
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
@@ -63,13 +66,13 @@
     </b-navbar>
 
 
-    <p>
-        <router-view></router-view>
-    </p>
+        <p  style="margin-left: 30px; margin-top: 30px;">
+            <router-view></router-view>
+        </p>
 
-</div>
+    </div>
 
-<script src="app.js"></script>
+    <script src="app.js"></script>
 
 </body>
 </html>
