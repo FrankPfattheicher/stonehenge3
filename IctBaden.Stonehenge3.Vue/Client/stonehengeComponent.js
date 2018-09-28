@@ -86,7 +86,7 @@ stonehengeViewModelName = function component() {
                 .catch(error => {
                     if (error.status >= 400) {
                         this.StonehengeIsDisconnected = true;
-                        debugger;
+                        //debugger;
                         window.location.reload();
                     }
                 });
@@ -98,6 +98,10 @@ stonehengeViewModelName = function component() {
             var ts = new Date().getTime();
             app.stonehengeViewModelName.model.StonehengePollEventsActive = app.$http.get('/Events/stonehengeViewModelName?ts=' + ts)
                 .then(response => {
+                    if (app.stonehengeViewModelName.model.StonehengePostActive) {
+                        //debugger;
+                        return;
+                    }
                     try {
                         let data = JSON.parse(response.bodyText);
                         app.stonehengeViewModelName.model.StonehengePollEventsActive = null;
@@ -151,7 +155,7 @@ stonehengeViewModelName = function component() {
                 })
                 .catch(error => {
                     app.stonehengeViewModelName.model.StonehengeIsDisconnected = true;
-                    debugger;
+                    //debugger;
                     if (console && console.log) console.log(error);
                     setTimeout(function () { window.location.reload(); }, 1000);
                     window.location.reload();

@@ -1,4 +1,5 @@
 
+* 3.0.24 - Do not handle event results if post is active.
 * 3.0.23 - Fixed app reload after server restart.
 * 3.0.22 - Fixed app title. Added navigation to root page on startup.
 * 3.0.21 - Microsoft packages updated. https deprecated.
