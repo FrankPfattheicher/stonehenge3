@@ -28,7 +28,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
             Console.WriteLine(@"");
 
             // Select client framework
-            Console.WriteLine(@"Using client framework aurelia");
+            Console.WriteLine(@"Using client framework vue");
             var loader = StonehengeResourceLoader.CreateDefaultLoader();
             var vue = new VueResourceProvider();
             vue.InitProvider(loader, "VueSample", "start");
