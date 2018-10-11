@@ -50,7 +50,7 @@ namespace IctBaden.Stonehenge3.Core
             IsWaitingForEvents = true;
             _eventRelease.WaitOne(TimeSpan.FromSeconds(EventTimeoutSeconds));
             // wait for maximum 500ms for more events - if there is none within 100ms - continue
-            var max = 5;
+            var max = 50;
             while (_eventRelease.WaitOne(100) && (max > 0))
             {
                 max--;
@@ -87,6 +87,7 @@ namespace IctBaden.Stonehenge3.Core
             }
         }
 
+        // ReSharper disable once UnusedMember.Global
         public void ClientAddressChanged(string address)
         {
             ClientAddress = address;
@@ -184,6 +185,7 @@ namespace IctBaden.Stonehenge3.Core
 
         public TimeSpan LastAccessDuration => DateTime.Now - LastAccess;
 
+        // ReSharper disable once UnusedMember.Global
         public TimeSpan LastUserActionDuration => DateTime.Now - LastUserAction;
 
         public event Action TimedOut;
@@ -191,6 +193,7 @@ namespace IctBaden.Stonehenge3.Core
         public TimeSpan SessionTimeout { get; private set; }
         public bool IsTimedOut => LastAccessDuration > SessionTimeout;
 
+        // ReSharper disable once UnusedMember.Global
         public void SetTimeout(TimeSpan timeout)
         {
             _pollSessionTimeout?.Dispose();
@@ -216,6 +219,7 @@ namespace IctBaden.Stonehenge3.Core
         private IDisposable _terminator;
 
 
+        // ReSharper disable once UnusedMember.Global
         public void SetTerminator(IDisposable disposable)
         {
             _terminator = disposable;
@@ -251,6 +255,7 @@ namespace IctBaden.Stonehenge3.Core
             }
         }
 
+        // ReSharper disable once UnusedMember.Global
         public bool IsInitialized => UserAgent != null;
 
         public void Initialize(string hostDomain, bool isLocal, string clientAddress, string userAgent)

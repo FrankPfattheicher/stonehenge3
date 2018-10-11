@@ -6,10 +6,14 @@ stonehengeViewModelName = function component() {
     let vm = {
 
         StonehengeCancelRequests: function () {
-            // no clue how to abort here
-            //for (var rq = 0; rq < app.$http.pendingRequests.length; rq++) {
-            //app.$http.pendingRequests[rq].abort();
-            //}
+            try {
+                if (app.previousRequest) {
+                    app.previousRequest.abort();
+                }
+            } catch (error) {
+                //debugger;
+                if (console && console.log) console.log(error);
+            }
             this.StonehengePollEventsActive = null;
         },
 
@@ -70,7 +74,12 @@ stonehengeViewModelName = function component() {
                 formData[prop] = app.stonehengeViewModelName.model[prop];
             });
             this.StonehengePostActive = true;
-            app.$http.post(urlWithParams, JSON.stringify(formData))
+            app.$http.post(urlWithParams, JSON.stringify(formData),
+                {
+                    before(request) {
+                        app.previousRequest = request;
+                    }
+                })
                 .then(response => {
                     let data = JSON.parse(response.bodyText);
                     this.StonehengeInitialLoading = false;
@@ -91,12 +100,18 @@ stonehengeViewModelName = function component() {
                     }
                 });
         },
-        
+
         StonehengePollEvents: function (continuePolling) {
             if (!app.stonehengeViewModelName.model.StonehengeActive || app.stonehengeViewModelName.model.StonehengePostActive
                 || app.stonehengeViewModelName.model.StonehengePollEventsActive !== null) return;
             var ts = new Date().getTime();
-            app.stonehengeViewModelName.model.StonehengePollEventsActive = app.$http.get('/Events/stonehengeViewModelName?ts=' + ts)
+            app.$http.get('/Events/stonehengeViewModelName?ts=' + ts,
+                {
+                    before(request) {
+                        app.stonehengeViewModelName.model.StonehengePollEventsActive = request;
+                        app.previousRequest = request;
+                    }
+                })
                 .then(response => {
                     if (app.stonehengeViewModelName.model.StonehengePostActive) {
                         //debugger;
@@ -131,7 +146,12 @@ stonehengeViewModelName = function component() {
 
         StonehengeGetViewModel: function () {
             this.StonehengeCancelRequests();
-            app.$http.get('ViewModel/stonehengeViewModelName')
+            app.$http.get('ViewModel/stonehengeViewModelName',
+                {
+                    before(request) {
+                        app.previousRequest = request;
+                    }
+                })
                 .then(response => {
                     var cookie = response.headers.get("cookie");
                     var match = (/stonehenge-id=([0-9a-fA-F]+)/).exec(cookie);

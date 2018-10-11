@@ -23,8 +23,6 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
         // ReSharper disable once UnusedMember.Global
         public async Task Invoke(HttpContext context)
         {
-            var canceled = context.RequestAborted.IsCancellationRequested;
-
             var timer = new Stopwatch();
             timer.Start();
 
@@ -89,7 +87,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
 
             timer.Stop();
 
-            if (canceled)
+            if (context.RequestAborted.IsCancellationRequested)
             {
                 Trace.TraceWarning(
                     $"Stonehenge3.Kestrel[{stonehengeId}] Canceled {context.Request.Method}={context.Response.StatusCode} {path}, {timer.ElapsedMilliseconds}ms");
