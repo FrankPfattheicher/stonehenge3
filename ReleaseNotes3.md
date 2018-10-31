@@ -1,4 +1,5 @@
 
+* 3.0.26 - Icon URL in nuget package fixed
 * 3.0.25 - Abort pending event requests on next request. Packages updated.
 * 3.0.24 - Do not handle event results if post is active.
 * 3.0.23 - Fixed app reload after server restart.
