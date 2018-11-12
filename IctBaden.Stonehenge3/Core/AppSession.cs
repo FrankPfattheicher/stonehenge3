@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.ViewModel;
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
@@ -94,7 +95,7 @@ namespace IctBaden.Stonehenge3.Core
             NotifyPropertyChanged(nameof(ClientAddress));
         }
 
-        public object SetViewModelType(string typeName)
+        internal object SetViewModelType(string typeName)
         {
             var vm = ViewModel;
             if (ViewModel != null)
@@ -106,8 +107,18 @@ namespace IctBaden.Stonehenge3.Core
                 disposable?.Dispose();
             }
 
-            var asm = Assembly.GetEntryAssembly();
-            var vmtype = asm.GetTypes().FirstOrDefault(type => type.FullName?.EndsWith(typeName) ?? false);
+            var resourceLoader = _resourceLoader.Loaders.First(ld => ld.GetType() == typeof(ResourceLoader)) as ResourceLoader;
+            if(resourceLoader == null)
+            {
+                ViewModel = null;
+                Debug.WriteLine("Could not create ViewModel - No resourceLoader specified:" + typeName);
+                return null;
+            }
+
+            var vmtype = resourceLoader.ResourceAssemblies
+                .SelectMany(a => a.GetTypes())
+                .FirstOrDefault(type => type.FullName?.EndsWith(typeName) ?? false);
+
             if (vmtype == null)
             {
                 ViewModel = null;
@@ -115,27 +126,52 @@ namespace IctBaden.Stonehenge3.Core
                 return null;
             }
 
-            try
-            {
-                if (typeof(ActiveViewModel).IsAssignableFrom(vmtype))
-                {
-                    var sessionCtor = vmtype.GetConstructors().FirstOrDefault(ctor => ctor.GetParameters().Length == 1);
-                    vm = (sessionCtor != null) ? Activator.CreateInstance(vmtype, this) : Activator.CreateInstance(vmtype);
-                }
-                else
-                {
-                    vm = Activator.CreateInstance(vmtype);
-                }
-            }
-            catch (Exception ex)
-            {
-                Trace.TraceError(ex.Message);
-                vm = null;
-            }
-
-            ViewModel = vm;
+            ViewModel = CreateType(vmtype);
             return vm;
         }
+
+        private object CreateType(Type type)
+        {
+            object instance = null;
+            foreach (var constructor in type.GetConstructors())
+            {
+                var parameters = constructor.GetParameters();
+                if (parameters.Length == 0)
+                {
+                    instance = Activator.CreateInstance(type);
+                    break;
+                }
+
+                var paramValues = new object[parameters.Length];
+
+                for (var ix = 0; ix < parameters.Length; ix++)
+                {
+                    var parameterInfo = parameters[ix];
+                    if (parameterInfo.ParameterType == typeof(AppSession))
+                    {
+                        paramValues[ix] = this;
+                    }
+                    else
+                    {
+                        paramValues[ix] = _resourceLoader.Services.GetService(parameterInfo.ParameterType)
+                                          ?? CreateType(parameterInfo.ParameterType);
+                    }
+                }
+
+                try
+                {
+                    instance = Activator.CreateInstance(type, paramValues);
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Trace.TraceError(ex.Message);
+                }
+            }
+
+            return instance;
+        }
+
 
         public string SubDomain
         {
@@ -225,8 +261,30 @@ namespace IctBaden.Stonehenge3.Core
             _terminator = disposable;
         }
 
+        private readonly StonehengeResourceLoader _resourceLoader;
+
         public AppSession()
+            : this(null)
         {
+        }
+        public AppSession(StonehengeResourceLoader resourceLoader)
+        {
+            if (resourceLoader == null)
+            {
+                var assemblies = new List<Assembly>
+                    {
+                        Assembly.GetEntryAssembly(),
+                        Assembly.GetExecutingAssembly(),
+                        Assembly.GetAssembly(typeof(ResourceLoader))
+                    }
+                    .Distinct()
+                    .ToList();
+
+                var loader = new ResourceLoader(assemblies, Assembly.GetCallingAssembly());
+                resourceLoader = new StonehengeResourceLoader(new List<IStonehengeResourceProvider>{ loader });
+            }
+
+            _resourceLoader = resourceLoader;
             _userData = new Dictionary<string, object>();
             _id = Guid.NewGuid();
             AppInstanceId = Guid.NewGuid().ToString("N");

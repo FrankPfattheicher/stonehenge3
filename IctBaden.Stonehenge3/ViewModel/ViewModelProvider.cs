@@ -75,8 +75,10 @@ namespace IctBaden.Stonehenge3.ViewModel
         {
             if (resourceName.StartsWith("ViewModel/"))
             {
-                if(SetViewModel(session, resourceName))
+                if (SetViewModel(session, resourceName))
+                {
                     return GetViewModel(session, resourceName);
+                }
             }
             else if (resourceName.StartsWith("Events/"))
             {

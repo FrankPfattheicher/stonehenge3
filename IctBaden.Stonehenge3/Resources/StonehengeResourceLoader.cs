@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -11,10 +12,12 @@ namespace IctBaden.Stonehenge3.Resources
     public class StonehengeResourceLoader : IStonehengeResourceProvider
     {
         public List<IStonehengeResourceProvider> Loaders { get; }
+        public readonly ServiceContainer Services;
 
         public StonehengeResourceLoader(List<IStonehengeResourceProvider> loaders = null)
         {
             Loaders = loaders ?? new List<IStonehengeResourceProvider>();
+            Services = new ServiceContainer();
         }
 
         public void Dispose()

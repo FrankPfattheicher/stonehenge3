@@ -14,39 +14,25 @@ namespace IctBaden.Stonehenge3.Resources
 {
     public class ResourceLoader : IStonehengeResourceProvider
     {
-        internal class AssemblyResource
-        {
-            public string FullName { get; private set; }
-
-            public string ShortName { get; private set; }
-
-            public Assembly Assembly { get; private set; }
-
-            public AssemblyResource(string fullName, string shortName, Assembly assembly)
-            {
-                FullName = fullName;
-                ShortName = shortName;
-                Assembly = assembly;
-            }
-        }
-        private readonly List<Assembly> _assemblies;
+        public readonly List<Assembly> ResourceAssemblies;
         private readonly Assembly _userAssembly;
         private readonly Lazy<Dictionary<string, AssemblyResource>> _resources;
 
         public void Dispose()
         {
-            _assemblies.Clear();
+            ResourceAssemblies.Clear();
         }
 
         public ResourceLoader(IEnumerable<Assembly> assembliesToUse, Assembly userAssembly)
         {
-            _assemblies = assembliesToUse.ToList();
+            ResourceAssemblies = assembliesToUse.ToList();
             _userAssembly = userAssembly;
+
             _resources = new Lazy<Dictionary<string, AssemblyResource>>(
                 () =>
                 {
                     var dict = new Dictionary<string, AssemblyResource>();
-                    foreach (var assemby in _assemblies.Where(a => a != null).Distinct())
+                    foreach (var assemby in ResourceAssemblies.Where(a => a != null).Distinct())
                     {
                         AddAssemblyResources(assemby, dict);
                     }
@@ -56,6 +42,8 @@ namespace IctBaden.Stonehenge3.Resources
 
         public void AddAssembly(Assembly assembly)
         {
+            ResourceAssemblies.Add(assembly);
+
             var asmResources = _resources.Value;
             if (asmResources.Values.Any(res => res.Assembly == assembly)) 
                 return;

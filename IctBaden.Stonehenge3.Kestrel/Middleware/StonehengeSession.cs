@@ -6,6 +6,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Resources;
 using Microsoft.AspNetCore.Http;
 
 namespace IctBaden.Stonehenge3.Kestrel.Middleware
@@ -50,7 +51,8 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             if (string.IsNullOrEmpty(stonehengeId) || session == null)
             {
                 // session not found - redirect to new session
-                session = NewSession(appSessions, context);
+                var resourceLoader = context.Items["stonehenge.ResourceLoader"] as StonehengeResourceLoader;
+                session = NewSession(appSessions, context, resourceLoader);
 
                 context.Response.Headers.Add("Set-Cookie",
                     session.SecureCookies
@@ -112,11 +114,11 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             Trace.TraceInformation($"Stonehenge3.Kestrel {appSessions.Count} sessions.");
         }
 
-        private AppSession NewSession(List<AppSession> appSessions, HttpContext context)
+        private AppSession NewSession(List<AppSession> appSessions, HttpContext context, StonehengeResourceLoader resourceLoader)
         {
-            var userAgent = context.Request.Headers["User-Agent"];
-            var session = new AppSession();
+            var session = new AppSession(resourceLoader);
             var isLocal = context.Items.ContainsKey("server.IsLocal") && (bool)context.Items["server.IsLocal"];
+            var userAgent = context.Request.Headers["User-Agent"];
             session.Initialize(context.Request.Host.Value, isLocal, "RemoteIpAddress", userAgent);
             appSessions.Add(session);
             Trace.TraceInformation($"Stonehenge3.Kestrel New session {session.Id}. {appSessions.Count} sessions.");
