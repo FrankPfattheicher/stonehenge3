@@ -1,4 +1,5 @@
 
+* 3.2.0 - All necessary resources embedded for offline functionality.
 * 3.1.1 - Removed vulnerability dependencies from aurelia packages.
 * 3.1.0 - Services DI container added to StonehengeResourceLoader.
 * 3.0.26 - Icon URL in nuget package fixed.
