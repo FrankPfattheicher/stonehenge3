@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.ViewModel;
+// ReSharper disable StringLiteralTypo
 
 namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
 {

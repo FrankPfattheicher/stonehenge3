@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace IctBaden.Stonehenge3.Kestrel.Middleware
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class StonehengeSession
     {
         private readonly RequestDelegate _next;

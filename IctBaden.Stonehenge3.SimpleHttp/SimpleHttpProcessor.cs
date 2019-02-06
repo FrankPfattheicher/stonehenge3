@@ -8,6 +8,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Web;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace IctBaden.Stonehenge3.SimpleHttp
 {
@@ -40,7 +42,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
             // "processed" view of the world, and we want the data raw after the headers
             _inputStream = new BufferedStream(_socket.GetStream());
 
-            // we probably shouldn't be using a streamwriter for all output from handlers either
+            // we probably shouldn't be using a stream writer for all output from handlers either
             _outputStream = new StreamWriter(new BufferedStream(_socket.GetStream()), new UTF8Encoding(false)) { NewLine = "\r\n" };
             try
             {
@@ -112,9 +114,10 @@ namespace IctBaden.Stonehenge3.SimpleHttp
             }
             Method = tokens[0].ToUpper();
             Url = HttpUtility.UrlDecode(tokens[1]);
+            Query = string.Empty;
             ProtocolVersion = tokens[2];
 
-            if (Url.Contains('?'))
+            if (Url?.Contains('?') ?? false)
             {
                 tokens = Url.Split('?');
                 Url = tokens[0];
@@ -183,9 +186,9 @@ namespace IctBaden.Stonehenge3.SimpleHttp
                 while (toRead > 0)
                 {
                     Debug.WriteLine("starting Read, toRead={0}", toRead);
-                    var numread = _inputStream.Read(buf, 0, Math.Min(BufSize, toRead));
-                    Debug.WriteLine("read finished, numread={0}", numread);
-                    if (numread == 0)
+                    var numRead = _inputStream.Read(buf, 0, Math.Min(BufSize, toRead));
+                    Debug.WriteLine("read finished, numRead={0}", numRead);
+                    if (numRead == 0)
                     {
                         if (toRead == 0)
                         {
@@ -196,8 +199,8 @@ namespace IctBaden.Stonehenge3.SimpleHttp
                             throw new Exception("client disconnected during post");
                         }
                     }
-                    toRead -= numread;
-                    contentStream.Write(buf, 0, numread);
+                    toRead -= numRead;
+                    contentStream.Write(buf, 0, numRead);
                 }
                 contentStream.Seek(0, SeekOrigin.Begin);
             }
@@ -248,12 +251,13 @@ namespace IctBaden.Stonehenge3.SimpleHttp
 
         public void WriteContent(byte[] data)
         {
-            _outputStream.BaseStream.Write(data, 0, data.Length);
+            _outputStream.Flush();
+            _outputStream.BaseStream.WriteAsync(data, 0, data.Length);
         }
 
         public void WriteContent(string text)
         {
-            _outputStream.Write(text);
+            _outputStream.WriteAsync(text);
         }
     }
 }

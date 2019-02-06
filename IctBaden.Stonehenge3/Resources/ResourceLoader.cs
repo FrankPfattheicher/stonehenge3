@@ -32,9 +32,9 @@ namespace IctBaden.Stonehenge3.Resources
                 () =>
                 {
                     var dict = new Dictionary<string, AssemblyResource>();
-                    foreach (var assemby in ResourceAssemblies.Where(a => a != null).Distinct())
+                    foreach (var assembly in ResourceAssemblies.Where(a => a != null).Distinct())
                     {
-                        AddAssemblyResources(assemby, dict);
+                        AddAssemblyResources(assembly, dict);
                     }
                     return dict;
                 });

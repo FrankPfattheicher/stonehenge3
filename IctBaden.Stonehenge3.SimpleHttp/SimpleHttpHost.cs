@@ -68,10 +68,10 @@ namespace IctBaden.Stonehenge3.SimpleHttp
             _server?.Terminate();
         }
 
-        private void ServerOnHandleGet(SimpleHttpProcessor httpProcessor)
+        private AppSession GetSession(SimpleHttpProcessor httpProcessor)
         {
             // get session
-            var sessionId = string.Empty;
+            string sessionId;
             AppSession session = null;
             var cookie = httpProcessor.Headers.FirstOrDefault(h => h.Key == "Cookie" && h.Value.Contains("StonehengeSession="));
             if(!string.IsNullOrEmpty(cookie.Value))
@@ -85,16 +85,36 @@ namespace IctBaden.Stonehenge3.SimpleHttp
 
             if (session == null)
             {
+                var referer = httpProcessor.Headers.FirstOrDefault(h => h.Key == "Referer" && h.Value.Contains("stonehenge-id="));
+                if (referer.Key != null)
+                {
+                    var id = new Regex("stonehenge-id=([0-9a-f]+)").Match(referer.Value);
+                    if (id.Success)
+                    {
+                        sessionId = id.Groups[1].Value;
+                        if (_sessionCache.ContainsKey(sessionId))
+                            session = _sessionCache[sessionId] as AppSession;
+                    }
+                }
+            }
+            if (session == null)
+            {
                 session = new AppSession();
                 sessionId = session.Id;
                 _sessionCache.Add(sessionId, session);
             }
 
-            var header = new Dictionary<string, string> { { "Cookie", "StonehengeSession=" + sessionId } };
+            return session;
+        }
+        
+        private void ServerOnHandleGet(SimpleHttpProcessor httpProcessor)
+        {
+            var session = GetSession(httpProcessor);
+            var header = new Dictionary<string, string> { { "Cookie", "StonehengeSession=" + session.Id } };
 
             if (httpProcessor.Url == "/")
             {
-                httpProcessor.WriteRedirect("/Index.html", header);
+                httpProcessor.WriteRedirect("/Index.html?stonehenge-id=" + session.Id, header);
                 return;
             }
 
@@ -106,13 +126,15 @@ namespace IctBaden.Stonehenge3.SimpleHttp
                 httpProcessor.WriteNotFound();
                 return;
             }
-            httpProcessor.WriteSuccess(content.ContentType, header);
             if (content.IsBinary)
             {
+                header.Add("Content-Length", content.Data.Length.ToString());
+                httpProcessor.WriteSuccess(content.ContentType, header);
                 httpProcessor.WriteContent(content.Data);
             }
             else
             {
+                httpProcessor.WriteSuccess(content.ContentType, header);
                 httpProcessor.WriteContent(content.Text);
             }
         }
@@ -120,21 +142,16 @@ namespace IctBaden.Stonehenge3.SimpleHttp
         private void ServerOnHandlePost(SimpleHttpProcessor httpProcessor, StreamReader streamReader)
         {
             var resourceName = httpProcessor.Url.Substring(1);
-            var queryPart = "";
-            var queryIndex = resourceName.IndexOf("?", 0, StringComparison.InvariantCulture);
-            if (queryIndex != -1)
-            {
-                queryPart = resourceName.Substring(queryIndex + 1);
-                resourceName = resourceName.Substring(0, queryIndex);
-            }
             var body = streamReader.ReadToEnd();
             var formData = JsonConvert.DeserializeObject<JObject>(body).AsJEnumerable().Cast<JProperty>()
                 .ToDictionary(data => data.Name, data => Convert.ToString(data.Value, CultureInfo.InvariantCulture));
 
-            var queryString = HttpUtility.ParseQueryString(queryPart);
+            var queryString = HttpUtility.ParseQueryString(httpProcessor.Query);
             var paramObjects = queryString.AllKeys
                 .ToDictionary(key => key, key => queryString[key]);
-            var content = _resourceLoader.Post(new AppSession(), resourceName, paramObjects, formData);
+
+            var session = GetSession(httpProcessor);
+            var content = _resourceLoader.Post(session, resourceName, paramObjects, formData);
             if (content == null)
             {
                 httpProcessor.WriteNotFound();

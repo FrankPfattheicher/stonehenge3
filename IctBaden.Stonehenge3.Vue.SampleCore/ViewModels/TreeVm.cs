@@ -3,6 +3,8 @@ using System.Linq;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.ViewModel;
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
 {
@@ -12,9 +14,9 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
         private readonly TreeNode _world;
         public List<TreeNode> RootNodes => new List<TreeNode>() { _world };
 
-        public List<Continent> Continents;
-        public int TotalArea;
-        public int TotalCountries;
+        public readonly List<Continent> Continents;
+        public readonly int TotalArea;
+        public readonly int TotalCountries;
 
         public string SelectedContinent { get; private set; }
         public GaugeData Area { get; private set; }

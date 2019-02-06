@@ -98,13 +98,13 @@ namespace IctBaden.Stonehenge3.Core
 
         internal object SetViewModelType(string typeName)
         {
-            var vm = ViewModel;
-            if (ViewModel != null)
+            var oldViewModel = ViewModel;
+            if (oldViewModel != null)
             {
-                if ((ViewModel.GetType().FullName == typeName))
-                    return vm;
+                if ((oldViewModel.GetType().FullName == typeName))
+                    return oldViewModel;
 
-                var disposable = vm as IDisposable;
+                var disposable = oldViewModel as IDisposable;
                 disposable?.Dispose();
             }
 
@@ -116,19 +116,19 @@ namespace IctBaden.Stonehenge3.Core
                 return null;
             }
 
-            var vmtype = resourceLoader.ResourceAssemblies
+            var newViewModelType = resourceLoader.ResourceAssemblies
                 .SelectMany(a => a.GetTypes())
                 .FirstOrDefault(type => type.FullName?.EndsWith(typeName) ?? false);
 
-            if (vmtype == null)
+            if (newViewModelType == null)
             {
                 ViewModel = null;
                 Debug.WriteLine("Could not create ViewModel:" + typeName);
                 return null;
             }
 
-            ViewModel = CreateType(vmtype);
-            return vm;
+            ViewModel = CreateType(newViewModelType);
+            return ViewModel;
         }
 
         private object CreateType(Type type)
