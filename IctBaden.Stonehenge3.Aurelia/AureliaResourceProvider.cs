@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using IctBaden.Stonehenge3.Aurelia.Client;
 using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.Types;
 
@@ -16,9 +17,9 @@ namespace IctBaden.Stonehenge3.Aurelia
     {
         private Dictionary<string, Resource> _aureliaContent;
 
-        public void InitProvider(StonehengeResourceLoader loader, string appTitle, string rootPage) => InitProvider(loader, appTitle, rootPage, null);
+        public void InitProvider(StonehengeResourceLoader loader, string appTitle, string rootPage, StonehengeHostOptions options) => InitProvider(loader, appTitle, rootPage, options, null);
 
-        public void InitProvider(StonehengeResourceLoader loader, string appTitle, string rootPage, string appFilesPath)
+        public void InitProvider(StonehengeResourceLoader loader, string appTitle, string rootPage, StonehengeHostOptions options, string appFilesPath)
         {
             _aureliaContent = new Dictionary<string, Resource>();
 
@@ -26,7 +27,7 @@ namespace IctBaden.Stonehenge3.Aurelia
             resLoader.AddAssembly(typeof(AureliaResourceProvider).Assembly);
             loader.Loaders.Add(this);
 
-            var appCreator = new AureliaAppCreator(appTitle, rootPage, _aureliaContent);
+            var appCreator = new AureliaAppCreator(appTitle, rootPage, options, _aureliaContent);
 
             if (!string.IsNullOrEmpty(appFilesPath))
             {

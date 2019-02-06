@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 
 namespace IctBaden.Stonehenge3.Kestrel
@@ -70,7 +72,7 @@ namespace IctBaden.Stonehenge3.Kestrel
                     InitialData = new[] 
                     {
                         new KeyValuePair<string, string>( "AppTitle", AppTitle),
-                        new KeyValuePair<string, string>( "DisableSessionIdUrlParameter", (Options.SessionIdMode == SessionIdModes.CookiesOnly).ToString())
+                        new KeyValuePair<string, string>( "HostOptions", JsonConvert.SerializeObject(Options))
                     }
                 };
 

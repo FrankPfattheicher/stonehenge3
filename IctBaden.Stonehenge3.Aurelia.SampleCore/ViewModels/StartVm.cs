@@ -31,7 +31,7 @@ namespace IctBaden.Stonehenge3.Aurelia.SampleCore.ViewModels
                     {
                         while ((_updater != null) && !_cancelUpdate.IsCancellationRequested)
                         {
-                            Task.Delay(10000, _cancelUpdate.Token);
+                            Task.Delay(6000, _cancelUpdate.Token).Wait();
                             NotifyPropertyChanged(nameof(TimeStamp));
                         }
                         // ReSharper disable once FunctionNeverReturns

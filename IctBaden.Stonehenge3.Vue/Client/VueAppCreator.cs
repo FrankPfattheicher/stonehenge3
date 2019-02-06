@@ -6,9 +6,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.ViewModel;
 using Newtonsoft.Json;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace IctBaden.Stonehenge3.Vue.Client
 {
@@ -16,15 +18,17 @@ namespace IctBaden.Stonehenge3.Vue.Client
     {
         private readonly string _appTitle;
         private readonly string _rootPage;
+        private readonly StonehengeHostOptions _options;
         private readonly Dictionary<string, Resource> _vueContent;
 
         private static readonly string ControllerTemplate = LoadResourceText("IctBaden.Stonehenge3.Vue.Client.stonehengeComponent.js");
         private static readonly string ElementTemplate = LoadResourceText("IctBaden.Stonehenge3.Vue.Client.stonehengeElement.js");
 
-        public VueAppCreator(string appTitle, string rootPage, Dictionary<string, Resource> vueContent)
+        public VueAppCreator(string appTitle, string rootPage, StonehengeHostOptions options, Dictionary<string, Resource> vueContent)
         {
             _appTitle = appTitle;
             _rootPage = rootPage;
+            _options = options;
             _vueContent = vueContent;
         }
 
@@ -109,17 +113,17 @@ namespace IctBaden.Stonehenge3.Vue.Client
                 {
                     if (string.IsNullOrEmpty(viewModel.ViewModel.VmName))
                     {
-                        Trace.TraceError($"VueAppCreater.CreateControllers: <UNKNOWN VM> => src.{viewModel.Name}.js");
+                        Trace.TraceError($"VueAppCreator.CreateControllers: <UNKNOWN VM> => src.{viewModel.Name}.js");
                     }
                     else
                     {
-                        Trace.TraceInformation($"VueAppCreater.CreateControllers: {viewModel.ViewModel.VmName} => src.{viewModel.Name}.js");
+                        Trace.TraceInformation($"VueAppCreator.CreateControllers: {viewModel.ViewModel.VmName} => src.{viewModel.Name}.js");
 
                         var assembly = Assembly.GetEntryAssembly();
-                        var userjs = LoadResourceText(assembly, $"{assembly.GetName().Name}.app.{viewModel.Name}_user.js");
-                        if (!string.IsNullOrWhiteSpace(userjs))
+                        var userJs = LoadResourceText(assembly, $"{assembly.GetName().Name}.app.{viewModel.Name}_user.js");
+                        if (!string.IsNullOrWhiteSpace(userJs))
                         {
-                            controllerJs += userjs;
+                            controllerJs += userJs;
                         }
 
                         var resource = new Resource($"{viewModel.Name}.js", "VueResourceProvider", ResourceType.Js, controllerJs, Resource.Cache.Revalidate);
@@ -148,7 +152,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
                 .FirstOrDefault(type => type.Name == name);
         }
 
-        private static string GetController(string vmName)
+        private string GetController(string vmName)
         {
             var vmType = GetVmType(vmName);
             if (vmType == null)
@@ -159,18 +163,20 @@ namespace IctBaden.Stonehenge3.Vue.Client
                 return null;
             }
 
-            var text = ControllerTemplate.Replace("stonehengeViewModelName", vmName);
+            var text = ControllerTemplate
+                .Replace("stonehengeViewModelName", vmName)
+                .Replace("stonehengePollDelay", _options.GetPollDelayMs().ToString());
 
-            var properyNames = GetPropNames(vmType);
-            if (properyNames.Count > 0)
+            var propertyNames = GetPropNames(vmType);
+            if (propertyNames.Count > 0)
             {
-                var propDefs = properyNames.Select(pn => pn + " : null\r\n");
+                var propDefs = propertyNames.Select(pn => pn + " : null\r\n");
                 text = text.Replace("//stonehengeProperties", "," + string.Join(",", propDefs));
             }
             
-            var postbackPropNames = GetPostbackPropNames(vmType, properyNames)
+            var postBackPropNames = GetPostBackPropNames(vmType, propertyNames)
                 .Select(name => "'" + name + "'");
-            text = text.Replace("'propNames'", string.Join(",", postbackPropNames));
+            text = text.Replace("'propNames'", string.Join(",", postBackPropNames));
 
             // supply functions for action methods
             const string methodTemplate = @"stonehengeMethodName: function({paramNames}) { app.stonehengeViewModelName.StonehengePost('/ViewModel/stonehengeViewModelName/stonehengeMethodName{paramValues}'); }";
@@ -190,6 +196,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
                 var method = methodTemplate
                     .Replace("stonehengeViewModelName", vmName)
                     .Replace("stonehengeMethodName", methodInfo.Name)
+                    .Replace("stonehengePollDelay", _options.GetPollDelayMs().ToString())
                     .Replace("{paramNames}", string.Join(",", paramNames))
                     .Replace("{paramValues}", paramValues)
                     .Replace("+''", string.Empty);
@@ -203,12 +210,12 @@ namespace IctBaden.Stonehenge3.Vue.Client
 
         
         
-        private static List<string> GetPropNames(Type vmType)
+        private List<string> GetPropNames(Type vmType)
         {
             // properties
             var vmProps = new List<PropertyDescriptor>();
             var sessionCtor = vmType.GetConstructors().FirstOrDefault(ctor => ctor.GetParameters().Length == 1);
-            var session = new AppSession();
+            var session = new AppSession(null, _options);
             object viewModel;
             try
             {
@@ -231,17 +238,17 @@ namespace IctBaden.Stonehenge3.Vue.Client
             var disposeVm = viewModel as IDisposable;
             disposeVm?.Dispose();
 
-            var properyNames = (from prop in vmProps
+            var propertyNames = (from prop in vmProps
                 let bindable = prop.Attributes.OfType<BindableAttribute>().ToArray()
                 where (bindable.Length <= 0) || bindable[0].Bindable
                 select prop.Name).ToList();
 
-            return properyNames;
+            return propertyNames;
         }
         
-        private static List<string> GetPostbackPropNames(Type vmType, List<string> properyNames)
+        private static List<string> GetPostBackPropNames(Type vmType, IEnumerable<string> propertyNames)
         {
-            var postbackPropNames = new List<string>();
+            var postBackPropNames = new List<string>();
 
             var sessionCtor = vmType.GetConstructors().FirstOrDefault(ctor => ctor.GetParameters().Length == 1);
             var session = new AppSession();
@@ -258,7 +265,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
             var activeVm = viewModel as ActiveViewModel;
 
             // do not send ReadOnly or OneWay bound properties back
-            foreach (var propName in properyNames)
+            foreach (var propName in propertyNames)
             {
                 var prop = vmType.GetProperty(propName);
                 if (prop == null)
@@ -275,10 +282,10 @@ namespace IctBaden.Stonehenge3.Vue.Client
                 var bindable = prop.GetCustomAttributes(typeof(BindableAttribute), true);
                 if ((bindable.Length > 0) && ((BindableAttribute)bindable[0]).Direction == BindingDirection.OneWay)
                     continue;
-                postbackPropNames.Add(propName);
+                postBackPropNames.Add(propName);
             }
 
-            return postbackPropNames;
+            return postBackPropNames;
         }
 
         private string InsertElements(string pageText)

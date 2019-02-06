@@ -6,12 +6,17 @@ using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.ViewModel;
 // ReSharper disable StringLiteralTypo
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable UnusedMember.Global
 
 namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
 {
     // ReSharper disable once UnusedMember.Global
     public class StartVm : ActiveViewModel, IDisposable
     {
+        // ReSharper disable once MemberCanBeMadeStatic.Global
         public string TimeStamp => DateTime.Now.ToLongTimeString();
         public double Numeric { get; set; }
         public string Test { get; set; }
@@ -32,7 +37,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
                     {
                         while ((_updater != null) && !_cancelUpdate.IsCancellationRequested)
                         {
-                            Task.Delay(10000, _cancelUpdate.Token);
+                            Task.Delay(6000, _cancelUpdate.Token).Wait();
                             NotifyPropertyChanged(nameof(TimeStamp));
                         }
                         // ReSharper disable once FunctionNeverReturns

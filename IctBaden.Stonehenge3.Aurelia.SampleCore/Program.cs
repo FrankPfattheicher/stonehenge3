@@ -29,7 +29,7 @@ namespace IctBaden.Stonehenge3.Aurelia.SampleCore
             Console.WriteLine(@"Using client framework aurelia");
             var loader = StonehengeResourceLoader.CreateDefaultLoader();
             var aurelia = new AureliaResourceProvider();
-            aurelia.InitProvider(loader, "Sample", "start");
+            aurelia.InitProvider(loader, "Sample", "start", new StonehengeHostOptions());
 
             // Select hosting technology
             var hosting = "kestrel";

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.ViewModel;
 
@@ -16,15 +17,17 @@ namespace IctBaden.Stonehenge3.Aurelia.Client
     {
         private readonly string _appTitle;
         private readonly string _rootPage;
+        private readonly StonehengeHostOptions _options;
         private readonly Dictionary<string, Resource> _aureliaContent;
 
         private static readonly string ControllerTemplate = LoadResourceText("IctBaden.Stonehenge3.Aurelia.Client.stonehengeController.js");
         private static readonly string ElementTemplate = LoadResourceText("IctBaden.Stonehenge3.Aurelia.Client.stonehengeElement.js");
 
-        public AureliaAppCreator(string appTitle, string rootPage, Dictionary<string, Resource> aureliaContent)
+        public AureliaAppCreator(string appTitle, string rootPage, StonehengeHostOptions options, Dictionary<string, Resource> aureliaContent)
         {
             _appTitle = appTitle;
             _rootPage = rootPage;
+            _options = options;
             _aureliaContent = aureliaContent;
         }
 
@@ -98,17 +101,17 @@ namespace IctBaden.Stonehenge3.Aurelia.Client
                 {
                     if (string.IsNullOrEmpty(viewModel.ViewModel.VmName))
                     {
-                        Trace.TraceError($"AureliaAppCreater.CreateControllers: <UNKNOWN VM> => src.{viewModel.Name}.js");
+                        Trace.TraceError($"AureliaAppCreator.CreateControllers: <UNKNOWN VM> => src.{viewModel.Name}.js");
                     }
                     else
                     {
-                        Trace.TraceInformation($"AureliaAppCreater.CreateControllers: {viewModel.ViewModel.VmName} => src.{viewModel.Name}.js");
+                        Trace.TraceInformation($"AureliaAppCreator.CreateControllers: {viewModel.ViewModel.VmName} => src.{viewModel.Name}.js");
 
                         var assembly = Assembly.GetEntryAssembly();
-                        var userjs = LoadResourceText(assembly, $"{assembly.GetName().Name}.app.{viewModel.Name}_user.js");
-                        if (!string.IsNullOrWhiteSpace(userjs))
+                        var userJs = LoadResourceText(assembly, $"{assembly.GetName().Name}.app.{viewModel.Name}_user.js");
+                        if (!string.IsNullOrWhiteSpace(userJs))
                         {
-                            controllerJs += userjs;
+                            controllerJs += userJs;
                         }
 
                         var resource = new Resource($"src.{viewModel.Name}.js", "AureliaResourceProvider", ResourceType.Js, controllerJs, Resource.Cache.Revalidate);
@@ -137,7 +140,7 @@ namespace IctBaden.Stonehenge3.Aurelia.Client
                 .FirstOrDefault(type => type.Name == name);
         }
 
-        private static string GetController(string vmName)
+        private string GetController(string vmName)
         {
             var vmType = GetVmType(vmName);
             if (vmType == null)
@@ -148,10 +151,12 @@ namespace IctBaden.Stonehenge3.Aurelia.Client
                 return null;
             }
 
-            var text = ControllerTemplate.Replace("stonehengeViewModelName", vmName);
+            var text = ControllerTemplate
+                .Replace("stonehengeViewModelName", vmName)
+                .Replace("stonehengePollDelay", _options.GetPollDelayMs().ToString());
 
-            var postbackPropNames = GetPostbackPropNames(vmType).Select(name => "'" + name + "'");
-            text = text.Replace("'propNames'", string.Join(",", postbackPropNames));
+            var postBackPropNames = GetPostBackPropNames(vmType).Select(name => "'" + name + "'");
+            text = text.Replace("'propNames'", string.Join(",", postBackPropNames));
 
             // supply functions for action methods
             const string methodTemplate = @"this.stonehengeMethodName = function({paramNames}) { this.StonehengePost(this, '/ViewModel/stonehengeViewModelName/stonehengeMethodName{paramValues}'); }";
@@ -171,6 +176,7 @@ namespace IctBaden.Stonehenge3.Aurelia.Client
                 var method = methodTemplate
                     .Replace("stonehengeViewModelName", vmName)
                     .Replace("stonehengeMethodName", methodInfo.Name)
+                    .Replace("stonehengePollDelay", _options.GetPollDelayMs().ToString())
                     .Replace("{paramNames}", string.Join(",", paramNames))
                     .Replace("{paramValues}", paramValues)
                     .Replace("+''", string.Empty);
@@ -182,9 +188,9 @@ namespace IctBaden.Stonehenge3.Aurelia.Client
             return text.Replace("/*commands*/", actionMethods.ToString());
         }
 
-        private static List<string> GetPostbackPropNames(Type vmType)
+        private static List<string> GetPostBackPropNames(Type vmType)
         {
-            var postbackPropNames = new List<string>();
+            var postBackPropNames = new List<string>();
 
             // properties
             var vmProps = new List<PropertyDescriptor>();
@@ -198,7 +204,7 @@ namespace IctBaden.Stonehenge3.Aurelia.Client
             catch (Exception ex)
             {
                 Trace.TraceError($"Failed to create ViewModel '{vmType.Name}' : " + ex.Message);
-                return postbackPropNames;
+                return postBackPropNames;
             }
             var activeVm = viewModel as ActiveViewModel;
             if (activeVm != null)
@@ -235,10 +241,10 @@ namespace IctBaden.Stonehenge3.Aurelia.Client
                 var bindable = prop.GetCustomAttributes(typeof(BindableAttribute), true);
                 if ((bindable.Length > 0) && ((BindableAttribute)bindable[0]).Direction == BindingDirection.OneWay)
                     continue;
-                postbackPropNames.Add(propName);
+                postBackPropNames.Add(propName);
             }
 
-            return postbackPropNames;
+            return postBackPropNames;
         }
 
         public void CreateElements()

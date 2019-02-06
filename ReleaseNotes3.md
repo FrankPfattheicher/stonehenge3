@@ -1,4 +1,6 @@
 
+* 3.3.4 - ServerPushModes ShortPolling and LongPolling implemented.
+* 3.3.3 - Using HostOptions everywhere. 
 * 3.3.2 - SimpleHttp session handling fixed. 
 * 3.3.1 - Introduced StonehengeHostOptions. Kestrel on linux hanging fixed. 
           Linux HostWindow fixed. SimpleHttp query parameter handling added. 

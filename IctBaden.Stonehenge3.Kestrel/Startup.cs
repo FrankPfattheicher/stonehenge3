@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Kestrel.Middleware;
 using IctBaden.Stonehenge3.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace IctBaden.Stonehenge3.Kestrel
 {
@@ -15,7 +16,7 @@ namespace IctBaden.Stonehenge3.Kestrel
         private readonly string _appTitle;
         private readonly IStonehengeResourceProvider _resourceLoader;
         private readonly List<AppSession> _appSessions = new List<AppSession>();
-        private readonly bool _disableSessionIdUrlParameter;
+        private readonly StonehengeHostOptions _options;
 
         // ReSharper disable once UnusedMember.Global
         public Startup(IConfiguration configuration, IStonehengeResourceProvider resourceLoader)
@@ -23,9 +24,10 @@ namespace IctBaden.Stonehenge3.Kestrel
             Configuration = configuration;
             _resourceLoader = resourceLoader;
             _appTitle = Configuration["AppTitle"];
-            _disableSessionIdUrlParameter = Convert.ToBoolean(Configuration["DisableSessionIdUrlParameter"]);
+            _options = JsonConvert.DeserializeObject<StonehengeHostOptions>(Configuration["HostOptions"]);
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -42,8 +44,8 @@ namespace IctBaden.Stonehenge3.Kestrel
             //TODO app.UseCompression();
             app.Use((context, next) =>
             {
-                context.Items.Add("stonehenge.DisableSessionIdUrlParameter", _disableSessionIdUrlParameter);
                 context.Items.Add("stonehenge.AppTitle", _appTitle);
+                context.Items.Add("stonehenge.HostOptions", _options);
                 context.Items.Add("stonehenge.ResourceLoader", _resourceLoader);
                 context.Items.Add("stonehenge.AppSessions", _appSessions);
                 return next.Invoke();

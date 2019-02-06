@@ -26,19 +26,22 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
             Console.WriteLine(@"Stonehenge 3 sample");
             Console.WriteLine(@"");
 
+            var options = new StonehengeHostOptions
+            {
+                ServerPushMode = ServerPushModes.LongPolling,
+                PollIntervalMs = 5000,
+                SessionIdMode = SessionIdModes.CookiesOnly
+            };
+
             // Select client framework
             Console.WriteLine(@"Using client framework vue");
             var loader = StonehengeResourceLoader.CreateDefaultLoader();
             var vue = new VueResourceProvider();
-            vue.InitProvider(loader, "VueSample", "start");
+            vue.InitProvider(loader, "VueSample", "start", options);
 
             // Select hosting technology
             var hosting = "kestrel";
             if (Environment.CommandLine.Contains("/simple")) { hosting = "simple"; }
-            var options = new StonehengeHostOptions
-            {
-                SessionIdMode = SessionIdModes.CookiesOnly
-            };
             switch (hosting)
             {
                 case "kestrel":

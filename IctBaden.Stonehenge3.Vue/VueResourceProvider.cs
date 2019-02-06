@@ -5,11 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using IctBaden.Stonehenge3.Client;
 using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.Types;
 using IctBaden.Stonehenge3.Vue.Client;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace IctBaden.Stonehenge3.Vue
 {
@@ -18,14 +19,14 @@ namespace IctBaden.Stonehenge3.Vue
         private Dictionary<string, Resource> _vueContent;
 
         // ReSharper disable once UnusedMember.Global
-        public void InitProvider(StonehengeResourceLoader loader, string appTitle, string rootPage)
+        public void InitProvider(StonehengeResourceLoader loader, string appTitle, string rootPage, StonehengeHostOptions options)
         {
-            var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? ".";
             var appFilesPath = Path.Combine(path, "app");
-            InitProvider(loader, appTitle, rootPage, appFilesPath);
+            InitProvider(loader, appTitle, rootPage, options, appFilesPath);
         }
 
-        public void InitProvider(StonehengeResourceLoader loader, string appTitle, string rootPage, string appFilesPath)
+        public void InitProvider(StonehengeResourceLoader loader, string appTitle, string rootPage, StonehengeHostOptions options, string appFilesPath)
         {
             _vueContent = new Dictionary<string, Resource>();
 
@@ -33,7 +34,7 @@ namespace IctBaden.Stonehenge3.Vue
             resLoader.AddAssembly(typeof(VueResourceProvider).Assembly);
             loader.Loaders.Add(this);
 
-            var appCreator = new VueAppCreator(appTitle, rootPage, _vueContent);
+            var appCreator = new VueAppCreator(appTitle, rootPage, options, _vueContent);
 
             AddFileSystemContent(appFilesPath);
             AddResourceContent();

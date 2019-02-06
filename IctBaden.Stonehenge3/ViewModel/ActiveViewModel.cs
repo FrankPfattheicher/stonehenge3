@@ -34,6 +34,12 @@ using System.Linq;
 using System.Reflection;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Resources;
+// ReSharper disable MemberCanBeProtected.Global
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable FieldCanBeMadeReadOnly.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable NotAccessedField.Global
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 
@@ -158,7 +164,7 @@ namespace IctBaden.Stonehenge3.ViewModel
         private readonly Dictionary<string, List<string>> _dependencies = new Dictionary<string, List<string>>();
         private readonly Dictionary<string, object> _dictionary = new Dictionary<string, object>();
 
-        internal List<ActiveModel> ActiveModels = new List<ActiveModel>();
+        internal readonly List<ActiveModel> ActiveModels = new List<ActiveModel>();
 
         [Browsable(false)]
         internal int Count => GetProperties().Count;
@@ -532,11 +538,11 @@ namespace IctBaden.Stonehenge3.ViewModel
             if (!_dependencies.ContainsKey(name))
                 return;
 
-            foreach (var dependendName in _dependencies[name])
+            foreach (var dependentName in _dependencies[name])
             {
                 if (handler != null)
                 {
-                    ExecuteHandler(handler, dependendName);
+                    ExecuteHandler(handler, dependentName);
                 }
             }
         }

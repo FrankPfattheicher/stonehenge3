@@ -6,9 +6,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.ViewModel;
 // ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable UnusedMember.Global
+// ReSharper disable EventNeverSubscribedTo.Global
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 
@@ -39,7 +43,7 @@ namespace IctBaden.Stonehenge3.Core
 
         public string PermanentSessionId { get; private set; }
 
-        private const int EventTimeoutSeconds = 1;  //TODO: Switch to WebSockets !
+        private readonly int _eventTimeoutMs;
         private readonly List<string> _events = new List<string>();
         private readonly AutoResetEvent _eventRelease = new AutoResetEvent(false);
 
@@ -50,7 +54,7 @@ namespace IctBaden.Stonehenge3.Core
         public List<string> CollectEvents()
         {
             IsWaitingForEvents = true;
-            _eventRelease.WaitOne(TimeSpan.FromSeconds(EventTimeoutSeconds));
+            _eventRelease.WaitOne(TimeSpan.FromMilliseconds(_eventTimeoutMs));
             // wait for maximum 500ms for more events - if there is none within 100ms - continue
             var max = 50;
             while (_eventRelease.WaitOne(100) && (max > 0))
@@ -265,10 +269,10 @@ namespace IctBaden.Stonehenge3.Core
         private readonly StonehengeResourceLoader _resourceLoader;
 
         public AppSession()
-            : this(null)
+            : this(null, new StonehengeHostOptions())
         {
         }
-        public AppSession(StonehengeResourceLoader resourceLoader)
+        public AppSession(StonehengeResourceLoader resourceLoader, StonehengeHostOptions options)
         {
             if (resourceLoader == null)
             {
@@ -292,6 +296,8 @@ namespace IctBaden.Stonehenge3.Core
             SessionTimeout = TimeSpan.FromMinutes(15);
             Cookies = new Dictionary<string, string>();
             LastAccess = DateTime.Now;
+            
+            _eventTimeoutMs = options.GetEventTimeoutMs();
 
             try
             {

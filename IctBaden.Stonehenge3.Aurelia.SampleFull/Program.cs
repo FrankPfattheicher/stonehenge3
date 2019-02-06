@@ -26,19 +26,20 @@ namespace IctBaden.Stonehenge3.Aurelia.SampleFull
             Console.WriteLine(@"Stonehenge 3 sample");
             Console.WriteLine(@"");
 
-            // Select client framework
-            Console.WriteLine(@"Using client framework aurelia");
-            var loader = StonehengeResourceLoader.CreateDefaultLoader();
-            var aurelia = new AureliaResourceProvider();
-            aurelia.InitProvider(loader, "Sample", "start");
-
-            // Select hosting technology
-            var hosting = "owin";
-            if (Environment.CommandLine.Contains("/Simple")) { hosting = "simple"; }
             var options = new StonehengeHostOptions
             {
                 SessionIdMode = SessionIdModes.CookiesOnly
             };
+
+            // Select client framework
+            Console.WriteLine(@"Using client framework aurelia");
+            var loader = StonehengeResourceLoader.CreateDefaultLoader();
+            var aurelia = new AureliaResourceProvider();
+            aurelia.InitProvider(loader, "Sample", "start", options);
+
+            // Select hosting technology
+            var hosting = "owin";
+            if (Environment.CommandLine.Contains("/Simple")) { hosting = "simple"; }
             switch (hosting)
             {
                 case "owin":

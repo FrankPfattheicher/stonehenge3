@@ -19,7 +19,7 @@ export class stonehengeViewModelName {
         this.StonehengeIsDisconnected = false;
         this.StonehengePostActive = false;
         this.StonehengePollEventsActive = null;
-        this.StonehengePollDelay = 10000;
+        this.StonehengePollDelay = stonehengePollDelay;
 
         this.StonehengeCancelRequests = function(scope) {
             for (var rq = 0; rq < scope.http.pendingRequests.length; rq++) {

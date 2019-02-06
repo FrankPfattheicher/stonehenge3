@@ -6,6 +6,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using Microsoft.AspNetCore.Http;
 
@@ -60,15 +61,13 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                         ? new[] { "stonehenge-id=" + session.Id, "Secure" }
                         : new[] { "stonehenge-id=" + session.Id });
 
-                var disableUrlParam = (bool)context.Items["stonehenge.DisableSessionIdUrlParameter"];
-                if (disableUrlParam)
+                var options = (StonehengeHostOptions)context.Items["stonehenge.HostOptions"];
+                var redirectUrl = "/index.html";
+                if (options.AddUrlSessionParameter)
                 {
-                    context.Response.Redirect("/Index.html");
+                    redirectUrl += "?stonehenge-id=" + session.Id;
                 }
-                else
-                {
-                    context.Response.Redirect("/Index.html?stonehenge-id=" + session.Id);
-                }
+                context.Response.Redirect(redirectUrl);
 
                 var remoteIp = context.Connection.RemoteIpAddress;
                 var remotePort = context.Connection.RemotePort;
@@ -101,7 +100,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 $"Stonehenge3.Kestrel[{stonehengeId}] End {context.Request.Method}={context.Response.StatusCode} {path}, {timer.ElapsedMilliseconds}ms");
         }
 
-        private void CleanupTimedOutSessions(List<AppSession> appSessions)
+        private static void CleanupTimedOutSessions(ICollection<AppSession> appSessions)
         {
             var timedOutSessions = appSessions.Where(s => s.IsTimedOut).ToArray();
             foreach (var timedOut in timedOutSessions)
@@ -115,9 +114,10 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             Trace.TraceInformation($"Stonehenge3.Kestrel {appSessions.Count} sessions.");
         }
 
-        private AppSession NewSession(List<AppSession> appSessions, HttpContext context, StonehengeResourceLoader resourceLoader)
+        private static AppSession NewSession(ICollection<AppSession> appSessions, HttpContext context, StonehengeResourceLoader resourceLoader)
         {
-            var session = new AppSession(resourceLoader);
+            var options = (StonehengeHostOptions)context.Items["stonehenge.HostOptions"];
+            var session = new AppSession(resourceLoader, options);
             var isLocal = context.Items.ContainsKey("server.IsLocal") && (bool)context.Items["server.IsLocal"];
             var userAgent = context.Request.Headers["User-Agent"];
             session.Initialize(context.Request.Host.Value, isLocal, "RemoteIpAddress", userAgent);

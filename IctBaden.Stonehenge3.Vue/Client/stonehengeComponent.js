@@ -188,7 +188,7 @@ stonehengeViewModelName = function component() {
 
             StonehengeActive: false,
             StonehengePollEventsActive: null,
-            StonehengePollDelay: 10000,
+            StonehengePollDelay: stonehengePollDelay,
             StonehengeInitialLoading: true,
             StonehengeIsLoading: true,
             StonehengeIsDirty: false,

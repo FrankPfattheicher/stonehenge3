@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using Xunit;
 
@@ -8,6 +9,7 @@ namespace IctBaden.Stonehenge3.Test.DiContainer
 {
     public class ResolveVmDependenciesTest : IDisposable
     {
+        // ReSharper disable once MemberCanBePrivate.Global
         public Guid Id;
 
         private readonly StonehengeResourceLoader _loader;
@@ -18,7 +20,7 @@ namespace IctBaden.Stonehenge3.Test.DiContainer
             Id = Guid.NewGuid();
             _loader = StonehengeResourceLoader.CreateDefaultLoader();
             _loader.Services.AddService(typeof(ResolveVmDependenciesTest), this);
-            _session = new AppSession(_loader);
+            _session = new AppSession(_loader, new StonehengeHostOptions());
         }
 
         public void Dispose()
