@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Web;
+// ReSharper disable CommentTypo
 
 namespace IctBaden.Stonehenge3.Hosting
 {

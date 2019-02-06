@@ -5,15 +5,15 @@
         <h3>A TreeView</h3>
     </div>
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-4" style="font-size: 90%;">
         <tree-view v-bind:rootnodes="RootNodes" 
                    v-on:select="TreeSelect($event)" v-on:toggle="TreeToggle($event)"/>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
             <strong>{{SelectedContinent}}&nbsp;</strong>
             <gauge v-bind:gaugedata="Area"></gauge>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
             <strong>&nbsp;</strong>
             <gauge v-bind:gaugedata="Countries"></gauge>
         </div>

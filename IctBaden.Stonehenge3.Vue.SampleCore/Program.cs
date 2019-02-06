@@ -35,7 +35,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
 
             // Select hosting technology
             var hosting = "kestrel";
-            if (Environment.CommandLine.Contains("/Simple")) { hosting = "simple"; }
+            if (Environment.CommandLine.Contains("/simple")) { hosting = "simple"; }
             switch (hosting)
             {
                 case "kestrel":
@@ -66,8 +66,10 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
                         terminate.Set();
                     }
                 }
-
-                terminate.WaitOne();
+                else
+                {
+                    terminate.WaitOne();
+                }
                 Console.WriteLine(@"Server terminated.");
             }
             else
@@ -78,7 +80,6 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
 #pragma warning disable 0162
             // ReSharper disable once HeuristicUnreachableCode
             _server.Terminate();
-
             Environment.Exit(0);
         }
     }
