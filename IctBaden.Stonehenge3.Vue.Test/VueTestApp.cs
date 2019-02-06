@@ -7,7 +7,7 @@ namespace IctBaden.Stonehenge3.Vue.Test
 {
     public class VueTestApp : IDisposable
     {
-        public const int Port = 7357;
+        private const int Port = 7357;
         public string BaseUrl => _server?.BaseUrl;
 
         private readonly IStonehengeHost _server;
@@ -17,7 +17,7 @@ namespace IctBaden.Stonehenge3.Vue.Test
             var loader = StonehengeResourceLoader.CreateDefaultLoader();
             var vue = new VueResourceProvider();
             vue.InitProvider(loader, "VueTest", "start");
-            _server = new KestrelHost(loader) { DisableSessionIdUrlParameter = false };
+            _server = new KestrelHost(loader);
             _server.Start("VueTest", false, "localhost", Port);
         }
 

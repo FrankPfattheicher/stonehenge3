@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Web;
 
 namespace IctBaden.Stonehenge3.SimpleHttp
 {
@@ -20,6 +21,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
 
         public string Method { get; private set; }
         public string Url { get; private set; }
+        public string Query { get; private set; }
         public string ProtocolVersion { get; private set; }
         public Dictionary<string, string> Headers { get; } = new Dictionary<string, string>();
 
@@ -109,8 +111,15 @@ namespace IctBaden.Stonehenge3.SimpleHttp
                 throw new Exception("invalid http request line");
             }
             Method = tokens[0].ToUpper();
-            Url = tokens[1];
+            Url = HttpUtility.UrlDecode(tokens[1]);
             ProtocolVersion = tokens[2];
+
+            if (Url.Contains('?'))
+            {
+                tokens = Url.Split('?');
+                Url = tokens[0];
+                Query = tokens[1];
+            }
 
             Debug.WriteLine("starting: " + request);
         }

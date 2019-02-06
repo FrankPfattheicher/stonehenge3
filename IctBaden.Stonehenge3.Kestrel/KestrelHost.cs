@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
-using System.Numerics;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using IctBaden.Stonehenge3.Hosting;
@@ -12,28 +10,31 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Memory;
 using Microsoft.Extensions.DependencyInjection;
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 
 namespace IctBaden.Stonehenge3.Kestrel
 {
     public class KestrelHost : IStonehengeHost
     {
+        public string AppTitle { get; private set; }
+        public string BaseUrl { get; private set; }
+        public StonehengeHostOptions Options { get; private set; }
+
+        
         private IWebHost _webApp;
         private Task _host;
         private CancellationTokenSource _cancel;
-        
-        // ReSharper disable once NotAccessedField.Local
         private readonly IStonehengeResourceProvider _resourceLoader;
 
-        public bool DisableSessionIdUrlParameter { get; set; }
-
         public KestrelHost(IStonehengeResourceProvider loader)
+        : this(loader, new StonehengeHostOptions())
+        {
+        }
+        public KestrelHost(IStonehengeResourceProvider loader, StonehengeHostOptions options)
         {
             _resourceLoader = loader;
+            Options = options;
         }
-
-        public string AppTitle { get; private set; }
-
-        public string BaseUrl { get; private set; }
 
         public bool Start(string title, bool useSsl, string hostAddress, int hostPort)
         {
@@ -69,7 +70,7 @@ namespace IctBaden.Stonehenge3.Kestrel
                     InitialData = new[] 
                     {
                         new KeyValuePair<string, string>( "AppTitle", AppTitle),
-                        new KeyValuePair<string, string>( "DisableSessionIdUrlParameter", DisableSessionIdUrlParameter.ToString())
+                        new KeyValuePair<string, string>( "DisableSessionIdUrlParameter", (Options.SessionIdMode == SessionIdModes.CookiesOnly).ToString())
                     }
                 };
 
@@ -81,9 +82,12 @@ namespace IctBaden.Stonehenge3.Kestrel
                     .UseConfiguration(config)
                     .ConfigureServices(s => { s.AddSingleton<IConfiguration>(config); })
                     .ConfigureServices(s => { s.AddSingleton(_resourceLoader); })
+                    .UseSockets()
                     .UseStartup<Startup>()
                     .UseKestrel(options =>
                     {
+                        // ensure no connection limit
+                        options.Limits.MaxConcurrentConnections = null;
                         // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                         if(useSsl)
                         {
@@ -124,32 +128,6 @@ namespace IctBaden.Stonehenge3.Kestrel
             }
             return _webApp != null;
         }
-
-        // use BouncyCastle nuget package
-        //private static X509Certificate2 GenerateCertificate(string certName)
-        //{
-        //    var keypairgen = new RsaKeyPairGenerator();
-        //    keypairgen.Init(new KeyGenerationParameters(new SecureRandom(new CryptoApiRandomGenerator()), 1024));
-
-        //    var keypair = keypairgen.GenerateKeyPair();
-
-        //    var gen = new X509V3CertificateGenerator();
-
-        //    var CN = new X509Name("CN=" + certName);
-        //    var SN = BigInteger.ProbablePrime(120, new Random());
-
-        //    gen.SetSerialNumber(SN);
-        //    gen.SetSubjectDN(CN);
-        //    gen.SetIssuerDN(CN);
-        //    gen.SetNotAfter(DateTime.MaxValue);
-        //    gen.SetNotBefore(DateTime.Now.Subtract(new TimeSpan(7, 0, 0, 0)));
-        //    gen.SetSignatureAlgorithm("MD5WithRSA");
-        //    gen.SetPublicKey(keypair.Public);
-
-        //    var newCert = gen.Generate(keypair.Private);
-
-        //    return new X509Certificate2(DotNetUtilities.ToX509Certificate((Org.BouncyCastle.X509.X509Certificate)newCert));
-        //}
 
         public void Terminate()
         {

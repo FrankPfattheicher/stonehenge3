@@ -16,6 +16,7 @@ using Newtonsoft.Json.Linq;
 
 namespace IctBaden.Stonehenge3.Kestrel.Middleware
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class StonehengeContent
     {
       private readonly RequestDelegate _next;
@@ -131,7 +132,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 {
                     using (var writer = new StreamWriter(response))
                     {
-                        writer.Write(content.Text);
+                        await writer.WriteAsync(content.Text);
                     }
                 }
             }

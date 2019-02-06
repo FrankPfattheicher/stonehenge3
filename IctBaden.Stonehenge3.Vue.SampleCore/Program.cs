@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
-using IctBaden.Stonehenge3.Caching;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Kestrel;
 using IctBaden.Stonehenge3.Resources;
@@ -36,15 +35,19 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
             // Select hosting technology
             var hosting = "kestrel";
             if (Environment.CommandLine.Contains("/simple")) { hosting = "simple"; }
+            var options = new StonehengeHostOptions
+            {
+                SessionIdMode = SessionIdModes.CookiesOnly
+            };
             switch (hosting)
             {
                 case "kestrel":
                     Console.WriteLine(@"Using Kestrel hosting");
-                    _server = new KestrelHost(loader) { DisableSessionIdUrlParameter = true };
+                    _server = new KestrelHost(loader, options);
                     break;
                 case "simple":
                     Console.WriteLine(@"Using simple http hosting");
-                    _server = new SimpleHttpHost(loader, new MemoryCache());
+                    _server = new SimpleHttpHost(loader, options);
                     break;
             }
 
@@ -80,6 +83,8 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
 #pragma warning disable 0162
             // ReSharper disable once HeuristicUnreachableCode
             _server.Terminate();
+            
+            Console.WriteLine(@"Exit sample app");
             Environment.Exit(0);
         }
     }

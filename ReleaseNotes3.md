@@ -1,4 +1,6 @@
 
+* 3.3.1 - Introduced StonehengeHostOptions. Kestrel on linux hanging fixed. 
+          Linux HostWindow fixed. SimpleHttp query parameter handling added. 
 * 3.2.1 - Removed integrity specification for fontawesome_all.css.
 * 3.2.0 - All necessary resources embedded for offline functionality.
 * 3.1.1 - Removed vulnerability dependencies from aurelia packages.

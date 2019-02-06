@@ -11,24 +11,35 @@ using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
+// ReSharper disable UnusedMember.Global
 
 namespace IctBaden.Stonehenge3.SimpleHttp
 {
     public class SimpleHttpHost : IStonehengeHost
     {
-        private SimpleHttpServer _server;
-
         public string AppTitle { get; private set; }
         public string BaseUrl { get; private set; }
-        public bool DisableSessionIdUrlParameter { get; set; }
+        public StonehengeHostOptions Options { get; private set; }
 
 
+        private SimpleHttpServer _server;
         private readonly IStonehengeResourceProvider _resourceLoader;
         private readonly IStonehengeSessionCache _sessionCache;
 
-        public SimpleHttpHost(IStonehengeResourceProvider loader, IStonehengeSessionCache cache)
+        public SimpleHttpHost(IStonehengeResourceProvider loader)
+            : this(loader, new StonehengeHostOptions(), new MemoryCache())
+        {
+        }
+        public SimpleHttpHost(IStonehengeResourceProvider loader, StonehengeHostOptions options)
+            : this(loader, options, new MemoryCache())
+        {
+        }
+        // ReSharper disable once MemberCanBePrivate.Global
+        public SimpleHttpHost(IStonehengeResourceProvider loader, StonehengeHostOptions options, IStonehengeSessionCache cache)
         {
             _resourceLoader = loader;
+            Options = options;
             _sessionCache = cache;
         }
 

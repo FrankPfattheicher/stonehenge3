@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
-using IctBaden.Stonehenge3.Caching;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Kestrel;
 using IctBaden.Stonehenge3.Resources;
@@ -35,15 +34,20 @@ namespace IctBaden.Stonehenge3.Aurelia.SampleCore
             // Select hosting technology
             var hosting = "kestrel";
             if (Environment.CommandLine.Contains("/Simple")) { hosting = "simple"; }
+
+            var options = new StonehengeHostOptions
+            {
+                SessionIdMode = SessionIdModes.CookiesOnly
+            };
             switch (hosting)
             {
                 case "kestrel":
                     Console.WriteLine(@"Using Kestrel hosting");
-                    _server = new KestrelHost(loader) { DisableSessionIdUrlParameter = true };
+                    _server = new KestrelHost(loader, options);
                     break;
                 case "simple":
                     Console.WriteLine(@"Using simple http hosting");
-                    _server = new SimpleHttpHost(loader, new MemoryCache());
+                    _server = new SimpleHttpHost(loader, options);
                     break;
             }
 

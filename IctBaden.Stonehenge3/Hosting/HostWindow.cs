@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Web;
 // ReSharper disable CommentTypo
 
@@ -12,6 +13,7 @@ namespace IctBaden.Stonehenge3.Hosting
         private readonly Point _windowSize;
         private readonly string _hostUrl;
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public string LastError;
 
         private static Point DefaultWindowSize
@@ -90,10 +92,15 @@ namespace IctBaden.Stonehenge3.Hosting
                     FileName = Environment.OSVersion.Platform == PlatformID.Unix ? "chromium" : "chrome",
                     CreateNoWindow = true,
                     Arguments = $"--app={_hostUrl}/?title={HttpUtility.UrlEncode(_title)} --window-size={_windowSize.X},{_windowSize.Y} --disable-translate --user-data-dir=\"{path}\"",
-                    UseShellExecute = true
+                    UseShellExecute = Environment.OSVersion.Platform != PlatformID.Unix
                 };
+                if (Environment.OSVersion.Platform == PlatformID.Unix)
+                {
+                    pi.Arguments += " --disable-gpu";
+                }
                 var ui = Process.Start(pi);
-                if (ui == null)
+                Thread.Sleep(100);    // unexpected exit on linux
+                if ((ui == null) || ui.HasExited)
                 {
                     return false;
                 }
@@ -117,7 +124,7 @@ namespace IctBaden.Stonehenge3.Hosting
                 var cmd = Environment.OSVersion.Platform == PlatformID.Unix ? "chromium-browser" : "chrome.exe";
                 var parameter = $"--app={_hostUrl}/?title={HttpUtility.UrlEncode(_title)} --window-size={_windowSize.X},{_windowSize.Y} --disable-translate --user-data-dir=\"{path}\"";
                 var ui = Process.Start(cmd, parameter);
-                if (ui == null)
+                if ((ui == null) || ui.HasExited)
                 {
                     return false;
                 }
@@ -142,7 +149,7 @@ namespace IctBaden.Stonehenge3.Hosting
             {
                 var parameter = $"{_hostUrl}/?title={HttpUtility.UrlEncode(_title)}";
                 var ui = Process.Start("epiphany", parameter);
-                if (ui == null)
+                if ((ui == null) || ui.HasExited)
                 {
                     return false;
                 }
@@ -166,7 +173,7 @@ namespace IctBaden.Stonehenge3.Hosting
             {
                 var parameter = $"-e Navigationbar -c {path} -a {_hostUrl}/?title={HttpUtility.UrlEncode(_title)}";
                 var ui = Process.Start("midori", parameter);
-                if (ui == null)
+                if ((ui == null) || ui.HasExited)
                 {
                     return false;
                 }
@@ -191,7 +198,7 @@ namespace IctBaden.Stonehenge3.Hosting
                 const string cmd = "iexplore.exe";
                 var parameter = $"-private {_hostUrl}/?title={HttpUtility.UrlEncode(_title)}";
                 var ui = Process.Start(cmd, parameter);
-                if (ui == null)
+                if ((ui == null) || ui.HasExited)
                 {
                     return false;
                 }
@@ -213,7 +220,7 @@ namespace IctBaden.Stonehenge3.Hosting
                 var cmd = Environment.OSVersion.Platform == PlatformID.Unix ? "firefox" : "firefox.exe";
                 var parameter = $"{_hostUrl}/?title={HttpUtility.UrlEncode(_title)} -width {_windowSize.X} -height {_windowSize.Y}";
                 var ui = Process.Start(cmd, parameter);
-                if (ui == null)
+                if ((ui == null) || ui.HasExited)
                 {
                     return false;
                 }
@@ -238,7 +245,7 @@ namespace IctBaden.Stonehenge3.Hosting
                 const string cmd = "safari.exe";
                 var parameter = $"-url {_hostUrl}/?title={HttpUtility.UrlEncode(_title)} -width {_windowSize.X} -height {_windowSize.Y}";
                 var ui = Process.Start(cmd, parameter);
-                if (ui == null)
+                if ((ui == null) || ui.HasExited)
                 {
                     return false;
                 }

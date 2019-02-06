@@ -3,7 +3,7 @@
     public interface IStonehengeHost
     {
         /// <summary>
-        /// The applicatioons title to use.
+        /// The applications title to use.
         /// </summary>
         string AppTitle { get; }
 
@@ -13,17 +13,17 @@
         string BaseUrl { get; }
 
         /// <summary>
-        /// Disables redirection with session id as URL parameter.
-        /// Requires all clients are able to use cookies.
+        /// Options for hosting and serving.
         /// </summary>
-        bool DisableSessionIdUrlParameter { get; set; }
-
+        // ReSharper disable once UnusedMemberInSuper.Global
+        StonehengeHostOptions Options { get; }
+            
         /// <summary>
         /// Start hosting service.
         /// </summary>
         /// <param name="title"></param>
         /// <param name="useSsl">Use secure sockets for hosting.</param>
-        /// <param name="hostAddress">IP address to listen on or null to listen on all adresses.</param>
+        /// <param name="hostAddress">IP address to listen on or null to listen on all addresses.</param>
         /// <param name="hostPort">Port number to listen on or 0 for default (80 or 443 for SSL).</param>
         /// <returns>True if successfully started.</returns>
         bool Start(string title, bool useSsl = false, string hostAddress = null, int hostPort = 0);

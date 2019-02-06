@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Threading;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.ViewModel;
+// ReSharper disable MemberCanBePrivate.Global
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 
@@ -415,7 +416,7 @@ namespace IctBaden.Stonehenge3.Core
         public event PropertyChangedEventHandler PropertyChanged;
 
 
-        protected virtual void NotifyPropertyChanged(string propertyName)
+        private void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

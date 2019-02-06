@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace IctBaden.Stonehenge3.SimpleHttp
 {
@@ -13,7 +14,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
     /// </summary>
     internal class SimpleHttpServer
     {
-        protected int Port;
+        protected readonly int Port;
         private TcpListener _listenerSocket;
 
         private Thread _listenerThread;
@@ -39,17 +40,19 @@ namespace IctBaden.Stonehenge3.SimpleHttp
             var listener = _listenerSocket;
             _listenerSocket = null;
 
+            listener?.Server.Shutdown(SocketShutdown.Both);
             listener?.Stop();
 
             var thread = _listenerThread;
             _listenerThread = null;
-
+            
             thread?.Join(TimeSpan.FromSeconds(10));
         }
 
         public void Listen()
         {
             _listenerSocket = new TcpListener(IPAddress.Any, Port);
+            _listenerSocket.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
             _listenerSocket.Start();
             while (IsActive)
             {
@@ -63,7 +66,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex.Message);
+                    Trace.TraceError(ex.Message);
                 }
             }
         }
