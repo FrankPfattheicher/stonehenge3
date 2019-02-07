@@ -27,18 +27,18 @@ namespace IctBaden.Stonehenge3.Aurelia.SampleCore
 
             // Select client framework
             Console.WriteLine(@"Using client framework aurelia");
-            var loader = StonehengeResourceLoader.CreateDefaultLoader();
-            var aurelia = new AureliaResourceProvider();
-            aurelia.InitProvider(loader, "Sample", "start", new StonehengeHostOptions());
+            var loader = StonehengeResourceLoader.CreateDefaultLoader(new AureliaResourceProvider());
+            var options = new StonehengeHostOptions
+            {
+                Title = "Sample",
+                StartPage = "start",
+                SessionIdMode = SessionIdModes.CookiesOnly
+            };
 
             // Select hosting technology
             var hosting = "kestrel";
             if (Environment.CommandLine.Contains("/Simple")) { hosting = "simple"; }
 
-            var options = new StonehengeHostOptions
-            {
-                SessionIdMode = SessionIdModes.CookiesOnly
-            };
             switch (hosting)
             {
                 case "kestrel":

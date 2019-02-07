@@ -2,16 +2,22 @@
 using System.Diagnostics;
 using System.IO;
 using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Hosting;
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 
 namespace IctBaden.Stonehenge3.Resources
 {
     public class FileLoader : IStonehengeResourceProvider
     {
-        public string RootPath { get; }
+        public string RootPath { get; private set; }
 
         public FileLoader(string path)
         {
             RootPath = path;
+        }
+        
+        public void InitProvider(StonehengeHostOptions options)
+        {
         }
 
         public void Dispose()

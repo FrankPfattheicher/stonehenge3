@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using Newtonsoft.Json;
 
@@ -12,6 +13,10 @@ namespace IctBaden.Stonehenge3.ViewModel
 {
     public class ViewModelProvider : IStonehengeResourceProvider
     {
+        public void InitProvider(StonehengeHostOptions options)
+        {
+        }
+
         public void Dispose()
         {
         }

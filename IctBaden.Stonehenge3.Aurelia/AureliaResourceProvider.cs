@@ -17,21 +17,15 @@ namespace IctBaden.Stonehenge3.Aurelia
     {
         private Dictionary<string, Resource> _aureliaContent;
 
-        public void InitProvider(StonehengeResourceLoader loader, string appTitle, string rootPage, StonehengeHostOptions options) => InitProvider(loader, appTitle, rootPage, options, null);
-
-        public void InitProvider(StonehengeResourceLoader loader, string appTitle, string rootPage, StonehengeHostOptions options, string appFilesPath)
+        public void InitProvider(StonehengeHostOptions options)
         {
             _aureliaContent = new Dictionary<string, Resource>();
 
-            var resLoader = (ResourceLoader)loader.Loaders.First(ld => ld.GetType() == typeof(ResourceLoader));
-            resLoader.AddAssembly(typeof(AureliaResourceProvider).Assembly);
-            loader.Loaders.Add(this);
+            var appCreator = new AureliaAppCreator(options.Title, options.StartPage, options, _aureliaContent);
 
-            var appCreator = new AureliaAppCreator(appTitle, rootPage, options, _aureliaContent);
-
-            if (!string.IsNullOrEmpty(appFilesPath))
+            if (!string.IsNullOrEmpty(options.AppFilesPath))
             {
-                AddFileSystemContent(appFilesPath);
+                AddFileSystemContent(options.AppFilesPath);
             }
             AddResourceContent();
             appCreator.CreateApplication();
@@ -117,14 +111,11 @@ namespace IctBaden.Stonehenge3.Aurelia
 
             foreach (var assembly in assemblies)
             {
-                var baseName = assembly.GetName().Name + ".app.";
-
                 foreach (var resourceName in assembly.GetManifestResourceNames()
                   .Where(name => (name.EndsWith(".html")) && !name.Contains("index.html") && !name.Contains("src.app.html"))
                   .OrderBy(name => name))
                 {
-                    var resourceId = resourceName
-                        .Substring(baseName.Length)
+                    var resourceId = ResourceLoader.GetShortResourceName(".app.", resourceName)
                         .Replace("@", "_")
                         .Replace("-", "_")
                         .Replace("._0", ".0")

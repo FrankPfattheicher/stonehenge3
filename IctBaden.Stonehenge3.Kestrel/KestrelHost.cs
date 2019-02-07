@@ -36,6 +36,8 @@ namespace IctBaden.Stonehenge3.Kestrel
         {
             _resourceLoader = loader;
             Options = options;
+            
+            loader.InitProvider(options);
         }
 
         public bool Start(string title, bool useSsl, string hostAddress, int hostPort)

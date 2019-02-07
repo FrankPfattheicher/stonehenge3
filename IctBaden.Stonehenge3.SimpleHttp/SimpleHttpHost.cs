@@ -41,6 +41,8 @@ namespace IctBaden.Stonehenge3.SimpleHttp
             _resourceLoader = loader;
             Options = options;
             _sessionCache = cache;
+            
+            loader.InitProvider(options);
         }
 
         public bool Start(string title, bool useSsl = false, string hostAddress = null, int hostPort = 0)

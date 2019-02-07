@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.ViewModel;
 
 namespace IctBaden.Stonehenge3.Resources
@@ -20,6 +21,16 @@ namespace IctBaden.Stonehenge3.Resources
             Services = new ServiceContainer();
         }
 
+        public void InitProvider(StonehengeHostOptions options)
+        {
+            foreach (var loader in Loaders)
+            {
+                loader.InitProvider(options);
+            }
+        }
+
+
+        
         public void Dispose()
         {
             Loaders.ForEach(l => l.Dispose());
@@ -87,7 +98,7 @@ namespace IctBaden.Stonehenge3.Resources
             return replaced;
         }
 
-        public static StonehengeResourceLoader CreateDefaultLoader()
+        public static StonehengeResourceLoader CreateDefaultLoader(IStonehengeResourceProvider provider)
         {
             var assemblies = new List<Assembly>
                  {
@@ -100,6 +111,10 @@ namespace IctBaden.Stonehenge3.Resources
                 .ToList();
 
             var resLoader = new ResourceLoader(assemblies, Assembly.GetCallingAssembly());
+            if (provider != null)
+            {
+                resLoader.AddAssembly(provider.GetType().Assembly);
+            }
 
             var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? Directory.GetCurrentDirectory();
             var fileLoader = new FileLoader(Path.Combine(path, "App"));
@@ -107,7 +122,10 @@ namespace IctBaden.Stonehenge3.Resources
             var viewModelCreator = new ViewModelProvider();
 
             var loader = new StonehengeResourceLoader(new List<IStonehengeResourceProvider> { fileLoader, resLoader, viewModelCreator });
-
+            if (provider != null)
+            {
+                loader.Loaders.Add(provider);
+            }
             return loader;
         }
 

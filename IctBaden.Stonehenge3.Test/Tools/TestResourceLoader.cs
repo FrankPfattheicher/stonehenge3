@@ -1,4 +1,6 @@
-﻿namespace IctBaden.Stonehenge3.Test.Tools
+﻿using IctBaden.Stonehenge3.Hosting;
+
+namespace IctBaden.Stonehenge3.Test.Tools
 {
     using System.Collections.Generic;
     using System.IO;
@@ -15,6 +17,10 @@
             _content = content;
         }
 
+        public void InitProvider(StonehengeHostOptions options)
+        {
+        }
+
         public void Dispose()
         {
         }
@@ -23,6 +29,7 @@
         {
             return null;
         }
+
         public Resource Get(AppSession session, string resourceName, Dictionary<string, string> parameters)
         {
             var resourceExtension = Path.GetExtension(resourceName);

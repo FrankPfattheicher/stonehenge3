@@ -28,14 +28,14 @@ namespace IctBaden.Stonehenge3.Aurelia.SampleFull
 
             var options = new StonehengeHostOptions
             {
+                Title = "Sample",
+                StartPage = "start",
                 SessionIdMode = SessionIdModes.CookiesOnly
             };
 
             // Select client framework
             Console.WriteLine(@"Using client framework aurelia");
-            var loader = StonehengeResourceLoader.CreateDefaultLoader();
-            var aurelia = new AureliaResourceProvider();
-            aurelia.InitProvider(loader, "Sample", "start", options);
+            var loader = StonehengeResourceLoader.CreateDefaultLoader(new AureliaResourceProvider());
 
             // Select hosting technology
             var hosting = "owin";

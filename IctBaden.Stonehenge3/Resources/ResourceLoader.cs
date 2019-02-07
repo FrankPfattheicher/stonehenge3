@@ -7,8 +7,10 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using IctBaden.Stonehenge3.Client;
 using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Hosting;
 
 namespace IctBaden.Stonehenge3.Resources
 {
@@ -40,6 +42,26 @@ namespace IctBaden.Stonehenge3.Resources
                 });
         }
 
+        public void InitProvider(StonehengeHostOptions options)
+        {
+        }
+
+        public static string GetShortResourceName(string baseName, string resourceName)
+        {
+            var ixBase = resourceName.IndexOf(baseName, StringComparison.InvariantCultureIgnoreCase);
+            return ixBase >= 0 
+                ? resourceName.Substring(ixBase + baseName.Length) 
+                : string.Empty;
+        }
+
+        public static string RemoveResourceProtocol(string resourceName)
+        {
+            var match = new Regex(@"\w+://(.*)").Match(resourceName);
+            return match.Success 
+                ? match.Groups[1].Value 
+                : resourceName;
+        }
+
         public void AddAssembly(Assembly assembly)
         {
             ResourceAssemblies.Add(assembly);
@@ -51,18 +73,15 @@ namespace IctBaden.Stonehenge3.Resources
             AddAssemblyResources(assembly, asmResources);
         }
 
-        private static void AddAssemblyResources(Assembly assemby, Dictionary<string, AssemblyResource> dict)
+        private static void AddAssemblyResources(Assembly assembly, IDictionary<string, AssemblyResource> dict)
         {
-            foreach (var resource in assemby.GetManifestResourceNames())
+            foreach (var resource in assembly.GetManifestResourceNames())
             {
-                const string baseName = ".app.";
-                var appBase = resource.IndexOf(baseName, StringComparison.InvariantCultureIgnoreCase);
-                if (appBase == -1)
+                var shortName = GetShortResourceName(".app.", resource);
+                if (string.IsNullOrEmpty(shortName))
                 {
                     continue;
                 }
-
-                var shortName = resource.Substring(appBase + baseName.Length);
                 var resourceId = shortName
                         .Replace("@", "_")
                         .Replace("-", "_")
@@ -76,7 +95,7 @@ namespace IctBaden.Stonehenge3.Resources
                         .Replace("._7", ".7")
                         .Replace("._8", ".8")
                         .Replace("._9", ".9");
-                var asmResource = new AssemblyResource(resource, shortName, assemby);
+                var asmResource = new AssemblyResource(resource, shortName, assembly);
                 if (!dict.ContainsKey(resourceId))
                 {
                     Trace.TraceInformation($"ResourceLoader.AddAssemblyResources: Added {shortName}");

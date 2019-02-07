@@ -18,25 +18,13 @@ namespace IctBaden.Stonehenge3.Vue
     {
         private Dictionary<string, Resource> _vueContent;
 
-        // ReSharper disable once UnusedMember.Global
-        public void InitProvider(StonehengeResourceLoader loader, string appTitle, string rootPage, StonehengeHostOptions options)
-        {
-            var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? ".";
-            var appFilesPath = Path.Combine(path, "app");
-            InitProvider(loader, appTitle, rootPage, options, appFilesPath);
-        }
-
-        public void InitProvider(StonehengeResourceLoader loader, string appTitle, string rootPage, StonehengeHostOptions options, string appFilesPath)
+        public void InitProvider(StonehengeHostOptions options)
         {
             _vueContent = new Dictionary<string, Resource>();
 
-            var resLoader = (ResourceLoader)loader.Loaders.First(ld => ld.GetType() == typeof(ResourceLoader));
-            resLoader.AddAssembly(typeof(VueResourceProvider).Assembly);
-            loader.Loaders.Add(this);
+            var appCreator = new VueAppCreator(options.Title, options.StartPage, options, _vueContent);
 
-            var appCreator = new VueAppCreator(appTitle, rootPage, options, _vueContent);
-
-            AddFileSystemContent(appFilesPath);
+            AddFileSystemContent(options.AppFilesPath);
             AddResourceContent();
             appCreator.CreateApplication();
             appCreator.CreateComponents();
@@ -120,14 +108,11 @@ namespace IctBaden.Stonehenge3.Vue
 
             foreach (var assembly in assemblies)
             {
-                var baseName = assembly.GetName().Name + ".app.";
-
                 foreach (var resourceName in assembly.GetManifestResourceNames()
                   .Where(name => (name.EndsWith(".html")) && !name.Contains("index.html") && !name.Contains("src.app.html"))
                   .OrderBy(name => name))
                 {
-                    var resourceId = resourceName
-                        .Substring(baseName.Length)
+                    var resourceId = ResourceLoader.GetShortResourceName(".app.", resourceName)
                         .Replace("@", "_")
                         .Replace("-", "_")
                         .Replace("._0", ".0")

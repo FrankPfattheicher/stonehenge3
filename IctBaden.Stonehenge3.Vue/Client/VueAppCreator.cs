@@ -120,10 +120,15 @@ namespace IctBaden.Stonehenge3.Vue.Client
                         Trace.TraceInformation($"VueAppCreator.CreateControllers: {viewModel.ViewModel.VmName} => src.{viewModel.Name}.js");
 
                         var assembly = Assembly.GetEntryAssembly();
-                        var userJs = LoadResourceText(assembly, $"{assembly.GetName().Name}.app.{viewModel.Name}_user.js");
-                        if (!string.IsNullOrWhiteSpace(userJs))
+                        var name = assembly.GetManifestResourceNames()
+                            .FirstOrDefault(rn => rn.EndsWith($".app.{viewModel.Name}_user.js"));
+                        if (!string.IsNullOrEmpty(name))
                         {
-                            controllerJs += userJs;
+                            var userJs = LoadResourceText(assembly, name);
+                            if (!string.IsNullOrWhiteSpace(userJs))
+                            {
+                                controllerJs += userJs;
+                            }
                         }
 
                         var resource = new Resource($"{viewModel.Name}.js", "VueResourceProvider", ResourceType.Js, controllerJs, Resource.Cache.Revalidate);
@@ -309,18 +314,18 @@ namespace IctBaden.Stonehenge3.Vue.Client
             foreach (var element in customElements)
             {
                 var elementJs = ElementTemplate.Replace("stonehengeCustomElementName", element.ViewModel.ElementName);
-                var sourceIndex = element.Source.IndexOf(".app.", StringComparison.InvariantCultureIgnoreCase);
-                var source = Path.GetFileNameWithoutExtension(element.Source.Substring(sourceIndex + 5));
+                
+                var source = Path.GetFileNameWithoutExtension(ResourceLoader.RemoveResourceProtocol(element.Source));
                 elementJs = elementJs.Replace("stonehengeViewModelName", source);
 
                 var bindings = element.ViewModel?.Bindings?.Select(b => $"'{b}'") ?? new List<string>() { string.Empty };
                 elementJs = elementJs.Replace("stonehengeCustomElementProps", string.Join(Environment.NewLine, bindings));
 
-                var template = LoadResourceText(assembly, $"{assembly.GetName().Name}.app.{source}.html");
+                var template = LoadResourceText(assembly, $"{source}.html");
                 template = JsonConvert.SerializeObject(template);
                 elementJs = elementJs.Replace("'stonehengeElementTemplate'", template);
 
-                var methods = LoadResourceText(assembly, $"{assembly.GetName().Name}.app.{source}.js");
+                var methods = LoadResourceText(assembly, $"{source}.js");
                 if (!string.IsNullOrEmpty(methods)) methods = "," + methods;
                 elementJs = elementJs.Replace("//stonehengeElementMethods", methods);
 

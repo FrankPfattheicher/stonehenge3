@@ -1,4 +1,5 @@
 
+* 3.3.5 - Fixed different assembly/namespace problems. Title and start page added to options to hide InitProvider.
 * 3.3.4 - ServerPushModes ShortPolling and LongPolling implemented.
 * 3.3.3 - Using HostOptions everywhere. 
 * 3.3.2 - SimpleHttp session handling fixed. 

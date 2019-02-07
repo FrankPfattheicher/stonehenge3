@@ -1,8 +1,28 @@
 // ReSharper disable MemberCanBePrivate.Global
+
+using System.IO;
+using System.Reflection;
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+
 namespace IctBaden.Stonehenge3.Hosting
 {
     public class StonehengeHostOptions
     {
+        /// <summary>
+        /// Title to be shown in the Title bar.
+        /// Default is the entry assembly name.
+        /// </summary>
+        public string Title { get; set; }
+        /// <summary>
+        /// Initial page to be activated.
+        /// </summary>
+        public string StartPage { get; set; } = "start";
+        
+        /// <summary>
+        /// Path to the file based content.
+        /// </summary>
+        public string AppFilesPath { get; set; }
+
         /// <summary>
         /// Specifies how session id is transported.
         /// </summary>
@@ -21,6 +41,15 @@ namespace IctBaden.Stonehenge3.Hosting
         public int PollIntervalMs { get; set; }
 
 
+        public StonehengeHostOptions()
+        {
+            Title = Assembly.GetEntryAssembly().GetName().Name;
+            
+            var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? ".";
+            AppFilesPath = Path.Combine(path, "app");
+        }
+        
+        
         /// <summary>
         /// Delay [ms] the client should wait for new poll.
         /// </summary>
