@@ -18,7 +18,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
 {
     public class SimpleHttpHost : IStonehengeHost
     {
-        public string AppTitle { get; private set; }
+        public string AppTitle => Options.Title;
         public string BaseUrl { get; private set; }
         public StonehengeHostOptions Options { get; private set; }
 
@@ -45,13 +45,13 @@ namespace IctBaden.Stonehenge3.SimpleHttp
             loader.InitProvider(options);
         }
 
-        public bool Start(string title, bool useSsl = false, string hostAddress = null, int hostPort = 0)
+        public bool Start(string hostAddress = null, int hostPort = 0)
         {
-            AppTitle = title;
-
-            if(useSsl)
-                throw new NotSupportedException("SSL not supported.");
-            if (hostPort == 0) hostPort = 80;
+            if (hostPort == 0)
+            {
+                //TODO: find free port
+                hostPort = 80;
+            }
 
             BaseUrl = "http://"
                 + (hostAddress ?? "127.0.0.1")

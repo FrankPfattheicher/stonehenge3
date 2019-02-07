@@ -18,7 +18,7 @@ namespace IctBaden.Stonehenge3.Kestrel
 {
     public class KestrelHost : IStonehengeHost
     {
-        public string AppTitle { get; private set; }
+        public string AppTitle => Options.Title;
         public string BaseUrl { get; private set; }
         public StonehengeHostOptions Options { get; private set; }
 
@@ -40,10 +40,8 @@ namespace IctBaden.Stonehenge3.Kestrel
             loader.InitProvider(options);
         }
 
-        public bool Start(string title, bool useSsl, string hostAddress, int hostPort)
+        public bool Start(string hostAddress, int hostPort)
         {
-            AppTitle = title;
-
             try
             {
                 IPAddress listenAddress;
@@ -60,14 +58,14 @@ namespace IctBaden.Stonehenge3.Kestrel
                         listenAddress = IPAddress.Parse(hostAddress);
                         break;
                 }
-                if (hostPort == 0) hostPort = useSsl ? 443 : 80;
 
-                BaseUrl = (useSsl ? "https://" : "http://") + hostAddress + ":" + hostPort;
-
-                if (useSsl)
+                if (hostPort == 0)
                 {
-                    throw new NotSupportedException("https is currently not supported - use reverse proxy");
+                    //TODO: find free port
+                    hostPort = 80;
                 }
+
+                BaseUrl = $"http://{hostAddress}:{hostPort}";
 
                 var mem = new MemoryConfigurationSource()
                 {
@@ -92,18 +90,7 @@ namespace IctBaden.Stonehenge3.Kestrel
                     {
                         // ensure no connection limit
                         options.Limits.MaxConcurrentConnections = null;
-                        // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-                        if(useSsl)
-                        {
-                            options.Listen(listenAddress, hostPort, listenOptions =>
-                            {
-                                listenOptions.UseHttps();
-                            });
-                        }
-                        else
-                        {
-                            options.Listen(listenAddress, hostPort);
-                        }
+                        options.Listen(listenAddress, hostPort);
                     })
                     .Build();
 

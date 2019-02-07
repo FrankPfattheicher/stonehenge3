@@ -57,7 +57,7 @@ namespace IctBaden.Stonehenge3.Aurelia.SampleFull
             Console.CancelKeyPress += (sender, eventArgs) => { terminate.Set(); };
 
             var host = Environment.CommandLine.Contains("/localhost") ? "localhost" : "*";
-            if (_server.Start("Sample", false, host, 32000))
+            if (_server.Start(host, 32000))
             {
                 Console.WriteLine(@"Started server on: " + _server.BaseUrl);
 

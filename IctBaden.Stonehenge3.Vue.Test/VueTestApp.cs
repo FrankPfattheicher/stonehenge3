@@ -21,7 +21,7 @@ namespace IctBaden.Stonehenge3.Vue.Test
                 StartPage = "start"
             };
             _server = new KestrelHost(loader);
-            _server.Start("VueTest", false, "localhost", Port);
+            _server.Start("localhost", Port);
         }
 
         public void Dispose()

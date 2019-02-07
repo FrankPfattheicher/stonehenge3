@@ -1,4 +1,5 @@
 ﻿
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Kestrel;
 using IctBaden.Stonehenge3.Test.Tools;
 using Xunit;
@@ -17,10 +18,14 @@ namespace IctBaden.Stonehenge3.Test.Hosting
         {
             const string content = "<h1>Test</h1>";
 
+            var options = new StonehengeHostOptions
+            {
+                Title = "Test"
+            };
             var loader = new TestResourceLoader(content);
-            var host = new KestrelHost(loader);
+            var host = new KestrelHost(loader, options);
 
-            var startOk = host.Start("Test", false, "localhost", 32001);
+            var startOk = host.Start("localhost", 32001);
             Assert.True(startOk, "Start failed");
 
             var response = string.Empty;
@@ -46,16 +51,20 @@ namespace IctBaden.Stonehenge3.Test.Hosting
             const string content1 = "<h1>Test 01</h1>";
             const string content2 = "<h1>Test II</h1>";
 
+            var options = new StonehengeHostOptions
+            {
+                Title = "Test"
+            };
             var loader1 = new TestResourceLoader(content1);
-            var host1 = new KestrelHost(loader1);
+            var host1 = new KestrelHost(loader1, options);
 
-            var startOk = host1.Start("Test", false, "localhost", 32002);
+            var startOk = host1.Start("localhost", 32002);
             Assert.True(startOk, "Start host1 failed");
 
             var loader2 = new TestResourceLoader(content2);
-            var host2 = new KestrelHost(loader2);
+            var host2 = new KestrelHost(loader2, options);
 
-            startOk = host2.Start("Test", false, "localhost", 32003);
+            startOk = host2.Start("localhost", 32003);
             Assert.True(startOk, "Start host2 failed");
 
             Assert.NotEqual(host1.BaseUrl, host2.BaseUrl);
