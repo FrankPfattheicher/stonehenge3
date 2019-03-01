@@ -1,7 +1,6 @@
 ﻿using System;
+using System.Reactive.Linq;
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.ViewModel;
@@ -22,8 +21,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
         public string Test { get; set; }
         public string Version => Assembly.GetEntryAssembly().GetName().Version.ToString(2);
 
-        private Task _updater;
-        private readonly CancellationTokenSource _cancelUpdate;
+        private IDisposable _updater;
 
         // ReSharper disable once UnusedMember.Global
         public StartVm(AppSession session) : base (session)
@@ -31,23 +29,14 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
             Numeric = 123.456;
             Test = "abcd";
 
-            _cancelUpdate = new CancellationTokenSource();
-            _updater = new Task(
-                () =>
-                    {
-                        while ((_updater != null) && !_cancelUpdate.IsCancellationRequested)
-                        {
-                            Task.Delay(6000, _cancelUpdate.Token).Wait();
-                            NotifyPropertyChanged(nameof(TimeStamp));
-                        }
-                        // ReSharper disable once FunctionNeverReturns
-                    }, _cancelUpdate.Token);
-            _updater.Start();
+            _updater = Observable
+                .Timer(TimeSpan.FromSeconds(6))
+                .Subscribe(_ => NotifyPropertyChanged(nameof(TimeStamp)));
         }
 
         public void Dispose()
         {
-            _cancelUpdate.Cancel();
+            _updater?.Dispose();
             _updater = null;
         }
 

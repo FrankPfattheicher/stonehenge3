@@ -41,16 +41,20 @@ Adding some console logging, error handling and termination code we should end u
     {
         Console.WriteLine(@"Sample starting");
 
-        // resource loader
-        var loader = StonehengeResourceLoader.CreateDefaultLoader();
+        // options
+        var options = new StonehengeHostOptions
+        {
+            Title = "Sample",
+            StartPage = "start"
+        };
 
-        // client framework
-        var aurelia = new AureliaResourceProvider();
-        aurelia.InitProvider(loader, "Sample", "start");
+        // client framework (use Vue.js)
+        var provider = StonehengeResourceLoader
+            .CreateDefaultLoader(new VueResourceProvider());
 
         // hosting
-        var server = new KatanaHost(loader);
-        if (!server.Start("Sample", false, "localhost", 32000))
+        var host = new KestrelHost(provider, options);
+        if (!host.Start("localhost", 32000))
         {
             Console.WriteLine(@"Failed to start server on: " + server.BaseUrl);
             Environment.Exit(1);
