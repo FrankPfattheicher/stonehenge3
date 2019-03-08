@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using IctBaden.Stonehenge3.Resources;
 
 namespace IctBaden.Stonehenge3.Client
 {
-    public class UserContentLinks
+    public static class UserContentLinks
     {
         private const string CssInsertPoint = "<!--stonehengeUserStylesheets-->";
         private const string CssLinkTemplate = "<link href='{0}' rel='stylesheet'>";
@@ -31,21 +32,23 @@ namespace IctBaden.Stonehenge3.Client
                     styleSheets = string.Join(Environment.NewLine, links);
                 }
 
-                var ressourceBaseName = userAssembly.GetName().Name + ".app.";
-                var baseNameStyles = ressourceBaseName + "styles.";
-                var baseNameTheme = ressourceBaseName + "themes.";
+                const string ressourceBaseName = ".app.";
+                const string baseNameStyles = ressourceBaseName + "styles.";
+                const string baseNameTheme = ressourceBaseName + "themes.";
                 var ressourceNames = userAssembly.GetManifestResourceNames();
-                var cssRessources = ressourceNames.Where(name => name.EndsWith(".css")).ToList();
+                var cssResources = ressourceNames.Where(name => name.EndsWith(".css")).ToList();
                 // styles first
-                foreach (var resourceName in cssRessources.Where(name => name.StartsWith(baseNameStyles, StringComparison.InvariantCultureIgnoreCase)))
+                // ReSharper disable once LoopCanBeConvertedToQuery
+                foreach (var resourceName in cssResources.Where(name => name.Contains(baseNameStyles)))
                 {
-                    var css = resourceName.Substring(ressourceBaseName.Length).Replace(".", "/").Replace("/css", ".css");
+                    var css = ResourceLoader.GetShortResourceName(ressourceBaseName, resourceName).Replace(".", "/").Replace("/css", ".css");
                     styleSheets += Environment.NewLine + string.Format(CssLinkTemplate, css);
                 }
                 // then themes
-                foreach (var resourceName in cssRessources.Where(name => name.StartsWith(baseNameTheme + theme, StringComparison.InvariantCultureIgnoreCase)))
+                // ReSharper disable once LoopCanBeConvertedToQuery
+                foreach (var resourceName in cssResources.Where(name => name.Contains(baseNameTheme + theme)))
                 {
-                    var css = resourceName.Substring(ressourceBaseName.Length).Replace(".", "/").Replace("/css", ".css");
+                    var css = ResourceLoader.GetShortResourceName(ressourceBaseName, resourceName).Replace(".", "/").Replace("/css", ".css");
                     styleSheets += Environment.NewLine + string.Format(CssLinkTemplate, css);
                 }
 
@@ -76,13 +79,14 @@ namespace IctBaden.Stonehenge3.Client
                 scripts = string.Join(Environment.NewLine, links);
             }
 
-            var ressourceBaseName = userAssembly.GetName().Name + ".app.";
-            var baseNameScripts = ressourceBaseName + "scripts.";
+            const string ressourceBaseName = ".app.";
+            const string baseNameScripts = ressourceBaseName + "scripts.";
             var ressourceNames = userAssembly.GetManifestResourceNames();
-            var jsRessources = ressourceNames.Where(name => name.EndsWith(".js")).ToList();
-            foreach (var resourceName in jsRessources.Where(name => name.StartsWith(baseNameScripts, StringComparison.InvariantCultureIgnoreCase)))
+            var jsResources = ressourceNames.Where(name => name.EndsWith(".js")).ToList();
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (var resourceName in jsResources.Where(name => name.Contains(baseNameScripts)))
             {
-                var js = resourceName.Substring(ressourceBaseName.Length).Replace(".", "/").Replace("/js", ".js");
+                var js = ResourceLoader.GetShortResourceName(ressourceBaseName, resourceName).Replace(".", "/").Replace("/js", ".js");
                 scripts += Environment.NewLine + string.Format(JsLinkTemplate, js);
             }
 

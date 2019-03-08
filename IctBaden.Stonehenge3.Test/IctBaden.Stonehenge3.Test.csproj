@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -27,6 +27,14 @@
     <EmbeddedResource Include="app\image.jpg" />
     <EmbeddedResource Include="app\lib\TestScript.js" />
     <EmbeddedResource Include="app\test.html" />
+    <None Remove="app\scripts\test.js" />
+    <EmbeddedResource Include="app\scripts\test.js" />
+    <None Remove="app\stypes\test.css" />
+    <EmbeddedResource Include="app\styles\test.css" />
+    <None Remove="app\theme\themeblue.css" />
+    <EmbeddedResource Include="app\themes\test-theme.css" />
+    <None Remove="app\index.html" />
+    <EmbeddedResource Include="app\index.html" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,5 @@
 
+* 3.3.7 - Fixed user content links. Tests added.
 * 3.3.6 - Removed title and ssl parameters from host Start(). Using options instead.
 * 3.3.5 - Fixed different assembly/namespace problems. Title and start page added to options to hide InitProvider.
 * 3.3.4 - ServerPushModes ShortPolling and LongPolling implemented.
