@@ -49,8 +49,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
         {
             if (hostPort == 0)
             {
-                //TODO: find free port
-                hostPort = 80;
+                hostPort = Network.GetFreeTcpPort();
             }
 
             BaseUrl = "http://"
