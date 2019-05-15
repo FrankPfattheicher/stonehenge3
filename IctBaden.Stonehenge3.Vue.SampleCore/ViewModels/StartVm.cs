@@ -20,6 +20,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
         public double Numeric { get; set; }
         public string Test { get; set; }
         public string Version => Assembly.GetEntryAssembly().GetName().Version.ToString(2);
+        public bool IsLocal => Session?.IsLocal ?? true;
 
         private IDisposable _updater;
 

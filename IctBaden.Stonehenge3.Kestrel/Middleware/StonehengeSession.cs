@@ -12,6 +12,33 @@ using Microsoft.AspNetCore.Http;
 
 namespace IctBaden.Stonehenge3.Kestrel.Middleware
 {
+    internal static class HttpContextExtensions
+    {
+        public static bool IsLocal(this HttpContext ctx)
+        {
+            var connection = ctx.Connection;
+            if (connection.RemoteIpAddress != null)
+            {
+                if (connection.LocalIpAddress != null)
+                {
+                    return connection.RemoteIpAddress.Equals(connection.LocalIpAddress);
+                } 
+                else 
+                {
+                    return IPAddress.IsLoopback(connection.RemoteIpAddress);
+                }
+            }
+ 
+            // for in memory TestServer or when dealing with default connection info
+            if (connection.RemoteIpAddress == null && connection.LocalIpAddress == null)
+            {
+                return true;
+            }
+ 
+            return false;
+        }
+    }
+    
     // ReSharper disable once ClassNeverInstantiated.Global
     public class StonehengeSession
     {
@@ -118,7 +145,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
         {
             var options = (StonehengeHostOptions)context.Items["stonehenge.HostOptions"];
             var session = new AppSession(resourceLoader, options);
-            var isLocal = context.Items.ContainsKey("server.IsLocal") && (bool)context.Items["server.IsLocal"];
+            var isLocal = context.IsLocal();
             var userAgent = context.Request.Headers["User-Agent"];
             session.Initialize(context.Request.Host.Value, isLocal, "RemoteIpAddress", userAgent);
             appSessions.Add(session);
