@@ -15,7 +15,6 @@
     <copyright>Copyright ICT Baden GmbH 2013-2018</copyright>
     <tags>.NET Core HTML CSS Kestrel Aurelia Vue</tags>
     <dependencies>
-      <group targetFramework=".NETStandard2.0">
         <dependency id="Microsoft.AspNetCore.Hosting" version="2.2.0" />
         <dependency id="Microsoft.AspNetCore.Hosting.Abstractions" version="2.2.0" />
         <dependency id="Microsoft.AspNetCore.Http.Abstractions" version="2.2.0" />
@@ -23,23 +22,13 @@
         <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="2.2.0" />
         <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="2.2.0" />
         <dependency id="Newtonsoft.Json" version="12.0.1" />
-      </group>
     </dependencies>
     <references>
-      <group targetFramework=".NETStandard2.0">
         <reference file="IctBaden.Stonehenge3.dll" />
         <reference file="IctBaden.Stonehenge3.Aurelia.dll" />
         <reference file="IctBaden.Stonehenge3.Vue.dll" />
         <reference file="IctBaden.Stonehenge3.Kestrel.dll" />
         <reference file="IctBaden.Stonehenge3.SimpleHttp.dll" />
-        <reference file="Microsoft.AspNetCore.Hosting.dll" />
-        <reference file="Microsoft.AspNetCore.Hosting.Abstractions.dll" />
-        <reference file="Microsoft.AspNetCore.Http.Abstractions.dll" />
-        <reference file="Microsoft.AspNetCore.Server.Kestrel.dll" />
-        <reference file="Microsoft.Extensions.Configuration.Abstractions.dll" />
-        <reference file="Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
-        <reference file="Newtonsoft.Json.dll" />
-      </group>
     </references>
   </metadata>
   <files>
