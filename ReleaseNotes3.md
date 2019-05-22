@@ -1,4 +1,5 @@
 
+* 3.3.11 - Added missing ctor to DependsOnAttribute.
 * 3.3.10 - Updated nuget to add references.
 * 3.3.9 - Fixed Session.IsLocal.
 * 3.3.8 - Added Network.GetFreeTcpPort to enable 0 as port to detect any free.
