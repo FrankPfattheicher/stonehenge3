@@ -1,4 +1,5 @@
 
+* 3.3.12 - Do not create ViewModel in VueAppCreator more than once, ensure destroyed.
 * 3.3.11 - Added missing ctor to DependsOnAttribute.
 * 3.3.10 - Updated nuget to add references.
 * 3.3.9 - Fixed Session.IsLocal.

@@ -120,7 +120,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
                         Trace.TraceInformation($"VueAppCreator.CreateControllers: {viewModel.ViewModel.VmName} => src.{viewModel.Name}.js");
 
                         var assembly = Assembly.GetEntryAssembly();
-                        var name = assembly.GetManifestResourceNames()
+                        var name = assembly?.GetManifestResourceNames()
                             .FirstOrDefault(rn => rn.EndsWith($".app.{viewModel.Name}_user.js"));
                         if (!string.IsNullOrEmpty(name))
                         {
@@ -168,18 +168,20 @@ namespace IctBaden.Stonehenge3.Vue.Client
                 return null;
             }
 
+            var viewModel = CreateViewModel(vmType);
+            
             var text = ControllerTemplate
                 .Replace("stonehengeViewModelName", vmName)
                 .Replace("stonehengePollDelay", _options.GetPollDelayMs().ToString());
 
-            var propertyNames = GetPropNames(vmType);
+            var propertyNames = GetPropNames(viewModel);
             if (propertyNames.Count > 0)
             {
                 var propDefs = propertyNames.Select(pn => pn + " : null\r\n");
                 text = text.Replace("//stonehengeProperties", "," + string.Join(",", propDefs));
             }
             
-            var postBackPropNames = GetPostBackPropNames(vmType, propertyNames)
+            var postBackPropNames = GetPostBackPropNames(viewModel, propertyNames)
                 .Select(name => "'" + name + "'");
             text = text.Replace("'propNames'", string.Join(",", postBackPropNames));
 
@@ -209,29 +211,37 @@ namespace IctBaden.Stonehenge3.Vue.Client
                 actionMethods.Add(method);
             }
 
+            var disposeVm = viewModel as IDisposable;
+            disposeVm?.Dispose();
 
             return text.Replace("/*commands*/", string.Join("," + Environment.NewLine, actionMethods));
         }
 
-        
-        
-        private List<string> GetPropNames(Type vmType)
+        private object CreateViewModel(Type vmType)
         {
-            // properties
-            var vmProps = new List<PropertyDescriptor>();
-            var sessionCtor = vmType.GetConstructors().FirstOrDefault(ctor => ctor.GetParameters().Length == 1);
-            var session = new AppSession(null, _options);
-            object viewModel;
             try
             {
-                viewModel = (sessionCtor != null) ? Activator.CreateInstance(vmType, session) : Activator.CreateInstance(vmType);
+                var sessionCtor = vmType.GetConstructors().FirstOrDefault(ctor => ctor.GetParameters().Length == 1);
+                var session = new AppSession(null, _options);
+                var viewModel = (sessionCtor != null) 
+                    ? Activator.CreateInstance(vmType, session) 
+                    : Activator.CreateInstance(vmType);
+                return viewModel;
             }
             catch (Exception ex)
             {
                 Trace.TraceError($"Failed to create ViewModel '{vmType.Name}' : " + ex.Message);
-                return new List<string>();
+                return null;
             }
+        }
+        
+        
+        private static List<string> GetPropNames(object viewModel)
+        {
+            // properties
+            if(viewModel == null) return new List<string>();
 
+            var vmProps = new List<PropertyDescriptor>();
             if (viewModel is ActiveViewModel activeVm)
             {
                 vmProps.AddRange(from PropertyDescriptor prop in activeVm.GetProperties() select prop);
@@ -240,8 +250,6 @@ namespace IctBaden.Stonehenge3.Vue.Client
             {
                 vmProps.AddRange(TypeDescriptor.GetProperties(viewModel, true).Cast<PropertyDescriptor>());
             }
-            var disposeVm = viewModel as IDisposable;
-            disposeVm?.Dispose();
 
             var propertyNames = (from prop in vmProps
                 let bindable = prop.Attributes.OfType<BindableAttribute>().ToArray()
@@ -251,27 +259,16 @@ namespace IctBaden.Stonehenge3.Vue.Client
             return propertyNames;
         }
         
-        private static List<string> GetPostBackPropNames(Type vmType, IEnumerable<string> propertyNames)
+        private static List<string> GetPostBackPropNames(object viewModel, IEnumerable<string> propertyNames)
         {
+            if(viewModel == null) return new List<string>();
+            
             var postBackPropNames = new List<string>();
-
-            var sessionCtor = vmType.GetConstructors().FirstOrDefault(ctor => ctor.GetParameters().Length == 1);
-            var session = new AppSession();
-            object viewModel;
-            try
-            {
-                viewModel = (sessionCtor != null) ? Activator.CreateInstance(vmType, session) : Activator.CreateInstance(vmType);
-            }
-            catch (Exception ex)
-            {
-                Trace.TraceError($"Failed to create ViewModel '{vmType.Name}' : " + ex.Message);
-                return new List<string>();
-            }
             var activeVm = viewModel as ActiveViewModel;
-
-            // do not send ReadOnly or OneWay bound properties back
+            var vmType = viewModel.GetType();
             foreach (var propName in propertyNames)
             {
+                // do not send ReadOnly or OneWay bound properties back
                 var prop = vmType.GetProperty(propName);
                 if (prop == null)
                 {
