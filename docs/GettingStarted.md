@@ -2,7 +2,7 @@
 # Getting Started with stonehenge
 
 ## Create new Console Project
-**VisualStudio 2017**
+**VisualStudio 2017 / 2019**
 
     File - New Project - Visual C# - .NET Core - Console App (.NET Core)
 
@@ -12,27 +12,34 @@
 
 ## Add code to Main()
 
-The server deploys resources to the client. So we first need a resource loader.
-``` csharp
-    var loader = StonehengeResourceLoader.CreateDefaultLoader();
-```
-Next we have to decide what client (JavaScript) framework to use.    
+We have to decide what client (JavaScript) framework to use.    
 This description uses [Vue.js](https://vuejs.org/).    
-It takes the loader, an application title and a start page name as initialization parameters.
+The server deploys embedded resources to the client. So we need to create a resource provider.    
+Immediately adding the Vue provider enables delivering automaatically generated Vue code.
 ``` csharp
     var vue = new VueResourceProvider();
-    vue.InitProvider(loader, "Sample", "start");
+    var provider = StonehengeResourceLoader.CreateDefaultLoader(vue);
+```
+Now we define application title and a start page name and some other as hosting options.
+``` csharp
+    var options = new StonehengeHostOptions
+            {
+                Title = "Demo",
+                StartPage = "information",
+                ServerPushMode = ServerPushModes.LongPolling,
+                PollIntervalMs = 1000
+            };
 ```
 Next we have to decide what hosting environment to use.    
 This description uses [Kestrel], the .NET Core default stack        
 (https://docs.microsoft.com/de-de/aspnet/core/fundamentals/servers/kestrel).    
 ``` csharp
-    var server = new KestrelHost(loader);
+    var host = new KestrelHost(provider, options);
 ```
 Finally we have to start the server giving a listening address and a TCP port.
 ``` csharp
-    //           Title     NoSSL  ListenOn     Port
-    server.Start("Sample", false, "localhost", 32000);
+    //           Title     ListenOn     Port
+    server.Start("Sample", "localhost", 32000);
 ```
 
 Adding some console logging, error handling and termination code we should end up like this.
@@ -41,16 +48,18 @@ Adding some console logging, error handling and termination code we should end u
     {
         Console.WriteLine(@"Sample starting");
 
-        // options
-        var options = new StonehengeHostOptions
-        {
-            Title = "Sample",
-            StartPage = "start"
-        };
-
         // client framework (use Vue.js)
         var provider = StonehengeResourceLoader
             .CreateDefaultLoader(new VueResourceProvider());
+
+        // options
+        var options = new StonehengeHostOptions
+        {
+            Title = "Demo",
+            StartPage = "information",
+            ServerPushMode = ServerPushModes.LongPolling,
+            PollIntervalMs = 1000
+        };
 
         // hosting
         var host = new KestrelHost(provider, options);
