@@ -245,7 +245,7 @@ namespace IctBaden.Stonehenge3.ViewModel
             ActiveModels.Add(new ActiveModel(prefix, model, readOnly));
 
             properties = null;
-            propertiesAttrib = null;
+            propertiesAttribute = null;
             GetProperties();
         }
 
@@ -447,11 +447,11 @@ namespace IctBaden.Stonehenge3.ViewModel
 
             foreach (PropertyDescriptorEx prop in properties)
             {
-                foreach (Attribute attrib in prop.Attributes)
+                foreach (Attribute attribute in prop.Attributes)
                 {
-                    if (attrib.GetType() != typeof(DependsOnAttribute))
+                    if (attribute.GetType() != typeof(DependsOnAttribute))
                         continue;
-                    var da = (DependsOnAttribute)attrib;
+                    var da = (DependsOnAttribute)attribute;
                     if (!_dependencies.ContainsKey(da.Name))
                         _dependencies[da.Name] = new List<string>();
 
@@ -464,34 +464,34 @@ namespace IctBaden.Stonehenge3.ViewModel
             foreach (var method in myMethods)
             {
                 var dependsOnAttributes = method.GetCustomAttributes(typeof(DependsOnAttribute), true);
-                foreach (DependsOnAttribute attrib in dependsOnAttributes)
+                foreach (DependsOnAttribute attribute in dependsOnAttributes)
                 {
-                    if (!_dependencies.ContainsKey(attrib.Name))
-                        _dependencies[attrib.Name] = new List<string>();
+                    if (!_dependencies.ContainsKey(attribute.Name))
+                        _dependencies[attribute.Name] = new List<string>();
 
-                    _dependencies[attrib.Name].Add(method.Name);
+                    _dependencies[attribute.Name].Add(method.Name);
                 }
             }
 
             return properties;
         }
 
-        private PropertyDescriptorCollection propertiesAttrib;
+        private PropertyDescriptorCollection propertiesAttribute;
 
         public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
         {
-            if (propertiesAttrib != null)
-                return propertiesAttrib;
+            if (propertiesAttribute != null)
+                return propertiesAttribute;
 
-            propertiesAttrib = new PropertyDescriptorCollection(new PropertyDescriptor[0]);
+            propertiesAttribute = new PropertyDescriptorCollection(new PropertyDescriptor[0]);
             foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(this, true))
-                propertiesAttrib.Add(prop);
+                propertiesAttribute.Add(prop);
             foreach (var model in ActiveModels)
             {
                 foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(model, attributes, true))
-                    propertiesAttrib.Add(prop);
+                    propertiesAttribute.Add(prop);
             }
-            return propertiesAttrib;
+            return propertiesAttribute;
         }
 
         public object GetPropertyOwner(PropertyDescriptor pd)
@@ -566,6 +566,7 @@ namespace IctBaden.Stonehenge3.ViewModel
         {
             MessageBoxTitle = title;
             MessageBoxText = text;
+            NotifyPropertyChanged("_stonehenge_StonehengeEval");
         }
 
         #endregion

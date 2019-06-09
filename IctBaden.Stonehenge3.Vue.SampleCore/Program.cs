@@ -92,5 +92,6 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
             Console.WriteLine(@"Exit sample app");
             Environment.Exit(0);
         }
+
     }
 }

@@ -23,6 +23,32 @@ namespace IctBaden.Stonehenge3.ViewModel
 
         public Resource Post(AppSession session, string resourceName, Dictionary<string, string> parameters, Dictionary<string, string> formData)
         {
+            if (resourceName.StartsWith("Command/"))
+            {
+                var commandName = resourceName.Substring(8);
+                var appCommandsType = AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(a => a.GetTypes())
+                    .FirstOrDefault(type => type.GetInterfaces().Contains(typeof(IStonehengeAppCommands)));
+                if (appCommandsType != null)
+                {
+                    var appCommands = Activator.CreateInstance(appCommandsType);
+                    var commandHandler = appCommands.GetType().GetMethod(commandName);
+                    if (commandHandler != null)
+                    {
+                        commandHandler.Invoke(appCommands, new object[] { session });
+                        return new Resource(commandName, "Command", ResourceType.Json, "{ 'executed': true }", Resource.Cache.None);
+                    }
+                    else
+                    {
+                        return new Resource(commandName, "Command", ResourceType.Json, "{ 'executed': false }", Resource.Cache.None);
+                    }
+                }
+                else
+                {
+                    return new Resource(commandName, "Command", ResourceType.Json, "{ 'executed': false }", Resource.Cache.None);
+                }
+            }
+
             if (!resourceName.StartsWith("ViewModel/")) return null;
 
             var parts = resourceName.Split('/');

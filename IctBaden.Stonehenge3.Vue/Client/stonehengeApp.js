@@ -1,9 +1,9 @@
 ﻿
-function stonehengeMakeRequest(url) {
+function stonehengeMakeRequest(method, url) {
     return new Promise(function (resolve, reject) {
 
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
+        xhr.open(method, url);
         xhr.onload = function () {
             if (this.status >= 200 && this.status < 300) {
                 resolve(xhr.responseText);
@@ -24,10 +24,17 @@ function stonehengeMakeRequest(url) {
     });
 }
 
+function stonehengeMakeGetRequest(url) {
+    return stonehengeMakeRequest('GET', url);
+}
+function stonehengeMakePostRequest(url) {
+    return stonehengeMakeRequest('POST', url);
+}
+
 async function stonehengeLoadComponent(name) {
 
-    const srcRequest = stonehengeMakeRequest(name + '.js');
-    const templateRequest = stonehengeMakeRequest(name + '.html');
+    const srcRequest = stonehengeMakeGetRequest(name + '.js');
+    const templateRequest = stonehengeMakeGetRequest(name + '.html');
 
     let src;
     let srcText;
@@ -70,6 +77,10 @@ const router = new VueRouter({
     routes: routes
 });
 
+function AppCommand(cmdName) {
+    stonehengeMakePostRequest('/Command/' + cmdName);
+}
+
 // Components
 
 //stonehengeElements
@@ -77,7 +88,7 @@ const router = new VueRouter({
 // App
 const app = new Vue({
     data: {
-        stonehengeMakeRequest: stonehengeMakeRequest,
+        stonehengeMakeRequest: stonehengeMakeGetRequest,
         routes: routes,
         title: 'stonehengeAppTitle'
     },

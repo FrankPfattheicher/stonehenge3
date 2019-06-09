@@ -116,7 +116,7 @@ namespace IctBaden.Stonehenge3.Resources
                 resLoader.AddAssembly(provider.GetType().Assembly);
             }
 
-            var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? Directory.GetCurrentDirectory();
+            var path = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location) ?? Directory.GetCurrentDirectory();
             var fileLoader = new FileLoader(Path.Combine(path, "App"));
 
             var viewModelCreator = new ViewModelProvider();
