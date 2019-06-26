@@ -6,7 +6,13 @@
 
     File - New Project - Visual C# - .NET Core - Console App (.NET Core)
 
-    Under project properties choose .NET Core 2.1 as target framework
+    Under project properties choose .NET Core 2.1 or 2.2 as target framework
+
+**JetBrains Rider 2019**
+
+    File - New... - .NET Core - Console Application
+
+    Select Framework .NETCoreApp v2.1 or .NETCoreApp v2.2 as target framework
 
 ## Add stonehenge3 Nuget package
 
@@ -39,10 +45,10 @@ This description uses [Kestrel], the .NET Core default stack
 Finally we have to start the server giving a listening address and a TCP port.
 ``` csharp
     //           Title     ListenOn     Port
-    server.Start("Sample", "localhost", 32000);
+    host.Start("Sample", "localhost", 32000);
 ```
 
-Adding some console logging, error handling and termination code we should end up like this.
+Adding some console logging, error handling and termination code we should end up something like this.
 ``` csharp
     static void Main(string[] args)
     {
@@ -168,7 +174,9 @@ In start.html add the following two lines within the div.
 ```
 The ```v-on:click``` is the Vue way to bind a click handler.
 
-Start the application to see it work.
+Start the application to see it work.    
+**Note:** You may need to clear the cache to reload the updated content !
+
 ![Sample with click counter](Sample2.png)
 (after clicked the button five times)
 

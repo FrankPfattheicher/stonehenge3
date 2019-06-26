@@ -35,6 +35,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IctBaden.Stonehenge3.Vue.Sa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IctBaden.Stonehenge3.Vue.Test", "IctBaden.Stonehenge3.Vue.Test\IctBaden.Stonehenge3.Vue.Test.csproj", "{5077AA01-D943-4879-83A3-14EF6E377EB4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E6072E69-0314-435C-9CEB-506063750C42}"
+ProjectSection(SolutionItems) = preProject
+	docs\GettingStarted.md = docs\GettingStarted.md
+	docs\Sample1.png = docs\Sample1.png
+	docs\Sample2.png = docs\Sample2.png
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,5 +94,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B9539958-55F6-4A19-87BE-4F17022BBFC2}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E6072E69-0314-435C-9CEB-506063750C42} = {FACB63A1-3EDF-4A5F-8C4B-94192FA4D9EF}
 	EndGlobalSection
 EndGlobal
