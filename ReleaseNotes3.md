@@ -1,4 +1,5 @@
 
+* 3.5.0 - Added Notify<T> base class to support INotifyPropertyChange for VM properties.
 * 3.4.0 - Added app-commands handling using POST /Command/Name. IStonehengeAppCommands.
 * 3.3.12 - Do not create ViewModel in VueAppCreator more than once, ensure destroyed.
 * 3.3.11 - Added missing ctor to DependsOnAttribute.

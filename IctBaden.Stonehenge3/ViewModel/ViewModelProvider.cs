@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Hosting;
@@ -164,8 +165,8 @@ namespace IctBaden.Stonehenge3.ViewModel
                 {
                     foreach (var property in events)
                     {
-                            var value = activeVm.TryGetMember(property);
-                            data.Add($"\"{property}\":{JsonSerializer.SerializeObjectString(null, value)}");
+                        var value = activeVm.TryGetMember(property);
+                        data.Add($"\"{property}\":{JsonSerializer.SerializeObjectString(null, value)}");
                     }
                     AddStonehengeInternalProperties(data, activeVm);
                 }
@@ -267,6 +268,15 @@ namespace IctBaden.Stonehenge3.ViewModel
                             }
                             activeVm.TrySetMember(propName, structObj);
                         }
+                    }
+                    else if(pi.PropertyType.IsGenericType && pi.PropertyType.Name.StartsWith("Notify`"))
+                    {
+                        var val = DeserializePropertyValue(newValue, pi.PropertyType.GenericTypeArguments[0]);
+                        var type = typeof(Notify<>).MakeGenericType(pi.PropertyType.GenericTypeArguments[0]);
+                        var notify = Activator.CreateInstance(type);
+                        var valueField = type.GetField("_value", BindingFlags.Instance | BindingFlags.NonPublic);
+                        valueField?.SetValue(notify, val);
+                        activeVm.TrySetMember(propName, notify);
                     }
                     else
                     {

@@ -3,7 +3,7 @@
 // Author:
 //  Frank Pfattheicher <fpf@ict-baden.de>
 //
-// Copyright (C)2011-2018 ICT Baden GmbH
+// Copyright (C)2011-2019 ICT Baden GmbH
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -200,6 +200,22 @@ namespace IctBaden.Stonehenge3.ViewModel
         {
             SupportsEvents = (session != null);
             Session = session ?? new AppSession();
+
+            foreach (var prop in GetType().GetProperties())
+            {
+                if (prop.PropertyType.IsGenericType && prop.PropertyType.Name.StartsWith("Notify`"))
+                {
+                    var type = typeof(Notify<>).MakeGenericType(prop.PropertyType.GenericTypeArguments[0]);
+                    var property = prop.GetValue(this);
+                    if (property != null) continue;
+                    var ctor = type.GetConstructors(BindingFlags.Instance | BindingFlags.Public)
+                        .First(c => c.GetParameters().Length == 2);
+                    property = ctor.Invoke(new object[]{ this, prop.Name });
+                    prop.SetValue(this, property);
+                }
+            }
+
+            GetProperties();
         }
 
         protected void SetParent(ActiveViewModel parent)
@@ -427,7 +443,6 @@ namespace IctBaden.Stonehenge3.ViewModel
                 foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(model.Model, true))
                 {
                     var pi = model.Model.GetType().GetProperties().FirstOrDefault(p => p.Name == prop.Name);
-                    //var pi = model.Model.GetType().GetProperty(prop.Name);
                     var name = prop.Name;
                     if (!string.IsNullOrEmpty(model.Prefix))
                         name = model.Prefix + name;
@@ -522,7 +537,7 @@ namespace IctBaden.Stonehenge3.ViewModel
             handler(this, args);
         }
 
-        protected void NotifyPropertyChanged(string name)
+        protected internal void NotifyPropertyChanged(string name)
         {
 #if DEBUG
             //TODO: AppService.PropertyNameId
@@ -603,5 +618,6 @@ namespace IctBaden.Stonehenge3.ViewModel
         {
             return null;
         }
+
     }
 }

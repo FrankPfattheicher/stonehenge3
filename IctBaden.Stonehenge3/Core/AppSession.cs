@@ -213,7 +213,7 @@ namespace IctBaden.Stonehenge3.Core
         public T Get<T>(string key)
         {
             if (!_userData.ContainsKey(key))
-                return default(T);
+                return default;
 
             return (T)_userData[key];
         }
@@ -302,8 +302,7 @@ namespace IctBaden.Stonehenge3.Core
             try
             {
                 if (Assembly.GetEntryAssembly() == null) return;
-                var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? ".";
-                var cfg = Path.Combine(path, "Stonehenge3.cfg");
+                var cfg = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Stonehenge3.cfg");
                 if (!File.Exists(cfg)) return;
 
                 var settings = File.ReadAllLines(cfg);
@@ -340,7 +339,6 @@ namespace IctBaden.Stonehenge3.Core
         // ReSharper disable once UnusedParameter.Local
         private void DetectBrowser(string userAgent)
         {
-            // Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36
             //TODO: Decocder
             Browser = "";
             CookiesSupported = true;

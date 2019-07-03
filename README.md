@@ -11,6 +11,8 @@ This version is based on .NET Standard 2.0.
 * Aurelia client framework (deprecated)
 * Newtonsoft.JSON serializer for view models
 
+Read the release history: [ReleaseNotes](ReleaseNotes3.md)
+
 ## Still there 
 * V2.0 - (deprecated) .NET Full Framework V4.6, Katana, Aurelia
 * V1.x - .NET Full Framework V4.6, ServiceStack, Knockout

@@ -16,14 +16,16 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
     public class StartVm : ActiveViewModel, IDisposable
     {
         // ReSharper disable once MemberCanBeMadeStatic.Global
+        [DependsOn(nameof(AutoNotify))]
         public string TimeStamp => DateTime.Now.ToLongTimeString();
+        public Notify<string> AutoNotify { get; set; }
         public double Numeric { get; set; }
         public string Test { get; set; }
-        public string Version => Assembly.GetEntryAssembly().GetName().Version.ToString(2);
+        public string Version => Assembly.GetEntryAssembly()?.GetName().Version.ToString(2);
         public bool IsLocal => Session?.IsLocal ?? true;
 
         private IDisposable _updater;
-
+        
         // ReSharper disable once UnusedMember.Global
         public StartVm(AppSession session) : base (session)
         {
@@ -31,8 +33,11 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
             Test = "abcd";
 
             _updater = Observable
-                .Timer(TimeSpan.FromSeconds(6))
-                .Subscribe(_ => NotifyPropertyChanged(nameof(TimeStamp)));
+                .Interval(TimeSpan.FromSeconds(2))
+                .Subscribe(_ =>
+                {
+                    AutoNotify.Update(TimeStamp.ToString());
+                });
         }
 
         public void Dispose()

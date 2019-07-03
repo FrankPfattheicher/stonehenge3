@@ -177,8 +177,8 @@ namespace IctBaden.Stonehenge3.Vue.Client
             var propertyNames = GetPropNames(viewModel);
             if (propertyNames.Count > 0)
             {
-                var propDefs = propertyNames.Select(pn => pn + " : null\r\n");
-                text = text.Replace("//stonehengeProperties", "," + string.Join(",", propDefs));
+                var propDefinitions = propertyNames.Select(pn => pn + " : null\r\n");
+                text = text.Replace("//stonehengeProperties", "," + string.Join(",", propDefinitions));
             }
             
             var postBackPropNames = GetPostBackPropNames(viewModel, propertyNames)
@@ -251,6 +251,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
                 vmProps.AddRange(TypeDescriptor.GetProperties(viewModel, true).Cast<PropertyDescriptor>());
             }
 
+            // ReSharper disable once IdentifierTypo
             var propertyNames = (from prop in vmProps
                 let bindable = prop.Attributes.OfType<BindableAttribute>().ToArray()
                 where (bindable.Length <= 0) || bindable[0].Bindable
@@ -281,6 +282,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
 
                 if (prop?.GetSetMethod(false) == null) // not public writable
                     continue;
+                // ReSharper disable once IdentifierTypo
                 var bindable = prop.GetCustomAttributes(typeof(BindableAttribute), true);
                 if ((bindable.Length > 0) && ((BindableAttribute)bindable[0]).Direction == BindingDirection.OneWay)
                     continue;
