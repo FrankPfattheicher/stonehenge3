@@ -7,6 +7,7 @@
     <Company>ICT Baden GmbH</Company>
     <Product>Web Application Framework</Product>
     <Copyright>Copyright ©2013-2018 ICT Baden GmbH</Copyright>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="app\cookie.html" />
