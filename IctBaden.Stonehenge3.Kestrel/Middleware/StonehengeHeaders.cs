@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
@@ -42,7 +41,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
         {
             _headers = new Dictionary<string, string>();
 
-            var path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? ".";
+            var path = AppDomain.CurrentDomain.BaseDirectory;
             var headersFile = Path.Combine(path, "defaultheaders.txt");
             if (!File.Exists(headersFile)) return;
 

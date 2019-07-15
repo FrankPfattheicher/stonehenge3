@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -52,8 +53,19 @@ namespace IctBaden.Stonehenge3.Resources
                 disableCache = true;
             }
 
-            var loadedResource = Loaders.Select(loader => loader.Get(session, resourceName, parameters))
-                .FirstOrDefault(resource => resource != null);
+            Resource loadedResource = null;
+            foreach (var loader in Loaders)
+            {
+                try
+                {
+                    loadedResource = loader.Get(session, resourceName, parameters);
+                }
+                catch (Exception ex)
+                {
+                    Trace.TraceError($"StonehengeResourceLoader({loader.GetType().Name}) exception: {ex.Message}");
+                }
+                if (loadedResource != null) break;
+            }
 
             if (disableCache)
             {

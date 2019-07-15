@@ -308,24 +308,32 @@ namespace IctBaden.Stonehenge3.ViewModel
             Trace.TraceInformation("Stonehenge3.ViewModelProvider: viewModel=" + ty.Name);
 
             var data = new List<string>();
-            if (viewModel is ActiveViewModel activeVm)
+            try
             {
-                foreach (var model in activeVm.ActiveModels)
+                if (viewModel is ActiveViewModel activeVm)
                 {
-                    data.AddRange(JsonSerializer.SerializeObject(model.Prefix, model.Model));
+                    foreach (var model in activeVm.ActiveModels)
+                    {
+                        data.AddRange(JsonSerializer.SerializeObject(model.Prefix, model.Model));
+                    }
+
+                    AddStonehengeInternalProperties(data, activeVm);
+
+                    // ReSharper disable once LoopCanBeConvertedToQuery
+                    foreach (var name in activeVm.GetDictionaryNames())
+                    {
+                        // ReSharper disable once UseStringInterpolation
+                        data.Add(string.Format("\"{0}\":{1}", name, JsonConvert.SerializeObject(activeVm.TryGetMember(name))));
+                    }
                 }
 
-                AddStonehengeInternalProperties(data, activeVm);
-
-                // ReSharper disable once LoopCanBeConvertedToQuery
-                foreach (var name in activeVm.GetDictionaryNames())
-                {
-                    // ReSharper disable once UseStringInterpolation
-                    data.Add(string.Format("\"{0}\":{1}", name, JsonConvert.SerializeObject(activeVm.TryGetMember(name))));
-                }
+                data.AddRange(JsonSerializer.SerializeObject(null, viewModel));
             }
-
-            data.AddRange(JsonSerializer.SerializeObject(null, viewModel));
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
 
             var json = "{" + string.Join(",", data) + "}";
             return json;

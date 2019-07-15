@@ -18,6 +18,7 @@
         <dependency id="Microsoft.AspNetCore.Hosting" version="2.2.0" />
         <dependency id="Microsoft.AspNetCore.Hosting.Abstractions" version="2.2.0" />
         <dependency id="Microsoft.AspNetCore.Http.Abstractions" version="2.2.0" />
+        <dependency id="Microsoft.AspNetCore.ResponseCompression" version="2.2.0" />
         <dependency id="Microsoft.AspNetCore.Server.Kestrel" version="2.2.0" />
         <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="2.2.0" />
         <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="2.2.0" />

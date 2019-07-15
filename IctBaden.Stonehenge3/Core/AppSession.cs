@@ -62,7 +62,7 @@ namespace IctBaden.Stonehenge3.Core
                 max--;
             }
             IsWaitingForEvents = false;
-            var events = _events.Select(e => e).ToList();
+            var events = _events.ToList();
             _events.Clear();
             return events;
         }
