@@ -8,7 +8,7 @@ This version is based on .NET Standard 2.0.
 
 * Kestrel - the Microsoft web stack for self hosting
 * Vue client framework
-* Aurelia client framework (deprecated)
+* Aurelia client framework (deprecated, included up to v3.6.0)
 * Newtonsoft.JSON serializer for view models
 
 Read the release history: [ReleaseNotes](ReleaseNotes3.md)

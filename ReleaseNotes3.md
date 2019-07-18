@@ -1,4 +1,5 @@
 
+* 3.7.0 - Removed Aurelia support.
 * 3.6.0 - Added GZIP compression and ACME support.
 * 3.5.0 - Added Notify<T> base class to support INotifyPropertyChange for VM properties.
 * 3.4.0 - Added app-commands handling using POST /Command/Name. IStonehengeAppCommands.

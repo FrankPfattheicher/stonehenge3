@@ -40,8 +40,6 @@ Fake.Core.Target.create "CreatePackage" (fun _ ->
          Directory.create @".\nuget\lib\netstandard2.0" 
          Shell.copyFiles @".\nuget\lib\netstandard2.0" [ libFile; 
                                           buildDir </> @"IctBaden.Stonehenge3.pdb";
-                                          buildDir </> @"IctBaden.Stonehenge3.Aurelia.dll"; 
-                                          buildDir </> @"IctBaden.Stonehenge3.Aurelia.pdb"; 
                                           buildDir </> @"IctBaden.Stonehenge3.Kestrel.dll"; 
                                           buildDir </> @"IctBaden.Stonehenge3.Kestrel.pdb"; 
                                           buildDir </> @"IctBaden.Stonehenge3.SimpleHttp.dll"; 
@@ -60,15 +58,12 @@ Fake.Core.Target.create "CreatePackage" (fun _ ->
             Files = [ 
                       (@"lib/netstandard2.0/IctBaden.Stonehenge3.dll", Some "lib/net", None)
                       (@"lib/netstandard2.0/IctBaden.Stonehenge3.pdb", Some "lib/net", None) 
-                      (@"lib/netstandard2.0/IctBaden.Stonehenge3.Aurelia.dll", Some "lib/net", None)
-                      (@"lib/netstandard2.0/IctBaden.Stonehenge3.Aurelia.pdb", Some "lib/net", None) 
                       (@"lib/netstandard2.0/IctBaden.Stonehenge3.Kestrel.dll", Some "lib/net", None)
                       (@"lib/netstandard2.0/IctBaden.Stonehenge3.Kestrel.pdb", Some "lib/net", None) 
                       (@"lib/netstandard2.0/IctBaden.Stonehenge3.SimpleHttp.dll", Some "lib/net", None)
                       (@"lib/netstandard2.0/IctBaden.Stonehenge3.SimpleHttp.pdb", Some "lib/net", None) 
                     ]
             ReferencesByFramework = [ { FrameworkVersion  = "net"; References = [ "IctBaden.Stonehenge3.dll"; 
-                                                                                    "IctBaden.Stonehenge3.Aurelia.dll";
                                                                                     "IctBaden.Stonehenge3.Kestrel.dll";
                                                                                     "IctBaden.Stonehenge3.SimpleHttp.dll"
                                                                                   ] } ]
