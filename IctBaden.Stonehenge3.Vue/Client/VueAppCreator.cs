@@ -157,6 +157,9 @@ namespace IctBaden.Stonehenge3.Vue.Client
                 .FirstOrDefault(type => type.Name == name);
         }
 
+        private static readonly bool DebugBuild = Assembly.GetEntryAssembly()?.GetCustomAttributes(false)
+                                                      .OfType<DebuggableAttribute>().Any(da => da.IsJITTrackingEnabled) ?? true;
+        
         private string GetController(string vmName)
         {
             var vmType = GetVmType(vmName);
@@ -171,6 +174,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
             var viewModel = CreateViewModel(vmType);
             
             var text = ControllerTemplate
+                .Replace("stonehengeDebugBuild", DebugBuild ? "true" : "false")
                 .Replace("stonehengeViewModelName", vmName)
                 .Replace("stonehengePollDelay", _options.GetPollDelayMs().ToString());
 

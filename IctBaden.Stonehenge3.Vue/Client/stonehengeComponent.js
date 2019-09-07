@@ -181,7 +181,7 @@ stonehengeViewModelName = function component() {
                     window.location.reload();
                 });
 
-            console.log('stonehengeViewModelName loaded');
+            if(stonehengeDebugBuild) console.log('stonehengeViewModelName loaded');
         },
 
         model: {
@@ -200,7 +200,7 @@ stonehengeViewModelName = function component() {
         },
 
         data: function () {
-            console.log('stonehengeViewModelName get data');
+            if(stonehengeDebugBuild) console.log('stonehengeViewModelName get data');
             //debugger;
             app.stonehengeViewModelName.StonehengeGetViewModel();
             app.stonehengeViewModelName.model.StonehengeActive = true;
@@ -213,7 +213,7 @@ stonehengeViewModelName = function component() {
     };
 
     app.stonehengeViewModelName = vm;
-    console.log('stonehengeViewModelName created');
+    if(stonehengeDebugBuild) console.log('stonehengeViewModelName created');
 
     return vm;
 };

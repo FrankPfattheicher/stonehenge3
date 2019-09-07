@@ -54,9 +54,10 @@ namespace IctBaden.Stonehenge3.Resources
                 : string.Empty;
         }
 
+        private static readonly Regex RscName = new Regex(@"\w+://(.*)", RegexOptions.Compiled | RegexOptions.Singleline);  
         public static string RemoveResourceProtocol(string resourceName)
         {
-            var match = new Regex(@"\w+://(.*)").Match(resourceName);
+            var match = RscName.Match(resourceName);
             return match.Success 
                 ? match.Groups[1].Value 
                 : resourceName;
@@ -150,6 +151,7 @@ namespace IctBaden.Stonehenge3.Resources
                         {
                             var text = reader.ReadToEnd();
                             Debug.WriteLine($"ResourceLoader({resourceName}): {asmResource.Value.FullName}");
+                            text = text.Replace("{.min}", session.IsDebug ? "" : ".min");
                             if (resourceName.EndsWith("index.html", StringComparison.InvariantCultureIgnoreCase))
                             {
                                 text = UserContentLinks.InsertUserCssLinks(_userAssembly, "", text, session.SubDomain);

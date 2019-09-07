@@ -79,14 +79,16 @@ namespace IctBaden.Stonehenge3.Client
                 scripts = string.Join(Environment.NewLine, links);
             }
 
-            const string ressourceBaseName = ".app.";
-            const string baseNameScripts = ressourceBaseName + "scripts.";
-            var ressourceNames = userAssembly.GetManifestResourceNames();
-            var jsResources = ressourceNames.Where(name => name.EndsWith(".js")).ToList();
+            const string resourceBaseName = ".app.";
+            const string baseNameScripts = resourceBaseName + "scripts.";
+            var resourceNames = userAssembly.GetManifestResourceNames();
+            var jsResources = resourceNames.Where(name => name.EndsWith(".js")).ToList();
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var resourceName in jsResources.Where(name => name.Contains(baseNameScripts)))
             {
-                var js = ResourceLoader.GetShortResourceName(ressourceBaseName, resourceName).Replace(".", "/").Replace("/js", ".js");
+                var js = ResourceLoader.GetShortResourceName(resourceBaseName, resourceName)
+                    .Replace(".", "/")
+                    .Replace("/js", ".js");
                 scripts += Environment.NewLine + string.Format(JsLinkTemplate, js);
             }
 

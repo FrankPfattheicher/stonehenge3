@@ -24,6 +24,7 @@ namespace IctBaden.Stonehenge3.Core
 
         public string HostDomain { get; private set; }
         public bool IsLocal { get; private set; }
+        public bool IsDebug { get; private set; }
         public string ClientAddress { get; private set; }
         public string UserAgent { get; private set; }
         public string Platform { get; private set; }
@@ -322,6 +323,12 @@ namespace IctBaden.Stonehenge3.Core
         // ReSharper disable once UnusedMember.Global
         public bool IsInitialized => UserAgent != null;
 
+        
+        private bool IsAssemblyDebugBuild(Assembly assembly)
+        {
+            return assembly.GetCustomAttributes(false).OfType<DebuggableAttribute>().Any(da => da.IsJITTrackingEnabled);
+        }
+        
         public void Initialize(string hostDomain, bool isLocal, string clientAddress, string userAgent)
         {
             HostDomain = hostDomain;
@@ -334,6 +341,8 @@ namespace IctBaden.Stonehenge3.Core
             {
                 DetectBrowser(userAgent);
             }
+
+            IsDebug = IsAssemblyDebugBuild(Assembly.GetEntryAssembly());
         }
 
         // ReSharper disable once UnusedParameter.Local

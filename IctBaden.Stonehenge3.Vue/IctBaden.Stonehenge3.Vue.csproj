@@ -72,10 +72,34 @@
         <EmbeddedResource Include="app\src\bootstrap.min.css" />
         <EmbeddedResource Include="app\src\bootstrap-vue.css" />
         <EmbeddedResource Include="app\src\bootstrap-vue.js" />
-        <EmbeddedResource Include="app\src\vue-resource@1.5.1" />
         <EmbeddedResource Include="app\src\vue-router.js" />
-        <EmbeddedResource Include="app\src\vue.js" />
         <EmbeddedResource Include="app\styles\styles.css" />
+        <None Remove="app\src\vue.js" />
+        <EmbeddedResource Include="app\src\vue.js" />
+        <None Remove="app\src\vue.min.js" />
+        <EmbeddedResource Include="app\src\vue.min.js" />
+        <None Remove="app\src\bootstrap-grid.css" />
+        <EmbeddedResource Include="app\src\bootstrap-grid.css" />
+        <None Remove="app\src\bootstrap-grid.css.map" />
+        <None Remove="app\src\bootstrap-grid.min.css.map" />
+        <None Remove="app\src\bootstrap-reboot.css" />
+        <EmbeddedResource Include="app\src\bootstrap-reboot.css" />
+        <None Remove="app\src\bootstrap-reboot.css.map" />
+        <None Remove="app\src\bootstrap-reboot.min.css.map" />
+        <None Remove="app\src\bootstrap.css" />
+        <EmbeddedResource Include="app\src\bootstrap.css" />
+        <None Remove="app\src\bootstrap.css.map" />
+        <None Remove="app\src\bootstrap.min.css.map" />
+        <None Remove="app\src\bootstrap-vue.min.css" />
+        <EmbeddedResource Include="app\src\bootstrap-vue.min.css" />
+        <None Remove="app\src\bootstrap-vue.min.js" />
+        <EmbeddedResource Include="app\src\bootstrap-vue.min.js" />
+        <None Remove="app\src\vue-router.min.js" />
+        <EmbeddedResource Include="app\src\vue-router.min.js" />
+        <None Remove="app\src\vue-resource.js" />
+        <EmbeddedResource Include="app\src\vue-resource.js" />
+        <None Remove="app\src\vue-resource.min.js" />
+        <EmbeddedResource Include="app\src\vue-resource.min.js" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\IctBaden.Stonehenge3\IctBaden.Stonehenge3.csproj" />
