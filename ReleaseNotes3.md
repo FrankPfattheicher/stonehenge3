@@ -1,4 +1,5 @@
 
+* 3.8.0 - Updated to Vue 2.6.10, Bootsrap-vuw 2.0.0, Bootstrap 4.3.1, {.min} support added.
 * 3.7.0 - Removed Aurelia support.
 * 3.6.0 - Added GZIP compression and ACME support.
 * 3.5.0 - Added Notify<T> base class to support INotifyPropertyChange for VM properties.
