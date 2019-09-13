@@ -17,7 +17,7 @@ namespace IctBaden.Stonehenge3.Test.Tools
             _content = content;
         }
 
-        public void InitProvider(StonehengeHostOptions options)
+        public void InitProvider(StonehengeResourceLoader loader, StonehengeHostOptions options)
         {
         }
 

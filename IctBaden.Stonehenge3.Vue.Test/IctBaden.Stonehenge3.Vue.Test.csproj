@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="app\dicomponent.html" />
     <EmbeddedResource Include="app\start.html" />
     <EmbeddedResource Include="app\scripts\userscripts.js" />
     <EmbeddedResource Include="app\styles\userstyles.css" />

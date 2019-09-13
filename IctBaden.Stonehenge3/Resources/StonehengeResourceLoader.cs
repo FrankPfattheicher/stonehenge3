@@ -13,20 +13,20 @@ namespace IctBaden.Stonehenge3.Resources
 {
     public class StonehengeResourceLoader : IStonehengeResourceProvider
     {
-        public List<IStonehengeResourceProvider> Loaders { get; }
+        public List<IStonehengeResourceProvider> Providers { get; }
         public readonly ServiceContainer Services;
 
         public StonehengeResourceLoader(List<IStonehengeResourceProvider> loaders = null)
         {
-            Loaders = loaders ?? new List<IStonehengeResourceProvider>();
+            Providers = loaders ?? new List<IStonehengeResourceProvider>();
             Services = new ServiceContainer();
         }
 
-        public void InitProvider(StonehengeHostOptions options)
+        public void InitProvider(StonehengeResourceLoader loader, StonehengeHostOptions options)
         {
-            foreach (var loader in Loaders)
+            foreach (var provider in Providers)
             {
-                loader.InitProvider(options);
+                provider.InitProvider(loader, options);
             }
         }
 
@@ -34,13 +34,13 @@ namespace IctBaden.Stonehenge3.Resources
         
         public void Dispose()
         {
-            Loaders.ForEach(l => l.Dispose());
-            Loaders.Clear();
+            Providers.ForEach(l => l.Dispose());
+            Providers.Clear();
         }
 
         public Resource Post(AppSession session, string resourceName, Dictionary<string, string> parameters, Dictionary<string, string> formData)
         {
-            return Loaders.Select(loader => loader.Post(session, resourceName, parameters, formData))
+            return Providers.Select(loader => loader.Post(session, resourceName, parameters, formData))
                 .FirstOrDefault(resource => resource != null);
         }
         public Resource Get(AppSession session, string resourceName, Dictionary<string, string> parameters)
@@ -54,7 +54,7 @@ namespace IctBaden.Stonehenge3.Resources
             }
 
             Resource loadedResource = null;
-            foreach (var loader in Loaders)
+            foreach (var loader in Providers)
             {
                 try
                 {
@@ -136,7 +136,7 @@ namespace IctBaden.Stonehenge3.Resources
             var loader = new StonehengeResourceLoader(new List<IStonehengeResourceProvider> { fileLoader, resLoader, viewModelCreator });
             if (provider != null)
             {
-                loader.Loaders.Add(provider);
+                loader.Providers.Add(provider);
             }
             return loader;
         }

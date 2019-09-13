@@ -14,7 +14,7 @@ namespace IctBaden.Stonehenge3.ViewModel
 {
     public class ViewModelProvider : IStonehengeResourceProvider
     {
-        public void InitProvider(StonehengeHostOptions options)
+        public void InitProvider(StonehengeResourceLoader loader, StonehengeHostOptions options)
         {
         }
 

@@ -15,11 +15,6 @@ namespace IctBaden.Stonehenge3.Vue.Test
         public VueTestApp()
         {
             var loader = StonehengeResourceLoader.CreateDefaultLoader(new VueResourceProvider());
-            var options = new StonehengeHostOptions
-            {
-                Title = "VueTest",
-                StartPage = "start"
-            };
             _server = new KestrelHost(loader);
             _server.Start("localhost", Port);
         }

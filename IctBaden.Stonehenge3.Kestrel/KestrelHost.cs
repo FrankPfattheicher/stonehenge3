@@ -26,18 +26,18 @@ namespace IctBaden.Stonehenge3.Kestrel
         private IWebHost _webApp;
         private Task _host;
         private CancellationTokenSource _cancel;
-        private readonly IStonehengeResourceProvider _resourceLoader;
+        private readonly IStonehengeResourceProvider _resourceProvider;
 
-        public KestrelHost(IStonehengeResourceProvider loader)
-        : this(loader, new StonehengeHostOptions())
+        public KestrelHost(IStonehengeResourceProvider provider)
+        : this(provider, new StonehengeHostOptions())
         {
         }
-        public KestrelHost(IStonehengeResourceProvider loader, StonehengeHostOptions options)
+        public KestrelHost(IStonehengeResourceProvider provider, StonehengeHostOptions options)
         {
-            _resourceLoader = loader;
+            _resourceProvider = provider;
             Options = options;
             
-            loader.InitProvider(options);
+            provider.InitProvider(null, options);
         }
 
         public bool Start(string hostAddress, int hostPort)
@@ -82,7 +82,7 @@ namespace IctBaden.Stonehenge3.Kestrel
                 _webApp = new WebHostBuilder()
                     .UseConfiguration(config)
                     .ConfigureServices(s => { s.AddSingleton<IConfiguration>(config); })
-                    .ConfigureServices(s => { s.AddSingleton(_resourceLoader); })
+                    .ConfigureServices(s => { s.AddSingleton(_resourceProvider); })
                     .UseSockets()
                     .UseStartup<Startup>()
                     .UseKestrel(options =>

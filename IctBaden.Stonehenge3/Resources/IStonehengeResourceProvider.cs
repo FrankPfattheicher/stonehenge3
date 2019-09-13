@@ -7,7 +7,7 @@ namespace IctBaden.Stonehenge3.Resources
 {
     public interface IStonehengeResourceProvider : IDisposable
     {
-        void InitProvider(StonehengeHostOptions options);
+        void InitProvider(StonehengeResourceLoader loader, StonehengeHostOptions options);
         
         Resource Get(AppSession session, string resourceName, Dictionary<string, string> parameters);
 

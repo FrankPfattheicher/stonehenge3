@@ -113,7 +113,7 @@ namespace IctBaden.Stonehenge3.Core
                 disposable?.Dispose();
             }
 
-            var resourceLoader = _resourceLoader.Loaders.First(ld => ld.GetType() == typeof(ResourceLoader)) as ResourceLoader;
+            var resourceLoader = _resourceLoader.Providers.First(ld => ld.GetType() == typeof(ResourceLoader)) as ResourceLoader;
             if(resourceLoader == null)
             {
                 ViewModel = null;
@@ -136,7 +136,7 @@ namespace IctBaden.Stonehenge3.Core
             return ViewModel;
         }
 
-        private object CreateType(Type type)
+        public object CreateType(Type type)
         {
             object instance = null;
             foreach (var constructor in type.GetConstructors())

@@ -16,7 +16,7 @@ namespace IctBaden.Stonehenge3.Resources
             RootPath = path;
         }
         
-        public void InitProvider(StonehengeHostOptions options)
+        public void InitProvider(StonehengeResourceLoader loader, StonehengeHostOptions options)
         {
         }
 

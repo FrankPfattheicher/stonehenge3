@@ -32,23 +32,23 @@ namespace IctBaden.Stonehenge3.Client
                     styleSheets = string.Join(Environment.NewLine, links);
                 }
 
-                const string ressourceBaseName = ".app.";
-                const string baseNameStyles = ressourceBaseName + "styles.";
-                const string baseNameTheme = ressourceBaseName + "themes.";
-                var ressourceNames = userAssembly.GetManifestResourceNames();
-                var cssResources = ressourceNames.Where(name => name.EndsWith(".css")).ToList();
+                const string resourceBaseName = ".app.";
+                const string baseNameStyles = resourceBaseName + "styles.";
+                const string baseNameTheme = resourceBaseName + "themes.";
+                var resourceNames = userAssembly.GetManifestResourceNames();
+                var cssResources = resourceNames.Where(name => name.EndsWith(".css")).ToList();
                 // styles first
                 // ReSharper disable once LoopCanBeConvertedToQuery
                 foreach (var resourceName in cssResources.Where(name => name.Contains(baseNameStyles)))
                 {
-                    var css = ResourceLoader.GetShortResourceName(ressourceBaseName, resourceName).Replace(".", "/").Replace("/css", ".css");
+                    var css = ResourceLoader.GetShortResourceName(resourceBaseName, resourceName).Replace(".", "/").Replace("/css", ".css");
                     styleSheets += Environment.NewLine + string.Format(CssLinkTemplate, css);
                 }
                 // then themes
                 // ReSharper disable once LoopCanBeConvertedToQuery
                 foreach (var resourceName in cssResources.Where(name => name.Contains(baseNameTheme + theme)))
                 {
-                    var css = ResourceLoader.GetShortResourceName(ressourceBaseName, resourceName).Replace(".", "/").Replace("/css", ".css");
+                    var css = ResourceLoader.GetShortResourceName(resourceBaseName, resourceName).Replace(".", "/").Replace("/css", ".css");
                     styleSheets += Environment.NewLine + string.Format(CssLinkTemplate, css);
                 }
 

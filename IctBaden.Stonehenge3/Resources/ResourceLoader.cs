@@ -42,7 +42,7 @@ namespace IctBaden.Stonehenge3.Resources
                 });
         }
 
-        public void InitProvider(StonehengeHostOptions options)
+        public void InitProvider(StonehengeResourceLoader loader, StonehengeHostOptions options)
         {
         }
 

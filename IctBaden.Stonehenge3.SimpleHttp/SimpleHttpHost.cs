@@ -42,7 +42,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
             Options = options;
             _sessionCache = cache;
             
-            loader.InitProvider(options);
+            loader.InitProvider(null, options);
         }
 
         public bool Start(string hostAddress = null, int hostPort = 0)

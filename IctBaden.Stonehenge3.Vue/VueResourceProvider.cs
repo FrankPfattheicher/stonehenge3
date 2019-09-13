@@ -17,10 +17,26 @@ namespace IctBaden.Stonehenge3.Vue
     public class VueResourceProvider : IStonehengeResourceProvider
     {
         private Dictionary<string, Resource> _vueContent;
+        private List<Assembly> _assemblies;
 
-        public void InitProvider(StonehengeHostOptions options)
+        public VueResourceProvider()
+        {
+            _assemblies = new List<Assembly>
+            {
+                Assembly.GetEntryAssembly(), 
+                Assembly.GetAssembly(GetType())
+            };
+        }
+        
+        public void InitProvider(StonehengeResourceLoader loader, StonehengeHostOptions options)
         {
             _vueContent = new Dictionary<string, Resource>();
+
+            if (loader?.Providers
+                    .FirstOrDefault(p => p.GetType() == typeof(ResourceLoader)) is ResourceLoader resourceLoader)
+            {
+                _assemblies = resourceLoader.ResourceAssemblies;
+            }
 
             var appCreator = new VueAppCreator(options.Title, options.StartPage, options, _vueContent);
 
@@ -104,9 +120,7 @@ namespace IctBaden.Stonehenge3.Vue
 
         private void AddResourceContent()
         {
-            var assemblies = new List<Assembly> { Assembly.GetEntryAssembly(), Assembly.GetAssembly(GetType()) };
-
-            foreach (var assembly in assemblies)
+            foreach (var assembly in _assemblies)
             {
                 foreach (var resourceName in assembly.GetManifestResourceNames()
                   .Where(name => (name.EndsWith(".html")) && !name.Contains("index.html") && !name.Contains("src.app.html"))

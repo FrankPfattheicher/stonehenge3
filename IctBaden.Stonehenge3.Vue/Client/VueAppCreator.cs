@@ -225,11 +225,8 @@ namespace IctBaden.Stonehenge3.Vue.Client
         {
             try
             {
-                var sessionCtor = vmType.GetConstructors().FirstOrDefault(ctor => ctor.GetParameters().Length == 1);
                 var session = new AppSession(null, _options);
-                var viewModel = (sessionCtor != null) 
-                    ? Activator.CreateInstance(vmType, session) 
-                    : Activator.CreateInstance(vmType);
+                var viewModel = session.CreateType(vmType);
                 return viewModel;
             }
             catch (Exception ex)

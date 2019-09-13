@@ -71,17 +71,17 @@ Adding some console logging, error handling and termination code we should end u
         var host = new KestrelHost(provider, options);
         if (!host.Start("localhost", 32000))
         {
-            Console.WriteLine(@"Failed to start server on: " + server.BaseUrl);
+            Console.WriteLine(@"Failed to start server on: " + host.BaseUrl);
             Environment.Exit(1);
         }
 
         // wait for user pressing Ctrl+C to terminate
         var terminate = new AutoResetEvent(false);
         Console.CancelKeyPress += (sender, eventArgs) => { terminate.Set(); };
-        Console.WriteLine(@"Started server on: " + server.BaseUrl);
+        Console.WriteLine(@"Started server on: " + host.BaseUrl);
         terminate.WaitOne();
         Console.WriteLine(@"Server terminated.");
-        server.Terminate();
+        host.Terminate();
     }
 ```
 
