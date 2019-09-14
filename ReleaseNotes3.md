@@ -1,4 +1,5 @@
 
+Fixed Vue warning missing key in routes.
 * 3.8.1 - Fixed Vue component creation from ViewModel with dependency injection.
 * 3.8.0 - Updated to Vue 2.6.10, Bootsrap-vuw 2.0.0, Bootstrap 4.3.1, {.min} support added.
 * 3.7.0 - Removed Aurelia support.

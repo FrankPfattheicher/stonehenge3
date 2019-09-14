@@ -9,7 +9,7 @@
       </div>
       <ul style="list-style-type: none;">
           <tree-node v-for="child of node.Children" v-bind:node="child" :key="child.Id" 
-                     v-on:select="$emit('select', $event)" v-on:toggle="$emit('toggle', $event)"/>
+                     v-on:select="$emit('select', $event)" v-on:toggle="$emit('toggle', $event)" />
       </ul>
     </li>
 	
