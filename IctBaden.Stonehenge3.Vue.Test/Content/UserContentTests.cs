@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using Xunit;
 
-namespace IctBaden.Stonehenge3.Vue.Test
+namespace IctBaden.Stonehenge3.Vue.Test.Content
 {
     public class UserContentTests : IDisposable
     {

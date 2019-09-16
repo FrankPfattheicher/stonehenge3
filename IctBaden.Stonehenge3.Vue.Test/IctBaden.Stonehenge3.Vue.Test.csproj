@@ -15,10 +15,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="app\cust-elem2.html" />
     <EmbeddedResource Include="app\dicomponent.html" />
     <EmbeddedResource Include="app\start.html" />
     <EmbeddedResource Include="app\scripts\userscripts.js" />
     <EmbeddedResource Include="app\styles\userstyles.css" />
+    <None Remove="app\cust-elem1.html" />
+    <EmbeddedResource Include="app\cust-elem1.html" />
   </ItemGroup>
 
   <ItemGroup>

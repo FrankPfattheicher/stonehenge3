@@ -37,7 +37,7 @@ namespace IctBaden.Stonehenge3.Kestrel
             _resourceProvider = provider;
             Options = options;
             
-            provider.InitProvider(null, options);
+            provider.InitProvider(provider as StonehengeResourceLoader, options);
         }
 
         public bool Start(string hostAddress, int hostPort)

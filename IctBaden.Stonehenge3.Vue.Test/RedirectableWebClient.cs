@@ -1,10 +1,23 @@
 ﻿using System;
 using System.Net;
+using System.Text.RegularExpressions;
 
 namespace IctBaden.Stonehenge3.Vue.Test
 {
     public class RedirectableWebClient : WebClient
     {
+        // ReSharper disable once MemberCanBePrivate.Global
+        public string SessionId { get; set; }
+
+        public string DownloadStringWithSession(string address)
+        {
+            if (SessionId == null)
+            {
+                DownloadString(address);
+            }
+            return DownloadString(address + $"?stonehenge-id={SessionId}");
+        }
+        
         public new string DownloadString(string address)
         {
             for (var redirect = 0; redirect < 10; redirect++)
@@ -23,18 +36,25 @@ namespace IctBaden.Stonehenge3.Vue.Test
                     response = ex.Response;
                 }
 
-                var redirUrl = response.Headers["Location"];
-                if (redirUrl == null)
+                var redirectUrl = response.Headers["Location"];
+                if (redirectUrl == null)
                 {
                     address = response.ResponseUri.ToString();
                 }
 
+                var match = new Regex("stonehenge-id=([a-f0-9A-F]+)", RegexOptions.RightToLeft)
+                    .Match(address);
+                if (match.Success)
+                {
+                    SessionId = match.Groups[1].Value;
+                }
+                
                 response.Close();
 
-                if (redirUrl == null)
+                if (redirectUrl == null)
                     break;
 
-                var newAddress = new Uri(request.RequestUri, redirUrl).AbsoluteUri;
+                var newAddress = new Uri(request.RequestUri, redirectUrl).AbsoluteUri;
                 if (newAddress == address)
                     break;
 
