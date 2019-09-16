@@ -319,7 +319,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
                 elementJs = elementJs.Replace("stonehengeViewModelName", source);
 
                 var bindings = element.ViewModel?.Bindings?.Select(b => $"'{b}'") ?? new List<string>() { string.Empty };
-                elementJs = elementJs.Replace("stonehengeCustomElementProps", string.Join(Environment.NewLine, bindings));
+                elementJs = elementJs.Replace("stonehengeCustomElementProps", string.Join(",", bindings));
 
                 var template = LoadResourceText(assembly, $"{source}.html");
                 template = JsonConvert.SerializeObject(template);

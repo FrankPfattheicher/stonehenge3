@@ -7,10 +7,25 @@ namespace IctBaden.Stonehenge3.Vue.Test.Components
     public class CustomElementCreationTests : IDisposable
     {
         private readonly VueTestApp _app;
+        private readonly string _response;
 
         public CustomElementCreationTests()
         {
             _app = new VueTestApp();
+            
+            _response = string.Empty;
+            try
+            {
+                using (var client = new RedirectableWebClient())
+                {
+                    _response = client.DownloadStringWithSession(_app.BaseUrl + "/app.js");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
         }
 
         public void Dispose()
@@ -19,26 +34,29 @@ namespace IctBaden.Stonehenge3.Vue.Test.Components
         }
 
         [Fact]
-        public void AppJsShouldContainCustomElementDefinitions()
+        public void AppJsShouldContainCustomElement1Definition()
         {
-            var response = string.Empty;
-            try
-            {
-                using (var client = new RedirectableWebClient())
-                {
-                    response = client.DownloadStringWithSession(_app.BaseUrl + "/app.js");
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-
-            Assert.NotNull(response);
-            Assert.Contains("'CustElem1'", response);
-            Assert.Contains("'CustElem2'", response);
+            Assert.Contains("'CustElem1'", _response);
         }
 
+        [Fact]
+        public void AppJsShouldContainCustomElement2Definition()
+        {
+            Assert.Contains("'CustElem2'", _response);
+        }
+
+        [Fact]
+        public void AppJsShouldContainCustomElement1Parameter()
+        {
+            Assert.Contains("['one']", _response);
+        }
+
+        [Fact]
+        public void AppJsShouldContainCustomElement2ParameterLists()
+        {
+            Assert.Contains("['one','two']", _response);
+        }
+        
     }
 }
 
