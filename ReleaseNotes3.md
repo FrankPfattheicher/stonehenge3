@@ -1,9 +1,10 @@
 
+* 3.8.5 - Use '' for initialization to prevent '{}' display.
 * 3.8.4 - Fixed initial binding errors due to initialize with null, now {}.
 * 3.8.3 - Fixed custom elements with multiple bindings code generation.
 * 3.8.2 - Fixed Vue warning missing key in routes. Fixed used assemblies with kestrel host.
 * 3.8.1 - Fixed Vue component creation from ViewModel with dependency injection.
-* 3.8.0 - Updated to Vue 2.6.10, Bootsrap-vuw 2.0.0, Bootstrap 4.3.1, {.min} support added.
+* 3.8.0 - Updated to Vue 2.6.10, Bootstrap-vuw 2.0.0, Bootstrap 4.3.1, {.min} support added.
 * 3.7.0 - Removed Aurelia support.
 * 3.6.0 - Added GZIP compression and ACME support.
 * 3.5.0 - Added Notify<T> base class to support INotifyPropertyChange for VM properties.
