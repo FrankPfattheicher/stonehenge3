@@ -181,7 +181,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
             var propertyNames = GetPropNames(viewModel);
             if (propertyNames.Count > 0)
             {
-                var propDefinitions = propertyNames.Select(pn => pn + " : null\r\n");
+                var propDefinitions = propertyNames.Select(pn => pn + " : {}\r\n");
                 text = text.Replace("//stonehengeProperties", "," + string.Join(",", propDefinitions));
             }
             

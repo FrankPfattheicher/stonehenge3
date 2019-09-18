@@ -1,4 +1,5 @@
 
+* 3.8.4 - Fixed initial binding errors due to initialize with null, now {}.
 * 3.8.3 - Fixed custom elements with multiple bindings code generation.
 * 3.8.2 - Fixed Vue warning missing key in routes. Fixed used assemblies with kestrel host.
 * 3.8.1 - Fixed Vue component creation from ViewModel with dependency injection.
