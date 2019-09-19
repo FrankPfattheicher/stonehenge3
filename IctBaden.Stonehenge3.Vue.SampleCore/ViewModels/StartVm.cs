@@ -23,6 +23,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
         public string Test { get; set; }
         public string Version => Assembly.GetEntryAssembly()?.GetName().Version.ToString(2);
         public bool IsLocal => Session?.IsLocal ?? true;
+        public string ClientAddress => Session.ClientAddress ?? "(unknown)";
         
         public string NotInitialized { get; set; }
 

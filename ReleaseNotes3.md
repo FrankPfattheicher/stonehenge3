@@ -1,4 +1,5 @@
 
+* 3.8.7 - Fixed Session.ClientAddress.
 * 3.8.6 - Use first page as default start page.
 * 3.8.5 - Use '' for initialization to prevent '{}' display.
 * 3.8.4 - Fixed initial binding errors due to initialize with null, now {}.

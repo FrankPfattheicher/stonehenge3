@@ -9,6 +9,7 @@ using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 
 namespace IctBaden.Stonehenge3.Kestrel.Middleware
 {
@@ -147,7 +148,10 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             var session = new AppSession(resourceLoader, options);
             var isLocal = context.IsLocal();
             var userAgent = context.Request.Headers["User-Agent"];
-            session.Initialize(context.Request.Host.Value, isLocal, "RemoteIpAddress", userAgent);
+            var httpContext = (context.Request as DefaultHttpRequest)?.HttpContext;
+            var clientAddress = httpContext?.Connection.RemoteIpAddress.ToString();
+            var hostDomain = context.Request.Host.Value;
+            session.Initialize(hostDomain, isLocal, clientAddress, userAgent);
             appSessions.Add(session);
             Trace.TraceInformation($"Stonehenge3.Kestrel New session {session.Id}. {appSessions.Count} sessions.");
             return session;
