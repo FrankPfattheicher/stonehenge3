@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Reflection;
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace IctBaden.Stonehenge3.Hosting
 {
@@ -16,8 +17,9 @@ namespace IctBaden.Stonehenge3.Hosting
         public string Title { get; set; }
         /// <summary>
         /// Initial page to be activated.
+        /// By default the first page (by sort index) is used. 
         /// </summary>
-        public string StartPage { get; set; } = "start";
+        public string StartPage { get; set; }
         
         /// <summary>
         /// Path to the file based content.

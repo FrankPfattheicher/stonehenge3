@@ -17,17 +17,17 @@ namespace IctBaden.Stonehenge3.Vue.Client
     internal class VueAppCreator
     {
         private readonly string _appTitle;
-        private readonly string _rootPage;
+        private string _startPage;
         private readonly StonehengeHostOptions _options;
         private readonly Dictionary<string, Resource> _vueContent;
 
         private static readonly string ControllerTemplate = LoadResourceText("IctBaden.Stonehenge3.Vue.Client.stonehengeComponent.js");
         private static readonly string ElementTemplate = LoadResourceText("IctBaden.Stonehenge3.Vue.Client.stonehengeElement.js");
 
-        public VueAppCreator(string appTitle, string rootPage, StonehengeHostOptions options, Dictionary<string, Resource> vueContent)
+        public VueAppCreator(string appTitle, string startPage, StonehengeHostOptions options, Dictionary<string, Resource> vueContent)
         {
             _appTitle = appTitle;
-            _rootPage = rootPage;
+            _startPage = startPage;
             _options = options;
             _vueContent = vueContent;
         }
@@ -69,11 +69,14 @@ namespace IctBaden.Stonehenge3.Vue.Client
             const string stonehengeAppTitleInsertPoint = "stonehengeAppTitle";
             const string stonehengeRootPageInsertPoint = "stonehengeRootPage";
             const string pageTemplate = "{{ path: '{0}', name: '{1}', title: '{2}', component: () => Promise.resolve(stonehengeLoadComponent('{3}')), visible: {4} }}";
-            
-            var pages = _vueContent
+
+            var contentPages = _vueContent
                 .Where(res => res.Value.ViewModel?.ElementName == null)
-                .Select(res => new {  res.Value.Name, Vm = res.Value.ViewModel })
+                .Select(res => new {res.Value.Name, Vm = res.Value.ViewModel})
                 .OrderBy(route => route.Vm.SortIndex)
+                .ToList();
+            
+            var pages = contentPages
                 .Select(route => string.Format(pageTemplate,
                                             "/" + route.Name,
                                             route.Name,
@@ -82,7 +85,12 @@ namespace IctBaden.Stonehenge3.Vue.Client
                                             route.Vm.Visible ? "true" : "false" ))
                 .ToList();
 
-            var startPage = _vueContent.FirstOrDefault(page => page.Value.Name == _rootPage);
+            if (string.IsNullOrEmpty(_startPage))
+            {
+                _startPage = contentPages.First().Name;
+            }
+            
+            var startPage = _vueContent.FirstOrDefault(page => page.Value.Name == _startPage);
             if(startPage.Key != null)
             {
                 pages.Insert(0, string.Format(pageTemplate, "", "", startPage.Value.ViewModel.Title, startPage.Value.Name, "false"));
@@ -92,7 +100,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
             pageText = pageText
                 .Replace(routesInsertPoint, routes)
                 .Replace(stonehengeAppTitleInsertPoint, _appTitle)
-                .Replace(stonehengeRootPageInsertPoint, _rootPage);
+                .Replace(stonehengeRootPageInsertPoint, _startPage);
 
             return pageText;
         }

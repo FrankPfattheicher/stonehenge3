@@ -2,12 +2,14 @@
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Kestrel;
 using IctBaden.Stonehenge3.Resources;
+using Xunit;
+
+[assembly: CollectionBehavior(DisableTestParallelization = true)]
 
 namespace IctBaden.Stonehenge3.Vue.Test
 {
     public class VueTestApp : IDisposable
     {
-        private const int Port = 7357;
         public string BaseUrl => _server?.BaseUrl;
 
         private readonly IStonehengeHost _server;
@@ -16,12 +18,13 @@ namespace IctBaden.Stonehenge3.Vue.Test
         {
             var loader = StonehengeResourceLoader.CreateDefaultLoader(new VueResourceProvider());
             _server = new KestrelHost(loader);
-            _server.Start("localhost", Port);
+            _server.Start("localhost");
         }
 
         public void Dispose()
         {
             _server?.Terminate();
         }
+        
     }
 }
