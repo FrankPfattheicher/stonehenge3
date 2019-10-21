@@ -1,0 +1,21 @@
+
+Stonehenge Doc TODOs
+=====================
+
+Index.html kann ersetzt werden
+
+Ersetzungen in index.html
+	{.min}
+	{{template}}
+
+/script /styles Ordner
+
+_user scripts
+
+Property transfer ???
+
+Session handling
+
+DI Container _loader.Services
+
+
