@@ -85,7 +85,11 @@ namespace IctBaden.Stonehenge3.Vue.Client
                                             route.Vm.Visible ? "true" : "false" ))
                 .ToList();
 
-            if (string.IsNullOrEmpty(_startPage))
+            if (!contentPages.Any())
+            {
+                Trace.TraceError("Stonehenge3.VueAppCreator: No content pages found.");
+            }
+            else if (string.IsNullOrEmpty(_startPage))
             {
                 _startPage = contentPages.First().Name;
             }

@@ -57,7 +57,9 @@ namespace IctBaden.Stonehenge3.Vue
 
         private static ViewModelInfo GetViewModelInfo(string route, string pageText)
         {
-            route = route.Substring(0, 1).ToUpper() + route.Substring(1);
+            route = string.IsNullOrEmpty(route)
+                ? ""
+                : route.Substring(0, 1).ToUpper() + route.Substring(1);
             var info = new ViewModelInfo(route + "Vm");
 
             var match = ExtractElement.Match(pageText);
@@ -162,7 +164,11 @@ namespace IctBaden.Stonehenge3.Vue
                     {
                         ViewModel = GetViewModelInfo(route, pageText)
                     };
-                    _vueContent.Add("src." + resourceId, resource);
+                    var key = "src." + resourceId;
+                    if (!_vueContent.ContainsKey(key))
+                    {
+                        _vueContent.Add(key, resource);
+                    }
                 }
             }
         }
