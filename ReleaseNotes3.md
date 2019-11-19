@@ -1,4 +1,5 @@
 
+* 3.8.9 - Updated to Font Awesome Free 5.11.2
 * 3.8.8 - Added some error handling on missing content.
 * 3.8.7 - Fixed Session.ClientAddress.
 * 3.8.6 - Use first page as default start page.
