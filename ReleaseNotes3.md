@@ -1,4 +1,5 @@
 
+* 3.8.10 - Font Awesome woff files updated also
 * 3.8.9 - Updated to Font Awesome Free 5.11.2
 * 3.8.8 - Added some error handling on missing content.
 * 3.8.7 - Fixed Session.ClientAddress.
