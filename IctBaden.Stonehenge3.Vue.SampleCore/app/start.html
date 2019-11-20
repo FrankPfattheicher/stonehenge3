@@ -18,6 +18,8 @@
         Session.ClientAddress = {{ClientAddress}}<br/>
         NotInitialized = {{NotInitialized}}<br/>
     </p>
+    <p  id="insertion-point">
+    </p>
     <p>
         <a href="/Data/Test.txt">Load user file Test.txt</a>
     </p>
@@ -35,6 +37,9 @@
     </p>
     <p>
         <button v-on:click="ShowMessageBox()">MessageBox</button>
+    </p>
+    <p>
+        <button v-on:click="ExecJavaScript()">Execute JavaScript Code</button>
     </p>
     <p>
         <button v-on:click="NavigateToTree()">Navigate To Tree</button>

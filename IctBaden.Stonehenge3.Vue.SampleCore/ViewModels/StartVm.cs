@@ -13,6 +13,7 @@ using IctBaden.Stonehenge3.ViewModel;
 namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
 {
     // ReSharper disable once UnusedMember.Global
+    // ReSharper disable once UnusedType.Global
     public class StartVm : ActiveViewModel, IDisposable
     {
         // ReSharper disable once MemberCanBeMadeStatic.Global
@@ -39,7 +40,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
                 .Interval(TimeSpan.FromSeconds(2))
                 .Subscribe(_ =>
                 {
-                    AutoNotify.Update(TimeStamp.ToString());
+                    AutoNotify.Update(TimeStamp);
                 });
         }
 
@@ -79,9 +80,11 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
 
         public override Resource GetDataResource(string resourceName)
         {
-            if (resourceName.EndsWith(".ics"))
-            {
-                var cal = @"BEGIN:VCALENDAR
+            if (!resourceName.EndsWith(".ics"))
+                return new Resource(resourceName, "Sample", ResourceType.Text,
+                    $"This ist the content of {resourceName} file ;-)", Resource.Cache.None);
+            
+            const string cal = @"BEGIN:VCALENDAR
 PRODID:-//ICT Baden GmbH//Framework Library 2016//DE
 VERSION:2.0
 CALSCALE:GREGORIAN
@@ -100,9 +103,18 @@ SUMMARY:Tatort
 END:VEVENT
 END:VCALENDAR
 ";
-                return new Resource(resourceName, "Sample", ResourceType.Calendar, cal, Resource.Cache.None);
-            }
-            return new Resource(resourceName, "Sample", ResourceType.Text, $"This ist the content of {resourceName} file ;-)", Resource.Cache.None);
+            return new Resource(resourceName, "Sample", ResourceType.Calendar, cal, Resource.Cache.None);
+        }
+
+        [ActionMethod]
+        public void ExecJavaScript()
+        {
+            var js = "var dateSpan = document.createElement('span');"
+                     + $"dateSpan.innerHTML = '{DateTime.Now:U}';"
+                     + "var insert = document.getElementById('insertion-point');"
+                     + "insert.appendChild(dateSpan);"
+                     + "insert.appendChild(document.createElement('br'));";
+            ExecuteClientScript(js);
         }
     }
 }

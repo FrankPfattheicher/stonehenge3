@@ -40,6 +40,7 @@ using IctBaden.Stonehenge3.Resources;
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable NotAccessedField.Global
+// ReSharper disable VirtualMemberNeverOverridden.Global
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 
