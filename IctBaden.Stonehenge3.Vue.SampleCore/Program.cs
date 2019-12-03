@@ -30,6 +30,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
             var options = new StonehengeHostOptions
             {
                 Title = "VueSample",
+                IndexPage = "sample-index.html",
                 
                 ServerPushMode = ServerPushModes.LongPolling,
                 PollIntervalMs = 5000,
@@ -39,7 +40,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
             // Select client framework
             Console.WriteLine(@"Using client framework vue");
             var loader = StonehengeResourceLoader
-                .CreateDefaultLoader(new VueResourceProvider());
+                .CreateDefaultLoader(new VueResourceProvider(), options);
 
             // Select hosting technology
             var hosting = "kestrel";

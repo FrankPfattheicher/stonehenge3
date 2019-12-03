@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable UnusedMember.Global
 
 namespace IctBaden.Stonehenge3.Hosting
 {
@@ -20,6 +21,12 @@ namespace IctBaden.Stonehenge3.Hosting
         /// By default the first page (by sort index) is used. 
         /// </summary>
         public string StartPage { get; set; }
+
+        /// <summary>
+        /// Index page to be used as application frame.
+        /// Without specified index.html is used.
+        /// </summary>
+        public string IndexPage { get; set; }
         
         /// <summary>
         /// Path to the file based content.

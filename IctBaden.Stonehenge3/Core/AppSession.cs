@@ -121,7 +121,7 @@ namespace IctBaden.Stonehenge3.Core
                 return null;
             }
 
-            var newViewModelType = resourceLoader.ResourceAssemblies
+            var newViewModelType = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())
                 .FirstOrDefault(type => type.FullName?.EndsWith(typeName) ?? false);
 

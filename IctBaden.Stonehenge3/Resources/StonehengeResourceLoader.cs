@@ -8,6 +8,7 @@ using System.Reflection;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.ViewModel;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace IctBaden.Stonehenge3.Resources
 {
@@ -112,17 +113,29 @@ namespace IctBaden.Stonehenge3.Resources
 
         public static StonehengeResourceLoader CreateDefaultLoader(IStonehengeResourceProvider provider)
         {
+            return CreateDefaultLoader(provider, Assembly.GetCallingAssembly(), new StonehengeHostOptions());
+        }
+        public static StonehengeResourceLoader CreateDefaultLoader(IStonehengeResourceProvider provider, StonehengeHostOptions options)
+        {
+            return CreateDefaultLoader(provider, Assembly.GetCallingAssembly(), options);
+        }
+        public static StonehengeResourceLoader CreateDefaultLoader(IStonehengeResourceProvider provider, Assembly userAssembly, StonehengeHostOptions options)
+        {
             var assemblies = new List<Assembly>
                  {
+                     userAssembly,
                      Assembly.GetEntryAssembly(),
                      Assembly.GetExecutingAssembly(),
-                     Assembly.GetAssembly(typeof(ResourceLoader)),
-                     Assembly.GetCallingAssembly()
+                     Assembly.GetAssembly(typeof(ResourceLoader))
                  }
                 .Distinct()
                 .ToList();
 
-            var resLoader = new ResourceLoader(assemblies, Assembly.GetCallingAssembly());
+            var resLoader = new ResourceLoader(assemblies, userAssembly);
+            if (!string.IsNullOrEmpty(options.IndexPage))
+            {
+                resLoader.AddReplacement("index.html", options.IndexPage);
+            }
             if (provider != null)
             {
                 resLoader.AddAssembly(provider.GetType().Assembly);

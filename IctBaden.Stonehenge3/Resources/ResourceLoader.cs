@@ -19,6 +19,7 @@ namespace IctBaden.Stonehenge3.Resources
         public readonly List<Assembly> ResourceAssemblies;
         private readonly Assembly _userAssembly;
         private readonly Lazy<Dictionary<string, AssemblyResource>> _resources;
+        private readonly Dictionary<string, string> _replacements = new Dictionary<string, string>();
 
         public void Dispose()
         {
@@ -42,6 +43,11 @@ namespace IctBaden.Stonehenge3.Resources
                 });
         }
 
+        public void AddReplacement(string oldName, string newName)
+        {
+            _replacements.Add(oldName, GetAssemblyResourceName(newName));
+        }
+        
         public void InitProvider(StonehengeResourceLoader loader, StonehengeHostOptions options)
         {
         }
@@ -110,12 +116,21 @@ namespace IctBaden.Stonehenge3.Resources
             return null;
         }
 
+        private string GetAssemblyResourceName(string name) => name
+            .Replace("@", "_")
+            .Replace("-", "_")
+            .Replace("/", ".");
+        
+        
         public Resource Get(AppSession session, string name, Dictionary<string, string> parameters)
         {
-            var resourceName = name
-                        .Replace("@", "_")
-                        .Replace("-", "_")
-                        .Replace("/", ".");
+            var resourceName = GetAssemblyResourceName(name);
+
+            if (_replacements.ContainsKey(resourceName))
+            {
+                resourceName = _replacements[resourceName];
+            }
+
             var asmResource = _resources.Value
                 .FirstOrDefault(res => string.Compare(res.Key, resourceName, true, CultureInfo.InvariantCulture) == 0);
             if (asmResource.Key == null)

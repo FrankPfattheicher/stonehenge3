@@ -1,4 +1,5 @@
 
+* 3.9.1 - Added hosting option IndexPage to explicit specify index template.
 * 3.8.10 - Font Awesome woff files updated also
 * 3.8.9 - Updated to Font Awesome Free 5.11.2
 * 3.8.8 - Added some error handling on missing content.

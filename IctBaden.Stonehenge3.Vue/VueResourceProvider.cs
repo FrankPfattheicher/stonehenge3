@@ -153,10 +153,8 @@ namespace IctBaden.Stonehenge3.Vue
                     {
                         if (stream != null)
                         {
-                            using (var reader = new StreamReader(stream))
-                            {
-                                pageText = reader.ReadToEnd();
-                            }
+                            using var reader = new StreamReader(stream);
+                            pageText = reader.ReadToEnd();
                         }
                     }
 

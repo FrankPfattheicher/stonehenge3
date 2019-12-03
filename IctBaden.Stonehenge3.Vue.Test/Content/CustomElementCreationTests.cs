@@ -16,10 +16,8 @@ namespace IctBaden.Stonehenge3.Vue.Test.Content
             _response = string.Empty;
             try
             {
-                using (var client = new RedirectableWebClient())
-                {
-                    _response = client.DownloadStringWithSession(_app.BaseUrl + "/app.js");
-                }
+                using var client = new RedirectableWebClient();
+                _response = client.DownloadStringWithSession(_app.BaseUrl + "/app.js");
             }
             catch (Exception ex)
             {
