@@ -18,7 +18,7 @@ namespace IctBaden.Stonehenge3.Client
         private static readonly Dictionary<string, string> StyleSheets = new Dictionary<string, string>();
         private static readonly string AppPath = Path.DirectorySeparatorChar + "app" + Path.DirectorySeparatorChar;
 
-        public static string InsertUserCssLinks(Assembly userAssembly, string appFilesPath, string text, string theme)
+        public static string InsertUserCssLinks(Assembly appAssembly, string appFilesPath, string text, string theme)
         {
             if (!StyleSheets.ContainsKey(theme))
             {
@@ -35,7 +35,7 @@ namespace IctBaden.Stonehenge3.Client
                 const string resourceBaseName = ".app.";
                 const string baseNameStyles = resourceBaseName + "styles.";
                 const string baseNameTheme = resourceBaseName + "themes.";
-                var resourceNames = userAssembly.GetManifestResourceNames();
+                var resourceNames = appAssembly.GetManifestResourceNames();
                 var cssResources = resourceNames.Where(name => name.EndsWith(".css")).ToList();
                 // styles first
                 // ReSharper disable once LoopCanBeConvertedToQuery

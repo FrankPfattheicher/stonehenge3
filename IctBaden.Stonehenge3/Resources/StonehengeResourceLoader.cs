@@ -113,17 +113,13 @@ namespace IctBaden.Stonehenge3.Resources
 
         public static StonehengeResourceLoader CreateDefaultLoader(IStonehengeResourceProvider provider)
         {
-            return CreateDefaultLoader(provider, Assembly.GetCallingAssembly(), new StonehengeHostOptions());
+            return CreateDefaultLoader(provider, Assembly.GetCallingAssembly());
         }
-        public static StonehengeResourceLoader CreateDefaultLoader(IStonehengeResourceProvider provider, StonehengeHostOptions options)
-        {
-            return CreateDefaultLoader(provider, Assembly.GetCallingAssembly(), options);
-        }
-        public static StonehengeResourceLoader CreateDefaultLoader(IStonehengeResourceProvider provider, Assembly userAssembly, StonehengeHostOptions options)
+        public static StonehengeResourceLoader CreateDefaultLoader(IStonehengeResourceProvider provider, Assembly appAssembly)
         {
             var assemblies = new List<Assembly>
                  {
-                     userAssembly,
+                     appAssembly,
                      Assembly.GetEntryAssembly(),
                      Assembly.GetExecutingAssembly(),
                      Assembly.GetAssembly(typeof(ResourceLoader))
@@ -131,11 +127,7 @@ namespace IctBaden.Stonehenge3.Resources
                 .Distinct()
                 .ToList();
 
-            var resLoader = new ResourceLoader(assemblies, userAssembly);
-            if (!string.IsNullOrEmpty(options.IndexPage))
-            {
-                resLoader.AddReplacement("index.html", options.IndexPage);
-            }
+            var resLoader = new ResourceLoader(assemblies, appAssembly);
             if (provider != null)
             {
                 resLoader.AddAssembly(provider.GetType().Assembly);

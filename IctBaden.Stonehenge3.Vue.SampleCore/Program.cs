@@ -40,7 +40,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
             // Select client framework
             Console.WriteLine(@"Using client framework vue");
             var loader = StonehengeResourceLoader
-                .CreateDefaultLoader(new VueResourceProvider(), options);
+                .CreateDefaultLoader(new VueResourceProvider());
 
             // Select hosting technology
             var hosting = "kestrel";

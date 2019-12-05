@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+
 // ReSharper disable UnusedMember.Global
 
-namespace IctBaden.Stonehenge3.Vue.Test.Client
+namespace IctBaden.Stonehenge3.Vue.Test.ViewModels
 {
     public class StartVm
     {

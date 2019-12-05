@@ -17,6 +17,7 @@ namespace IctBaden.Stonehenge3.Vue.Test.Content
             _response = string.Empty;
             try
             {
+                // ReSharper disable once ConvertToUsingDeclaration
                 using (var client = new RedirectableWebClient())
                 {
                     _response = client.DownloadStringWithSession(_app.BaseUrl + "/app.js");

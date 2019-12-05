@@ -1,4 +1,6 @@
-﻿namespace IctBaden.Stonehenge3.Hosting
+﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable MemberCanBePrivate.Global
+namespace IctBaden.Stonehenge3.Hosting
 {
     public class Point
     {

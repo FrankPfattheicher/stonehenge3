@@ -4,7 +4,7 @@ using System.Text;
 
 namespace IctBaden.Stonehenge3.Types
 {
-    public class NamingConverter
+    public static class NamingConverter
     {
         public static string PascalToKebabCase(string str)
         {

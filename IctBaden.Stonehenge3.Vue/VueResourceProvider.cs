@@ -18,6 +18,7 @@ namespace IctBaden.Stonehenge3.Vue
     {
         private Dictionary<string, Resource> _vueContent;
         private List<Assembly> _assemblies;
+        private Assembly _appAssembly;
 
         public VueResourceProvider()
         {
@@ -36,9 +37,10 @@ namespace IctBaden.Stonehenge3.Vue
                     .FirstOrDefault(p => p.GetType() == typeof(ResourceLoader)) is ResourceLoader resourceLoader)
             {
                 _assemblies = resourceLoader.ResourceAssemblies;
+                _appAssembly = resourceLoader.AppAssembly;
             }
-
-            var appCreator = new VueAppCreator(options.Title, options.StartPage, options, _vueContent);
+            
+            var appCreator = new VueAppCreator(options.Title, options.StartPage, options, _appAssembly, _vueContent);
 
             AddFileSystemContent(options.AppFilesPath);
             AddResourceContent();

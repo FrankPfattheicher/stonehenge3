@@ -21,10 +21,13 @@ namespace IctBaden.Stonehenge3.ViewModel
         private readonly string _name;
         private T _value;
 
+        // ReSharper disable once UnusedMember.Global
         public Notify(ActiveViewModel viewModel, string name)
+            // ReSharper disable once IntroduceOptionalParameters.Global
             :this(viewModel, name, default)
         {
         }
+        // ReSharper disable once MemberCanBePrivate.Global
         public Notify(ActiveViewModel viewModel, string name, T value)
         {
             _viewModel = viewModel;

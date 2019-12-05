@@ -36,6 +36,8 @@ ProjectSection(SolutionItems) = preProject
 	docs\Sample2.png = docs\Sample2.png
 EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IctBaden.Stonehenge3.Vue.TestApp2", "IctBaden.Stonehenge3.Vue.TestApp2\IctBaden.Stonehenge3.Vue.TestApp2.csproj", "{EC4663D2-6DF5-40AA-9FF9-191307D6D918}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{5077AA01-D943-4879-83A3-14EF6E377EB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5077AA01-D943-4879-83A3-14EF6E377EB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5077AA01-D943-4879-83A3-14EF6E377EB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC4663D2-6DF5-40AA-9FF9-191307D6D918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC4663D2-6DF5-40AA-9FF9-191307D6D918}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC4663D2-6DF5-40AA-9FF9-191307D6D918}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC4663D2-6DF5-40AA-9FF9-191307D6D918}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

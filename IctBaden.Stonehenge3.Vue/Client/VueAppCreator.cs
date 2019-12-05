@@ -19,16 +19,19 @@ namespace IctBaden.Stonehenge3.Vue.Client
         private readonly string _appTitle;
         private string _startPage;
         private readonly StonehengeHostOptions _options;
+        private readonly Assembly _appAssembly;
         private readonly Dictionary<string, Resource> _vueContent;
 
         private static readonly string ControllerTemplate = LoadResourceText("IctBaden.Stonehenge3.Vue.Client.stonehengeComponent.js");
         private static readonly string ElementTemplate = LoadResourceText("IctBaden.Stonehenge3.Vue.Client.stonehengeElement.js");
 
-        public VueAppCreator(string appTitle, string startPage, StonehengeHostOptions options, Dictionary<string, Resource> vueContent)
+        public VueAppCreator(string appTitle, string startPage, StonehengeHostOptions options, 
+            Assembly appAssembly, Dictionary<string, Resource> vueContent)
         {
             _appTitle = appTitle;
             _startPage = startPage;
             _options = options;
+            _appAssembly = appAssembly;
             _vueContent = vueContent;
         }
 
@@ -44,6 +47,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
             using (var stream = assembly.GetManifestResourceStream(resourceName))
             {
               if (stream == null) return resourceText;
+              // ReSharper disable once ConvertToUsingDeclaration
               using (var reader = new StreamReader(stream))
               {
                 resourceText = reader.ReadToEnd();
@@ -131,12 +135,11 @@ namespace IctBaden.Stonehenge3.Vue.Client
                     {
                         Trace.TraceInformation($"VueAppCreator.CreateControllers: {viewModel.ViewModel.VmName} => src.{viewModel.Name}.js");
 
-                        var assembly = Assembly.GetEntryAssembly();
-                        var name = assembly?.GetManifestResourceNames()
+                        var name = _appAssembly?.GetManifestResourceNames()
                             .FirstOrDefault(rn => rn.EndsWith($".app.{viewModel.Name}_user.js"));
                         if (!string.IsNullOrEmpty(name))
                         {
-                            var userJs = LoadResourceText(assembly, name);
+                            var userJs = LoadResourceText(_appAssembly, name);
                             if (!string.IsNullOrWhiteSpace(userJs))
                             {
                                 controllerJs += userJs;
@@ -166,7 +169,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
         {
             return AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(GetAssemblyTypes)
-                .FirstOrDefault(type => type.Name == name);
+                .FirstOrDefault(type => string.Compare(type.Name, name, StringComparison.InvariantCultureIgnoreCase) == 0);
         }
 
         private static readonly bool DebugBuild = Assembly.GetEntryAssembly()?.GetCustomAttributes(false)

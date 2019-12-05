@@ -17,7 +17,11 @@ namespace IctBaden.Stonehenge3.Resources
     public class ResourceLoader : IStonehengeResourceProvider
     {
         public readonly List<Assembly> ResourceAssemblies;
-        private readonly Assembly _userAssembly;
+        /// <summary>
+        /// Assembly containing the embedded application resources
+        /// in the app folder.
+        /// </summary>
+        public readonly Assembly AppAssembly;
         private readonly Lazy<Dictionary<string, AssemblyResource>> _resources;
         private readonly Dictionary<string, string> _replacements = new Dictionary<string, string>();
 
@@ -26,10 +30,10 @@ namespace IctBaden.Stonehenge3.Resources
             ResourceAssemblies.Clear();
         }
 
-        public ResourceLoader(IEnumerable<Assembly> assembliesToUse, Assembly userAssembly)
+        public ResourceLoader(IEnumerable<Assembly> assembliesToUse, Assembly appAssembly)
         {
             ResourceAssemblies = assembliesToUse.ToList();
-            _userAssembly = userAssembly;
+            AppAssembly = appAssembly;
 
             _resources = new Lazy<Dictionary<string, AssemblyResource>>(
                 () =>
@@ -153,6 +157,7 @@ namespace IctBaden.Stonehenge3.Resources
                 {
                     if (resourceType.IsBinary)
                     {
+                        // ReSharper disable once ConvertToUsingDeclaration
                         using (var reader = new BinaryReader(stream))
                         {
                             var data = reader.ReadBytes((int)stream.Length);
@@ -162,15 +167,16 @@ namespace IctBaden.Stonehenge3.Resources
                     }
                     else
                     {
+                        // ReSharper disable once ConvertToUsingDeclaration
                         using (var reader = new StreamReader(stream))
                         {
                             var text = reader.ReadToEnd();
                             Debug.WriteLine($"ResourceLoader({resourceName}): {asmResource.Value.FullName}");
                             text = text.Replace("{.min}", session.IsDebug ? "" : ".min");
-                            if (resourceName.EndsWith("index.html", StringComparison.InvariantCultureIgnoreCase))
+                            if (resourceName?.EndsWith("index.html", StringComparison.InvariantCultureIgnoreCase) ?? false)
                             {
-                                text = UserContentLinks.InsertUserCssLinks(_userAssembly, "", text, session.SubDomain);
-                                text = UserContentLinks.InsertUserJsLinks(_userAssembly, "", text);
+                                text = UserContentLinks.InsertUserCssLinks(AppAssembly, "", text, session.SubDomain);
+                                text = UserContentLinks.InsertUserJsLinks(AppAssembly, "", text);
                             }
                             return new Resource(resourceName, "res://" + asmResource.Value.FullName, resourceType, text, Resource.Cache.Revalidate);
                         }

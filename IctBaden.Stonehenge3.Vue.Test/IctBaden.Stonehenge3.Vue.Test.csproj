@@ -19,6 +19,7 @@
     <EmbeddedResource Include="app\dicomponent.html" />
     <EmbeddedResource Include="app\start.html" />
     <EmbeddedResource Include="app\scripts\userscripts.js" />
+    <EmbeddedResource Include="app\start_user.js" />
     <EmbeddedResource Include="app\styles\userstyles.css" />
     <None Remove="app\cust-elem1.html" />
     <EmbeddedResource Include="app\cust-elem1.html" />
@@ -39,6 +40,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IctBaden.Stonehenge3.Kestrel\IctBaden.Stonehenge3.Kestrel.csproj" />
+    <ProjectReference Include="..\IctBaden.Stonehenge3.Vue.TestApp2\IctBaden.Stonehenge3.Vue.TestApp2.csproj" />
     <ProjectReference Include="..\IctBaden.Stonehenge3.Vue\IctBaden.Stonehenge3.Vue.csproj" />
     <ProjectReference Include="..\IctBaden.Stonehenge3\IctBaden.Stonehenge3.csproj" />
   </ItemGroup>

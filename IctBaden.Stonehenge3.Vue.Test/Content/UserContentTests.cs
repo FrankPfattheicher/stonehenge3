@@ -24,6 +24,7 @@ namespace IctBaden.Stonehenge3.Vue.Test.Content
             var response = string.Empty;
             try
             {
+                // ReSharper disable once ConvertToUsingDeclaration
                 using (var client = new RedirectableWebClient())
                 {
                     response = client.DownloadString(_app.BaseUrl);
@@ -44,6 +45,7 @@ namespace IctBaden.Stonehenge3.Vue.Test.Content
             var response = string.Empty;
             try
             {
+                // ReSharper disable once ConvertToUsingDeclaration
                 using (var client = new RedirectableWebClient())
                 {
                     response = client.DownloadString(_app.BaseUrl);
@@ -56,6 +58,27 @@ namespace IctBaden.Stonehenge3.Vue.Test.Content
 
             Assert.NotNull(response);
             Assert.Contains("'scripts/userscripts.js'", response);
+        }
+
+        [Fact]
+        public void StartJsShouldContainStartUserScript()
+        {
+            var response = string.Empty;
+            try
+            {
+                // ReSharper disable once ConvertToUsingDeclaration
+                using (var client = new RedirectableWebClient())
+                {
+                    response = client.DownloadStringWithSession(_app.BaseUrl + "/start.js");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            Assert.NotNull(response);
+            Assert.Contains("'start_user_InitialLoaded'", response);
         }
 
     }
