@@ -42,7 +42,7 @@
     <EmbeddedResource Include="app\theme\themedark.css" />
     <None Remove="app\index.html" />
     <None Remove="app\sample-index.html" />
-    <EmbeddedResource Include="app\sample-index.html" />
+    <EmbeddedResource Include="app\index.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IctBaden.Stonehenge3.Kestrel\IctBaden.Stonehenge3.Kestrel.csproj" />

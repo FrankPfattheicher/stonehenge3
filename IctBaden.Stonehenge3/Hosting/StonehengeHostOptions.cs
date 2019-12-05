@@ -23,12 +23,6 @@ namespace IctBaden.Stonehenge3.Hosting
         public string StartPage { get; set; }
 
         /// <summary>
-        /// Index page to be used as application frame.
-        /// Without specified index.html is used.
-        /// </summary>
-        public string IndexPage { get; set; }
-        
-        /// <summary>
         /// Path to the file based content.
         /// </summary>
         public string AppFilesPath { get; set; }

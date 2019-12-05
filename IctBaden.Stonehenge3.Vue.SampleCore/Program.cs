@@ -30,7 +30,6 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
             var options = new StonehengeHostOptions
             {
                 Title = "VueSample",
-                IndexPage = "sample-index.html",
                 
                 ServerPushMode = ServerPushModes.LongPolling,
                 PollIntervalMs = 5000,

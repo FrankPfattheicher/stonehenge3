@@ -2,13 +2,14 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <!--IctBaden.Stonehenge3.Vue.SampleCore.index.html-->
     <title>stonehengeAppTitle</title>
     <script src="src/vue{.min}.js"></script>
     <script src="src/vue-router{.min}.js"></script>
     <script src="src/vue-resource{.min}.js"></script>
 
-    <link type="text/css" rel="stylesheet" href="src/bootstrap{.min}.css" />
-    <link type="text/css" rel="stylesheet" href="src/bootstrap-vue{.min}.css" />
+    <link type="text/css" rel="stylesheet" href="src/bootstrap{.min}.css"/>
+    <link type="text/css" rel="stylesheet" href="src/bootstrap-vue{.min}.css"/>
     <link rel="stylesheet" href="src/fontawesome_all.css" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="theme/theme{{theme}}.css">
     <!--stonehengeUserStylesheets-->
@@ -21,10 +22,11 @@
 
 <body>
 
+<div style="position: absolute; top: 1em; right: 1em; z-index: 1000; color: white; font-size: 60%;">[ Custom index.html ]</div>
 
-    <div id="app">
+<div id="app">
 
-        <b-navbar toggleable="md" type="dark" variant="info">
+    <b-navbar toggleable="md" type="dark" variant="info">
 
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
@@ -34,7 +36,8 @@
 
             <b-navbar-nav>
                 <b-nav-item v-for="route in routes" v-if="route.visible"
-                            :key="route.name" :to="{ name: route.name }">{{route.title}}</b-nav-item>
+                            :key="route.name" :to="{ name: route.name }">{{route.title}}
+                </b-nav-item>
             </b-navbar-nav>
 
             <!-- Right aligned nav items 
@@ -67,13 +70,13 @@
     </b-navbar>
 
 
-        <p  style="margin-left: 30px; margin-top: 30px;">
-            <router-view></router-view>
-        </p>
+    <p style="margin-left: 30px; margin-top: 30px;">
+        <router-view></router-view>
+    </p>
 
-    </div>
+</div>
 
-    <script src="app.js"></script>
+<script src="app.js"></script>
 
 </body>
 </html>
