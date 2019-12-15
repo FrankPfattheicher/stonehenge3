@@ -16,6 +16,8 @@
 
 ## Add stonehenge3 Nuget package
 
+`Install-Package IctBaden.Stonehenge3`
+
 ## Add code to Main()
 
 We have to decide what client (JavaScript) framework to use.    
@@ -30,8 +32,8 @@ Now we define application title and a start page name and some other as hosting 
 ``` csharp
     var options = new StonehengeHostOptions
             {
-                Title = "Demo",
-                StartPage = "information",
+                Title = "Sample",
+                StartPage = "start",
                 ServerPushMode = ServerPushModes.LongPolling,
                 PollIntervalMs = 1000
             };
@@ -55,14 +57,14 @@ Adding some console logging, error handling and termination code we should end u
         Console.WriteLine(@"Sample starting");
 
         // client framework (use Vue.js)
-        var provider = StonehengeResourceLoader
-            .CreateDefaultLoader(new VueResourceProvider());
+        var vue = new VueResourceProvider();
+        var provider = StonehengeResourceLoader.CreateDefaultLoader(vue);
 
         // options
         var options = new StonehengeHostOptions
         {
-            Title = "Demo",
-            StartPage = "information",
+            Title = "Sample",
+            StartPage = "start",
             ServerPushMode = ServerPushModes.LongPolling,
             PollIntervalMs = 1000
         };
@@ -88,9 +90,9 @@ Adding some console logging, error handling and termination code we should end u
 ## Adding the initial content
 By convention stonehenge looks for all content pages in a folder named ```app```. This is true for file and resource based content. This sample uses embedded resources to store all content.
 
-Create a solution folder named ```app```.
+Create a folder in your project named ```app```.
 
-Given ```start``` as the entry point in then InitProvider method create a html file named ```start.html``` within the ```app``` solution folder.     
+Given ```start``` as the entry point in the InitProvider method create a HTML file named ```start.html``` within the ```app``` folder.     
 Mark the file as *Embedded Resource* in the file's properties pane.
 
 Enter file content. As we use Vue the page has to be a div.
@@ -103,7 +105,7 @@ Enter file content. As we use Vue the page has to be a div.
 ## Adding the corresponding server side ViewModel
 Every client side page or component needs to have a corresponding server side ViewModel.
 
-Create a solution folder named ```ViewModels```.
+Create a folder in your project named ```ViewModels```.
 
 Create a class named ```StartVm``` in folder ```ViewModels```.    
 By convention stonehenge looks for a class named as the html resource followed by "Vm" as postfix. This can be overwritten if desired.
@@ -121,6 +123,9 @@ This is it. We are ready for the first run!
 Start the application. The output should be as follows:
 
         Sample starting
+        Hosting evironment: Production
+        Content root path: <Debug directory of this project>
+        Now listening on: http://127.0.0.1:32000
         Started server on: http://localhost:32000
 
 Now start your browser and navigate to http://localhost:32000
