@@ -181,8 +181,6 @@ namespace IctBaden.Stonehenge3.Vue.Client
             if (vmType == null)
             {
                 Trace.TraceError($"No VM for type {vmName} defined.");
-                Debug.Assert(false, $"No VM for type {vmName} defined.");
-                // ReSharper disable once HeuristicUnreachableCode
                 return null;
             }
 

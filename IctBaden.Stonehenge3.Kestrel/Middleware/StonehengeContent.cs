@@ -92,7 +92,13 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                                 if (ex.InnerException != null) ex = ex.InnerException;
                                 Trace.TraceError(ex.Message);
                                 Trace.TraceError(ex.StackTrace);
-                                Debug.Assert(false);
+                                
+                                var exResource = new JObject
+                                {
+                                    ["Message"] = ex.Message, 
+                                    ["StackTrace"] = ex.StackTrace
+                                };
+                                content = new Resource(resourceName, "StonehengeContent.Invoke.POST", ResourceType.Json, JsonConvert.SerializeObject(exResource), Resource.Cache.None);
                             }
                         }
 

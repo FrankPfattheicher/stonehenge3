@@ -9,6 +9,7 @@ using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace IctBaden.Stonehenge3.ViewModel
 {
@@ -96,9 +97,13 @@ namespace IctBaden.Stonehenge3.ViewModel
                 if (ex.InnerException != null) ex = ex.InnerException;
                 Trace.TraceError("Stonehenge3.ViewModelProvider: " + ex.Message);
                 Trace.TraceError("Stonehenge3.ViewModelProvider: " + ex.StackTrace);
-                Debug.Assert(false);
-                // ReSharper disable once HeuristicUnreachableCode
-                return new Resource(resourceName, "ViewModelProvider", ResourceType.Json, GetViewModelJson(ex), Resource.Cache.None);
+
+                var exResource = new JObject
+                {
+                    ["Message"] = ex.Message, 
+                    ["StackTrace"] = ex.StackTrace
+                };
+                return new Resource(resourceName, "ViewModelProvider", ResourceType.Json, GetViewModelJson(exResource), Resource.Cache.None);
             }
             return new Resource(resourceName, "ViewModelProvider", ResourceType.Json, GetViewModelJson(session.ViewModel), Resource.Cache.None);
         }
@@ -331,8 +336,15 @@ namespace IctBaden.Stonehenge3.ViewModel
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Trace.TraceError(ex.Message);
+                Trace.TraceError(ex.StackTrace);
+                
+                var exResource = new JObject
+                {
+                    ["Message"] = ex.Message, 
+                    ["StackTrace"] = ex.StackTrace
+                };
+                return JsonConvert.SerializeObject(exResource);
             }
 
             var json = "{" + string.Join(",", data) + "}";
