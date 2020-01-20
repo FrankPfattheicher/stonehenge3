@@ -1,4 +1,5 @@
 
+* 3.9.5 - Use AppAssembly for search of custom components.
 * 3.9.4 - Debug.Assert(false) removed, ViewModelProvider exception handler improved.
 * 3.9.3 - Removed obsolete IndexPage option.
 * 3.9.2 - Fixed handling of multiple application using appAssembly.

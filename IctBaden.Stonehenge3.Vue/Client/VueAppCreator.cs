@@ -322,7 +322,6 @@ namespace IctBaden.Stonehenge3.Vue.Client
                .Distinct()
                .ToList();
 
-            var assembly = Assembly.GetEntryAssembly();
             var elements = new List<string>();
             foreach (var element in customElements)
             {
@@ -334,11 +333,11 @@ namespace IctBaden.Stonehenge3.Vue.Client
                 var bindings = element.ViewModel?.Bindings?.Select(b => $"'{b}'") ?? new List<string>() { string.Empty };
                 elementJs = elementJs.Replace("stonehengeCustomElementProps", string.Join(",", bindings));
 
-                var template = LoadResourceText(assembly, $"{source}.html");
+                var template = LoadResourceText(_appAssembly, $"{source}.html");
                 template = JsonConvert.SerializeObject(template);
                 elementJs = elementJs.Replace("'stonehengeElementTemplate'", template);
 
-                var methods = LoadResourceText(assembly, $"{source}.js");
+                var methods = LoadResourceText(_appAssembly, $"{source}.js");
                 if (!string.IsNullOrEmpty(methods)) methods = "," + methods;
                 elementJs = elementJs.Replace("//stonehengeElementMethods", methods);
 
