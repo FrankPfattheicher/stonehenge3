@@ -133,7 +133,14 @@ namespace IctBaden.Stonehenge3.ViewModel
         {
             var vmTypeName = Path.GetFileNameWithoutExtension(resourceName);
             if ((session.ViewModel != null) && (session.ViewModel.GetType().Name == vmTypeName)) return true;
-            if (session.SetViewModelType(vmTypeName) != null) return true;
+            if (session.SetViewModelType(vmTypeName) != null)
+            {
+                if (session.ViewModel is ActiveViewModel avm)
+                {
+                    avm.OnNavigate();
+                }
+                return true;
+            }
 
             Trace.TraceError("Could not set ViewModel type to " + vmTypeName);
             return false;

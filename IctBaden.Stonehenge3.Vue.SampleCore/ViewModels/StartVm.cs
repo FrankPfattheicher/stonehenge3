@@ -50,6 +50,11 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
             _updater = null;
         }
 
+        public override void OnNavigate()
+        {
+            Test = "0-0";
+        }
+        
         [ActionMethod]
         // ReSharper disable once UnusedMember.Global
         public void Save(int number, string text)

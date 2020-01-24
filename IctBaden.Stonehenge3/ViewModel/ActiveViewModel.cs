@@ -219,6 +219,13 @@ namespace IctBaden.Stonehenge3.ViewModel
             GetProperties();
         }
 
+        /// <summary>
+        /// Called when application navigates to this view model
+        /// </summary>
+        public virtual void OnNavigate()
+        {
+        }
+        
         protected void SetParent(ActiveViewModel parent)
         {
             PropertyChanged += (sender, args) => parent.NotifyPropertyChanged(args.PropertyName);
