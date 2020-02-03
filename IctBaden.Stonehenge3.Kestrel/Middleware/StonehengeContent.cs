@@ -13,6 +13,7 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+// ReSharper disable ConvertToUsingDeclaration
 
 namespace IctBaden.Stonehenge3.Kestrel.Middleware
 {
@@ -31,7 +32,6 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
         public async Task Invoke(HttpContext context)
         {
             var path = context.Request.Path.Value;
-            var debug = 0;
             try
             {
                 var response = context.Response.Body;
@@ -53,22 +53,18 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                         cookies.Add(cookie[0], cookie[1]);
                     }
                 }
-                debug = 10;
                 var queryString = HttpUtility.ParseQueryString(context.Request.QueryString.ToString());
-                debug = 11;
                 var parameters = queryString.AllKeys
                     .ToDictionary(key => key, key => queryString[key]);
-                debug = 12;
 
+                appSession?.SetParameters(parameters);
+                
                 Resource content = null;
                 switch (requestVerb)
                 {
                     case "GET":
-                        debug = 13;
                         appSession?.Accessed(cookies, false);
-                        debug = 14;
                         content = resourceLoader?.Get(appSession, resourceName, parameters);
-                        debug = 15;
                         if ((content != null) && (string.Compare(resourceName, "index.html", StringComparison.InvariantCultureIgnoreCase) == 0))
                         {
                             HandleIndexContent(context, content);
@@ -79,13 +75,14 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                         appSession?.Accessed(cookies, true);
                         var body = new StreamReader(context.Request.Body).ReadToEndAsync().Result;
 
-                        var formData = new Dictionary<string, string>();
                         if (!string.IsNullOrEmpty(body))
                         {
                             try
                             {
-                                formData = JsonConvert.DeserializeObject<JObject>(body).AsJEnumerable().Cast<JProperty>()
+                                var formData = JsonConvert.DeserializeObject<JObject>(body).AsJEnumerable().Cast<JProperty>()
                                 .ToDictionary(data => data.Name, data => Convert.ToString(data.Value, CultureInfo.InvariantCulture));
+                                
+                                content = resourceLoader?.Post(appSession, resourceName, parameters, formData);
                             }
                             catch (Exception ex)
                             {
@@ -101,12 +98,9 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                                 content = new Resource(resourceName, "StonehengeContent.Invoke.POST", ResourceType.Json, JsonConvert.SerializeObject(exResource), Resource.Cache.None);
                             }
                         }
-
-                        content = resourceLoader?.Post(appSession, resourceName, parameters, formData);
                         break;
                 }
 
-                debug = 20;
                 if (content == null)
                 {
                     await _next.Invoke(context);
@@ -135,7 +129,6 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                             : new[] {"stonehenge-id=" + appSession.Id});
                 }
 
-                debug = 20;
                 if (content.IsBinary)
                 {
                     using (var writer = new BinaryWriter(response))
@@ -153,7 +146,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             }
             catch (Exception ex)
             {
-                Trace.TraceError($"StonehengeContent write response [{debug}]: {ex.Message}");
+                Trace.TraceError($"StonehengeContent write response: {ex.Message}");
                 while (ex.InnerException != null)
                 {
                     ex = ex.InnerException;

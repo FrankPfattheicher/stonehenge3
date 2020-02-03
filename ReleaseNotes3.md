@@ -1,4 +1,5 @@
 
+* 3.10.2 - Added Parameters collection in application session to access URL parameters.
 * 3.10.1 - Added tests for required embedded vue resources. OnNavigate virtual VM method.
 * 3.9.6 - Added missing embedded resource fontawesome_all.min.css
 * 3.9.5 - Use AppAssembly for search of custom components.

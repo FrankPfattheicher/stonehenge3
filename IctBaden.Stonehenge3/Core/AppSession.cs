@@ -33,6 +33,7 @@ namespace IctBaden.Stonehenge3.Core
         public bool CookiesSupported { get; private set; }
         public bool StonehengeCookieSet { get; private set; }
         public Dictionary<string, string> Cookies { get; private set; }
+        public Dictionary<string, string> Parameters { get; private set; }
 
         public DateTime ConnectedSince { get; private set; }
         public DateTime LastAccess { get; private set; }
@@ -296,6 +297,7 @@ namespace IctBaden.Stonehenge3.Core
             AppInstanceId = Guid.NewGuid().ToString("N");
             SessionTimeout = TimeSpan.FromMinutes(15);
             Cookies = new Dictionary<string, string>();
+            Parameters = new Dictionary<string, string>();
             LastAccess = DateTime.Now;
             
             _eventTimeoutMs = options.GetEventTimeoutMs();
@@ -433,5 +435,21 @@ namespace IctBaden.Stonehenge3.Core
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public void SetParameters(Dictionary<string, string> parameters)
+        {
+            foreach (var parameter in parameters)
+            {
+                if (Parameters.ContainsKey(parameter.Key))
+                {
+                    Parameters[parameter.Key] = parameter.Value;
+                }
+                else
+                {
+                    Parameters.Add(parameter.Key, parameter.Value);
+                }
+            }
+        }
+        
     }
 }

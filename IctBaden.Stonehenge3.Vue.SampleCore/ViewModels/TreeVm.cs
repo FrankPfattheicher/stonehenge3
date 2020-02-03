@@ -9,6 +9,7 @@ using IctBaden.Stonehenge3.ViewModel;
 namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
 {
     // ReSharper disable once UnusedMember.Global
+    // ReSharper disable once UnusedType.Global
     public class TreeVm : ActiveViewModel
     {
         private readonly TreeNode _world;

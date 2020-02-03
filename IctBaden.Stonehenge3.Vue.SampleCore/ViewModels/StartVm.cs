@@ -52,7 +52,9 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
 
         public override void OnNavigate()
         {
-            Test = "0-0";
+            Test = Session.Parameters.ContainsKey("test")
+                ? Session.Parameters["test"]
+                : "0-0";
         }
         
         [ActionMethod]
