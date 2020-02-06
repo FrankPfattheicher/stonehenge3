@@ -50,7 +50,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
             _updater = null;
         }
 
-        public override void OnNavigate()
+        public override void OnLoad()
         {
             Test = Session.Parameters.ContainsKey("test")
                 ? Session.Parameters["test"]

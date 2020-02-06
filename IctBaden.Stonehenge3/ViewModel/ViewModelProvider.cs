@@ -114,6 +114,10 @@ namespace IctBaden.Stonehenge3.ViewModel
             {
                 if (SetViewModel(session, resourceName))
                 {
+                    if (session.ViewModel is ActiveViewModel avm)
+                    {
+                        avm.OnLoad();
+                    }
                     return GetViewModel(session, resourceName);
                 }
             }
@@ -135,10 +139,6 @@ namespace IctBaden.Stonehenge3.ViewModel
             if ((session.ViewModel != null) && (session.ViewModel.GetType().Name == vmTypeName)) return true;
             if (session.SetViewModelType(vmTypeName) != null)
             {
-                if (session.ViewModel is ActiveViewModel avm)
-                {
-                    avm.OnNavigate();
-                }
                 return true;
             }
 

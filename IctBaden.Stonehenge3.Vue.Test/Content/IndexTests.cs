@@ -31,7 +31,7 @@ namespace IctBaden.Stonehenge3.Vue.Test.Content
             try
             {
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var client = new RedirectableWebClient())
+                using (var client = new RedirectableHttpClient())
                 {
                     response = client.DownloadStringWithSession(_app1.BaseUrl);
                 }
@@ -55,7 +55,7 @@ namespace IctBaden.Stonehenge3.Vue.Test.Content
             try
             {
                 // ReSharper disable once ConvertToUsingDeclaration
-                using (var client = new RedirectableWebClient())
+                using (var client = new RedirectableHttpClient())
                 {
                     response = client.DownloadStringWithSession(_app2.BaseUrl);
                 }

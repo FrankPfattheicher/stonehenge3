@@ -1,17 +1,16 @@
 using System;
 using System.Diagnostics;
-using IctBaden.Stonehenge3.Vue.TestApp2.ViewModels;
 using Xunit;
 
-namespace IctBaden.Stonehenge3.Vue.Test.MultiApp
+namespace IctBaden.Stonehenge3.Vue.Test.ViewModelTests
 {
-    public class SecondAppTests : IDisposable
-    {
+    public class OnLoadTests : IDisposable
+        {
         private readonly VueTestApp _app;
 
-        public SecondAppTests()
+        public OnLoadTests()
         {
-            _app = new VueTestApp(typeof(SecondAppVm).Assembly);
+            _app = new VueTestApp();
         }
 
         public void Dispose()
@@ -20,15 +19,16 @@ namespace IctBaden.Stonehenge3.Vue.Test.MultiApp
         }
 
         [Fact]
-        public void SecondAppShouldContainPagesFromSecondAssemblyOnly()
+        public void OnLoadShouldBeCalledForStartVmAfterFirstCall()
         {
             var response = string.Empty;
+
             try
             {
                 // ReSharper disable once ConvertToUsingDeclaration
                 using (var client = new RedirectableHttpClient())
                 {
-                    response = client.DownloadStringWithSession(_app.BaseUrl + "/app.js");
+                    response = client.DownloadStringWithSession(_app.BaseUrl + "/ViewModel/StartVm");
                 }
             }
             catch (Exception ex)
@@ -37,9 +37,10 @@ namespace IctBaden.Stonehenge3.Vue.Test.MultiApp
             }
 
             Assert.NotNull(response);
-            Assert.Contains("'secondapp'", response);
-            Assert.DoesNotContain("'start'", response);
+            Assert.Equal(1, _app.Data.StartVmOnLoadCalled);
+            Assert.Single(_app.Data.StartVmParameters);
         }
-
+        
+        
     }
 }

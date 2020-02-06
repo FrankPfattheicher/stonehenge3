@@ -220,9 +220,10 @@ namespace IctBaden.Stonehenge3.ViewModel
         }
 
         /// <summary>
-        /// Called when application navigates to this view model
+        /// Called when application navigates to this view model.
+        /// This is an equivalent to a client site onload event.
         /// </summary>
-        public virtual void OnNavigate()
+        public virtual void OnLoad()
         {
         }
         

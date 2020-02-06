@@ -129,11 +129,12 @@ namespace IctBaden.Stonehenge3.Vue.Client
                 {
                     if (string.IsNullOrEmpty(viewModel.ViewModel.VmName))
                     {
-                        Trace.TraceError($"VueAppCreator.CreateControllers: <UNKNOWN VM> => src.{viewModel.Name}.js");
+                        Trace.TraceError($"VueAppCreator.CreateComponents: <UNKNOWN VM> => src.{viewModel.Name}.js");
+                        continue;
                     }
-                    else
+                    try
                     {
-                        Trace.TraceInformation($"VueAppCreator.CreateControllers: {viewModel.ViewModel.VmName} => src.{viewModel.Name}.js");
+                        Trace.TraceInformation($"VueAppCreator.CreateComponents: {viewModel.ViewModel.VmName} => src.{viewModel.Name}.js");
 
                         var name = _appAssembly?.GetManifestResourceNames()
                             .FirstOrDefault(rn => rn.EndsWith($".app.{viewModel.Name}_user.js"));
@@ -148,6 +149,10 @@ namespace IctBaden.Stonehenge3.Vue.Client
 
                         var resource = new Resource($"{viewModel.Name}.js", "VueResourceProvider", ResourceType.Js, controllerJs, Resource.Cache.Revalidate);
                         _vueContent.Add(resource.Name, resource);
+                    }
+                    catch(Exception ex)
+                    {
+                        Trace.TraceError($"VueAppCreator.CreateComponents: {viewModel.ViewModel.VmName} EXCEPTION: {ex.Message}");
                     }
                 }
             }

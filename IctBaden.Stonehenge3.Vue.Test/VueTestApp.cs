@@ -15,12 +15,22 @@ namespace IctBaden.Stonehenge3.Vue.Test
 
         private readonly IStonehengeHost _server;
 
+        public readonly VueTestData Data = new VueTestData();
+
         public VueTestApp(Assembly appAssembly = null)
         {
+            var vue = new VueResourceProvider();
             var loader = appAssembly != null
-                ? StonehengeResourceLoader.CreateDefaultLoader(new VueResourceProvider(), appAssembly)
-                : StonehengeResourceLoader.CreateDefaultLoader(new VueResourceProvider());
-            _server = new KestrelHost(loader);
+                ? StonehengeResourceLoader.CreateDefaultLoader(vue, appAssembly)
+                : StonehengeResourceLoader.CreateDefaultLoader(vue);
+            loader.Services.AddService(typeof(VueTestData), Data);
+            var options = new StonehengeHostOptions
+            {
+                SessionIdMode = SessionIdModes.UrlParameterOnly,
+                ServerPushMode = ServerPushModes.LongPolling,
+                PollIntervalMs = 30000
+            };
+            _server = new KestrelHost(loader, options);
             _server.Start("localhost");
         }
 

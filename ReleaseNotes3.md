@@ -1,4 +1,5 @@
 
+* 3.10.3 - Renamed OnNavigate to OnLoad. Tests added. Test WebClient replaces by HttpClient. 
 * 3.10.2 - Added Parameters collection in application session to access URL parameters.
 * 3.10.1 - Added tests for required embedded vue resources. OnNavigate virtual VM method.
 * 3.9.6 - Added missing embedded resource fontawesome_all.min.css

@@ -1,10 +1,13 @@
 ﻿using System;
-using System.Net;
+using System.Net.Http;
 using System.Text.RegularExpressions;
+using System.Web;
+
+// ReSharper disable ConvertToUsingDeclaration
 
 namespace IctBaden.Stonehenge3.Vue.Test
 {
-    public class RedirectableWebClient : WebClient
+    public class RedirectableHttpClient : HttpClient
     {
         // ReSharper disable once MemberCanBePrivate.Global
         public string SessionId { get; set; }
@@ -15,31 +18,25 @@ namespace IctBaden.Stonehenge3.Vue.Test
             {
                 DownloadString(address);
             }
-            return DownloadString(address + $"?stonehenge-id={SessionId}");
+
+            var url = new UriBuilder(address);
+            var query = HttpUtility.ParseQueryString(url.Query);
+            query["stonehenge-id"] = SessionId;
+            url.Query = query.ToString();
+            return DownloadString(url.ToString());
         }
-        
-        public new string DownloadString(string address)
+
+        public string DownloadString(string address)
         {
             for (var redirect = 0; redirect < 10; redirect++)
             {
-                var request = (HttpWebRequest)WebRequest.Create(address);
-                request.AllowAutoRedirect = true;
+                var response = GetAsync(address).Result;
+                if (response == null) return null;
 
-                WebResponse response;
-                try
-                {
-                    response = GetWebResponse(request);
-                    if (response == null) return null;
-                }
-                catch (WebException ex)
-                {
-                    response = ex.Response;
-                }
-
-                var redirectUrl = response.Headers["Location"];
+                var redirectUrl = response.Headers.Location;
                 if (redirectUrl == null)
                 {
-                    address = response.ResponseUri.ToString();
+                    address = response.RequestMessage.RequestUri.ToString();
                 }
 
                 var match = new Regex("stonehenge-id=([a-f0-9A-F]+)", RegexOptions.RightToLeft)
@@ -48,20 +45,23 @@ namespace IctBaden.Stonehenge3.Vue.Test
                 {
                     SessionId = match.Groups[1].Value;
                 }
-                
-                response.Close();
+
+                var body = response.Content.ReadAsStringAsync().Result;
+                response.Dispose();
 
                 if (redirectUrl == null)
-                    break;
+                {
+                    return body;
+                }
 
-                var newAddress = new Uri(request.RequestUri, redirectUrl).AbsoluteUri;
+                var newAddress = new Uri(response.RequestMessage.RequestUri, redirectUrl).AbsoluteUri;
                 if (newAddress == address)
                     break;
 
                 address = newAddress;
             }
 
-            return base.DownloadString(address);
+            return null;
         }
     }
 }
