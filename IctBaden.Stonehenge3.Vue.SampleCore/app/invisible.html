@@ -1,0 +1,19 @@
+<!--ViewModel:CookieVm-->
+<!--Title:-->
+<div>
+
+    <h3>Cookies</h3>
+    <p>
+        Theme: Index = {{ThemeIndex}} Used CSS = 'theme{{Theme}}.css'<br />
+    </p>
+    <p>
+        <select v-model="Theme" 
+                onchange="document.cookie='theme=' + this.value; location.reload();" >
+            <option value="">Light</option>
+            <option value="dark">Dark</option>
+            <option value="blue">Blue</option>
+        </select>
+        
+    </p>
+	
+</div>

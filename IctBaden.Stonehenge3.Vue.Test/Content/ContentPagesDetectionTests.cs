@@ -1,16 +1,18 @@
 using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace IctBaden.Stonehenge3.Vue.Test.Content
 {
-    public class StartPageDetectionTests : IDisposable
+    public class ContentPagesDetectionTests : IDisposable
     {
         private readonly VueTestApp _app;
         private readonly string _response;
 
-        public StartPageDetectionTests()
+        public ContentPagesDetectionTests()
         {
             _app = new VueTestApp();
             
@@ -43,6 +45,16 @@ namespace IctBaden.Stonehenge3.Vue.Test.Content
             var startPage = new Regex(@"{ path: ''.*stonehengeLoadComponent\('(\w+)'\)").Match(_response);
             Assert.True(startPage.Success);
             Assert.Equal("start", startPage.Groups[1].Value);
+        }
+        
+        [Fact]
+        public void HiddenPageShouldBeIncluded()
+        {
+            // { path: '/hidden', name: 'hidden', title: 'Hidden', component: () => Promise.resolve(stonehengeLoadComponent('hidden')), visible: false }
+            var hiddenPage = new Regex(@"\{ path: \'/hidden'.*\}").Match(_response);
+            Assert.True(hiddenPage.Success);
+            var route = hiddenPage.Groups[0].Value;
+            Assert.Contains("visible: false", route);
         }
         
     }

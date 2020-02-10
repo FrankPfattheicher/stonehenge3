@@ -77,7 +77,8 @@ namespace IctBaden.Stonehenge3.Vue.Client
             var contentPages = _vueContent
                 .Where(res => res.Value.ViewModel?.ElementName == null)
                 .Select(res => new {res.Value.Name, Vm = res.Value.ViewModel})
-                .OrderBy(route => route.Vm.SortIndex)
+                .OrderBy(route => route.Vm.Visible ? 0 : 1)
+                .ThenBy(route => route.Vm.SortIndex)
                 .ToList();
             
             var pages = contentPages

@@ -27,7 +27,7 @@ namespace IctBaden.Stonehenge3.Vue.Test.Content
                 // ReSharper disable once ConvertToUsingDeclaration
                 using (var client = new RedirectableHttpClient())
                 {
-                    response = client.DownloadString(_app.BaseUrl);
+                    response = client.DownloadStringWithSession(_app.BaseUrl);
                 }
             }
             catch (Exception ex)

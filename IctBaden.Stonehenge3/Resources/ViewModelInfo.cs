@@ -17,7 +17,7 @@ namespace IctBaden.Stonehenge3.Resources
         public ViewModelInfo(string name)
         {
             VmName = name;
-            SortIndex = 1;
+            SortIndex = 1;    // ensure visible
         }
 
 

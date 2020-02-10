@@ -24,13 +24,7 @@ namespace IctBaden.Stonehenge3.Vue.Test
                 ? StonehengeResourceLoader.CreateDefaultLoader(vue, appAssembly)
                 : StonehengeResourceLoader.CreateDefaultLoader(vue);
             loader.Services.AddService(typeof(VueTestData), Data);
-            var options = new StonehengeHostOptions
-            {
-                SessionIdMode = SessionIdModes.UrlParameterOnly,
-                ServerPushMode = ServerPushModes.LongPolling,
-                PollIntervalMs = 30000
-            };
-            _server = new KestrelHost(loader, options);
+            _server = new KestrelHost(loader);
             _server.Start("localhost");
         }
 

@@ -28,16 +28,6 @@ Immediately adding the Vue provider enables delivering automaatically generated 
     var vue = new VueResourceProvider();
     var provider = StonehengeResourceLoader.CreateDefaultLoader(vue);
 ```
-Now we define application title and a start page name and some other as hosting options.
-``` csharp
-    var options = new StonehengeHostOptions
-            {
-                Title = "Sample",
-                StartPage = "start",
-                ServerPushMode = ServerPushModes.LongPolling,
-                PollIntervalMs = 1000
-            };
-```
 Next we have to decide what hosting environment to use.    
 This description uses [Kestrel], the .NET Core default stack        
 (https://docs.microsoft.com/de-de/aspnet/core/fundamentals/servers/kestrel).    
@@ -59,15 +49,6 @@ Adding some console logging, error handling and termination code we should end u
         // client framework (use Vue.js)
         var vue = new VueResourceProvider();
         var provider = StonehengeResourceLoader.CreateDefaultLoader(vue);
-
-        // options
-        var options = new StonehengeHostOptions
-        {
-            Title = "Sample",
-            StartPage = "start",
-            ServerPushMode = ServerPushModes.LongPolling,
-            PollIntervalMs = 1000
-        };
 
         // hosting
         var host = new KestrelHost(provider, options);

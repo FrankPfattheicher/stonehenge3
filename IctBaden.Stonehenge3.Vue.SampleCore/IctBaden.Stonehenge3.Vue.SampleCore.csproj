@@ -24,6 +24,7 @@
     <EmbeddedResource Include="app\cookie.html" />
     <EmbeddedResource Include="app\gauge.html" />
     <EmbeddedResource Include="app\gauge.js" />
+    <EmbeddedResource Include="app\invisible.html" />
     <EmbeddedResource Include="app\scripts\c3.js" />
     <EmbeddedResource Include="app\scripts\d3.js" />
     <EmbeddedResource Include="app\scripts\d3.v5.js" />
