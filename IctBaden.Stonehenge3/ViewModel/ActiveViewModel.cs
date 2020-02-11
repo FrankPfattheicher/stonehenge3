@@ -288,11 +288,8 @@ namespace IctBaden.Stonehenge3.ViewModel
                 return;
             }
 
-            var index =
-            (from m in ActiveModels
-             where (m.TypeName == model.GetType().Name) && (m.Prefix == prefix)
-             select ActiveModels.IndexOf(m)).First();
-            ActiveModels[index].Model = model;
+            var activeModel = ActiveModels.First(m => (m.TypeName == model.GetType().Name) && (m.Prefix == prefix));
+            activeModel.Model = model;
             foreach (var prop in model.GetType().GetProperties())
             {
                 if (string.IsNullOrEmpty(prefix))
@@ -579,6 +576,14 @@ namespace IctBaden.Stonehenge3.ViewModel
             }
         }
 
+        protected void NotifyAllPropertiesChanged()
+        {
+            foreach (PropertyDescriptorEx prop in properties)
+            {
+                NotifyPropertyChanged(prop.Name);
+            }
+        }
+        
         #endregion
 
         #region MessageBox
