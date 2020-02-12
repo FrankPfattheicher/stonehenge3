@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -347,6 +347,9 @@ namespace IctBaden.Stonehenge3.ViewModel
 
         private static string GetViewModelJson(object viewModel)
         {
+            var watch = new Stopwatch();
+            watch.Start();
+            
             var ty = viewModel.GetType();
             Trace.TraceInformation("Stonehenge3.ViewModelProvider: viewModel=" + ty.Name);
 
@@ -387,6 +390,9 @@ namespace IctBaden.Stonehenge3.ViewModel
             }
 
             var json = "{" + string.Join(",", data) + "}";
+            
+            watch.Stop();
+            Debug.WriteLine($"GetViewModelJson: {watch.ElapsedMilliseconds}ms");
             return json;
         }
     }
