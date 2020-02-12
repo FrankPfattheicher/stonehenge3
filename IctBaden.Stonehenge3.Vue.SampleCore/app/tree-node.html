@@ -1,15 +1,17 @@
 <!--CustomElement:node-->
 <div>
     
+    <!--suppress HtmlUnknownTag -->
     <li v-if="node.IsVisible" >
       <div :class="node.Class" >
-          <span v-if="node.HasChildren" :class="node.Icon" style="cursor: pointer;" v-on:click="$emit('toggle', node.Id)"></span>
-          <span v-else class="far fa-circle" v-on:click="$emit('toggle', node.Id)"></span>
-        <span style="cursor: pointer;" v-on:click="$emit('select', node.Id)">&nbsp;{{node.Name}}</span>
+          <span v-if="node.HasChildren" :class="node.Icon" style="cursor: pointer;" @click="$emit('toggle', node.Id)"></span>
+          <span v-else class="far fa-circle" @click="$emit('toggle', node.Id)"></span>
+        <span style="cursor: pointer;" @click="$emit('select', node.Id)">&nbsp;{{node.Name}}</span>
       </div>
       <ul style="list-style-type: none;">
           <tree-node v-for="child of node.Children" v-bind:node="child" :key="child.Id" 
-                     v-on:select="$emit('select', $event)" v-on:toggle="$emit('toggle', $event)" />
+                     v-on:select="$emit('select', $event)" v-on:toggle="$emit('toggle', $event)" >
+          </tree-node>
       </ul>
     </li>
 	

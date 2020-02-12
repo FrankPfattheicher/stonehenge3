@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable UnusedMember.Global
 
 namespace IctBaden.Stonehenge3.Test.Serializer
 {

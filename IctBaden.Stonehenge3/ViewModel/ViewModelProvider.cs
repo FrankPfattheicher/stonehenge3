@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -102,6 +102,7 @@ namespace IctBaden.Stonehenge3.ViewModel
                 if (executeAsync)
                 {
                     Task.Run(() => method.Invoke(session.ViewModel, methodParams));
+                    return GetEvents(session, resourceName);
                 }
                 else
                 {

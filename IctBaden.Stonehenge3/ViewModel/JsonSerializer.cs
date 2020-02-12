@@ -52,6 +52,15 @@ namespace IctBaden.Stonehenge3.ViewModel
                 data.Add(JsonConvert.SerializeObject(obj));
                 return data;
             }
+            if (objType == typeof(Dictionary<string, object>) && obj is Dictionary<string, object> properties)
+            {
+                var elements = new List<string>();
+                foreach (var keyValuePair in properties)
+                {
+                    elements.Add(  "\"" + keyValuePair.Key + "\":" + SerializeObjectString(null, keyValuePair.Value));
+                }
+                data.Add("{" + string.Join(",", elements) + "}");   
+            }
 
             var converter = objType.GetCustomAttributes(typeof(JsonConverterAttribute), true);
             if (converter.Length > 0)

@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Xunit;
 using JsonSerializer = IctBaden.Stonehenge3.ViewModel.JsonSerializer;
 
@@ -9,12 +14,12 @@ namespace IctBaden.Stonehenge3.Test.Serializer
     public class ViewModelSerializerTests
     {
         [Fact]
-        public void SimpleClassSerializonShouldWork()
+        public void SimpleClassSerializationShouldWork()
         {
             var model = new SimpleClass
             {
                 Integer = 5,
-                Floatingpoint = 1.23,
+                FloatingPoint = 1.23,
                 Text = "test",
                 PrivateText = "invisible",
                 Timestamp = new DateTime(2016, 11, 11, 12, 13, 14, DateTimeKind.Utc)
@@ -32,7 +37,7 @@ namespace IctBaden.Stonehenge3.Test.Serializer
             Assert.Contains("Boolean", json);
             Assert.Contains("false", json);
 
-            Assert.Contains("Floatingpoint", json);
+            Assert.Contains("FloatingPoint", json);
             Assert.Contains("1.23", json);
 
             Assert.Contains("Text", json);
@@ -65,22 +70,22 @@ namespace IctBaden.Stonehenge3.Test.Serializer
         [Fact]
         public void SerializerShouldRespectAttributes()
         {
-            
+            //TODO   
         }
 
         [Fact]
         public void SerializerShouldRespectCustomSerializers()
         {
-
+            //TODO   
         }
 
         [Fact]
-        public void NestedClassesSerializonShouldWork()
+        public void NestedClassesSerializationShouldWork()
         {
             var simple = new SimpleClass
             {
                 Integer = 5,
-                Floatingpoint = 1.23,
+                FloatingPoint = 1.23,
                 Text = "test",
                 PrivateText = "invisible",
                 Timestamp = new DateTime(2016, 11, 11, 12, 13, 14, DateTimeKind.Utc)
@@ -93,12 +98,12 @@ namespace IctBaden.Stonehenge3.Test.Serializer
                 {
                     new NestedClass2
                     {
-                        NestedSimple = new[] { simple, simple, simple }
+                        NestedSimple = new[] {simple, simple, simple}
                     }
                 }
             };
-                
-                
+
+
             var json = JsonSerializer.SerializeObjectString(null, model);
 
             var obj = JsonConvert.DeserializeObject(json);
@@ -108,5 +113,62 @@ namespace IctBaden.Stonehenge3.Test.Serializer
             Assert.EndsWith("}", json);
         }
 
+        [Fact]
+        public void HierarchicalClassesSerializationShouldWork()
+        {
+            static HierarchicalClass NewHierarchicalClass(string name, int depth)
+            {
+                return new HierarchicalClass
+                {
+                    Name = name,
+                    Children = (depth > 0)
+                        ? Enumerable.Range(1, 10)
+                            .Select(ix => NewHierarchicalClass($"child {depth} {ix}", depth - 1))
+                            .ToList()
+                        : null
+                };
+            }
+
+            var hierarchy = NewHierarchicalClass("Root", 3);
+            
+            var watch = new Stopwatch();
+            watch.Start();
+            
+            var json = JsonSerializer.SerializeObjectString(null, hierarchy);
+
+            watch.Stop();
+            Debug.WriteLine($"HierarchicalClassesSerialization: {watch.ElapsedMilliseconds}ms");
+            
+            var obj = JsonConvert.DeserializeObject(json);
+            Assert.NotNull(obj);
+
+            Assert.StartsWith("{", json);
+            Assert.EndsWith("}", json);
+        }
+
+        [Fact]
+        public void DictionaryStringObjectSerializationShouldBeDoneAsObjects()
+        {
+            var dt = new DateTime(2020, 02, 12, 17, 37, 44, DateTimeKind.Utc);
+            var dict = new Dictionary<string, object>
+            {
+                { "Integer", 5 },
+                { "FloatingPoint", 1.23 },
+                { "Text", "test" },
+                { "Timestamp", dt }
+            };
+            
+            var json = JsonSerializer.SerializeObjectString(null, dict);
+ 
+            var obj = JsonConvert.DeserializeObject<JObject>(json);
+            Assert.NotNull(obj);
+
+            Assert.Equal(5, obj["Integer"].Value<int>());
+            Assert.Equal(1.23, obj["FloatingPoint"].Value<double>());
+            Assert.Equal("test", obj["Text"].Value<string>());
+            Assert.Equal(dt, obj["Timestamp"].Value<DateTime>());
+        }
+
+        
     }
 }

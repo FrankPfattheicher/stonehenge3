@@ -1,4 +1,5 @@
 
+* 3.10.6 - Serialize Dictionary<string, object> as Json objects.
 * 3.10.5 - NotifyAllPropertiesChanged, ActionMethodAttribute.ExecuteAsync
 * 3.10.4 - Fixed Title comment without explicit sort index now results in zero (invisible). 
 * 3.10.3 - Renamed OnNavigate to OnLoad. Tests added. Test WebClient replaces by HttpClient. 

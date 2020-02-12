@@ -1,4 +1,7 @@
 ﻿using System;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable UnusedMember.Global
+// ReSharper disable NotAccessedField.Global
 
 namespace IctBaden.Stonehenge3.Test.Serializer
 {
@@ -6,7 +9,7 @@ namespace IctBaden.Stonehenge3.Test.Serializer
     {
         public int Integer { get; set; }
         public bool Boolean { get; set; }
-        public double Floatingpoint { get; set; }
+        public double FloatingPoint { get; set; }
         public string Text { get; set; }
         public DateTime Timestamp { get; set; }
 
