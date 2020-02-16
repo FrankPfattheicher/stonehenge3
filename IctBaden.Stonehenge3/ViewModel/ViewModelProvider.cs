@@ -228,6 +228,7 @@ namespace IctBaden.Stonehenge3.ViewModel
             {
                 var route = activeVm.NavigateToRoute;
                 data.Add($"\"StonehengeNavigate\":{JsonSerializer.SerializeObjectString(null, route)}");
+                activeVm.NotifyPropertyChanged("StonehengeNavigate");
                 activeVm.NavigateToRoute = null;
             }
             else if (!string.IsNullOrEmpty(activeVm.ClientScript))

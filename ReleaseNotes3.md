@@ -1,4 +1,5 @@
 
+* 3.10.7 - Enabled NavigateTo from background task.
 * 3.10.6 - Serialize Dictionary<string, object> as Json objects.
 * 3.10.5 - NotifyAllPropertiesChanged, ActionMethodAttribute.ExecuteAsync
 * 3.10.4 - Fixed Title comment without explicit sort index now results in zero (invisible). 
