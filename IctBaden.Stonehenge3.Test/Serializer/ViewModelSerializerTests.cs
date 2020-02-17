@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xunit;
 using JsonSerializer = IctBaden.Stonehenge3.ViewModel.JsonSerializer;
+// ReSharper disable LocalFunctionCanBeMadeStatic
 
 namespace IctBaden.Stonehenge3.Test.Serializer
 {
@@ -116,7 +117,7 @@ namespace IctBaden.Stonehenge3.Test.Serializer
         [Fact]
         public void HierarchicalClassesSerializationShouldWork()
         {
-            static HierarchicalClass NewHierarchicalClass(string name, int depth)
+            HierarchicalClass NewHierarchicalClass(string name, int depth)
             {
                 return new HierarchicalClass
                 {
