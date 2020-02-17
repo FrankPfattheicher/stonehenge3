@@ -1,4 +1,5 @@
 
+* 3.10.9 - NavigateTo from background task fixed.
 * 3.10.8 - Nuspec file package references fixed.
 * 3.10.7 - Enabled NavigateTo from background task.
 * 3.10.6 - Serialize Dictionary<string, object> as Json objects.

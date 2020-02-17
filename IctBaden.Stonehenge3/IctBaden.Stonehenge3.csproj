@@ -9,7 +9,7 @@
     <Product>Web Application Framework</Product>
     <Version>3.0.0</Version>
     <ApplicationIcon>app\favicon.ico</ApplicationIcon>
-    <PackageVersion>3.3.1</PackageVersion>
+    <PackageVersion>3.0.0</PackageVersion>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 

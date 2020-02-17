@@ -193,18 +193,15 @@ namespace IctBaden.Stonehenge3.ViewModel
 
             var data = new List<string> {"\"StonehengeContinuePolling\":true"};
             var events = session.CollectEvents();
-            if (events.Count > 0)
+            if (session.ViewModel is ActiveViewModel activeVm)
             {
-                if (session.ViewModel is ActiveViewModel activeVm)
+                foreach (var property in events)
                 {
-                    foreach (var property in events)
-                    {
-                        var value = activeVm.TryGetMember(property);
-                        data.Add($"\"{property}\":{JsonSerializer.SerializeObjectString(null, value)}");
-                    }
-
-                    AddStonehengeInternalProperties(data, activeVm);
+                    var value = activeVm.TryGetMember(property);
+                    data.Add($"\"{property}\":{JsonSerializer.SerializeObjectString(null, value)}");
                 }
+
+                AddStonehengeInternalProperties(data, activeVm);
             }
 
             json = "{" + string.Join(",", data) + "}";
@@ -228,7 +225,6 @@ namespace IctBaden.Stonehenge3.ViewModel
             {
                 var route = activeVm.NavigateToRoute;
                 data.Add($"\"StonehengeNavigate\":{JsonSerializer.SerializeObjectString(null, route)}");
-                activeVm.NotifyPropertyChanged("StonehengeNavigate");
                 activeVm.NavigateToRoute = null;
             }
             else if (!string.IsNullOrEmpty(activeVm.ClientScript))
