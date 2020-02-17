@@ -12,17 +12,17 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>X-Platform Web Application Framework</description>
     <releaseNotes> </releaseNotes>
-    <copyright>Copyright ICT Baden GmbH 2013-2018</copyright>
+    <copyright>Copyright ICT Baden GmbH 2013-2020</copyright>
     <tags>.NET Core HTML CSS Kestrel Vue</tags>
     <dependencies>
-        <dependency id="Microsoft.AspNetCore.Hosting" version="2.2.0" />
+        <dependency id="Microsoft.AspNetCore.Hosting" version="2.2.7" />
         <dependency id="Microsoft.AspNetCore.Hosting.Abstractions" version="2.2.0" />
         <dependency id="Microsoft.AspNetCore.Http.Abstractions" version="2.2.0" />
         <dependency id="Microsoft.AspNetCore.ResponseCompression" version="2.2.0" />
         <dependency id="Microsoft.AspNetCore.Server.Kestrel" version="2.2.0" />
-        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="2.2.0" />
-        <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="2.2.0" />
-        <dependency id="Newtonsoft.Json" version="12.0.1" />
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="3.1.1" />
+        <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="3.1.1" />
+        <dependency id="Newtonsoft.Json" version="12.0.3" />
     </dependencies>
     <references>
         <reference file="IctBaden.Stonehenge3.dll" />
