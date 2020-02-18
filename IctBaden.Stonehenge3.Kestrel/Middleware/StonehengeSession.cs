@@ -58,6 +58,15 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             timer.Start();
 
             var path = context.Request.Path.ToString();
+
+            if (path.ToLower().Contains("/user/"))
+            {
+                Trace.TraceInformation($"Stonehenge3.Kestrel Begin USER {context.Request.Method} {path}");
+                await _next.Invoke(context);
+                Trace.TraceInformation($"Stonehenge3.Kestrel End USER {context.Request.Method} {path}");
+                return;
+            }
+            
             var cookie = context.Request.Headers.FirstOrDefault(h => h.Key == "Cookie");
             var stonehengeId = context.Request.Query["stonehenge-id"];
             if (!string.IsNullOrEmpty(cookie.Value.ToString()))
