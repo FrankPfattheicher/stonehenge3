@@ -130,9 +130,10 @@ stonehengeViewModelName = function component() {
                     }
                 })
                 .catch(error => {
-                    if (app.stonehengeViewModelName.model.StonehengePollEventsActive !== null) {
-                        app.stonehengeViewModelName.model.StonehengeIsDisconnected = true;
-                    }
+                    // if (app.stonehengeViewModelName.model.StonehengePollEventsActive !== null) {
+                    //     app.stonehengeViewModelName.model.StonehengeIsDisconnected = true;
+                    //     debugger;
+                    // }
                     if (error.status >= 400) {
                         setTimeout(function () { window.location.reload(); }, 1000);
                     } else {
