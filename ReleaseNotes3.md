@@ -1,4 +1,5 @@
 
+* 3.10.13 - Update to Vue.js v2.6.11, Bootstrap v4.4.1.
 * 3.10.12 - Nuspec file name case and package reference versions fixed.
 * 3.10.11 - AppCommand handling fixed. Sample forms page. Create component uses DI container.
 * 3.10.10 - HostWindow usable without StonehengeHost. Host's BaseUrl as browsable address.

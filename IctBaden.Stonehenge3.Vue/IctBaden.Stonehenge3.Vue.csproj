@@ -102,6 +102,8 @@
         <EmbeddedResource Include="app\src\vue-resource.min.js" />
         <None Remove="app\src\fontawesome_all.min.css" />
         <EmbeddedResource Include="app\src\fontawesome_all.min.css" />
+        <None Remove="app\src\bootstrap.js" />
+        <EmbeddedResource Include="app\src\bootstrap.js" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\IctBaden.Stonehenge3\IctBaden.Stonehenge3.csproj" />
