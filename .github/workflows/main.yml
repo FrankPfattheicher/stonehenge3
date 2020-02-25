@@ -20,15 +20,16 @@ jobs:
         SkipPerformanceTests: true
       run: dotnet test ./Stonehenge3.sln --configuration Release
     - name: Copy artifacts
-      run: mkdir nuget
-           cp Stonehenge3.nuspec nuget
-           mkdir nuget/lib
-           cp IctBaden.Stonehenge3/bin/Release/netstandard2.0/IctBaden.Stonehenge3.dll nuget/lib
-           cp IctBaden.Stonehenge3.Kestrel/bin/Release/netstandard2.0/IctBaden.Stonehenge3.Kestrel.dll nuget/lib
-           cp IctBaden.Stonehenge3.SimpleHttp/bin/Release/netstandard2.0/IctBaden.Stonehenge3.SimpleHttp.dll nuget/lib
-           cp IctBaden.Stonehenge3.Vue/bin/Release/netstandard2.0/IctBaden.Stonehenge3.Vue.dll nuget/lib
-           cd nuget
-           version=$(grep -o -m 1 '[0-9]*\.[0-9]*\.[0-9]*' ../ReleaseNotes3.md)
-           nuget pack ../Stonehenge3.nuspec -BasePath . -Version $version
+      run: |
+        mkdir nuget
+        cp Stonehenge3.nuspec nuget
+        mkdir nuget/lib
+        cp IctBaden.Stonehenge3/bin/Release/netstandard2.0/IctBaden.Stonehenge3.dll nuget/lib
+        cp IctBaden.Stonehenge3.Kestrel/bin/Release/netstandard2.0/IctBaden.Stonehenge3.Kestrel.dll nuget/lib
+        cp IctBaden.Stonehenge3.SimpleHttp/bin/Release/netstandard2.0/IctBaden.Stonehenge3.SimpleHttp.dll nuget/lib
+        cp IctBaden.Stonehenge3.Vue/bin/Release/netstandard2.0/IctBaden.Stonehenge3.Vue.dll nuget/lib
+        cd nuget
+        version=$(grep -o -m 1 '[0-9]*\.[0-9]*\.[0-9]*' ../ReleaseNotes3.md)
+        nuget pack ../Stonehenge3.nuspec -BasePath . -Version $version
     - name: Publish NuGet
       run: dotnet nuget push nuget/*.nupkg --source https://www.nuget.org --api-key ${{ secrets.NugetKey }}
