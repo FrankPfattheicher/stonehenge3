@@ -12,6 +12,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
     {
         public int Range { get; set; }
 
+        public int[] ChartData  { get; private set; } = new[] {1, 2, 3, 2, 2, 4, 5, 5, 3, 4}; 
 
         public FormsVm(AppSession session) : base(session)
         {
@@ -21,7 +22,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
         [ActionMethod]
         public void RangeChanged()
         {
-            
+            ChartData[^1] = Range / 10;
         }
         
     }

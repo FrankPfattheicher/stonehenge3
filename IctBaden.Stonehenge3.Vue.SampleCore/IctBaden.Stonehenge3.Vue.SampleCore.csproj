@@ -45,6 +45,10 @@
     <None Remove="app\index.html" />
     <None Remove="app\sample-index.html" />
     <EmbeddedResource Include="app\index.html" />
+    <None Remove="app\chart.js" />
+    <EmbeddedResource Include="app\chart.js" />
+    <None Remove="app\chart.html" />
+    <EmbeddedResource Include="app\chart.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IctBaden.Stonehenge3.Kestrel\IctBaden.Stonehenge3.Kestrel.csproj" />
