@@ -5,7 +5,7 @@ using IctBaden.Stonehenge3.ViewModel;
 namespace IctBaden.Stonehenge3.Vue.SampleCore
 {
     // ReSharper disable once UnusedMember.Global
-    class AppCommands : IStonehengeAppCommands
+    public class AppCommands : IStonehengeAppCommands
     {
         // ReSharper disable once UnusedMember.Global
         public void FileOpen(AppSession session)

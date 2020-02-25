@@ -14,7 +14,7 @@ stonehengeViewModelName = function component() {
                 //debugger;
                 if (console && console.log) console.log(error);
             }
-            this.StonehengePollEventsActive = null;
+            this.model.StonehengePollEventsActive = null;
         },
 
         StonehengeSetViewModelData: function (vmdata) {
@@ -94,7 +94,6 @@ stonehengeViewModelName = function component() {
                 })
                 .catch(error => {
                     if (error.status >= 400) {
-                        this.StonehengeDisconnected = this.StonehengeDisconnected + 1;
                         this.StonehengeIsDisconnected = true;
                         //debugger;
                         window.location.reload();
@@ -121,7 +120,6 @@ stonehengeViewModelName = function component() {
                     try {
                         let data = JSON.parse(response.bodyText);
                         app.stonehengeViewModelName.model.StonehengePollEventsActive = null;
-                        app.stonehengeViewModelName.model.StonehengeDisconnected = 0;
                         app.stonehengeViewModelName.model.StonehengeIsDisconnected = false;
                         app.stonehengeViewModelName.StonehengeSetViewModelData(data);
                     } catch (error) {
@@ -133,11 +131,8 @@ stonehengeViewModelName = function component() {
                 })
                 .catch(error => {
                     if (app.stonehengeViewModelName.model.StonehengePollEventsActive !== null) {
-                        app.stonehengeViewModelName.model.StonehengeDisconnected = app.stonehengeViewModelName.model.StonehengeDisconnected + 1;
-                        if(app.stonehengeViewModelName.model.StonehengeDisconnected > 5) {
-                            app.stonehengeViewModelName.model.StonehengeIsDisconnected = true;
-                            // debugger;
-                        }
+                        app.stonehengeViewModelName.model.StonehengeIsDisconnected = true;
+                        //debugger;
                     }
                     if (error.status >= 400) {
                         setTimeout(function () { window.location.reload(); }, 1000);
@@ -180,7 +175,6 @@ stonehengeViewModelName = function component() {
                     }
                 })
                 .catch(error => {
-                    app.stonehengeViewModelName.model.StonehengeDisconnected = app.stonehengeViewModelName.model.StonehengeDisconnected + 1;  
                     app.stonehengeViewModelName.model.StonehengeIsDisconnected = true;
                     //debugger;
                     if (console && console.log) console.log(error);
@@ -199,7 +193,6 @@ stonehengeViewModelName = function component() {
             StonehengeInitialLoading: true,
             StonehengeIsLoading: true,
             StonehengeIsDirty: false,
-            StonehengeDisconnected: 0,
             StonehengeIsDisconnected: false,
             StonehengePostActive: false,
             StonehengeSession: '<none>'

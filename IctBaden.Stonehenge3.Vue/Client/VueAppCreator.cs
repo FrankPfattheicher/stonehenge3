@@ -115,7 +115,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
         }
 
 
-        public void CreateComponents()
+        public void CreateComponents(StonehengeResourceLoader resourceLoader)
         {
             var viewModels = _vueContent
                 .Where(res => res.Value.ViewModel?.VmName != null)
@@ -125,7 +125,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
 
             foreach (var viewModel in viewModels)
             {
-                var controllerJs = GetController(viewModel.ViewModel.VmName);
+                var controllerJs = GetController(viewModel.ViewModel.VmName, resourceLoader);
                 if (!string.IsNullOrEmpty(controllerJs))
                 {
                     if (string.IsNullOrEmpty(viewModel.ViewModel.VmName))
@@ -181,7 +181,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
         private static readonly bool DebugBuild = Assembly.GetEntryAssembly()?.GetCustomAttributes(false)
                                                       .OfType<DebuggableAttribute>().Any(da => da.IsJITTrackingEnabled) ?? true;
         
-        private string GetController(string vmName)
+        private string GetController(string vmName, StonehengeResourceLoader resourceLoader)
         {
             var vmType = GetVmType(vmName);
             if (vmType == null)
@@ -190,7 +190,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
                 return null;
             }
 
-            var viewModel = CreateViewModel(vmType);
+            var viewModel = CreateViewModel(vmType, resourceLoader);
             
             var text = ControllerTemplate
                 .Replace("stonehengeDebugBuild", DebugBuild ? "true" : "false")
@@ -240,11 +240,11 @@ namespace IctBaden.Stonehenge3.Vue.Client
             return text.Replace("/*commands*/", string.Join("," + Environment.NewLine, actionMethods));
         }
 
-        private object CreateViewModel(Type vmType)
+        private object CreateViewModel(Type vmType, StonehengeResourceLoader resourceLoader)
         {
             try
             {
-                var session = new AppSession(null, _options);
+                var session = new AppSession(resourceLoader, _options);
                 var viewModel = session.CreateType(vmType);
                 return viewModel;
             }

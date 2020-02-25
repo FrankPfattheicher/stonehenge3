@@ -18,15 +18,13 @@ namespace IctBaden.Stonehenge3.Kestrel
 {
     public class KestrelHost : IStonehengeHost
     {
-        public string AppTitle => Options.Title;
         public string BaseUrl { get; private set; }
-        public StonehengeHostOptions Options { get; private set; }
-
-        
         private IWebHost _webApp;
         private Task _host;
         private CancellationTokenSource _cancel;
+        
         private readonly IStonehengeResourceProvider _resourceProvider;
+        private readonly StonehengeHostOptions _options;
 
         public KestrelHost(IStonehengeResourceProvider provider)
         : this(provider, new StonehengeHostOptions())
@@ -35,8 +33,8 @@ namespace IctBaden.Stonehenge3.Kestrel
         public KestrelHost(IStonehengeResourceProvider provider, StonehengeHostOptions options)
         {
             _resourceProvider = provider;
-            Options = options;
-            
+            _options = options;
+
             provider.InitProvider(provider as StonehengeResourceLoader, options);
         }
 
@@ -45,6 +43,7 @@ namespace IctBaden.Stonehenge3.Kestrel
             try
             {
                 IPAddress listenAddress;
+                var baseAddress = IPAddress.Loopback.ToString();
                 switch (hostAddress)
                 {
                     case null:
@@ -56,6 +55,7 @@ namespace IctBaden.Stonehenge3.Kestrel
                         break;
                     default:
                         listenAddress = IPAddress.Parse(hostAddress);
+                        baseAddress = listenAddress.ToString();
                         break;
                 }
 
@@ -64,14 +64,14 @@ namespace IctBaden.Stonehenge3.Kestrel
                     hostPort = Network.GetFreeTcpPort();
                 }
 
-                BaseUrl = $"http://{hostAddress}:{hostPort}";
+                BaseUrl = $"http://{baseAddress}:{hostPort}";
 
                 var mem = new MemoryConfigurationSource()
                 {
                     InitialData = new[] 
                     {
-                        new KeyValuePair<string, string>( "AppTitle", AppTitle),
-                        new KeyValuePair<string, string>( "HostOptions", JsonConvert.SerializeObject(Options))
+                        new KeyValuePair<string, string>( "AppTitle", _options.Title),
+                        new KeyValuePair<string, string>( "HostOptions", JsonConvert.SerializeObject(_options))
                     }
                 };
 

@@ -3,21 +3,11 @@
     public interface IStonehengeHost
     {
         /// <summary>
-        /// The applications title to use.
-        /// </summary>
-        string AppTitle { get; }
-
-        /// <summary>
         /// Gives the base URL the hosting service is using for the initial page.
+        /// This is a browsable address.
         /// </summary>
         string BaseUrl { get; }
 
-        /// <summary>
-        /// Options for hosting and serving.
-        /// </summary>
-        // ReSharper disable once UnusedMemberInSuper.Global
-        StonehengeHostOptions Options { get; }
-            
         /// <summary>
         /// Start hosting service.
         /// </summary>

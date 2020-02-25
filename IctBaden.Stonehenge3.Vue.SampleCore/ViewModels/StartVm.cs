@@ -89,7 +89,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
         {
             if (!resourceName.EndsWith(".ics"))
                 return new Resource(resourceName, "Sample", ResourceType.Text,
-                    $"This ist the content of {resourceName} file ;-)", Resource.Cache.None);
+                    $"This ist the content of {resourceName} file ;-) Press Alt+Left to return.", Resource.Cache.None);
             
             const string cal = @"BEGIN:VCALENDAR
 PRODID:-//ICT Baden GmbH//Framework Library 2016//DE

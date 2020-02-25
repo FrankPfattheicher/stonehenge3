@@ -45,7 +45,7 @@ namespace IctBaden.Stonehenge3.Vue
             AddFileSystemContent(options.AppFilesPath);
             AddResourceContent();
             appCreator.CreateApplication();
-            appCreator.CreateComponents();
+            appCreator.CreateComponents(loader);
         }
 
         public void Dispose()

@@ -1,8 +1,6 @@
 using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace IctBaden.Stonehenge3.Vue.Test.Content

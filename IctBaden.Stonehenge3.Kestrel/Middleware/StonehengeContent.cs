@@ -75,28 +75,28 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                         appSession?.Accessed(cookies, true);
                         var body = new StreamReader(context.Request.Body).ReadToEndAsync().Result;
 
-                        if (!string.IsNullOrEmpty(body))
+                        try
                         {
-                            try
+                            var formData = !string.IsNullOrEmpty(body)
+                                ? JsonConvert.DeserializeObject<JObject>(body).AsJEnumerable().Cast<JProperty>()
+                                    .ToDictionary(data => data.Name,
+                                        data => Convert.ToString(data.Value, CultureInfo.InvariantCulture))
+                                : new Dictionary<string, string>();
+
+                            content = resourceLoader?.Post(appSession, resourceName, parameters, formData);
+                        }
+                        catch (Exception ex)
+                        {
+                            if (ex.InnerException != null) ex = ex.InnerException;
+                            Trace.TraceError(ex.Message);
+                            Trace.TraceError(ex.StackTrace);
+                            
+                            var exResource = new JObject
                             {
-                                var formData = JsonConvert.DeserializeObject<JObject>(body).AsJEnumerable().Cast<JProperty>()
-                                .ToDictionary(data => data.Name, data => Convert.ToString(data.Value, CultureInfo.InvariantCulture));
-                                
-                                content = resourceLoader?.Post(appSession, resourceName, parameters, formData);
-                            }
-                            catch (Exception ex)
-                            {
-                                if (ex.InnerException != null) ex = ex.InnerException;
-                                Trace.TraceError(ex.Message);
-                                Trace.TraceError(ex.StackTrace);
-                                
-                                var exResource = new JObject
-                                {
-                                    ["Message"] = ex.Message, 
-                                    ["StackTrace"] = ex.StackTrace
-                                };
-                                content = new Resource(resourceName, "StonehengeContent.Invoke.POST", ResourceType.Json, JsonConvert.SerializeObject(exResource), Resource.Cache.None);
-                            }
+                                ["Message"] = ex.Message, 
+                                ["StackTrace"] = ex.StackTrace
+                            };
+                            content = new Resource(resourceName, "StonehengeContent.Invoke.POST", ResourceType.Json, JsonConvert.SerializeObject(exResource), Resource.Cache.None);
                         }
                         break;
                 }

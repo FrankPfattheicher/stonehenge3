@@ -172,7 +172,7 @@ namespace IctBaden.Stonehenge3.Core
                 }
                 catch (Exception ex)
                 {
-                    Trace.TraceError(ex.Message);
+                    Trace.TraceError($"AppSession.CreateType({type.Name}): " + ex.Message);
                 }
             }
 

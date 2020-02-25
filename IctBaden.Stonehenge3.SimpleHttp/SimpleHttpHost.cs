@@ -18,13 +18,12 @@ namespace IctBaden.Stonehenge3.SimpleHttp
 {
     public class SimpleHttpHost : IStonehengeHost
     {
-        public string AppTitle => Options.Title;
         public string BaseUrl { get; private set; }
-        public StonehengeHostOptions Options { get; private set; }
-
 
         private SimpleHttpServer _server;
         private readonly IStonehengeResourceProvider _resourceLoader;
+        // ReSharper disable once NotAccessedField.Local
+        private readonly StonehengeHostOptions _options;
         private readonly IStonehengeSessionCache _sessionCache;
 
         public SimpleHttpHost(IStonehengeResourceProvider loader)
@@ -39,7 +38,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
         public SimpleHttpHost(IStonehengeResourceProvider loader, StonehengeHostOptions options, IStonehengeSessionCache cache)
         {
             _resourceLoader = loader;
-            Options = options;
+            _options = options;
             _sessionCache = cache;
             
             loader.InitProvider(null, options);

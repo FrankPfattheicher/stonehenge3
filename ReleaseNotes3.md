@@ -1,4 +1,6 @@
 
+* 3.10.11 - AppCommand handling fixed. Sample forms page. Create component uses DI container.
+* 3.10.10 - HostWindow usable without StonehengeHost. Host's BaseUrl as browsable address.
 * 3.10.9 - NavigateTo from background task fixed.
 * 3.10.8 - Nuspec file package references fixed.
 * 3.10.7 - Enabled NavigateTo from background task.

@@ -38,8 +38,8 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
 
             // Select client framework
             Console.WriteLine(@"Using client framework vue");
-            var loader = StonehengeResourceLoader
-                .CreateDefaultLoader(new VueResourceProvider());
+            var vue = new VueResourceProvider();
+            var loader = StonehengeResourceLoader.CreateDefaultLoader(vue);
 
             // Select hosting technology
             var hosting = "kestrel";
@@ -67,7 +67,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
 
                 if (Environment.CommandLine.Contains("/window"))
                 {
-                    var wnd = new HostWindow(_server);
+                    var wnd = new HostWindow(_server.BaseUrl, options.Title);
                     if (!wnd.Open())
                     {
                         Trace.TraceError("Failed to open main window.");

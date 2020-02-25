@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
 
-namespace IctBaden.Stonehenge3.Client
+namespace IctBaden.Stonehenge3.Caching.Client
 {
+    // ReSharper disable once UnusedType.Global
     public static class ContentDeliveryNetworkSupport
     {
         private const string CdnConfigurationFileName = "CDN.cfg";
@@ -36,7 +39,7 @@ namespace IctBaden.Stonehenge3.Client
             set => _cdnLookup = value;
         }
 
-        public static string RersolveHostsHtml(string page, bool isSecureConnection)
+        public static string ResolveHostsHtml(string page, bool isSecureConnection)
         {
             if (!File.Exists(CdnConfigurationFileName))
                 return page;
@@ -44,16 +47,16 @@ namespace IctBaden.Stonehenge3.Client
             var protocol = isSecureConnection ? "https://" : "http://";
             var script = new Regex("(?<a><script.*src=\"(?<b>(?<c>.*\\.js))\".*)|(?<a><link.*href=\"(?<b>(?<c>.*\\.css))\".*)", RegexOptions.Compiled);
 
-            var resultlines = from line in page.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
+            var resultLines = from line in page.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
                               let isScriptSource = script.Match(line)
                               let source = isScriptSource.Groups["c"].Value.Split('/').Last()
                               select (isScriptSource.Success && CdnLookup.ContainsKey(source)) ?
                                      isScriptSource.Groups["a"].Value.Replace(isScriptSource.Groups["b"].Value, CdnLookup[source].Replace("http://", protocol)) : line;
 
-            return string.Join(Environment.NewLine, resultlines);
+            return string.Join(Environment.NewLine, resultLines);
         }
 
-        public static string RersolveHostsJs(string page, bool isSecureConnection)
+        public static string ResolveHostsJs(string page, bool isSecureConnection)
         {
             if (!File.Exists(CdnConfigurationFileName))
                 return page;
@@ -61,13 +64,13 @@ namespace IctBaden.Stonehenge3.Client
             var protocol = isSecureConnection ? "https://" : "http://";
             var script = new Regex("(?<map>'(?<id>.+)' *: *'(?<path>.*)'.*)", RegexOptions.Compiled);
 
-            var resultlines = from line in page.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
+            var resultLines = from line in page.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
                               let isMapPath = script.Match(line)
                               let source = isMapPath.Groups["path"].Value.Split('/').Last() + ".js"
                               select (isMapPath.Success && CdnLookup.ContainsKey(source)) ?
                                      isMapPath.Groups["map"].Value.Replace(isMapPath.Groups["path"].Value, CdnLookup[source].Replace("http://", protocol)).Replace(".js'", "'") : line;
 
-            return string.Join(Environment.NewLine, resultlines);
+            return string.Join(Environment.NewLine, resultLines);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿
+// Stonehenge3 application
+
 function stonehengeMakeRequest(method, url) {
     return new Promise(function (resolve, reject) {
 
@@ -67,6 +69,7 @@ function stonehengeGetCookie(name) {
     }
     return "";
 }
+
 
 // Router
 const routes = [
