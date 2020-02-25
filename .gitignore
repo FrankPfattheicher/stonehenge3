@@ -3,6 +3,7 @@
 .fake
 bin
 obj
+nuget
 /packages
 /builds
 /tests
