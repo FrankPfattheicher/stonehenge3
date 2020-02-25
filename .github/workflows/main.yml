@@ -30,7 +30,7 @@ jobs:
         cp IctBaden.Stonehenge3.SimpleHttp/bin/Release/netstandard2.0/IctBaden.Stonehenge3.SimpleHttp.dll artifacts/lib
         cp IctBaden.Stonehenge3.Vue/bin/Release/netstandard2.0/IctBaden.Stonehenge3.Vue.dll artifacts/lib
         cd artifacts
-        version=$(grep -o -m 1 '[0-9]*\.[0-9]*\.[0-9]*' ../ReleaseNotes3.md)
+        version=$(grep -oP -m 1 '\* \K[0-9]*\.[0-9]*\.[0-9]*' ../ReleaseNotes3.md)
         nuget pack ../Stonehenge3.nuspec -BasePath . -Version $version
     - name: Publish NuGet
       run: dotnet nuget push artifacts/*.nupkg --source https://www.nuget.org --api-key ${{ secrets.NugetKey }}
