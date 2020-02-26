@@ -23,8 +23,6 @@
   <ItemGroup>
     <EmbeddedResource Include="app\cookie.html" />
     <EmbeddedResource Include="app\forms.html" />
-    <EmbeddedResource Include="app\gauge.html" />
-    <EmbeddedResource Include="app\gauge.js" />
     <EmbeddedResource Include="app\invisible.html" />
     <EmbeddedResource Include="app\scripts\c3.js" />
     <EmbeddedResource Include="app\scripts\d3.js" />
@@ -46,9 +44,15 @@
     <None Remove="app\sample-index.html" />
     <EmbeddedResource Include="app\index.html" />
     <None Remove="app\chart.js" />
-    <EmbeddedResource Include="app\chart.js" />
     <None Remove="app\chart.html" />
-    <EmbeddedResource Include="app\chart.html" />
+    <None Remove="app\c3chart.html" />
+    <EmbeddedResource Include="app\c3chart.html" />
+    <None Remove="app\c3chart.js" />
+    <EmbeddedResource Include="app\c3chart.js" />
+    <None Remove="app\c3gauge.html" />
+    <EmbeddedResource Include="app\c3gauge.html" />
+    <None Remove="app\c3gauge.js" />
+    <EmbeddedResource Include="app\c3gauge.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IctBaden.Stonehenge3.Kestrel\IctBaden.Stonehenge3.Kestrel.csproj" />

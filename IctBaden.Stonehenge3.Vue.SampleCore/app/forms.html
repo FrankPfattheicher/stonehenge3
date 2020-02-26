@@ -2,18 +2,22 @@
 <!--Title:Forms:20-->
 <div>
 
-    <h3>Form Controls</h3>
-    <p>
-
-		Range: <input type="range" min="0" max="100" v-model="Range" @change="RangeChanged()"> {{Range}}%
-        
-    </p>
-	
+	<h3>Form Controls</h3>
 	<p>
-		
-		<chart :chartdata="ChartData"></chart>
-		
+		<b>Range</b>
+		<br/>
+		<input type="range" style="width: 300px;"
+			   :min="RangeMin" :max="RangeMax" v-model="Range" 
+			   @change="RangeChanged()" />
+		{{Range}}%
 	</p>
-	
-	
+
+	<p>
+		<b>C3 Chart</b> see <a href="https://c3js.org/gettingstarted.html" target="_blank">https://c3js.org/gettingstarted.html</a>
+		<br/>
+		<div style="border: 1px solid gray; padding: 0.5em; display: inline-block;">
+			<c3chart :chartdata="ChartData" style="width: 300px; height: 200px;"></c3chart>
+		</div>
+	</p>
+
 </div>

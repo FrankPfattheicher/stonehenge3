@@ -1,6 +1,7 @@
-﻿namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
+namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
 {
-    public class GaugeData
+    public class C3GaugeData
     {
         public string Name { get; set; }
         public int Value { get; set; }

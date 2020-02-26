@@ -20,8 +20,8 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
         public readonly int TotalCountries;
 
         public string SelectedContinent { get; private set; }
-        public GaugeData Area { get; private set; }
-        public GaugeData Countries { get; private set; }
+        public C3GaugeData Area { get; private set; }
+        public C3GaugeData Countries { get; private set; }
 
         // ReSharper disable once UnusedMember.Global
         public TreeVm(AppSession session) : base (session)
@@ -66,14 +66,14 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
                 _world.Children.Add(CreateTreeNode(_world, continent));
             }
 
-            Area = new GaugeData
+            Area = new C3GaugeData
             {
                 Name = "Area",
                 Value = 0,
                 MaxValue = TotalArea,
                 Units = "[1000 km²]"
             };
-            Countries = new GaugeData
+            Countries = new C3GaugeData
             {
                 Name = "Countries",
                 Value = 0,
