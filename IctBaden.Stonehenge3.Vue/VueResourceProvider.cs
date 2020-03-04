@@ -40,7 +40,7 @@ namespace IctBaden.Stonehenge3.Vue
                 _appAssembly = resourceLoader.AppAssembly;
             }
             
-            var appCreator = new VueAppCreator(options.Title, options.StartPage, options, _appAssembly, _vueContent);
+            var appCreator = new VueAppCreator(options.Title, options.StartPage, loader, options, _appAssembly, _vueContent);
 
             AddFileSystemContent(options.AppFilesPath);
             AddResourceContent();
@@ -111,7 +111,10 @@ namespace IctBaden.Stonehenge3.Vue
                 // ReSharper disable once LoopCanBeConvertedToQuery
                 foreach (var appFile in appFiles)
                 {
-                    var resourceId = appFile.Substring(appFile.IndexOf(appPath, StringComparison.InvariantCulture) + 5).Replace('\\', '/');
+                    var resourceId = appFile.Substring(appFile.IndexOf(appPath, StringComparison.InvariantCulture) + 5)
+                        .Replace("@", "_")
+                        .Replace("-", "_")
+                        .Replace('\\', '/');
                     var route = resourceId.Replace(".html", string.Empty);
                     var pageText = File.ReadAllText(appFile);
 

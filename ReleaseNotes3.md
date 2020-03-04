@@ -1,4 +1,5 @@
 
+* 3.10.14 - Custom elements in external files supported.
 * 3.10.13 - C3 gauge and chart named as 'c3'. C3Chart class.
 * 3.10.13 - Update to Vue.js v2.6.11, Bootstrap v4.4.1. Simple chart added to forms page.
 * 3.10.12 - Nuspec file name case and package reference versions fixed.

@@ -16,6 +16,9 @@
 
   <ItemGroup>
     <EmbeddedResource Include="app\cust-elem2.html" />
+    <Content Include="app\cust-elem3.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="app\dicomponent.html" />
     <EmbeddedResource Include="app\hidden.html" />
     <EmbeddedResource Include="app\start.html" />

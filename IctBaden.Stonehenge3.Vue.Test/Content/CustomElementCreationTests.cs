@@ -35,13 +35,19 @@ namespace IctBaden.Stonehenge3.Vue.Test.Content
         }
 
         [Fact]
-        public void AppJsShouldContainCustomElement1Definition()
+        public void AppJsShouldContainEmbeddedResourceCustomElement1Definition()
         {
             Assert.Contains("'CustElem1'", _response);
         }
 
         [Fact]
-        public void AppJsShouldContainCustomElement2Definition()
+        public void AppJsShouldContainEmbeddedResourceCustomElement2Definition()
+        {
+            Assert.Contains("'CustElem2'", _response);
+        }
+
+        [Fact]
+        public void AppJsShouldContainFileBasedCustomElement3Definition()
         {
             Assert.Contains("'CustElem2'", _response);
         }
@@ -56,6 +62,12 @@ namespace IctBaden.Stonehenge3.Vue.Test.Content
         public void AppJsShouldContainCustomElement2ParameterLists()
         {
             Assert.Contains("['one','two']", _response);
+        }
+        
+        [Fact]
+        public void AppJsShouldContainCustomElement3ParameterLists()
+        {
+            Assert.Contains("['one','two','three']", _response);
         }
         
     }
