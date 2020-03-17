@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -260,18 +261,25 @@ namespace IctBaden.Stonehenge3.ViewModel
 
         private static object DeserializePropertyValue(string propValue, Type propType)
         {
-            if (propType == typeof(string))
-                return propValue;
-            if (propType == typeof(bool))
-                return bool.Parse(propValue);
-
             try
             {
+                if (propType == typeof(string))
+                    return propValue;
+                if (propType == typeof(bool))
+                    return bool.Parse(propValue);
+                if (propType == typeof(DateTime))
+                {
+                    if (DateTime.TryParse(propValue, out var dt))
+                        return dt;
+                    if (DateTime.TryParse(propValue, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+                        return dt;
+                }
+
                 return JsonConvert.DeserializeObject(propValue, propType);
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                Trace.TraceError("DeserializePropertyValue: " + ex.Message);
             }
 
             return null;
@@ -338,7 +346,7 @@ namespace IctBaden.Stonehenge3.ViewModel
             // ReSharper disable EmptyGeneralCatchClause
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                Trace.TraceError($"SetPropertyValue({propName}): " + ex.Message);
             }
             // ReSharper restore EmptyGeneralCatchClause
         }
