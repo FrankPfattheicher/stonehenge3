@@ -72,7 +72,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
             applicationJs = InsertRoutes(applicationJs);
             applicationJs = InsertElements(applicationJs);
 
-            var resource = new Resource("app.js", "VueResourceProvider", ResourceType.Html, applicationJs, Resource.Cache.Revalidate);
+            var resource = new Resource("app.js", "VueResourceProvider", ResourceType.Js, applicationJs, Resource.Cache.Revalidate);
             _vueContent.Add("app.js", resource);
         }
 

@@ -1,4 +1,5 @@
 
+* 3.10.18 - app.js deployed as JS instead of HTML.
 * 3.10.17 - Added Cors to Kestrel.
 * 3.10.16 - Using $(Version) in csproj files.
 * 3.10.15 - Updated version to publish new package.
