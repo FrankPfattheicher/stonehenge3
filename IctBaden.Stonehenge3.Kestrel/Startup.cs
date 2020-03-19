@@ -39,6 +39,12 @@ namespace IctBaden.Stonehenge3.Kestrel
             {
                 options.Providers.Add<GzipCompressionProvider>();
             });
+            services.AddCors(o => o.AddPolicy("StonehengePolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +53,7 @@ namespace IctBaden.Stonehenge3.Kestrel
             app.UseMiddleware<ServerExceptionLogger>();
             app.UseMiddleware<StonehengeAcme>();
             app.UseResponseCompression();
+            app.UseCors("StonehengePolicy");
             app.Use((context, next) =>
             {
                 context.Items.Add("stonehenge.AppTitle", _appTitle);

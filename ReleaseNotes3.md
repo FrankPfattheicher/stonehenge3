@@ -1,4 +1,5 @@
 
+* 3.10.17 - Added Cors to Kestrel.
 * 3.10.16 - Using $(Version) in csproj files.
 * 3.10.15 - Updated version to publish new package.
 * 3.10.14 - Custom elements in external files supported.
