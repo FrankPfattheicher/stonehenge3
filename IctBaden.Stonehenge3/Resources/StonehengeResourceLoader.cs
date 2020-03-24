@@ -63,7 +63,8 @@ namespace IctBaden.Stonehenge3.Resources
                 }
                 catch (Exception ex)
                 {
-                    Trace.TraceError($"StonehengeResourceLoader({loader.GetType().Name}) exception: {ex.Message}");
+                    Trace.TraceError($"StonehengeResourceLoader.{loader.GetType().Name}({resourceName}) exception: {ex.Message}" + 
+                                     Environment.NewLine + ex.StackTrace);
                 }
                 if (loadedResource != null) break;
             }
