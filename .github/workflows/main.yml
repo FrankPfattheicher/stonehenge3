@@ -1,6 +1,9 @@
-name: CI
+name: CI-master-nuget
 
-on: [push]
+on: 
+  push:
+    branches: 
+      - master
 
 jobs:
   build:
