@@ -29,7 +29,15 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
         }
 
         // ReSharper disable once UnusedMember.Global
-        public async Task Invoke(HttpContext context)
+        public Task Invoke(HttpContext context)
+        {
+            lock (_next)
+            {
+                return InvokeLocked(context);
+            }
+        }
+
+        public async Task InvokeLocked(HttpContext context)
         {
             var path = context.Request.Path.Value;
             try
@@ -146,7 +154,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             }
             catch (Exception ex)
             {
-                Trace.TraceError($"StonehengeContent write response: {ex.Message}");
+                Trace.TraceError($"StonehengeContent write response: {ex.Message}" + Environment.NewLine + ex.StackTrace);
                 while (ex.InnerException != null)
                 {
                     ex = ex.InnerException;
