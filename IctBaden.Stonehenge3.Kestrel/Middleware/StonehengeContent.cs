@@ -21,6 +21,8 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
     public class StonehengeContent
     {
         private readonly RequestDelegate _next;
+        private static readonly object LockViews = new object();
+        private static readonly object LockEvents = new object();
 
         // ReSharper disable once UnusedMember.Global
         public StonehengeContent(RequestDelegate next)
@@ -31,7 +33,15 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
         // ReSharper disable once UnusedMember.Global
         public Task Invoke(HttpContext context)
         {
-            lock (_next)
+            if (context.Request.Path.Value.Contains("/Events"))
+            {
+                lock (LockEvents)
+                {
+                    return InvokeLocked(context);
+                }
+            }
+
+            lock (LockViews)
             {
                 return InvokeLocked(context);
             }
