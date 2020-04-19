@@ -218,7 +218,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
             text = text.Replace("'propNames'", string.Join(",", postBackPropNames));
 
             // supply functions for action methods
-            const string methodTemplate = @"stonehengeMethodName: function({paramNames}) { app.stonehengeViewModelName.StonehengePost('/ViewModel/stonehengeViewModelName/stonehengeMethodName{paramValues}'); }";
+            const string methodTemplate = @"stonehengeMethodName: function({paramNames}) { app.stonehengeViewModelName.StonehengePost('ViewModel/stonehengeViewModelName/stonehengeMethodName{paramValues}'); }";
 
             var actionMethods = new List<string>();
             foreach (var methodInfo in vmType.GetMethods().Where(methodInfo => methodInfo.GetCustomAttributes(false).OfType<ActionMethodAttribute>().Any()))
