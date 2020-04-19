@@ -39,7 +39,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
 
         public async Task InvokeLocked(HttpContext context)
         {
-            var path = context.Request.Path.Value;
+            var path = context.Request.Path.Value.Replace("//", "/");
             try
             {
                 var response = context.Response.Body;
