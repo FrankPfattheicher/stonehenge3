@@ -17,9 +17,10 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
         // ReSharper disable once UnusedMember.Global
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Path.Value == "/")
+            var path = context.Request.Path.Value.Replace("//", "/");
+            if (path == "/")
             {
-                context.Response.Redirect("/Index.html");
+                context.Response.Redirect("Index.html");
                 return;
             }
 

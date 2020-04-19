@@ -105,7 +105,7 @@ stonehengeViewModelName = function component() {
             if (!app.stonehengeViewModelName.model.StonehengeActive || app.stonehengeViewModelName.model.StonehengePostActive
                 || app.stonehengeViewModelName.model.StonehengePollEventsActive !== null) return;
             var ts = new Date().getTime();
-            app.$http.get('/Events/stonehengeViewModelName?ts=' + ts,
+            app.$http.get('Events/stonehengeViewModelName?ts=' + ts,
                 {
                     before(request) {
                         app.stonehengeViewModelName.model.StonehengePollEventsActive = request;
