@@ -1,4 +1,5 @@
 
+* 3.11.2 - Fixed content invoke lock with events collision.
 * 3.11.1 - Use relative paths for redirection and events. Ignore double // at root.
 * 3.10.18 - app.js deployed as JS instead of HTML.
 * 3.10.17 - Added Cors to Kestrel.
