@@ -81,7 +81,7 @@ const router = new VueRouter({
 });
 
 function AppCommand(cmdName) {
-    stonehengeMakePostRequest('/Command/' + cmdName);
+    stonehengeMakePostRequest('Command/' + cmdName);
 }
 
 // Components
