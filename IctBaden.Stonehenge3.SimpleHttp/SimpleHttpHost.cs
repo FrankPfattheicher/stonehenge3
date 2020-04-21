@@ -114,7 +114,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
 
             if (httpProcessor.Url == "/")
             {
-                httpProcessor.WriteRedirect("/Index.html?stonehenge-id=" + session.Id, header);
+                httpProcessor.WriteRedirect("index.html?stonehenge-id=" + session.Id, header);
                 return;
             }
 

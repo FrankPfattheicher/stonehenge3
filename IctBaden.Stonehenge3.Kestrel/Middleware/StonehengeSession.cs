@@ -99,7 +99,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                         : new[] { "stonehenge-id=" + session.Id });
 
                 var options = (StonehengeHostOptions)context.Items["stonehenge.HostOptions"];
-                var redirectUrl = "/index.html";
+                var redirectUrl = "index.html";
                 if (options.AddUrlSessionParameter)
                 {
                     redirectUrl += "?stonehenge-id=" + session.Id;
