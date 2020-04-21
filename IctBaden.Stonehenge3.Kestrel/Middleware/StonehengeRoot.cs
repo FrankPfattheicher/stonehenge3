@@ -20,7 +20,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             var path = context.Request.Path.Value.Replace("//", "/");
             if (path == "/")
             {
-                context.Response.Redirect("Index.html");
+                context.Response.Redirect("index.html");
                 return;
             }
 
