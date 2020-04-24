@@ -23,23 +23,23 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 if (connection.LocalIpAddress != null)
                 {
                     return connection.RemoteIpAddress.Equals(connection.LocalIpAddress);
-                } 
-                else 
+                }
+                else
                 {
                     return IPAddress.IsLoopback(connection.RemoteIpAddress);
                 }
             }
- 
+
             // for in memory TestServer or when dealing with default connection info
             if (connection.RemoteIpAddress == null && connection.LocalIpAddress == null)
             {
                 return true;
             }
- 
+
             return false;
         }
     }
-    
+
     // ReSharper disable once ClassNeverInstantiated.Global
     public class StonehengeSession
     {
@@ -66,24 +66,30 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 Trace.TraceInformation($"Stonehenge3.Kestrel End USER {context.Request.Method} {path}");
                 return;
             }
-            
-            var cookie = context.Request.Headers.FirstOrDefault(h => h.Key == "Cookie");
+
+            var appSessions = context.Items["stonehenge.AppSessions"] as List<AppSession>
+                              ?? new List<AppSession>();
+
+            // URL id has priority
             var stonehengeId = context.Request.Query["stonehenge-id"];
-            if (!string.IsNullOrEmpty(cookie.Value.ToString()))
+            if (string.IsNullOrEmpty(stonehengeId))
             {
-                // workaround for double stonehenge-id values in cookie - take the last one
-                var match = new Regex("stonehenge-id=([a-f0-9A-F]+)", RegexOptions.RightToLeft)
-                    .Match(cookie.Value.ToString());
-                if (match.Success)
+                var cookie = context.Request.Headers.FirstOrDefault(h => h.Key == "Cookie");
+                if (!string.IsNullOrEmpty(cookie.Value.ToString()))
                 {
-                    stonehengeId = match.Groups[1].Value;
+                    // workaround for double stonehenge-id values in cookie - take the last one
+                    var matches = new Regex("stonehenge-id=([a-f0-9A-F]+)", RegexOptions.RightToLeft)
+                        .Matches(cookie.Value.ToString());
+                    var ids = matches.Cast<Match>()
+                        .Select(m => m.Groups[1].Value).ToArray();
+                    if (matches.Count > 0)
+                    {
+                        stonehengeId = ids.FirstOrDefault(id => appSessions.Any(s => s.Id == id));
+                    }
                 }
             }
 
             Trace.TraceInformation($"Stonehenge3.Kestrel[{stonehengeId}] Begin {context.Request.Method} {path}");
-
-            var appSessions = context.Items["stonehenge.AppSessions"] as List<AppSession>
-                ?? new List<AppSession>();
 
             CleanupTimedOutSessions(appSessions);
             var session = appSessions.FirstOrDefault(s => s.Id == stonehengeId);
@@ -95,20 +101,22 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
 
                 context.Response.Headers.Add("Set-Cookie",
                     session.SecureCookies
-                        ? new[] { "stonehenge-id=" + session.Id, "Secure" }
-                        : new[] { "stonehenge-id=" + session.Id });
+                        ? new[] {"stonehenge-id=" + session.Id, "Secure"}
+                        : new[] {"stonehenge-id=" + session.Id});
 
-                var options = (StonehengeHostOptions)context.Items["stonehenge.HostOptions"];
+                var options = (StonehengeHostOptions) context.Items["stonehenge.HostOptions"];
                 var redirectUrl = "index.html";
                 if (options.AddUrlSessionParameter)
                 {
                     redirectUrl += "?stonehenge-id=" + session.Id;
                 }
+
                 context.Response.Redirect(redirectUrl);
 
                 var remoteIp = context.Connection.RemoteIpAddress;
                 var remotePort = context.Connection.RemotePort;
-                Trace.TraceInformation($"Stonehenge3.Kestrel[{stonehengeId}] From IP {remoteIp}:{remotePort} - redirect to {session.Id}");
+                Trace.TraceInformation(
+                    $"Stonehenge3.Kestrel[{stonehengeId}] From IP {remoteIp}:{remotePort} - redirect to {session.Id}");
                 return;
             }
 
@@ -116,7 +124,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             if (context.Request.Method == "GET" && etag == session.GetResourceETag(path))
             {
                 Debug.WriteLine("ETag match.");
-                context.Response.StatusCode = (int)HttpStatusCode.NotModified;
+                context.Response.StatusCode = (int) HttpStatusCode.NotModified;
             }
             else
             {
@@ -148,12 +156,14 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 appSessions.Remove(timedOut);
                 Trace.TraceInformation($"Stonehenge3.Kestrel Session timed out {timedOut.Id}.");
             }
+
             Trace.TraceInformation($"Stonehenge3.Kestrel {appSessions.Count} sessions.");
         }
 
-        private static AppSession NewSession(ICollection<AppSession> appSessions, HttpContext context, StonehengeResourceLoader resourceLoader)
+        private static AppSession NewSession(ICollection<AppSession> appSessions, HttpContext context,
+            StonehengeResourceLoader resourceLoader)
         {
-            var options = (StonehengeHostOptions)context.Items["stonehenge.HostOptions"];
+            var options = (StonehengeHostOptions) context.Items["stonehenge.HostOptions"];
             var session = new AppSession(resourceLoader, options);
             var isLocal = context.IsLocal();
             var userAgent = context.Request.Headers["User-Agent"];

@@ -1,4 +1,5 @@
 
+* 3.11.5 - URL session id priorized. Handling multiple cookie session ids fixed.
 * 3.11.4 - Fixed absolute paths for new session redirects.
 * 3.11.3 - Use relative paths for client action method posts.
 * 3.11.2 - Fixed content invoke lock with events collision.
