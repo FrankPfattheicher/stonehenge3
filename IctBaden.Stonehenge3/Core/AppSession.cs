@@ -53,7 +53,8 @@ namespace IctBaden.Stonehenge3.Core
 
         public bool SecureCookies { get; private set; }
 
-        public List<string> CollectEvents()
+        // ReSharper disable once ReturnTypeCanBeEnumerable.Global
+        public string[] CollectEvents()
         {
             IsWaitingForEvents = true;
             _eventRelease.WaitOne(TimeSpan.FromMilliseconds(_eventTimeoutMs));
@@ -66,7 +67,7 @@ namespace IctBaden.Stonehenge3.Core
             IsWaitingForEvents = false;
             lock (_events)
             {
-                var events = _events.ToList();
+                var events = _events.ToArray();
                 _events.Clear();
                 return events;
             }
@@ -353,7 +354,7 @@ namespace IctBaden.Stonehenge3.Core
         // ReSharper disable once UnusedParameter.Local
         private void DetectBrowser(string userAgent)
         {
-            //TODO: Decocder
+            //TODO: Decoder
             Browser = "";
             CookiesSupported = true;
             Platform = "OS";

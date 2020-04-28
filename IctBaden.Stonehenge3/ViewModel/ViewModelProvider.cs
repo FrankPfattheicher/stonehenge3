@@ -129,6 +129,7 @@ namespace IctBaden.Stonehenge3.ViewModel
                 GetViewModelJson(session.ViewModel), Resource.Cache.None);
         }
 
+        private static readonly object GetLock = new object();
         public Resource Get(AppSession session, string resourceName, Dictionary<string, string> parameters)
         {
             if (resourceName.StartsWith("ViewModel/"))
@@ -151,7 +152,6 @@ namespace IctBaden.Stonehenge3.ViewModel
             {
                 return GetDataResource(session, resourceName.Substring(5), parameters);
             }
-
             return null;
         }
 
@@ -196,13 +196,21 @@ namespace IctBaden.Stonehenge3.ViewModel
             var events = session.CollectEvents();
             if (session.ViewModel is ActiveViewModel activeVm)
             {
-                foreach (var property in events)
+                try
                 {
-                    var value = activeVm.TryGetMember(property);
-                    data.Add($"\"{property}\":{JsonSerializer.SerializeObjectString(null, value)}");
-                }
+                    // ReSharper disable once LoopCanBeConvertedToQuery
+                    foreach (var property in events)
+                    {
+                        var value = activeVm.TryGetMember(property);
+                        data.Add($"\"{property}\":{JsonSerializer.SerializeObjectString(null, value)}");
+                    }
 
-                AddStonehengeInternalProperties(data, activeVm);
+                    AddStonehengeInternalProperties(data, activeVm);
+                }
+                catch
+                {
+                    // ignore for events
+                }
             }
 
             json = "{" + string.Join(",", data) + "}";
