@@ -23,7 +23,8 @@ jobs:
     - name: Build with dotnet
       run: |
         version=$(grep -oP -m 1 '\* \K[0-9]*\.[0-9]*\.[0-9]*' ReleaseNotes3.md)
-        dotnet build --configuration Release ./Stonehenge3.sln -p:Version=$version
+        echo Version=$version
+        dotnet build --configuration Release ./Stonehenge3.sln -p:AssemblyVersion=$version
     - name: Test with dotnet
       env: 
         SkipPerformanceTests: true
@@ -38,4 +39,5 @@ jobs:
         cp IctBaden.Stonehenge3.Vue/bin/Release/netstandard2.0/IctBaden.Stonehenge3.Vue.dll artifacts/lib
         cd artifacts
         version=$(grep -oP -m 1 '\* \K[0-9]*\.[0-9]*\.[0-9]*' ../ReleaseNotes3.md)
+        echo Version=$version
         nuget pack ../Stonehenge3.nuspec -BasePath . -Version $version
