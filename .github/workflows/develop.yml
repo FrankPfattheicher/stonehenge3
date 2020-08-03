@@ -33,6 +33,8 @@ jobs:
       run: |
         mkdir artifacts
         mkdir artifacts/lib
+        mkdir artifacts/images
+        cp IctBaden.Stonehenge3/icon64.png artifacts/images
         cp IctBaden.Stonehenge3/bin/Release/netstandard2.0/IctBaden.Stonehenge3.dll artifacts/lib
         cp IctBaden.Stonehenge3.Kestrel/bin/Release/netstandard2.0/IctBaden.Stonehenge3.Kestrel.dll artifacts/lib
         cp IctBaden.Stonehenge3.SimpleHttp/bin/Release/netstandard2.0/IctBaden.Stonehenge3.SimpleHttp.dll artifacts/lib
