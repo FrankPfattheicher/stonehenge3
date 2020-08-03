@@ -2,14 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>$(Version)</AssemblyVersion>
     <Copyright>Copyright ©2013-2020 ICT Baden GmbH</Copyright>
     <Company>ICT Baden GmbH</Company>
     <Authors>Frank Pfattheicher</Authors>
     <Product>Web Application Framework</Product>
-    <Version>$(Version)</Version>
     <ApplicationIcon>app\favicon.ico</ApplicationIcon>
-    <PackageVersion>$(Version)</PackageVersion>
     <LangVersion>latest</LangVersion>
     <PackageIcon>icon64.png</PackageIcon>
   </PropertyGroup>
