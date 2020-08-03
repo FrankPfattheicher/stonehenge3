@@ -11,8 +11,13 @@
     <ApplicationIcon>app\favicon.ico</ApplicationIcon>
     <PackageVersion>$(Version)</PackageVersion>
     <LangVersion>latest</LangVersion>
+    <PackageIcon>icon64.png</PackageIcon>
   </PropertyGroup>
-
+  
+  <ItemGroup>
+    <None Include="images\icon64.png" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+  
   <ItemGroup>
     <None Remove="app\favicon.ico" />
     <None Remove="app\icon.png" />
