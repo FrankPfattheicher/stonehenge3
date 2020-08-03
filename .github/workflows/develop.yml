@@ -24,7 +24,7 @@ jobs:
       run: |
         version=$(grep -oP -m 1 '\* \K[0-9]*\.[0-9]*\.[0-9]*' ReleaseNotes3.md)
         echo Version=$version
-        dotnet build --configuration Release ./Stonehenge3.sln -p:AssemblyVersion=$version
+        dotnet build --configuration Release ./Stonehenge3.sln -p:AssemblyVersion=$version -p:Version=$version
     - name: Test with dotnet
       env: 
         SkipPerformanceTests: true
