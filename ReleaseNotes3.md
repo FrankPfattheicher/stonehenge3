@@ -1,4 +1,5 @@
 
+* 3.11.8 - Assembly version - next try
 * 3.11.7 - Assembly version !?
 * 3.11.6 - Packages updated. Build with assembly version fixed.
 * 3.11.5 - URL session id prioritized. Handling multiple cookie session ids fixed.
