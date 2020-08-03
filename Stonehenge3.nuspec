@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package>
-    <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
         <id>IctBaden.Stonehenge3</id>
         <version>3.0.0</version>
         <authors>Frank Pfattheicher</authors>
@@ -8,7 +8,7 @@
         <summary>X-Platform Web Application Framework</summary>
         <license type="expression">MIT</license>
         <projectUrl>https://github.com/FrankPfattheicher/stonehenge3</projectUrl>
-        <icon>artifacts/images/icon64.png</icon>
+        <iconUrl>https://image.ibb.co/hVjxsf/icon64.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>X-Platform Web Application Framework</description>
         <releaseNotes>Stable</releaseNotes>
@@ -33,7 +33,7 @@
         </references>
     </metadata>
     <files>
-        <file src="icon64.png" target="images"/>
+        <file src="../icon64.png" target="images"/>
         <file src="lib/*.dll" target="lib/netstandard2.0"/>
         <file src="lib/*.pdb" target="lib/netstandard2.0"/>
     </files>
