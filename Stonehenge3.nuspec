@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<package>
     <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
         <id>IctBaden.Stonehenge3</id>
         <version>3.0.0</version>
@@ -8,10 +8,10 @@
         <summary>X-Platform Web Application Framework</summary>
         <license type="expression">MIT</license>
         <projectUrl>https://github.com/FrankPfattheicher/stonehenge3</projectUrl>
-        <icon>images/icon64.png</icon>
+        <icon>artifacts/images/icon64.png</icon>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>X-Platform Web Application Framework</description>
-        <releaseNotes></releaseNotes>
+        <releaseNotes>Stable</releaseNotes>
         <copyright>Copyright ICT Baden GmbH 2013-2020</copyright>
         <tags>.NET Core HTML CSS Kestrel Vue</tags>
         <dependencies>
