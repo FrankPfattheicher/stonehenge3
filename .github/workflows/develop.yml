@@ -28,7 +28,8 @@ jobs:
         cp IctBaden.Stonehenge3/icon64.png artifacts/images
     - name: Build Core
       run: |
-        ./get-version
+        ls -l
+        ./get-version.sh
         echo Version=$version
         dotnet build --configuration Release ./IctBaden.Stonehenge3/IctBaden.Stonehenge3.csproj -p:AssemblyVersion=$version -p:Version=$version
         cp IctBaden.Stonehenge3/bin/Release/netstandard2.0/IctBaden.Stonehenge3.dll artifacts/lib
