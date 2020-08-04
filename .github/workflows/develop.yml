@@ -63,3 +63,7 @@ jobs:
         echo Version=$version
         cd artifacts
         nuget pack ../Stonehenge3.nuspec -BasePath . -Version $version
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Upload Artifacts
+        path: artifacts
