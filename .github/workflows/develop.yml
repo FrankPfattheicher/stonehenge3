@@ -28,28 +28,27 @@ jobs:
         cp IctBaden.Stonehenge3/icon64.png artifacts/images
     - name: Build Core
       run: |
-        ls -l
-        sh ./get-version.sh
+        version=$(grep -oP -m 1 '\* \K[0-9]*\.[0-9]*\.[0-9]*' ReleaseNotes3.md)
         echo Version=$version
-        dotnet build --configuration Release ./IctBaden.Stonehenge3/IctBaden.Stonehenge3.csproj -p:AssemblyVersion=$version -p:Version=$version
+        dotnet build --configuration Release ./IctBaden.Stonehenge3/IctBaden.Stonehenge3.csproj -p:AssemblyVersion=$version -p:Version=3.0
         cp IctBaden.Stonehenge3/bin/Release/netstandard2.0/IctBaden.Stonehenge3.dll artifacts/lib
     - name: Build Kestrel
       run: |
         version=$(grep -oP -m 1 '\* \K[0-9]*\.[0-9]*\.[0-9]*' ReleaseNotes3.md)
         echo Version=$version
-        dotnet build --configuration Release ./IctBaden.Stonehenge3.Kestrel/IctBaden.Stonehenge3.Kestrel.csproj -p:AssemblyVersion=$version -p:Version=$version
+        dotnet build --configuration Release ./IctBaden.Stonehenge3.Kestrel/IctBaden.Stonehenge3.Kestrel.csproj -p:AssemblyVersion=$version -p:Version=3.0
         cp IctBaden.Stonehenge3.Kestrel/bin/Release/netstandard2.0/IctBaden.Stonehenge3.Kestrel.dll artifacts/lib
     - name: Build SimpleHttp
       run: |
         version=$(grep -oP -m 1 '\* \K[0-9]*\.[0-9]*\.[0-9]*' ReleaseNotes3.md)
         echo Version=$version
-        dotnet build --configuration Release ./IctBaden.Stonehenge3.SimpleHttp/IctBaden.Stonehenge3.SimpleHttp.csproj -p:AssemblyVersion=$version -p:Version=$version
+        dotnet build --configuration Release ./IctBaden.Stonehenge3.SimpleHttp/IctBaden.Stonehenge3.SimpleHttp.csproj -p:AssemblyVersion=$version -p:Version=3.0
         cp IctBaden.Stonehenge3.SimpleHttp/bin/Release/netstandard2.0/IctBaden.Stonehenge3.SimpleHttp.dll artifacts/lib
     - name: Build Vue
       run: |
         version=$(grep -oP -m 1 '\* \K[0-9]*\.[0-9]*\.[0-9]*' ReleaseNotes3.md)
         echo Version=$version
-        dotnet build --configuration Release ./IctBaden.Stonehenge3.Vue/IctBaden.Stonehenge3.Vue.csproj -p:AssemblyVersion=$version -p:Version=$version
+        dotnet build --configuration Release ./IctBaden.Stonehenge3.Vue/IctBaden.Stonehenge3.Vue.csproj -p:AssemblyVersion=$version -p:Version=3.0
         cp IctBaden.Stonehenge3.Vue/bin/Release/netstandard2.0/IctBaden.Stonehenge3.Vue.dll artifacts/lib
     - name: Test with dotnet
       env: 
