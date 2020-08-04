@@ -26,12 +26,9 @@ jobs:
         mkdir artifacts/lib
         mkdir artifacts/images
         cp IctBaden.Stonehenge3/icon64.png artifacts/images
-    - name: Get Version From Release Notes
-      run: |
-        ls -l
     - name: Build Core
       run: |
-        version=$(grep -oP -m 1 '\* \K[0-9]*\.[0-9]*\.[0-9]*' ReleaseNotes3.md)
+        ./get-version
         echo Version=$version
         dotnet build --configuration Release ./IctBaden.Stonehenge3/IctBaden.Stonehenge3.csproj -p:AssemblyVersion=$version -p:Version=$version
         cp IctBaden.Stonehenge3/bin/Release/netstandard2.0/IctBaden.Stonehenge3.dll artifacts/lib
@@ -65,5 +62,5 @@ jobs:
         nuget pack ../Stonehenge3.nuspec -BasePath . -Version $version
     - uses: actions/upload-artifact@v2
       with:
-        name: Upload Artifacts
+        name: Stonehenge3_develop
         path: artifacts
