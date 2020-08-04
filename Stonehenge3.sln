@@ -11,13 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IctBaden.Stonehenge3.Simple
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FACB63A1-3EDF-4A5F-8C4B-94192FA4D9EF}"
 	ProjectSection(SolutionItems) = preProject
-		build.bat = build.bat
 		icon64.png = icon64.png
 		NuGet.exe = NuGet.exe
 		README.md = README.md
 		ReleaseNotes3.md = ReleaseNotes3.md
 		Stonehenge3-AssemblyInfo.cs = Stonehenge3-AssemblyInfo.cs
 		Stonehenge3.nuspec = Stonehenge3.nuspec
+		get-version.sh = get-version.sh
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IctBaden.Stonehenge3.Test", "IctBaden.Stonehenge3.Test\IctBaden.Stonehenge3.Test.csproj", "{A0260901-3014-4135-ADC2-5CD56774C9EF}"
