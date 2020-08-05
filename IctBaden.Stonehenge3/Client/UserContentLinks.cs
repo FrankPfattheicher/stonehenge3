@@ -10,10 +10,10 @@ namespace IctBaden.Stonehenge3.Client
     public static class UserContentLinks
     {
         private const string CssInsertPoint = "<!--stonehengeUserStylesheets-->";
-        private const string CssLinkTemplate = "<link href='{0}' rel='stylesheet'>";
+        private const string CssLinkTemplate = "<link type='text/css' rel='stylesheet' href='{0}'>";
 
         private const string JsInsertPoint = "<!--stonehengeUserScripts-->";
-        private const string JsLinkTemplate = "<script src='{0}'></script>";
+        private const string JsLinkTemplate = "<script type='application/javascript' src='{0}'></script>";
 
         private static readonly Dictionary<string, string> StyleSheets = new Dictionary<string, string>();
         private static readonly string AppPath = Path.DirectorySeparatorChar + "app" + Path.DirectorySeparatorChar;
