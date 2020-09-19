@@ -1,4 +1,5 @@
 
+* 3.12.0 - Vue 3, Bootstrap 4.5.2
 * 3.11.9 - Version number in all DLLs
 * 3.11.8 - Assembly version - next try
 * 3.11.7 - Assembly version !?

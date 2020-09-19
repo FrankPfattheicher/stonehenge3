@@ -173,6 +173,7 @@ namespace IctBaden.Stonehenge3.Resources
                             var text = reader.ReadToEnd();
                             Debug.WriteLine($"ResourceLoader({resourceName}): {asmResource.Value.FullName}");
                             text = text.Replace("{.min}", session.IsDebug ? "" : ".min");
+                            text = text.Replace("{.prod}", session.IsDebug ? "" : ".prod");
                             if (resourceName?.EndsWith("index.html", StringComparison.InvariantCultureIgnoreCase) ?? false)
                             {
                                 text = UserContentLinks.InsertUserCssLinks(AppAssembly, "", text, session.SubDomain);

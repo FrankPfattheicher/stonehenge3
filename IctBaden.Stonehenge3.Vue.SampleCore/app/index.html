@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <!--IctBaden.Stonehenge3.Vue.SampleCore.index.html-->
     <title>stonehengeAppTitle</title>
-    <script type="application/javascript" src="src/vue{.min}.js"></script>
-    <script type="application/javascript" src="src/vue-router{.min}.js"></script>
-    <script type="application/javascript" src="src/vue-resource{.min}.js"></script>
+    <script type="application/javascript" src="src/vue.global{.prod}.js"></script>
+    <script type="application/javascript" src="src/vue-router.global{.prod}.js"></script>
+    <!--<script type="application/javascript" src="src/vue-resource{.min}.js"></script>-->
 
     <link type="text/css" rel="stylesheet" href="src/bootstrap{.min}.css"/>
+<!-- Need BootstrapVue V3:   https://github.com/bootstrap-vue/bootstrap-vue/issues/5196 -->
     <link type="text/css" rel="stylesheet" href="src/bootstrap-vue{.min}.css"/>
     <link type="text/css" rel="stylesheet" href="src/fontawesome_all.css" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="theme/theme{{theme}}.css">
@@ -76,7 +77,7 @@
 
 </div>
 
-<script type="application/javascript" src="app.js"></script>
+<script type="module" src="app.js"></script>
 
 </body>
 </html>

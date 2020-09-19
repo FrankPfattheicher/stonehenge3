@@ -1,4 +1,4 @@
-﻿Vue.component('stonehengeCustomElementName',
+﻿app.component('stonehengeCustomElementName',
     {
         props: [stonehengeCustomElementProps],
         template: 'stonehengeElementTemplate'

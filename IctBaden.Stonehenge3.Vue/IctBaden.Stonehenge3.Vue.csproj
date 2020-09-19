@@ -76,12 +76,9 @@
         <EmbeddedResource Include="app\src\bootstrap.min.css" />
         <EmbeddedResource Include="app\src\bootstrap-vue.css" />
         <EmbeddedResource Include="app\src\bootstrap-vue.js" />
-        <EmbeddedResource Include="app\src\vue-router.js" />
         <EmbeddedResource Include="app\styles\styles.css" />
         <None Remove="app\src\vue.js" />
-        <EmbeddedResource Include="app\src\vue.js" />
         <None Remove="app\src\vue.min.js" />
-        <EmbeddedResource Include="app\src\vue.min.js" />
         <None Remove="app\src\bootstrap-grid.css" />
         <EmbeddedResource Include="app\src\bootstrap-grid.css" />
         <None Remove="app\src\bootstrap-grid.css.map" />
@@ -99,7 +96,6 @@
         <None Remove="app\src\bootstrap-vue.min.js" />
         <EmbeddedResource Include="app\src\bootstrap-vue.min.js" />
         <None Remove="app\src\vue-router.min.js" />
-        <EmbeddedResource Include="app\src\vue-router.min.js" />
         <None Remove="app\src\vue-resource.js" />
         <EmbeddedResource Include="app\src\vue-resource.js" />
         <None Remove="app\src\vue-resource.min.js" />
@@ -108,6 +104,18 @@
         <EmbeddedResource Include="app\src\fontawesome_all.min.css" />
         <None Remove="app\src\bootstrap.js" />
         <EmbeddedResource Include="app\src\bootstrap.js" />
+        <None Remove="app\src\vue.global.js" />
+        <EmbeddedResource Include="app\src\vue.global.js" />
+        <None Remove="app\src\vue.global.prod.js" />
+        <EmbeddedResource Include="app\src\vue.global.prod.js" />
+        <None Remove="app\src\vue.esm.browser.js" />
+        <EmbeddedResource Include="app\src\vue.esm-browser.js" />
+        <None Remove="app\src\vue.esm-browser.prod.js" />
+        <EmbeddedResource Include="app\src\vue.esm-browser.prod.js" />
+        <None Remove="app\src\vue-router.global.js" />
+        <EmbeddedResource Include="app\src\vue-router.global.js" />
+        <None Remove="app\src\vue-router.global.prod.js" />
+        <EmbeddedResource Include="app\src\vue-router.global.prod.js" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\IctBaden.Stonehenge3\IctBaden.Stonehenge3.csproj" />

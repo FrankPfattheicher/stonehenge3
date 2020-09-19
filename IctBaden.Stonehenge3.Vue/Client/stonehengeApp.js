@@ -76,7 +76,7 @@ const routes = [
     //stonehengeAppRoutes
 ];
 
-const router = new VueRouter({
+const router = VueRouter.createRouter({
     routes: routes
 });
 
@@ -84,19 +84,23 @@ function AppCommand(cmdName) {
     stonehengeMakePostRequest('Command/' + cmdName);
 }
 
+// App
+const app = Vue.createApp({
+    data: function () {
+        return {
+            stonehengeMakeRequest: stonehengeMakeGetRequest,
+            routes: routes,
+            title: 'stonehengeAppTitle'
+        }
+    },
+    router: router
+}).mount('#app');
+
+app.use(VueRouter);
+
+router.push('stonehengeRootPage');
+
 // Components
 
 //stonehengeElements
-
-// App
-const app = new Vue({
-    data: {
-        stonehengeMakeRequest: stonehengeMakeGetRequest,
-        routes: routes,
-        title: 'stonehengeAppTitle'
-    },
-    router: router
-}).$mount('#app');
-
-router.push('stonehengeRootPage');
 
