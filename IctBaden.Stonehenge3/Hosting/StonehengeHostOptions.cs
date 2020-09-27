@@ -44,6 +44,10 @@ namespace IctBaden.Stonehenge3.Hosting
         /// </summary>
         public int PollIntervalMs { get; set; }
 
+        /// <summary>
+        /// Forth NTLM authentication using HttpSys
+        /// </summary>
+        public bool UseNtlmAuthentication { get; set; } = false;
 
         public StonehengeHostOptions()
         {

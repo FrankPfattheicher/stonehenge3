@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using AuthenticationSchemes = Microsoft.AspNetCore.Server.HttpSys.AuthenticationSchemes;
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 
@@ -22,14 +23,15 @@ namespace IctBaden.Stonehenge3.Kestrel
         private IWebHost _webApp;
         private Task _host;
         private CancellationTokenSource _cancel;
-        
+
         private readonly IStonehengeResourceProvider _resourceProvider;
         private readonly StonehengeHostOptions _options;
 
         public KestrelHost(IStonehengeResourceProvider provider)
-        : this(provider, new StonehengeHostOptions())
+            : this(provider, new StonehengeHostOptions())
         {
         }
+
         public KestrelHost(IStonehengeResourceProvider provider, StonehengeHostOptions options)
         {
             _resourceProvider = provider;
@@ -42,36 +44,39 @@ namespace IctBaden.Stonehenge3.Kestrel
         {
             try
             {
-                IPAddress listenAddress;
-                var baseAddress = IPAddress.Loopback.ToString();
-                switch (hostAddress)
-                {
-                    case null:
-                    case "*":
-                        listenAddress = IPAddress.Any;
-                        break;
-                    case "localhost":
-                        listenAddress = IPAddress.Loopback;
-                        break;
-                    default:
-                        listenAddress = IPAddress.Parse(hostAddress);
-                        baseAddress = listenAddress.ToString();
-                        break;
-                }
-
                 if (hostPort == 0)
                 {
                     hostPort = Network.GetFreeTcpPort();
                 }
 
-                BaseUrl = $"http://{baseAddress}:{hostPort}";
+                IPAddress kestrelAddress;
+                string httpSysAddress;
+                switch (hostAddress)
+                {
+                    case null:
+                    case "*":
+                        kestrelAddress = IPAddress.Any;
+                        httpSysAddress = $"http://+:{hostPort}";
+                        BaseUrl = $"http://{IPAddress.Loopback}:{hostPort}";
+                        break;
+                    case "localhost":
+                        kestrelAddress = IPAddress.Loopback;
+                        httpSysAddress = $"http://{kestrelAddress}:{hostPort}";
+                        BaseUrl = $"http://{kestrelAddress}:{hostPort}";
+                        break;
+                    default:
+                        kestrelAddress = IPAddress.Parse(hostAddress);
+                        httpSysAddress = $"http://{kestrelAddress}:{hostPort}";
+                        BaseUrl = $"http://{kestrelAddress}:{hostPort}";
+                        break;
+                }
 
                 var mem = new MemoryConfigurationSource()
                 {
-                    InitialData = new[] 
+                    InitialData = new[]
                     {
-                        new KeyValuePair<string, string>( "AppTitle", _options.Title),
-                        new KeyValuePair<string, string>( "HostOptions", JsonConvert.SerializeObject(_options))
+                        new KeyValuePair<string, string>("AppTitle", _options.Title),
+                        new KeyValuePair<string, string>("HostOptions", JsonConvert.SerializeObject(_options))
                     }
                 };
 
@@ -79,19 +84,37 @@ namespace IctBaden.Stonehenge3.Kestrel
                     .Add(mem)
                     .Build();
 
-                _webApp = new WebHostBuilder()
+                var builder = new WebHostBuilder()
                     .UseConfiguration(config)
                     .ConfigureServices(s => { s.AddSingleton<IConfiguration>(config); })
                     .ConfigureServices(s => { s.AddSingleton(_resourceProvider); })
-                    .UseSockets()
-                    .UseStartup<Startup>()
-                    .UseKestrel(options =>
+                    .UseStartup<Startup>();
+
+                if (_options.UseNtlmAuthentication)
+                {
+                    builder = builder.UseHttpSys(options =>
                     {
-                        // ensure no connection limit
-                        options.Limits.MaxConcurrentConnections = null;
-                        options.Listen(listenAddress, hostPort);
-                    })
-                    .Build();
+                        // netsh http add urlacl url=https://+:32000/ user=TheUser
+                        options.Authentication.Schemes =
+                            (AuthenticationSchemes) (System.Net.AuthenticationSchemes.Ntlm |
+                                                     System.Net.AuthenticationSchemes.Negotiate);
+                        options.Authentication.AllowAnonymous = false;
+                        options.UrlPrefixes.Add(httpSysAddress);
+                    });
+                }
+                else
+                {
+                    builder = builder.UseSockets()
+                        .UseKestrel(options =>
+                        {
+                            // ensure no connection limit
+                            options.Limits.MaxConcurrentConnections = null;
+                            options.Listen(kestrelAddress, hostPort);
+                        });
+                }
+
+
+                _webApp = builder.Build();
 
                 _cancel = new CancellationTokenSource();
                 _host = _webApp.RunAsync(_cancel.Token);
@@ -113,9 +136,11 @@ namespace IctBaden.Stonehenge3.Kestrel
                     ex = ex.InnerException;
                     message += Environment.NewLine + "    " + ex.Message;
                 }
+
                 Trace.TraceError("KestrelHost.Start: " + message);
                 _webApp = null;
             }
+
             return _webApp != null;
         }
 
@@ -145,7 +170,7 @@ namespace IctBaden.Stonehenge3.Kestrel
             {
                 Console.WriteLine(ex.Message);
             }
-            
+
             Trace.TraceInformation("KestrelHost.Terminate: Terminated.");
         }
     }
