@@ -190,6 +190,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
                     Debug.WriteLine("read finished, numRead={0}", numRead);
                     if (numRead == 0)
                     {
+                        // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                         if (toRead == 0)
                         {
                             break;
