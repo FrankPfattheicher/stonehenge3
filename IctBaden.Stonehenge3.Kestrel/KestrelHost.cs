@@ -109,7 +109,11 @@ namespace IctBaden.Stonehenge3.Kestrel
                         {
                             // ensure no connection limit
                             options.Limits.MaxConcurrentConnections = null;
-                            options.Listen(kestrelAddress, hostPort);
+                            options.Listen(kestrelAddress, hostPort, listenOptions =>
+                            {
+                                listenOptions.UseHttps("stonehenge.pfx", "test");
+                            });
+                            
                         });
                 }
 
