@@ -50,24 +50,25 @@ namespace IctBaden.Stonehenge3.Kestrel
                 }
 
                 IPAddress kestrelAddress;
+                var protocol = _options.UseSsl ? "https" : "http";
                 string httpSysAddress;
                 switch (hostAddress)
                 {
                     case null:
                     case "*":
                         kestrelAddress = IPAddress.Any;
-                        httpSysAddress = $"http://+:{hostPort}";
-                        BaseUrl = $"http://{IPAddress.Loopback}:{hostPort}";
+                        httpSysAddress = $"{protocol}://+:{hostPort}";
+                        BaseUrl = $"{protocol}://{IPAddress.Loopback}:{hostPort}";
                         break;
                     case "localhost":
                         kestrelAddress = IPAddress.Loopback;
-                        httpSysAddress = $"http://{kestrelAddress}:{hostPort}";
-                        BaseUrl = $"http://{kestrelAddress}:{hostPort}";
+                        httpSysAddress = $"{protocol}://{kestrelAddress}:{hostPort}";
+                        BaseUrl = $"{protocol}://{kestrelAddress}:{hostPort}";
                         break;
                     default:
                         kestrelAddress = IPAddress.Parse(hostAddress);
-                        httpSysAddress = $"http://{kestrelAddress}:{hostPort}";
-                        BaseUrl = $"http://{kestrelAddress}:{hostPort}";
+                        httpSysAddress = $"{protocol}://{kestrelAddress}:{hostPort}";
+                        BaseUrl = $"{protocol}://{kestrelAddress}:{hostPort}";
                         break;
                 }
 
@@ -92,28 +93,42 @@ namespace IctBaden.Stonehenge3.Kestrel
 
                 if (_options.UseNtlmAuthentication)
                 {
-                    builder = builder.UseHttpSys(options =>
-                    {
-                        // netsh http add urlacl url=https://+:32000/ user=TheUser
-                        options.Authentication.Schemes =
-                            (AuthenticationSchemes) (System.Net.AuthenticationSchemes.Ntlm |
-                                                     System.Net.AuthenticationSchemes.Negotiate);
-                        options.Authentication.AllowAnonymous = false;
-                        options.UrlPrefixes.Add(httpSysAddress);
-                    });
+                    Trace.TraceInformation("HttpSys mode (NTLM authentication).");
+                    builder = builder
+                        .UseHttpSys(options =>
+                        {
+                            // netsh http add urlacl url=https://+:32000/ user=TheUser
+                            options.Authentication.Schemes =
+                                (AuthenticationSchemes) (System.Net.AuthenticationSchemes.Ntlm |
+                                                         System.Net.AuthenticationSchemes.Negotiate);
+                            options.Authentication.AllowAnonymous = false;
+                            options.UrlPrefixes.Add(httpSysAddress);
+                        });
                 }
                 else
                 {
-                    builder = builder.UseSockets()
+                    Trace.TraceInformation("Kestrel/Sockets mode.");
+                    builder = builder
+                        .UseSockets()
                         .UseKestrel(options =>
                         {
                             // ensure no connection limit
                             options.Limits.MaxConcurrentConnections = null;
                             options.Listen(kestrelAddress, hostPort, listenOptions =>
                             {
-                                listenOptions.UseHttps("stonehenge.pfx", "test");
+                                if (_options.UseSsl)
+                                {
+                                    _options.SslCertificatePath = "stonehenge.pfx";
+                                    _options.SslCertificatePassword = "test";
+                                    listenOptions.UseHttps(
+                                        _options.SslCertificatePath,
+                                                _options.SslCertificatePassword);
+                                }
                             });
-                            
+                            // options.ConfigureHttpsDefaults(httpsOptions =>
+                            // {
+                            //     httpsOptions.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
+                            // });
                         });
                 }
 

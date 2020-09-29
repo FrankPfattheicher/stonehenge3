@@ -45,9 +45,27 @@ namespace IctBaden.Stonehenge3.Hosting
         public int PollIntervalMs { get; set; }
 
         /// <summary>
-        /// Forth NTLM authentication using HttpSys
+        /// Forth NTLM authentication using HttpSys.
+        /// (Windows host only)
         /// </summary>
         public bool UseNtlmAuthentication { get; set; } = false;
+
+        /// <summary>
+        /// Use https:// instead of http:// for hosting.
+        /// Attention: Depending on hosting platform certificates has to be provided differently
+        /// </summary>
+        public bool UseSsl { get; set; } = false;
+        /// <summary>
+        /// Path of the pfx certificate to be used with Kestrel.
+        /// (not used with HttpSys, you need to "netsh http add sslcert ..." for the the p12 certificate in that case)
+        /// On Windows it is better to use IIS as reverse proxy.
+        /// </summary>
+        public string SslCertificatePath { get; set; }
+        /// <summary>
+        /// Password of the pfx certificate to be used with Kestrel.
+        /// (not used with HttpSys)
+        /// </summary>
+        public string SslCertificatePassword { get; set; }
 
         public StonehengeHostOptions()
         {
