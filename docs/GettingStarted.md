@@ -156,9 +156,9 @@ And the following method marked as ActionMethod by using stonehenge's attribute:
 In start.html add the following two lines within the div.
 ```html
     <p>Button pressed {{CountPressed}} times.</p>
-    <p><button v-on:click="ButtonPressed()">Click Me</button></p>
+    <p><button @click="ButtonPressed()">Click Me</button></p>
 ```
-The ```v-on:click``` is the Vue way to bind a click handler.
+The ```@click``` is the Vue way to bind a click handler and is a shortcut of  ```v-on:click```.
 
 Start the application to see it work.    
 **Note:** You may need to clear the cache to reload the updated content !

@@ -129,7 +129,6 @@ namespace IctBaden.Stonehenge3.ViewModel
                 GetViewModelJson(session.ViewModel), Resource.Cache.None);
         }
 
-        private static readonly object GetLock = new object();
         public Resource Get(AppSession session, string resourceName, Dictionary<string, string> parameters)
         {
             if (resourceName.StartsWith("ViewModel/"))

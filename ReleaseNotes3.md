@@ -1,4 +1,5 @@
 
+* 3.12.1 - Support NTLM authentication (HttpSys, Windows only) and SSL.
 * 3.11.9 - Version number in all DLLs
 * 3.11.8 - Assembly version - next try
 * 3.11.7 - Assembly version !?

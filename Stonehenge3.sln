@@ -31,6 +31,7 @@ ProjectSection(SolutionItems) = preProject
 	docs\GettingStarted.md = docs\GettingStarted.md
 	docs\Sample1.png = docs\Sample1.png
 	docs\Sample2.png = docs\Sample2.png
+	docs\IIS reverse.md = docs\IIS reverse.md
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IctBaden.Stonehenge3.Vue.TestApp2", "IctBaden.Stonehenge3.Vue.TestApp2\IctBaden.Stonehenge3.Vue.TestApp2.csproj", "{EC4663D2-6DF5-40AA-9FF9-191307D6D918}"

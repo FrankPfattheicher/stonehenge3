@@ -76,6 +76,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                     .ToDictionary(key => key, key => queryString[key]);
 
                 appSession?.SetParameters(parameters);
+                appSession?.SetUser(context.User.Identity.Name);
                 
                 Resource content = null;
                 switch (requestVerb)

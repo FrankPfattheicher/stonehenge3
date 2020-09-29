@@ -63,7 +63,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
             var host = Environment.CommandLine.Contains("/localhost") ? "localhost" : "*";
             if (_server.Start(host, 32000))
             {
-                Console.WriteLine(@"Started server on: " + _server.BaseUrl);
+                Console.WriteLine(@"Server reachable on: " + _server.BaseUrl);
 
                 if (Environment.CommandLine.Contains("/window"))
                 {

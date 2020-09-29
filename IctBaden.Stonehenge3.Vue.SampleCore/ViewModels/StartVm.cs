@@ -22,10 +22,11 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
         public Notify<string> AutoNotify { get; set; }
         public double Numeric { get; set; }
         public string Test { get; set; }
-        public string Version => Assembly.GetEntryAssembly()?.GetName().Version.ToString(2);
+        public string Version => Assembly.GetEntryAssembly()!.GetName().Version!.ToString(2);
         public bool IsLocal => Session?.IsLocal ?? true;
         public string ClientAddress => Session.ClientAddress ?? "(unknown)";
-        
+        public string UserIdentity => Session.UserIdentity ?? "(unknown)";
+
         public string NotInitialized { get; set; }
 
         private IDisposable _updater;

@@ -38,6 +38,8 @@ namespace IctBaden.Stonehenge3.Core
         public DateTime ConnectedSince { get; private set; }
         public DateTime LastAccess { get; private set; }
         public string Context { get; private set; }
+        
+        public string UserIdentity { get; private set; }
         public DateTime LastUserAction { get; private set; }
 
         private readonly Guid _id;
@@ -454,6 +456,10 @@ namespace IctBaden.Stonehenge3.Core
                 }
             }
         }
-        
+
+        public void SetUser(string identityName)
+        {
+            UserIdentity = identityName;
+        }
     }
 }
