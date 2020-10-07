@@ -68,8 +68,6 @@
         <EmbeddedResource Include="app\src\bootstrap-grid.min.css" />
         <None Remove="app\src\bootstrap-reboot.min.css" />
         <EmbeddedResource Include="app\src\bootstrap-reboot.min.css" />
-        <None Remove="app\src\fontawesome_all.css" />
-        <EmbeddedResource Include="app\src\fontawesome_all.css" />
         <None Remove="app\src\bootstrap.min.js" />
         <EmbeddedResource Include="app\src\bootstrap.min.js" />
         <None Remove="app\src\bootstrap.min.css" />
@@ -105,9 +103,10 @@
         <None Remove="app\src\vue-resource.min.js" />
         <EmbeddedResource Include="app\src\vue-resource.min.js" />
         <None Remove="app\src\fontawesome_all.min.css" />
-        <EmbeddedResource Include="app\src\fontawesome_all.min.css" />
         <None Remove="app\src\bootstrap.js" />
         <EmbeddedResource Include="app\src\bootstrap.js" />
+        <None Remove="app\src\fa_free_all.css" />
+        <EmbeddedResource Include="app\src\fa_free_all.css" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\IctBaden.Stonehenge3\IctBaden.Stonehenge3.csproj" />
