@@ -107,6 +107,18 @@
         <EmbeddedResource Include="app\src\bootstrap.js" />
         <None Remove="app\src\fa_free_all.css" />
         <EmbeddedResource Include="app\src\fa_free_all.css" />
+        <None Remove="app\src\fa_free_all.min.css" />
+        <EmbeddedResource Include="app\src\fa_free_all.min.css" />
+        <None Remove="app\src\bootstrap.js.map" />
+        <EmbeddedResource Include="app\src\bootstrap.js.map" />
+        <None Remove="app\src\bootstrap.min.js.map" />
+        <EmbeddedResource Include="app\src\bootstrap.min.js.map" />
+        <None Remove="app\src\bootstrap.bundle.js.map" />
+        <EmbeddedResource Include="app\src\bootstrap.bundle.js.map" />
+        <None Remove="app\src\bootstrap.bundle.min.js" />
+        <EmbeddedResource Include="app\src\bootstrap.bundle.min.js" />
+        <None Remove="app\src\bootstrap.bundle.min.js.map" />
+        <EmbeddedResource Include="app\src\bootstrap.bundle.min.js.map" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\IctBaden.Stonehenge3\IctBaden.Stonehenge3.csproj" />
