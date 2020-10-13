@@ -67,25 +67,29 @@ namespace IctBaden.Stonehenge3.ViewModel
 
             if (session.ViewModel == null)
             {
+                Trace.TraceWarning($"Stonehenge3.ViewModelProvider: Set VM={vmTypeName}, no current VM");
                 session.SetViewModelType(vmTypeName);
             }
 
             foreach (var data in formData)
             {
+                Trace.TraceInformation($"Stonehenge3.ViewModelProvider: Set {data.Key}={data.Value}");
                 SetPropertyValue(session.ViewModel, data.Key, data.Value);
             }
 
             var vmType = session.ViewModel.GetType();
             if (vmType.Name != vmTypeName)
             {
-                Trace.TraceWarning(
-                    $"Stonehenge3.ViewModelProvider: Request for VM={vmTypeName}, current VM={vmType.Name}");
-                return new Resource(resourceName, "ViewModelProvider",
-                    ResourceType.Json, "{ \"StonehengeContinuePolling\":false }", Resource.Cache.None);
+                Trace.TraceWarning($"Stonehenge3.ViewModelProvider: Request for VM={vmTypeName}, current VM={vmType.Name}");
+                return new Resource(resourceName, "ViewModelProvider", ResourceType.Json, "{ \"StonehengeContinuePolling\":false }", Resource.Cache.None);
             }
 
             var method = vmType.GetMethod(methodName);
-            if (method == null) return null;
+            if (method == null)
+            {
+                Trace.TraceWarning($"Stonehenge3.ViewModelProvider: ActionMethod {methodName} not found.");
+                return null;
+            }
 
             try
             {
@@ -113,6 +117,9 @@ namespace IctBaden.Stonehenge3.ViewModel
             catch (Exception ex)
             {
                 if (ex.InnerException != null) ex = ex.InnerException;
+                
+                Trace.TraceError($"Stonehenge3.ViewModelProvider: ActionMethod {methodName} has {method.GetParameters().Length} params.");
+                Trace.TraceError($"Stonehenge3.ViewModelProvider: Called with {parameters.Count} params.");
                 Trace.TraceError("Stonehenge3.ViewModelProvider: " + ex.Message);
                 Trace.TraceError("Stonehenge3.ViewModelProvider: " + ex.StackTrace);
 
@@ -364,7 +371,7 @@ namespace IctBaden.Stonehenge3.ViewModel
             watch.Start();
             
             var ty = viewModel.GetType();
-            Trace.TraceInformation("Stonehenge3.ViewModelProvider: viewModel=" + ty.Name);
+            Trace.TraceInformation("Stonehenge3.ViewModelProvider: ViewModel=" + ty.Name);
 
             var data = new List<string>();
             try

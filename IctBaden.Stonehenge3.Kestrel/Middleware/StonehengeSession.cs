@@ -89,7 +89,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 }
             }
 
-            Trace.TraceInformation($"Stonehenge3.Kestrel[{stonehengeId}] Begin {context.Request.Method} {path}");
+            Trace.TraceInformation($"Stonehenge3.Kestrel[{stonehengeId}] Begin {context.Request.Method} {path}{context.Request.QueryString}");
 
             CleanupTimedOutSessions(appSessions);
             var session = appSessions.FirstOrDefault(s => s.Id == stonehengeId);
