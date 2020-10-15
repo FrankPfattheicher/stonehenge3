@@ -7,8 +7,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
 using IctBaden.Stonehenge3.Client;
 using IctBaden.Stonehenge3.Core;
@@ -25,7 +23,6 @@ namespace IctBaden.Stonehenge3.Resources
         /// </summary>
         public readonly Assembly AppAssembly;
         private readonly Lazy<Dictionary<string, AssemblyResource>> _resources;
-        private readonly Dictionary<string, string> _replacements = new Dictionary<string, string>();
 
         public void Dispose()
         {
@@ -49,11 +46,6 @@ namespace IctBaden.Stonehenge3.Resources
                 });
         }
 
-        public void AddReplacement(string oldName, string newName)
-        {
-            _replacements.Add(oldName, GetAssemblyResourceName(newName));
-        }
-        
         public void InitProvider(StonehengeResourceLoader loader, StonehengeHostOptions options)
         {
         }
@@ -131,11 +123,6 @@ namespace IctBaden.Stonehenge3.Resources
         public Resource Get(AppSession session, string name, Dictionary<string, string> parameters)
         {
             var resourceName = GetAssemblyResourceName(name);
-
-            if (_replacements.ContainsKey(resourceName))
-            {
-                resourceName = _replacements[resourceName];
-            }
 
             var asmResource = _resources.Value
                 .FirstOrDefault(res => string.Compare(res.Key, resourceName, true, CultureInfo.InvariantCulture) == 0);

@@ -78,8 +78,7 @@ stonehengeViewModelName = function component() {
                 {
                     before(request) {
                         app.previousRequest = request;
-                    },
-                    params: { xyz: 123 }
+                    }
                 })
                 .then(response => {
                     let data = JSON.parse(response.bodyText);
