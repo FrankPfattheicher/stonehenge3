@@ -1,4 +1,5 @@
 
+* 3.13.1 - Replacements removed from resource loader. Local fontawesome on iPhone fixed by renaming to fa_free.
 * 3.12.2 - Added missing package references in nuget package.
 * 3.12.1 - Support NTLM authentication (HttpSys, Windows only) and SSL.
 * 3.11.9 - Version number in all DLLs

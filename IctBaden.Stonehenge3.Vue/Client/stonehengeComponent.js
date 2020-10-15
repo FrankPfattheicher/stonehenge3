@@ -17,10 +17,10 @@ stonehengeViewModelName = function component() {
             this.model.StonehengePollEventsActive = null;
         },
 
-        StonehengeSetViewModelData: function (vmdata) {
-            for (var propertyName in vmdata) {
+        StonehengeSetViewModelData: function (vmData) {
+            for (let propertyName in vmData) {
                 if (propertyName === "StonehengeNavigate") {
-                    var target = vmdata[propertyName];
+                    let target = vmData[propertyName];
                     if (target.startsWith('#')) {
                         try {
                             document.getElementById(target.substring(1))
@@ -36,7 +36,7 @@ stonehengeViewModelName = function component() {
                     }
                 } else if (propertyName === "StonehengeEval") {
                     try {
-                        var script = vmdata[propertyName];
+                        let script = vmData[propertyName];
                         eval(script);
                     } catch (error) {
                         // ignore
@@ -47,7 +47,7 @@ stonehengeViewModelName = function component() {
                     }
                 } else {
                     //debugger;
-                    this.model[propertyName] = vmdata[propertyName];
+                    this.model[propertyName] = vmData[propertyName];
                 }
             }
             if (app.stonehengeViewModelName.model.StonehengeInitialLoading) {
@@ -68,13 +68,13 @@ stonehengeViewModelName = function component() {
         StonehengePost: function (urlWithParams) {
             this.StonehengeCancelRequests();
 
-            var props = ['propNames'];
-            var formData = new Object();
+            let props = ['propNames'];
+            let formData = {};
             props.forEach(function (prop) {
                 formData[prop] = app.stonehengeViewModelName.model[prop];
             });
             this.StonehengePostActive = true;
-            app.$http.post(urlWithParams, JSON.stringify(formData),
+            Vue.http.post(urlWithParams, JSON.stringify(formData),
                 {
                     before(request) {
                         app.previousRequest = request;
@@ -104,8 +104,8 @@ stonehengeViewModelName = function component() {
         StonehengePollEvents: function (continuePolling) {
             if (!app.stonehengeViewModelName.model.StonehengeActive || app.stonehengeViewModelName.model.StonehengePostActive
                 || app.stonehengeViewModelName.model.StonehengePollEventsActive !== null) return;
-            var ts = new Date().getTime();
-            app.$http.get('Events/stonehengeViewModelName?ts=' + ts,
+            let ts = new Date().getTime();
+            Vue.http.get('Events/stonehengeViewModelName?ts=' + ts,
                 {
                     before(request) {
                         app.stonehengeViewModelName.model.StonehengePollEventsActive = request;
@@ -147,7 +147,7 @@ stonehengeViewModelName = function component() {
 
         StonehengeGetViewModel: function () {
             this.StonehengeCancelRequests();
-            app.$http.get('ViewModel/stonehengeViewModelName',
+            Vue.http.get('ViewModel/stonehengeViewModelName',
                 {
                     before(request) {
                         app.previousRequest = request;

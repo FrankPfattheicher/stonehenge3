@@ -1,10 +1,6 @@
 <!--CustomElement:rootnodes-->
-<div>
-
-    <ul style="list-style-type: none; width: 100%; height: 60vh; max-height: 20em; overflow: scroll; border: 1px solid gray; -webkit-padding-start: 1em;" >
-        <tree-node v-for="child of rootnodes" :node="child" :key="child.Id" 
-                   @select="$emit('select', $event)" @toggle="$emit('toggle', $event)" >
-        </tree-node>
-    </ul>
-
-</div>
+<ul style="list-style-type: none; width: 100%; height: 60vh; max-height: 20em; overflow: scroll; border: 1px solid gray; -webkit-padding-start: 1em;">
+    <tree-node v-for="child of rootnodes" :node="child" :key="child.Id"
+               @select="$emit('select', $event)" @toggle="$emit('toggle', $event)">
+    </tree-node>
+</ul>

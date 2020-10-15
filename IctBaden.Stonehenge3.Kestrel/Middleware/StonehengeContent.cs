@@ -47,7 +47,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             }
         }
 
-        public async Task InvokeLocked(HttpContext context)
+        private async Task InvokeLocked(HttpContext context)
         {
             var path = context.Request.Path.Value.Replace("//", "/");
             try
