@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using IctBaden.Stonehenge3.Core;
@@ -76,7 +78,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                     .ToDictionary(key => key, key => queryString[key]);
 
                 appSession?.SetParameters(parameters);
-                appSession?.SetUser(context.User.Identity.Name);
+                appSession?.SetUser(GetUserNameFromContext(context));
                 
                 Resource content = null;
                 switch (requestVerb)
@@ -173,6 +175,29 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 }
             }
 
+        }
+
+        private string GetUserNameFromContext(HttpContext context)
+        {
+            var identityName = context.User.Identity.Name;
+            if (identityName != null) return identityName;
+            
+            var auth = context.Request.Headers["Authorization"].FirstOrDefault();
+            if (auth == null) return null;
+
+            if (auth.StartsWith("Basic ", StringComparison.InvariantCultureIgnoreCase))
+            {
+                var userPassword = Encoding.ASCII.GetString(Convert.FromBase64String(auth.Substring(6)));
+                identityName = userPassword.Split(':').FirstOrDefault();
+            }
+            else if (auth.StartsWith("Bearer ", StringComparison.InvariantCultureIgnoreCase))
+            {
+                var token = auth.Substring(7);
+                var handler = new JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadToken(token) as JwtSecurityToken;
+                identityName = jwtToken?.Subject;
+            }
+            return identityName;
         }
 
         private void HandleIndexContent(HttpContext context, Resource content)
