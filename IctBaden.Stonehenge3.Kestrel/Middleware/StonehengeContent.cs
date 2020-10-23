@@ -86,7 +86,13 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                     case "GET":
                         appSession?.Accessed(cookies, false);
                         content = resourceLoader?.Get(appSession, resourceName, parameters);
-                        if ((content != null) && (string.Compare(resourceName, "index.html", StringComparison.InvariantCultureIgnoreCase) == 0))
+                        if (content == null && appSession != null && resourceName.EndsWith("index.html", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            Trace.TraceError($"Invalid path in index resource {resourceName} - redirecting to root index");
+                            context.Response.Redirect("/index.html");
+                            return;
+                        }
+                        else if(string.Compare(resourceName, "index.html", StringComparison.InvariantCultureIgnoreCase) == 0)
                         {
                             HandleIndexContent(context, content);
                         }

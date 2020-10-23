@@ -15,18 +15,18 @@ namespace IctBaden.Stonehenge3.Test.Hosting
                 var response = GetWebResponse(request);
                 if (response == null) return null;
 
-                var redirUrl = response.Headers["Location"];
-                if (redirUrl == null)
+                var redirectUrl = response.Headers["Location"];
+                if (redirectUrl == null)
                 {
                     address = response.ResponseUri.ToString();
                 }
 
                 response.Close();
 
-                if (redirUrl == null)
+                if (redirectUrl == null)
                     break;
 
-                var newAddress = new Uri(request.RequestUri, redirUrl).AbsoluteUri;
+                var newAddress = new Uri(request.RequestUri, redirectUrl).AbsoluteUri;
                 if (newAddress == address)
                     break;
 
