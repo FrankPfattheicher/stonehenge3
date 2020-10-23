@@ -1,5 +1,4 @@
-﻿
-using IctBaden.Stonehenge3.Hosting;
+﻿using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Kestrel;
 using IctBaden.Stonehenge3.Test.Tools;
 using Xunit;
@@ -31,10 +30,8 @@ namespace IctBaden.Stonehenge3.Test.Hosting
             var response = string.Empty;
             try
             {
-                using (var client = new RedirectableWebClient())
-                {
-                    response = client.DownloadString(host.BaseUrl);
-                }
+                using var client = new RedirectableWebClient();
+                response = client.DownloadString(host.BaseUrl);
             }
             catch (Exception ex)
             {
