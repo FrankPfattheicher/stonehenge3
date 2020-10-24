@@ -49,6 +49,14 @@ namespace IctBaden.Stonehenge3.Hosting
         /// (Windows host only)
         /// </summary>
         public bool UseNtlmAuthentication { get; set; } = false;
+        
+        /// <summary>
+        /// Internally check basic Authentication.
+        /// Place .htpasswd file in application directory.
+        /// Encoding apache specific salted MD5 (insecure but common).
+        /// htpasswd -nbm myName myPassword
+        /// </summary>
+        public bool UseBasicAuth { get; set; } = false;
 
         /// <summary>
         /// Use https:// instead of http:// for hosting.

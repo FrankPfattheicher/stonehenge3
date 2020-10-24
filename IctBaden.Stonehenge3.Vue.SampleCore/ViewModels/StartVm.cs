@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Reactive.Linq;
 using System.Reflection;
 using IctBaden.Stonehenge3.Core;
@@ -30,7 +32,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
         public string NotInitialized { get; set; }
 
         private IDisposable _updater;
-        
+        private string _text = "This ist the content of user file ;-) Press Alt+Left to return.";        
         // ReSharper disable once UnusedMember.Global
         public StartVm(AppSession session) : base (session)
         {
@@ -89,8 +91,9 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
         public override Resource GetDataResource(string resourceName)
         {
             if (!resourceName.EndsWith(".ics"))
-                return new Resource(resourceName, "Sample", ResourceType.Text,
-                    $"This ist the content of {resourceName} file ;-) Press Alt+Left to return.", Resource.Cache.None);
+            {
+                return new Resource(resourceName, "Sample", ResourceType.Text, _text, Resource.Cache.None);
+            }
             
             const string cal = @"BEGIN:VCALENDAR
 PRODID:-//ICT Baden GmbH//Framework Library 2016//DE
@@ -112,6 +115,14 @@ END:VEVENT
 END:VCALENDAR
 ";
             return new Resource(resourceName, "Sample", ResourceType.Calendar, cal, Resource.Cache.None);
+        }
+
+        public override Resource PostDataResource(string resourceName, Dictionary<string, string> parameters, Dictionary<string, string> formData)
+        {
+            var tempFileName = formData["uploadFile"];
+            _text = File.ReadAllText(tempFileName);
+            File.Delete(tempFileName);
+            return Resource.NoContent;
         }
 
         [ActionMethod]

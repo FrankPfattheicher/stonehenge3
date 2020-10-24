@@ -634,6 +634,11 @@ namespace IctBaden.Stonehenge3.ViewModel
         {
             return null;
         }
+        public virtual Resource PostDataResource(string resourceName, Dictionary<string, string> parameters, Dictionary<string, string> formData)
+        {
+            return null;
+        }
+        
 
     }
 }

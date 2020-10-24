@@ -11,6 +11,7 @@ namespace IctBaden.Stonehenge3.Resources
         public string Source { get; private set; }
 
         public bool IsBinary => Data != null;
+        public bool IsNoContent => string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(Source);
 
         public enum Cache
         {
@@ -28,6 +29,8 @@ namespace IctBaden.Stonehenge3.Resources
 
         public ViewModelInfo ViewModel { get; set; }
 
+        
+        public static readonly Resource NoContent = new Resource("", "", ResourceType.Text, Cache.None);
 
         public Resource(string name, string source, ResourceType type, string text, Cache cacheMode)
             : this(name, source, type, cacheMode)

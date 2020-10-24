@@ -22,13 +22,23 @@
     <p  id="insertion-point">
     </p>
     <p>
+        <h3>File Download and Upload</h3>
         <a href="/Data/Test.txt">Load user file Test.txt</a>
+        <form action="/Data/Test.txt" method="post" enctype="multipart/form-data">
+            <input type="file" name="uploadFile">
+            <input type="submit">
+        </form>
     </p>
     <p>
         <a href="/Data/Date.ics">Termin</a>
     </p>
     <p>
+        <h3>Application wide commands</h3>
         <a href="#" onclick="AppCommand('FileOpen')">AppCommand FileOpen</a>
+    </p>
+    <p>
+    <h3>Form input</h3>
+    
     </p>
     <p>
         <input v-model="Test" />

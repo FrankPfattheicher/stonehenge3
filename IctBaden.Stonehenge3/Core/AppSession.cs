@@ -38,7 +38,7 @@ namespace IctBaden.Stonehenge3.Core
         public DateTime ConnectedSince { get; private set; }
         public DateTime LastAccess { get; private set; }
         public string Context { get; private set; }
-        
+
         public string UserIdentity { get; private set; }
         public DateTime LastUserAction { get; private set; }
 
@@ -47,6 +47,10 @@ namespace IctBaden.Stonehenge3.Core
 
         public string PermanentSessionId { get; private set; }
 
+        public readonly bool UseBasicAuth;
+        public readonly Passwords Passwords;
+        public string VerifiedBasicAuth;
+        
         private readonly int _eventTimeoutMs;
         private readonly List<string> _events = new List<string>();
         private readonly AutoResetEvent _eventRelease = new AutoResetEvent(false);
@@ -305,6 +309,20 @@ namespace IctBaden.Stonehenge3.Core
             Cookies = new Dictionary<string, string>();
             Parameters = new Dictionary<string, string>();
             LastAccess = DateTime.Now;
+            
+            UseBasicAuth = options.UseBasicAuth;
+            if (UseBasicAuth)
+            {
+                var htpasswd = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ".htpasswd");
+                if (File.Exists(htpasswd))
+                {
+                    Passwords = new Passwords(htpasswd);
+                }
+                else
+                {
+                    Trace.TraceError("Option UseBasicAuth requires .htpasswd file " + htpasswd);
+                }
+            }
             
             _eventTimeoutMs = options.GetEventTimeoutMs();
 

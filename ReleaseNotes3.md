@@ -1,4 +1,5 @@
 
+* 3.15.1 - Added hosting option UseBasicAuth. Support POST Data/ handling for file upload.
 * 3.14.2 - Redirect not existing index.html with path to root document.
 * 3.14.1 - Get UserIdentity from authentication header (Basic or Bearer subject).
 * 3.13.2 - Fixed nuget package references.
