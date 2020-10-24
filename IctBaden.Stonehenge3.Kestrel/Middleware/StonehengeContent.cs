@@ -5,9 +5,11 @@ using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using HttpMultipartParser;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Resources;
 using Microsoft.AspNetCore.Http;
@@ -15,6 +17,7 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
 // ReSharper disable ConvertToUsingDeclaration
 
 namespace IctBaden.Stonehenge3.Kestrel.Middleware
@@ -73,42 +76,97 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                         cookies.Add(cookie[0], cookie[1]);
                     }
                 }
+
                 var queryString = HttpUtility.ParseQueryString(context.Request.QueryString.ToString());
                 var parameters = queryString.AllKeys
                     .ToDictionary(key => key, key => queryString[key]);
 
                 appSession?.SetParameters(parameters);
+                if ((appSession?.UseBasicAuth ?? false) && !CheckBasicAuthFromContext(appSession, context))
+                {
+                    context.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
+                    context.Response.Headers.Add("WWW-Authenticate", "Basic");
+                    return;
+                }
+
                 appSession?.SetUser(GetUserNameFromContext(context));
-                
+
                 Resource content = null;
                 switch (requestVerb)
                 {
                     case "GET":
                         appSession?.Accessed(cookies, false);
                         content = resourceLoader?.Get(appSession, resourceName, parameters);
-                        if (content == null && appSession != null && resourceName.EndsWith("index.html", StringComparison.InvariantCultureIgnoreCase))
+                        if (content == null && appSession != null &&
+                            resourceName.EndsWith("index.html", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            Trace.TraceError($"Invalid path in index resource {resourceName} - redirecting to root index");
+                            Trace.TraceError(
+                                $"Invalid path in index resource {resourceName} - redirecting to root index");
                             context.Response.Redirect("/index.html");
                             return;
                         }
-                        else if(string.Compare(resourceName, "index.html", StringComparison.InvariantCultureIgnoreCase) == 0)
+                        else if (string.Compare(resourceName, "index.html",
+                            StringComparison.InvariantCultureIgnoreCase) == 0)
                         {
                             HandleIndexContent(context, content);
                         }
+
                         break;
 
                     case "POST":
                         appSession?.Accessed(cookies, true);
-                        var body = new StreamReader(context.Request.Body).ReadToEndAsync().Result;
 
                         try
                         {
-                            var formData = !string.IsNullOrEmpty(body)
-                                ? JsonConvert.DeserializeObject<JObject>(body).AsJEnumerable().Cast<JProperty>()
-                                    .ToDictionary(data => data.Name,
-                                        data => Convert.ToString(data.Value, CultureInfo.InvariantCulture))
-                                : new Dictionary<string, string>();
+                            var body = new StreamReader(context.Request.Body).ReadToEndAsync().Result;
+                            var formData = new Dictionary<string, string>();
+                            if (!string.IsNullOrEmpty(body))
+                            {
+                                if (body.StartsWith("{"))
+                                {
+                                    try
+                                    {
+                                        var jsonData = JsonConvert.DeserializeObject<JObject>(body)
+                                            .AsJEnumerable().Cast<JProperty>()
+                                            .ToDictionary(data => data.Name,
+                                                data => Convert.ToString(data.Value, CultureInfo.InvariantCulture));
+                                        foreach (var kv in jsonData)
+                                        {
+                                            formData.Add(kv.Key, kv.Value);
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+                                        Trace.TraceWarning("Failed to parse post data as json");
+                                    }
+                                }
+                                else
+                                {
+                                    try
+                                    {
+                                        using var bodyStream = new MemoryStream(Encoding.UTF8.GetBytes(body));
+                                        var parser = await MultipartFormDataParser.ParseAsync(bodyStream);
+                                        foreach (var p in parser.Parameters)
+                                        {
+                                            formData.Add(p.Name, p.Data);
+                                        }
+
+                                        foreach (var f in parser.Files)
+                                        {
+                                            // Save temp file
+                                            var fileName = Path.GetTempFileName();
+                                            using var file = File.OpenWrite(fileName);
+                                            await f.Data.CopyToAsync(file);
+                                            file.Close();
+                                            formData.Add(f.Name, fileName);
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+                                        Trace.TraceWarning("Failed to parse post data as multipart form data");
+                                    }
+                                }
+                            }
 
                             content = resourceLoader?.Post(appSession, resourceName, parameters, formData);
                         }
@@ -117,14 +175,16 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                             if (ex.InnerException != null) ex = ex.InnerException;
                             Trace.TraceError(ex.Message);
                             Trace.TraceError(ex.StackTrace);
-                            
+
                             var exResource = new JObject
                             {
-                                ["Message"] = ex.Message, 
+                                ["Message"] = ex.Message,
                                 ["StackTrace"] = ex.StackTrace
                             };
-                            content = new Resource(resourceName, "StonehengeContent.Invoke.POST", ResourceType.Json, JsonConvert.SerializeObject(exResource), Resource.Cache.None);
+                            content = new Resource(resourceName, "StonehengeContent.Invoke.POST", ResourceType.Json,
+                                JsonConvert.SerializeObject(exResource), Resource.Cache.None);
                         }
+
                         break;
                 }
 
@@ -133,21 +193,24 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                     await _next.Invoke(context);
                     return;
                 }
+
                 context.Response.ContentType = content.ContentType;
                 switch (content.CacheMode)
                 {
                     case Resource.Cache.None:
-                        context.Response.Headers.Add("Cache-Control", new[] { "no-cache" });
+                        context.Response.Headers.Add("Cache-Control", new[] {"no-cache"});
                         break;
                     case Resource.Cache.Revalidate:
-                        context.Response.Headers.Add("Cache-Control", new[] { "max-age=3600", "must-revalidate", "proxy-revalidate" });
+                        context.Response.Headers.Add("Cache-Control",
+                            new[] {"max-age=3600", "must-revalidate", "proxy-revalidate"});
                         var etag = appSession?.GetResourceETag(path);
                         context.Response.Headers.Add(HeaderNames.ETag, new StringValues(etag));
                         break;
                     case Resource.Cache.OneDay:
-                        context.Response.Headers.Add("Cache-Control", new[] { "max-age=86400" });
+                        context.Response.Headers.Add("Cache-Control", new[] {"max-age=86400"});
                         break;
                 }
+
                 if (appSession?.StonehengeCookieSet == false)
                 {
                     context.Response.Headers.Add("Set-Cookie",
@@ -156,7 +219,11 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                             : new[] {"stonehenge-id=" + appSession.Id});
                 }
 
-                if (content.IsBinary)
+                if (content.IsNoContent)
+                {
+                    context.Response.StatusCode = (int) HttpStatusCode.NoContent;
+                }
+                else if (content.IsBinary)
                 {
                     using (var writer = new BinaryWriter(response))
                     {
@@ -173,21 +240,45 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             }
             catch (Exception ex)
             {
-                Trace.TraceError($"StonehengeContent write response: {ex.Message}" + Environment.NewLine + ex.StackTrace);
+                Trace.TraceError(
+                    $"StonehengeContent write response: {ex.Message}" + Environment.NewLine + ex.StackTrace);
                 while (ex.InnerException != null)
                 {
                     ex = ex.InnerException;
                     Trace.TraceError(" + " + ex.Message);
                 }
             }
+        }
 
+
+        private bool CheckBasicAuthFromContext(AppSession appSession, HttpContext context)
+        {
+            var auth = context.Request.Headers["Authorization"].FirstOrDefault();
+            if (auth == null) return false;
+
+            if (auth.StartsWith("Basic ", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (auth == appSession.VerifiedBasicAuth) return true;
+
+                var userPassword = Encoding.ASCII.GetString(Convert.FromBase64String(auth.Substring(6)));
+                var usrPwd = userPassword.Split(':');
+                if (usrPwd.Length != 2) return false;
+
+                var user = usrPwd[0];
+                var pwd = usrPwd[1];
+                var isValid = appSession.Passwords.IsValid(user, pwd);
+                appSession.VerifiedBasicAuth = isValid ? auth : null;
+                return isValid;
+            }
+
+            return false;
         }
 
         private string GetUserNameFromContext(HttpContext context)
         {
             var identityName = context.User.Identity.Name;
             if (identityName != null) return identityName;
-            
+
             var auth = context.Request.Headers["Authorization"].FirstOrDefault();
             if (auth == null) return null;
 
@@ -203,6 +294,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 var jwtToken = handler.ReadToken(token) as JwtSecurityToken;
                 identityName = jwtToken?.Subject;
             }
+
             return identityName;
         }
 

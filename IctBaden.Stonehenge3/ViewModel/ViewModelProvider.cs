@@ -25,8 +25,8 @@ namespace IctBaden.Stonehenge3.ViewModel
         {
         }
 
-        public Resource Post(AppSession session, string resourceName, Dictionary<string, string> parameters,
-            Dictionary<string, string> formData)
+        public Resource Post(AppSession session, string resourceName, 
+            Dictionary<string, string> parameters, Dictionary<string, string> formData)
         {
             if (resourceName.StartsWith("Command/"))
             {
@@ -55,6 +55,10 @@ namespace IctBaden.Stonehenge3.ViewModel
                     return new Resource(commandName, "Command", ResourceType.Json, "{ 'executed': false }",
                         Resource.Cache.None);
                 }
+            }
+            else if (resourceName.StartsWith("Data/"))
+            {
+                return PostDataResource(session, resourceName.Substring(5), parameters, formData);
             }
 
             if (!resourceName.StartsWith("ViewModel/")) return null;
@@ -272,6 +276,34 @@ namespace IctBaden.Stonehenge3.ViewModel
 
             return data;
         }
+
+        private static Resource PostDataResource(AppSession session, string resourceName,
+            Dictionary<string, string> parameters, Dictionary<string, string> formData)
+        {
+            var vm = session.ViewModel as ActiveViewModel;
+            var method = vm?.GetType()
+                .GetMethods()
+                .FirstOrDefault(m =>
+                    string.Compare(m.Name, "PostDataResource", StringComparison.InvariantCultureIgnoreCase) == 0);
+            if (method == null || method.ReturnType != typeof(Resource)) return null;
+
+            Resource data;
+            if (method.GetParameters().Length == 3)
+            {
+                data = (Resource) method.Invoke(vm, new object[] {resourceName, parameters, formData});
+            }
+            else if (method.GetParameters().Length == 2)
+            {
+                data = (Resource) method.Invoke(vm, new object[] {resourceName, parameters});
+            }
+            else
+            {
+                data = (Resource) method.Invoke(vm, new object[] {resourceName});
+            }
+
+            return data;
+        }
+
 
         private static object DeserializePropertyValue(string propValue, Type propType)
         {
