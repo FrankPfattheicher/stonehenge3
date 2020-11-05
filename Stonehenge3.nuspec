@@ -28,6 +28,7 @@
             <dependency id="Newtonsoft.Json" version="12.0.3"/>
             <dependency id="System.IdentityModel.Tokens.Jwt" version="6.8.0" />
             <dependency id="CryptSharpStandard" version="1.0.0" />
+            <dependency id="HttpMultipartParser" version="4.3.1" />
         </dependencies>
         <references>
             <reference file="IctBaden.Stonehenge3.dll"/>
