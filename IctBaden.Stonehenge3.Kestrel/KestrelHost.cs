@@ -112,6 +112,7 @@ namespace IctBaden.Stonehenge3.Kestrel
                         .UseSockets()
                         .UseKestrel(options =>
                         {
+                            options.AllowSynchronousIO = true;
                             // ensure no connection limit
                             options.Limits.MaxConcurrentConnections = null;
                             options.Listen(kestrelAddress, hostPort, listenOptions =>

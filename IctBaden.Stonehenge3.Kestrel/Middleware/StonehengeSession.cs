@@ -167,7 +167,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             var session = new AppSession(resourceLoader, options);
             var isLocal = context.IsLocal();
             var userAgent = context.Request.Headers["User-Agent"];
-            var httpContext = (context.Request as DefaultHttpRequest)?.HttpContext;
+            var httpContext = context.Request?.HttpContext;
             var clientAddress = httpContext?.Connection.RemoteIpAddress.ToString();
             var hostDomain = context.Request.Host.Value;
             session.Initialize(hostDomain, isLocal, clientAddress, userAgent);
