@@ -9,7 +9,6 @@ using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 
 namespace IctBaden.Stonehenge3.Kestrel.Middleware
 {
@@ -78,11 +77,10 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 if (!string.IsNullOrEmpty(cookie.Value.ToString()))
                 {
                     // workaround for double stonehenge-id values in cookie - take the last one
-                    var matches = new Regex("stonehenge-id=([a-f0-9A-F]+)", RegexOptions.RightToLeft)
-                        .Matches(cookie.Value.ToString());
-                    var ids = matches.Cast<Match>()
+                    var ids = new Regex("stonehenge-id=([a-f0-9A-F]+)", RegexOptions.RightToLeft)
+                        .Matches(cookie.Value.ToString())
                         .Select(m => m.Groups[1].Value).ToArray();
-                    if (matches.Count > 0)
+                    if (ids.Length > 0)
                     {
                         stonehengeId = ids.FirstOrDefault(id => appSessions.Any(s => s.Id == id));
                     }
@@ -167,7 +165,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             var session = new AppSession(resourceLoader, options);
             var isLocal = context.IsLocal();
             var userAgent = context.Request.Headers["User-Agent"];
-            var httpContext = (context.Request as DefaultHttpRequest)?.HttpContext;
+            var httpContext = context.Request?.HttpContext;
             var clientAddress = httpContext?.Connection.RemoteIpAddress.ToString();
             var hostDomain = context.Request.Host.Value;
             session.Initialize(hostDomain, isLocal, clientAddress, userAgent);

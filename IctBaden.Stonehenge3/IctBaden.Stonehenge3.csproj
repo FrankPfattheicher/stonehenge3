@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Copyright>Copyright ©2013-2020 ICT Baden GmbH</Copyright>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Copyright>Copyright ©2013-2021 ICT Baden GmbH</Copyright>
     <Company>ICT Baden GmbH</Company>
     <Authors>Frank Pfattheicher</Authors>
     <Product>Web Application Framework</Product>
     <ApplicationIcon>app\favicon.ico</ApplicationIcon>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>8</LangVersion>
     <PackageIcon>icon64.png</PackageIcon>
   </PropertyGroup>
   
@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <PackageReference Include="CryptSharpStandard" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.10" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 

@@ -225,17 +225,13 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 }
                 else if (content.IsBinary)
                 {
-                    using (var writer = new BinaryWriter(response))
-                    {
-                        writer.Write(content.Data);
-                    }
+                    await using var writer = new StreamWriter(response);
+                    await writer.BaseStream.WriteAsync(content.Data);
                 }
                 else
                 {
-                    using (var writer = new StreamWriter(response))
-                    {
-                        await writer.WriteAsync(content.Text);
-                    }
+                    await using var writer = new StreamWriter(response);
+                    await writer.WriteAsync(content.Text);
                 }
             }
             catch (Exception ex)
@@ -279,6 +275,15 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             var identityName = context.User.Identity.Name;
             if (identityName != null) return identityName;
 
+            
+            
+            foreach (var header in context.Request.Headers)
+            {
+                Console.WriteLine("HEADER: " + header.Key + " = " + header.Value);
+            }
+            
+            
+            
             var auth = context.Request.Headers["Authorization"].FirstOrDefault();
             if (auth == null) return null;
 

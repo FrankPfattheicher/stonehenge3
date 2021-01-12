@@ -147,5 +147,11 @@ namespace IctBaden.Stonehenge3.Resources
             return loader;
         }
 
+        public void AddResourceAssembly(Assembly assembly)
+        {
+            var resourceLoader = Providers.FirstOrDefault(p => p.GetType() == typeof(ResourceLoader)) as ResourceLoader;
+            resourceLoader?.AddAssembly(assembly);
+        }
+
     }
 }

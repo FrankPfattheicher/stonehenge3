@@ -125,13 +125,11 @@ namespace IctBaden.Stonehenge3.Kestrel
                                                 _options.SslCertificatePassword);
                                 }
                             });
-                            // options.ConfigureHttpsDefaults(httpsOptions =>
-                            // {
-                            //     httpsOptions.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
-                            // });
                         });
                 }
 
+                // Allow hosting in IIS
+                builder = builder.UseIIS();
 
                 _webApp = builder.Build();
 
@@ -140,7 +138,7 @@ namespace IctBaden.Stonehenge3.Kestrel
             }
             catch (Exception ex)
             {
-                if ((ex.InnerException is HttpListenerException inner) && (inner.ErrorCode == 5))
+                if ((ex.InnerException is HttpListenerException {ErrorCode: 5}))
                 {
                     Trace.TraceError($"Access denied: Try netsh http delete urlacl {BaseUrl}");
                 }
