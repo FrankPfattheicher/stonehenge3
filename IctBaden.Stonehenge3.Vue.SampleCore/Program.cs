@@ -33,8 +33,8 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
                 
                 ServerPushMode = ServerPushModes.LongPolling,
                 PollIntervalMs = 5000,
-                SessionIdMode = SessionIdModes.CookiesOnly,
-                UseBasicAuth = true
+                SessionIdMode = SessionIdModes.CookiesOnly
+                //UseBasicAuth = true
             };
 
             // Select client framework

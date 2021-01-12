@@ -225,17 +225,13 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 }
                 else if (content.IsBinary)
                 {
-                    using (var writer = new BinaryWriter(response))
-                    {
-                        writer.Write(content.Data);
-                    }
+                    await using var writer = new StreamWriter(response);
+                    await writer.BaseStream.WriteAsync(content.Data);
                 }
                 else
                 {
-                    using (var writer = new StreamWriter(response))
-                    {
-                        await writer.WriteAsync(content.Text);
-                    }
+                    await using var writer = new StreamWriter(response);
+                    await writer.WriteAsync(content.Text);
                 }
             }
             catch (Exception ex)
