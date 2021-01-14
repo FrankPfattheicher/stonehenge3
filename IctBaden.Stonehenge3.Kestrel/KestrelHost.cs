@@ -44,6 +44,7 @@ namespace IctBaden.Stonehenge3.Kestrel
         {
             try
             {
+                Trace.TraceInformation($"KestrelHost.Start({hostAddress}, {hostPort})");
                 if (hostPort == 0)
                 {
                     hostPort = Network.GetFreeTcpPort();
@@ -93,7 +94,7 @@ namespace IctBaden.Stonehenge3.Kestrel
 
                 if (_options.UseNtlmAuthentication)
                 {
-                    Trace.TraceInformation("HttpSys mode (NTLM authentication).");
+                    Trace.TraceInformation("KestrelHost.Start: Using HttpSys mode (NTLM authentication).");
                     builder = builder
                         .UseHttpSys(options =>
                         {
@@ -107,7 +108,7 @@ namespace IctBaden.Stonehenge3.Kestrel
                 }
                 else
                 {
-                    Trace.TraceInformation("Kestrel/Sockets mode.");
+                    Trace.TraceInformation("KestrelHost.Start: Using Kestrel/Sockets mode.");
                     builder = builder
                         .UseSockets()
                         .UseKestrel(options =>
@@ -128,13 +129,15 @@ namespace IctBaden.Stonehenge3.Kestrel
                         });
                 }
 
-                // Allow hosting in IIS
+                Trace.TraceInformation("KestrelHost.Start: Enable hosting in IIS");
                 builder = builder.UseIIS();
 
                 _webApp = builder.Build();
 
                 _cancel = new CancellationTokenSource();
                 _host = _webApp.RunAsync(_cancel.Token);
+                
+                Trace.TraceInformation("KestrelHost.Start: succeeded.");
             }
             catch (Exception ex)
             {

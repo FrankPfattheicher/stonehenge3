@@ -275,15 +275,6 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             var identityName = context.User.Identity.Name;
             if (identityName != null) return identityName;
 
-            
-            
-            foreach (var header in context.Request.Headers)
-            {
-                Console.WriteLine("HEADER: " + header.Key + " = " + header.Value);
-            }
-            
-            
-            
             var auth = context.Request.Headers["Authorization"].FirstOrDefault();
             if (auth == null) return null;
 
