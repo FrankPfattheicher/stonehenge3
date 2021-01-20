@@ -140,8 +140,11 @@ namespace IctBaden.Stonehenge3.Kestrel
                         });
                 }
 
-                Trace.TraceInformation("KestrelHost.Start: Enable hosting in IIS");
-                builder = builder.UseIIS();
+                if (Environment.OSVersion.Platform == PlatformID.Win32Windows
+                    || Environment.OSVersion.Platform == PlatformID.Win32NT)
+                {
+                    builder = EnableIIS(builder);
+                }
 
                 _webApp = builder.Build();
 
@@ -173,6 +176,13 @@ namespace IctBaden.Stonehenge3.Kestrel
             }
 
             return _webApp != null;
+        }
+
+        // ReSharper disable once InconsistentNaming
+        private static IWebHostBuilder EnableIIS(IWebHostBuilder builder)
+        {
+            Trace.TraceInformation("KestrelHost.Start: Enable hosting in IIS");
+            return builder.UseIIS();
         }
 
         public void Terminate()

@@ -1,4 +1,5 @@
 
+* 3.16.4 - UseIIS on windows only.
 * 3.16.3 - Fixed nuspec (netcoreapp3.1).
 * 3.16.2 - Removed UseSSL option. Using SSL if cert path is given and exists.
 * 3.16.1 - Moved to netcoreapp3.1 and C# 8. Removed synchronous writes. Supporting IIS hosting.
