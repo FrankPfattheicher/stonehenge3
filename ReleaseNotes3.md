@@ -1,4 +1,5 @@
 
+* 3.16.6 - Moved Windows specific code to static class WindowsHosting.
 * 3.16.5 - Moved from "Microsoft.AspNetCore.Hosting.Abstractions" to "Microsoft.Extensions.Hosting.Abstractions".
 * 3.16.4 - UseIIS on windows only.
 * 3.16.3 - Fixed nuspec (netcoreapp3.1).
