@@ -34,9 +34,6 @@
 
   <ItemGroup>
     <None Remove="stonehenge.pfx" />
-    <Content Include="stonehenge.pfx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
 </Project>
