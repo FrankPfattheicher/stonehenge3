@@ -1,4 +1,5 @@
 
+* 3.16.2 - Removed UseSSL option. Using SSL if cert path is given and exists.
 * 3.16.1 - Moved to netcoreapp3.1 and C# 8. Removed synchronous writes. Supporting IIS hosting.
 * 3.15.2 - Fixed missing HttpMultipartParser nuget package reference.
 * 3.15.1 - Added hosting option UseBasicAuth. Support POST Data/ handling for file upload.

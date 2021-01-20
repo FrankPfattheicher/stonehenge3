@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Kestrel;
@@ -33,8 +34,9 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
                 
                 ServerPushMode = ServerPushModes.LongPolling,
                 PollIntervalMs = 5000,
-                SessionIdMode = SessionIdModes.CookiesOnly
-                //UseBasicAuth = true
+                SessionIdMode = SessionIdModes.CookiesOnly,
+                SslCertificatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "stonehenge.pfx"),
+                SslCertificatePassword = "test"
             };
 
             // Select client framework

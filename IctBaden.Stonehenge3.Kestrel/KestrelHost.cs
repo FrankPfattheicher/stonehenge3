@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -51,7 +52,19 @@ namespace IctBaden.Stonehenge3.Kestrel
                 }
 
                 IPAddress kestrelAddress;
-                var protocol = _options.UseSsl ? "https" : "http";
+                var useSsl = File.Exists(_options.SslCertificatePath);
+                if(!string.IsNullOrEmpty(_options.SslCertificatePath))
+                {
+                    if (useSsl)
+                    {
+                        Trace.TraceInformation("KestrelHost.Start: Using SSL using certificate " + _options.SslCertificatePath);
+                    }
+                    else
+                    {
+                        Trace.TraceError("KestrelHost.Start: NOT using SSL - certificate not found: " + _options.SslCertificatePath);
+                    }
+                }
+                var protocol = useSsl ? "https" : "http";
                 string httpSysAddress;
                 switch (hostAddress)
                 {
@@ -117,13 +130,11 @@ namespace IctBaden.Stonehenge3.Kestrel
                             options.Limits.MaxConcurrentConnections = null;
                             options.Listen(kestrelAddress, hostPort, listenOptions =>
                             {
-                                if (_options.UseSsl)
+                                if (useSsl)
                                 {
-                                    _options.SslCertificatePath = "stonehenge.pfx";
-                                    _options.SslCertificatePassword = "test";
                                     listenOptions.UseHttps(
                                         _options.SslCertificatePath,
-                                                _options.SslCertificatePassword);
+                                        _options.SslCertificatePassword);
                                 }
                             });
                         });
@@ -136,7 +147,7 @@ namespace IctBaden.Stonehenge3.Kestrel
 
                 _cancel = new CancellationTokenSource();
                 _host = _webApp.RunAsync(_cancel.Token);
-                
+
                 Trace.TraceInformation("KestrelHost.Start: succeeded.");
             }
             catch (Exception ex)

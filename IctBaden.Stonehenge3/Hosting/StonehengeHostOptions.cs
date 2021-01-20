@@ -59,11 +59,6 @@ namespace IctBaden.Stonehenge3.Hosting
         public bool UseBasicAuth { get; set; } = false;
 
         /// <summary>
-        /// Use https:// instead of http:// for hosting.
-        /// Attention: Depending on hosting platform certificates has to be provided differently
-        /// </summary>
-        public bool UseSsl { get; set; } = false;
-        /// <summary>
         /// Path of the pfx certificate to be used with Kestrel.
         /// (not used with HttpSys, you need to "netsh http add sslcert ..." for the the p12 certificate in that case)
         /// On Windows it is better to use IIS as reverse proxy.
