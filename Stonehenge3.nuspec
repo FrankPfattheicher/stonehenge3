@@ -19,12 +19,12 @@
             <dependency id="HttpMultipartParser" version="4.3.1" />
             <dependency id="Microsoft.AspNetCore.Authentication" version="2.2.0" />
             <dependency id="Microsoft.AspNetCore.Cors" version="2.2.0"/>
-            <dependency id="Microsoft.AspNetCore.Http" version="2.2.0"/>
             <dependency id="Microsoft.AspNetCore.ResponseCompression" version="2.2.0"/>
             <dependency id="Microsoft.AspNetCore.Server.HttpSys" version="2.2.6" />
             <dependency id="Microsoft.AspNetCore.Server.Kestrel" version="2.2.0"/>
             <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="3.1.10"/>
             <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="3.1.10"/>
+            <dependency id="Microsoft.Extensions.Http" version="3.1.10"/>
             <dependency id="Microsoft.Extensions.Hosting" version="3.1.10"/>
             <dependency id="Microsoft.Extensions.Hosting.Abstractions" version="3.1.10"/>
             <dependency id="Microsoft.Extensions.Logging.Abstractions" version="3.1.10" />
