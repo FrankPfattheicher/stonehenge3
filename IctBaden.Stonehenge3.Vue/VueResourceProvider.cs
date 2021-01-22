@@ -103,6 +103,7 @@ namespace IctBaden.Stonehenge3.Vue
 
         private void AddFileSystemContent(string appFilesPath)
         {
+            Trace.TraceInformation("VueResourceProvider: Using file system app path " + appFilesPath);
             if (Directory.Exists(appFilesPath))
             {
                 var appPath = Path.DirectorySeparatorChar + "app" + Path.DirectorySeparatorChar;

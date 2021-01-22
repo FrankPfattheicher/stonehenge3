@@ -1,6 +1,5 @@
 // ReSharper disable MemberCanBePrivate.Global
 
-using System;
 using System.IO;
 using System.Reflection;
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
@@ -73,7 +72,7 @@ namespace IctBaden.Stonehenge3.Hosting
         public StonehengeHostOptions()
         {
             Title = Assembly.GetEntryAssembly()?.GetName().Name;
-            AppFilesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "app");
+            AppFilesPath = Path.Combine(StonehengeApplication.BaseDirectory, "app");
         }
         
         
