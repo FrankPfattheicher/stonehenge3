@@ -1,11 +1,13 @@
 using System;
-using System.Diagnostics;
+using IctBaden.Stonehenge3.Hosting;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace IctBaden.Stonehenge3.Vue.Test.ViewModelTests
 {
     public class UrlParameterTests : IDisposable
-        {
+    {
+        private readonly ILogger _logger = StonehengeLogger.DefaultLogger;
         private readonly VueTestApp _app;
 
         public UrlParameterTests()
@@ -33,14 +35,12 @@ namespace IctBaden.Stonehenge3.Vue.Test.ViewModelTests
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                _logger.LogError(ex, nameof(RequestWithParametersShouldSetSessionParameters));
             }
 
             Assert.NotNull(response);
             Assert.True(_app.Data.StartVmParameters.ContainsKey("test"));
             Assert.Equal("1234", _app.Data.StartVmParameters["test"]);
         }
-        
-        
     }
 }

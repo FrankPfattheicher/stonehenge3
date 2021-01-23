@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading;
 using System.Web;
 // ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
 
 namespace IctBaden.Stonehenge3.Hosting
 {

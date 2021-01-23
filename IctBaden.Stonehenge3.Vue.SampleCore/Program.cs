@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Threading;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Kestrel;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.SimpleHttp;
+using Microsoft.Extensions.Logging;
 
 namespace IctBaden.Stonehenge3.Vue.SampleCore
 {
@@ -19,13 +19,14 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
         [STAThread]
         private static void Main()
         {
-            //var consoleListener = new  ConsoleTraceListener { Filter = new EventTypeFilter(SourceLevels.All) };
-            var consoleListener = new ConsoleTraceListener();
-            Trace.Listeners.Add(consoleListener);
+            Trace.Listeners.Add(new System.Diagnostics.ConsoleTraceListener());
+            var loggerFactory = StonehengeLogger.DefaultFactory;
+            var logger = loggerFactory.CreateLogger("stonehenge");
 
             Console.WriteLine(@"");
             Console.WriteLine(@"Stonehenge 3 sample");
             Console.WriteLine(@"");
+            logger.LogInformation("Vue.SampleCore started");
 
             // select hosting options
             var options = new StonehengeHostOptions
@@ -34,15 +35,15 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
                 
                 ServerPushMode = ServerPushModes.LongPolling,
                 PollIntervalMs = 5000,
-                SessionIdMode = SessionIdModes.CookiesOnly,
-                SslCertificatePath = Path.Combine(StonehengeApplication.BaseDirectory, "stonehenge.pfx"),
-                SslCertificatePassword = "test"
+                SessionIdMode = SessionIdModes.CookiesOnly
+                // SslCertificatePath = Path.Combine(StonehengeApplication.BaseDirectory, "stonehenge.pfx"),
+                // SslCertificatePassword = "test"
             };
 
             // Select client framework
             Console.WriteLine(@"Using client framework vue");
-            var vue = new VueResourceProvider();
-            var loader = StonehengeResourceLoader.CreateDefaultLoader(vue);
+            var vue = new VueResourceProvider(logger);
+            var loader = StonehengeResourceLoader.CreateDefaultLoader(logger, vue);
 
             // Select hosting technology
             var hosting = "kestrel";
@@ -73,7 +74,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
                     var wnd = new HostWindow(_server.BaseUrl, options.Title);
                     if (!wnd.Open())
                     {
-                        Trace.TraceError("Failed to open main window.");
+                        logger.LogError("Failed to open main window.");
                         terminate.Set();
                     }
                 }

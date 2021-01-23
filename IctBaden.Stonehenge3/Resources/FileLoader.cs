@@ -1,18 +1,21 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Hosting;
+using Microsoft.Extensions.Logging;
+
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 
 namespace IctBaden.Stonehenge3.Resources
 {
     public class FileLoader : IStonehengeResourceProvider
     {
+        private readonly ILogger _logger;
         public string RootPath { get; private set; }
 
-        public FileLoader(string path)
+        public FileLoader(ILogger logger, string path)
         {
+            _logger = logger;
             RootPath = path;
         }
         
@@ -37,11 +40,11 @@ namespace IctBaden.Stonehenge3.Resources
             var resourceType = ResourceType.GetByExtension(resourceExtension);
             if (resourceType == null)
             {
-                Debug.WriteLine($"FileLoader({resourceName}): not found");
+                _logger.LogInformation($"FileLoader({resourceName}): not found");
                 return null;
             }
 
-            Debug.WriteLine($"FileLoader({resourceName}): {fullFileName}");
+            _logger.LogTrace($"FileLoader({resourceName}): {fullFileName}");
             if (resourceType.IsBinary)
             {
                 return new Resource(resourceName, "file://" + fullFileName, resourceType, File.ReadAllBytes(fullFileName), Resource.Cache.OneDay);

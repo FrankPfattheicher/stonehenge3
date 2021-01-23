@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -8,6 +7,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Web;
+using Microsoft.Extensions.Logging;
+
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
@@ -15,6 +16,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
 {
     internal class SimpleHttpProcessor
     {
+        private readonly ILogger _logger;
         private readonly TcpClient _socket;
         private readonly SimpleHttpServer _server;
 
@@ -30,8 +32,9 @@ namespace IctBaden.Stonehenge3.SimpleHttp
 
         private const int MaxPostSize = 10 * 1024 * 1024; // 10MB
 
-        public SimpleHttpProcessor(TcpClient clientSocket, SimpleHttpServer httpServer)
+        public SimpleHttpProcessor(ILogger logger, TcpClient clientSocket, SimpleHttpServer httpServer)
         {
+            _logger = logger;
             _socket = clientSocket;
             _server = httpServer;
         }
@@ -59,7 +62,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Exception: " + ex);
+                _logger.LogError(ex, "SimpleHttpProcessor.Process 1");
                 WriteNotFound();
             }
             try
@@ -69,7 +72,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                _logger.LogError(ex, "SimpleHttpProcessor.Process 2");
             }
             _inputStream.Dispose();
             _inputStream = null;
@@ -106,7 +109,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
             {
                 throw new Exception("invalid http request line");
             }
-            Debug.WriteLine("request=" + request);
+            _logger.LogTrace("request=" + request);
             var tokens = request.Split(' ');
             if (tokens.Length != 3)
             {
@@ -124,19 +127,19 @@ namespace IctBaden.Stonehenge3.SimpleHttp
                 Query = tokens[1];
             }
 
-            Debug.WriteLine("starting: " + request);
+            _logger.LogTrace("starting: " + request);
         }
 
         private void ReadHeaders()
         {
-            Debug.WriteLine("ReadHeaders()");
+            _logger.LogTrace("ReadHeaders()");
             string line;
             while ((line = ReadInputLine()) != null)
             {
-                Debug.WriteLine("header line=" + line);
+                _logger.LogTrace("header line=" + line);
                 if (line.Equals(""))
                 {
-                    Debug.WriteLine("got headers");
+                    _logger.LogTrace("got headers");
                     return;
                 }
 
@@ -146,14 +149,14 @@ namespace IctBaden.Stonehenge3.SimpleHttp
                     throw new Exception("invalid http header line: " + line);
                 }
                 String name = line.Substring(0, separator);
-                int pos = separator + 1;
+                var pos = separator + 1;
                 while ((pos < line.Length) && (line[pos] == ' '))
                 {
                     pos++; // strip any spaces
                 }
 
-                string value = line.Substring(pos, line.Length - pos);
-                Debug.WriteLine("header: {0}:{1}", name, value);
+                var value = line.Substring(pos, line.Length - pos);
+                _logger.LogTrace("header: {0}:{1}", name, value);
                 Headers[name] = value;
             }
         }
@@ -172,7 +175,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
             // we hand him needs to let him see the "end of the stream" at this content 
             // length, because otherwise he won't know when he's seen it all! 
 
-            Debug.WriteLine("get post data start");
+            _logger.LogTrace("get post data start");
             var contentStream = new MemoryStream();
             if (Headers.ContainsKey("Content-Length"))
             {
@@ -185,9 +188,9 @@ namespace IctBaden.Stonehenge3.SimpleHttp
                 var toRead = contentLen;
                 while (toRead > 0)
                 {
-                    Debug.WriteLine("starting Read, toRead={0}", toRead);
+                    _logger.LogTrace("starting Read, toRead={0}", toRead);
                     var numRead = _inputStream.Read(buf, 0, Math.Min(BufSize, toRead));
-                    Debug.WriteLine("read finished, numRead={0}", numRead);
+                    _logger.LogTrace("read finished, numRead={0}", numRead);
                     if (numRead == 0)
                     {
                         // ReSharper disable once ConditionIsAlwaysTrueOrFalse
@@ -205,7 +208,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
                 }
                 contentStream.Seek(0, SeekOrigin.Begin);
             }
-            Debug.WriteLine("get post data end");
+            _logger.LogTrace("get post data end");
             _server.HandlePostRequest(this, new StreamReader(contentStream));
         }
 

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using IctBaden.Stonehenge3.Hosting;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xunit;
@@ -12,6 +14,8 @@ namespace IctBaden.Stonehenge3.Test.Serializer
 {
     public class ViewModelSerializerTests
     {
+        private readonly ILogger _logger = StonehengeLogger.DefaultLogger;
+        
         [Fact]
         public void SimpleClassSerializationShouldWork()
         {
@@ -136,7 +140,7 @@ namespace IctBaden.Stonehenge3.Test.Serializer
             var json = JsonSerializer.SerializeObjectString(null, hierarchy);
 
             watch.Stop();
-            Debug.WriteLine($"HierarchicalClassesSerialization: {watch.ElapsedMilliseconds}ms");
+            _logger.LogTrace($"HierarchicalClassesSerialization: {watch.ElapsedMilliseconds}ms");
             
             var obj = JsonConvert.DeserializeObject(json);
             Assert.NotNull(obj);

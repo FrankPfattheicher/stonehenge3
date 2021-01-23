@@ -9,7 +9,12 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
             ? Session.Cookies["theme"]
             : string.Empty;
 
-        public int ThemeIndex => (Theme == "blue") ? 2 : ((Theme == "dark") ? 1 : 0);
+        public int ThemeIndex => Theme switch
+        {
+            "blue" => 2,
+            "dark" => 1,
+            _ => 0
+        };
 
         public CookieVm(AppSession session)
             : base(session)

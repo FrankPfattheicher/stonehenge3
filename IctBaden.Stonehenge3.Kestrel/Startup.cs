@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace IctBaden.Stonehenge3.Kestrel
@@ -16,14 +17,16 @@ namespace IctBaden.Stonehenge3.Kestrel
     public class Startup
     {
         private readonly string _appTitle;
+        private readonly ILogger _logger;
         private readonly IStonehengeResourceProvider _resourceLoader;
         private readonly List<AppSession> _appSessions = new List<AppSession>();
         private readonly StonehengeHostOptions _options;
 
         // ReSharper disable once UnusedMember.Global
-        public Startup(IConfiguration configuration, IStonehengeResourceProvider resourceLoader)
+        public Startup(ILogger logger, IConfiguration configuration, IStonehengeResourceProvider resourceLoader)
         {
             Configuration = configuration;
+            _logger = logger;
             _resourceLoader = resourceLoader;
             _appTitle = Configuration["AppTitle"];
             _options = JsonConvert.DeserializeObject<StonehengeHostOptions>(Configuration["HostOptions"]);
@@ -62,6 +65,7 @@ namespace IctBaden.Stonehenge3.Kestrel
             app.UseCors("StonehengePolicy");
             app.Use((context, next) =>
             {
+                context.Items.Add("stonehenge.Logger", _logger);
                 context.Items.Add("stonehenge.AppTitle", _appTitle);
                 context.Items.Add("stonehenge.HostOptions", _options);
                 context.Items.Add("stonehenge.ResourceLoader", _resourceLoader);

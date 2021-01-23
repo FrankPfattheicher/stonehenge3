@@ -1,4 +1,5 @@
 
+* 3.17.1 - Moved from System.Trace to ILogger.
 * 3.16.8 - Introduced StonehengeApplication to determine base directory also for single-file published apps.
 * 3.16.7 - Moved from "Microsoft.AspNetCore.Http" to "Microsoft.Extensions.Http".
 * 3.16.6 - Moved Windows specific code to static class WindowsHosting.

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -11,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using AuthenticationSchemes = Microsoft.AspNetCore.Server.HttpSys.AuthenticationSchemes;
 
@@ -27,6 +27,7 @@ namespace IctBaden.Stonehenge3.Kestrel
 
         private readonly IStonehengeResourceProvider _resourceProvider;
         private readonly StonehengeHostOptions _options;
+        private readonly ILogger _logger;
 
         public KestrelHost(IStonehengeResourceProvider provider)
             : this(provider, new StonehengeHostOptions())
@@ -34,9 +35,16 @@ namespace IctBaden.Stonehenge3.Kestrel
         }
 
         public KestrelHost(IStonehengeResourceProvider provider, StonehengeHostOptions options)
+            : this(provider, options, StonehengeLogger.DefaultLogger)
+        {
+        }
+
+        // ReSharper disable once MemberCanBePrivate.Global
+        public KestrelHost(IStonehengeResourceProvider provider, StonehengeHostOptions options, ILogger logger)
         {
             _resourceProvider = provider;
             _options = options;
+            _logger = logger;
 
             provider.InitProvider(provider as StonehengeResourceLoader, options);
         }
@@ -45,7 +53,7 @@ namespace IctBaden.Stonehenge3.Kestrel
         {
             try
             {
-                Trace.TraceInformation($"KestrelHost.Start({hostAddress}, {hostPort})");
+                _logger.LogInformation($"KestrelHost.Start({hostAddress}, {hostPort})");
                 if (hostPort == 0)
                 {
                     hostPort = Network.GetFreeTcpPort();
@@ -57,11 +65,11 @@ namespace IctBaden.Stonehenge3.Kestrel
                 {
                     if (useSsl)
                     {
-                        Trace.TraceInformation("KestrelHost.Start: Using SSL using certificate " + _options.SslCertificatePath);
+                        _logger.LogInformation("KestrelHost.Start: Using SSL using certificate " + _options.SslCertificatePath);
                     }
                     else
                     {
-                        Trace.TraceError("KestrelHost.Start: NOT using SSL - certificate not found: " + _options.SslCertificatePath);
+                        _logger.LogError("KestrelHost.Start: NOT using SSL - certificate not found: " + _options.SslCertificatePath);
                     }
                 }
                 var protocol = useSsl ? "https" : "http";
@@ -101,13 +109,14 @@ namespace IctBaden.Stonehenge3.Kestrel
 
                 var builder = new WebHostBuilder()
                     .UseConfiguration(config)
+                    .ConfigureServices(s => { s.AddSingleton(_logger); })
                     .ConfigureServices(s => { s.AddSingleton<IConfiguration>(config); })
                     .ConfigureServices(s => { s.AddSingleton(_resourceProvider); })
                     .UseStartup<Startup>();
 
                 if (_options.UseNtlmAuthentication)
                 {
-                    Trace.TraceInformation("KestrelHost.Start: Using HttpSys mode (NTLM authentication).");
+                    _logger.LogInformation("KestrelHost.Start: Using HttpSys mode (NTLM authentication).");
                     builder = builder
                         .UseHttpSys(options =>
                         {
@@ -121,7 +130,7 @@ namespace IctBaden.Stonehenge3.Kestrel
                 }
                 else
                 {
-                    Trace.TraceInformation("KestrelHost.Start: Using Kestrel/Sockets mode.");
+                    _logger.LogInformation("KestrelHost.Start: Using Kestrel/Sockets mode.");
                     builder = builder
                         .UseSockets()
                         .UseKestrel(options =>
@@ -142,6 +151,7 @@ namespace IctBaden.Stonehenge3.Kestrel
 
                 if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                 {
+                    _logger.LogInformation("KestrelHost.Start: Enable hosting in IIS");
                     builder = WindowsHosting.EnableIIS(builder);
                 }
 
@@ -150,17 +160,17 @@ namespace IctBaden.Stonehenge3.Kestrel
                 _cancel = new CancellationTokenSource();
                 _host = _webApp.RunAsync(_cancel.Token);
 
-                Trace.TraceInformation("KestrelHost.Start: succeeded.");
+                _logger.LogInformation("KestrelHost.Start: succeeded.");
             }
             catch (Exception ex)
             {
                 if ((ex.InnerException is HttpListenerException {ErrorCode: 5}))
                 {
-                    Trace.TraceError($"Access denied: Try netsh http delete urlacl {BaseUrl}");
+                    _logger.LogError($"Access denied: Try netsh http delete urlacl {BaseUrl}");
                 }
                 else if (ex is MissingMemberException && ex.Message.Contains("Microsoft.Owin.Host.HttpListener"))
                 {
-                    Trace.TraceError("Missing reference to nuget package 'Microsoft.Owin.Host.HttpListener'");
+                    _logger.LogError("Missing reference to nuget package 'Microsoft.Owin.Host.HttpListener'");
                 }
 
                 var message = ex.Message;
@@ -170,7 +180,7 @@ namespace IctBaden.Stonehenge3.Kestrel
                     message += Environment.NewLine + "    " + ex.Message;
                 }
 
-                Trace.TraceError("KestrelHost.Start: " + message);
+                _logger.LogError("KestrelHost.Start: " + message);
                 _webApp = null;
             }
 
@@ -179,12 +189,12 @@ namespace IctBaden.Stonehenge3.Kestrel
 
         public void Terminate()
         {
-            Trace.TraceInformation("KestrelHost.Terminate: Cancel WebApp");
+            _logger.LogInformation("KestrelHost.Terminate: Cancel WebApp");
             _cancel?.Cancel();
 
             try
             {
-                Trace.TraceInformation("KestrelHost.Terminate: Host...");
+                _logger.LogInformation("KestrelHost.Terminate: Host...");
                 _host?.Wait();
                 _host?.Dispose();
             }
@@ -195,7 +205,7 @@ namespace IctBaden.Stonehenge3.Kestrel
 
             try
             {
-                Trace.TraceInformation("KestrelHost.Terminate: WebApp...");
+                _logger.LogInformation("KestrelHost.Terminate: WebApp...");
                 _webApp?.Dispose();
                 _webApp = null;
             }
@@ -204,7 +214,13 @@ namespace IctBaden.Stonehenge3.Kestrel
                 Console.WriteLine(ex.Message);
             }
 
-            Trace.TraceInformation("KestrelHost.Terminate: Terminated.");
+            _logger.LogInformation("KestrelHost.Terminate: Terminated.");
         }
+        
+        public void SetLogLevel(LogLevel level)
+        {
+            // TODO
+        }
+
     }
 }

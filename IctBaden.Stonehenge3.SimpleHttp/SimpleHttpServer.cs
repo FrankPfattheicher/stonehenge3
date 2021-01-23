@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using Microsoft.Extensions.Logging;
+
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace IctBaden.Stonehenge3.SimpleHttp
@@ -14,6 +15,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
     /// </summary>
     internal class SimpleHttpServer
     {
+        private readonly ILogger _logger;
         protected readonly int Port;
         private TcpListener _listenerSocket;
 
@@ -21,8 +23,9 @@ namespace IctBaden.Stonehenge3.SimpleHttp
 
         public bool IsActive { get; private set; }
 
-        internal SimpleHttpServer(int port)
+        internal SimpleHttpServer(ILogger logger, int port)
         {
+            _logger = logger;
             Port = port;
             IsActive = false;
         }
@@ -59,14 +62,14 @@ namespace IctBaden.Stonehenge3.SimpleHttp
                 try
                 {
                     var socket = _listenerSocket.AcceptTcpClient();
-                    var processor = new SimpleHttpProcessor(socket, this);
+                    var processor = new SimpleHttpProcessor(_logger, socket, this);
                     var processThread = new Thread(processor.Process);
                     processThread.Start();
                     Thread.Sleep(1);
                 }
                 catch (Exception ex)
                 {
-                    Trace.TraceError(ex.Message);
+                    _logger.LogError(ex.Message);
                 }
             }
         }

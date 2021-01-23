@@ -1,4 +1,6 @@
-﻿namespace IctBaden.Stonehenge3.Hosting
+﻿using Microsoft.Extensions.Logging;
+
+namespace IctBaden.Stonehenge3.Hosting
 {
     public interface IStonehengeHost
     {
@@ -20,5 +22,12 @@
         /// Terminate hosting service.
         /// </summary>
         void Terminate();
+
+        /// <summary>
+        /// Set the log level for all stonehenge logs.
+        /// </summary>
+        /// <param name="level">The new log level</param>
+        void SetLogLevel(LogLevel level);
+
     }
 }

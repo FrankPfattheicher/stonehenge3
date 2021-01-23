@@ -19,10 +19,10 @@ namespace IctBaden.Stonehenge3.Vue.Test
 
         public VueTestApp(Assembly appAssembly = null)
         {
-            var vue = new VueResourceProvider();
+            var vue = new VueResourceProvider(StonehengeLogger.DefaultLogger);
             var loader = appAssembly != null
-                ? StonehengeResourceLoader.CreateDefaultLoader(vue, appAssembly)
-                : StonehengeResourceLoader.CreateDefaultLoader(vue);
+                ? StonehengeResourceLoader.CreateDefaultLoader(StonehengeLogger.DefaultLogger, vue, appAssembly)
+                : StonehengeResourceLoader.CreateDefaultLoader(StonehengeLogger.DefaultLogger, vue);
             loader.Services.AddService(typeof(VueTestData), Data);
             _server = new KestrelHost(loader);
             _server.Start("localhost");

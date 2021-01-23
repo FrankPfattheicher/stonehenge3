@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
@@ -13,6 +12,7 @@ using HttpMultipartParser;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Resources;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
@@ -54,6 +54,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
 
         private async Task InvokeLocked(HttpContext context)
         {
+            var logger = context.Items["stonehenge.Logger"] as ILogger;
             var path = context.Request.Path.Value.Replace("//", "/");
             try
             {
@@ -100,7 +101,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                         if (content == null && appSession != null &&
                             resourceName.EndsWith("index.html", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            Trace.TraceError(
+                            logger.LogError(
                                 $"Invalid path in index resource {resourceName} - redirecting to root index");
                             context.Response.Redirect("/index.html");
                             return;
@@ -137,14 +138,14 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                                     }
                                     catch (Exception)
                                     {
-                                        Trace.TraceWarning("Failed to parse post data as json");
+                                        logger.LogWarning("Failed to parse post data as json");
                                     }
                                 }
                                 else
                                 {
                                     try
                                     {
-                                        using var bodyStream = new MemoryStream(Encoding.UTF8.GetBytes(body));
+                                        await using var bodyStream = new MemoryStream(Encoding.UTF8.GetBytes(body));
                                         var parser = await MultipartFormDataParser.ParseAsync(bodyStream);
                                         foreach (var p in parser.Parameters)
                                         {
@@ -155,7 +156,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                                         {
                                             // Save temp file
                                             var fileName = Path.GetTempFileName();
-                                            using var file = File.OpenWrite(fileName);
+                                            await using var file = File.OpenWrite(fileName);
                                             await f.Data.CopyToAsync(file);
                                             file.Close();
                                             formData.Add(f.Name, fileName);
@@ -163,7 +164,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                                     }
                                     catch (Exception)
                                     {
-                                        Trace.TraceWarning("Failed to parse post data as multipart form data");
+                                        logger.LogWarning("Failed to parse post data as multipart form data");
                                     }
                                 }
                             }
@@ -173,8 +174,8 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                         catch (Exception ex)
                         {
                             if (ex.InnerException != null) ex = ex.InnerException;
-                            Trace.TraceError(ex.Message);
-                            Trace.TraceError(ex.StackTrace);
+                            logger.LogError(ex.Message);
+                            logger.LogError(ex.StackTrace);
 
                             var exResource = new JObject
                             {
@@ -236,12 +237,12 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             }
             catch (Exception ex)
             {
-                Trace.TraceError(
+                logger.LogError(
                     $"StonehengeContent write response: {ex.Message}" + Environment.NewLine + ex.StackTrace);
                 while (ex.InnerException != null)
                 {
                     ex = ex.InnerException;
-                    Trace.TraceError(" + " + ex.Message);
+                    logger.LogError(" + " + ex.Message);
                 }
             }
         }

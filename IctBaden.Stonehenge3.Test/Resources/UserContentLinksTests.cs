@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using Xunit;
 
@@ -22,7 +23,7 @@ namespace IctBaden.Stonehenge3.Test.Resources
                 }
                 .Distinct()
                 .ToList();
-            var loader = new ResourceLoader(assemblies, typeof(UserContentLinksTests).Assembly);
+            var loader = new ResourceLoader(StonehengeLogger.DefaultLogger, assemblies, typeof(UserContentLinksTests).Assembly);
             _index = loader.Get(_session, "index.html", new Dictionary<string, string>());
         }
 

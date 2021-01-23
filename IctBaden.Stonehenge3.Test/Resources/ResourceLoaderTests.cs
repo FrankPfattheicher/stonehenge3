@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using Xunit;
 
@@ -24,7 +25,7 @@ namespace IctBaden.Stonehenge3.Test.Resources
                  }
                 .Distinct()
                 .ToList();
-            _loader = new ResourceLoader(assemblies, Assembly.GetCallingAssembly());
+            _loader = new ResourceLoader(StonehengeLogger.DefaultLogger, assemblies, Assembly.GetCallingAssembly());
         }
 
         public void Dispose()

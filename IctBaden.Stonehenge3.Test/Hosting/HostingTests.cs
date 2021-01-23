@@ -1,16 +1,16 @@
-﻿using IctBaden.Stonehenge3.Hosting;
+﻿using System;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Kestrel;
 using IctBaden.Stonehenge3.Test.Tools;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace IctBaden.Stonehenge3.Test.Hosting
 {
-    using System;
-    using System.Diagnostics;
-
     // ReSharper disable InconsistentNaming
     public class HostingTests
     {
+        private readonly ILogger _logger = StonehengeLogger.DefaultLogger;
 
         [Fact]
         public void Host_StartupOk_RespondsOnHttpRequest()
@@ -35,7 +35,7 @@ namespace IctBaden.Stonehenge3.Test.Hosting
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                _logger.LogError(ex, nameof(Host_StartupOk_RespondsOnHttpRequest));
             }
 
             Assert.Equal(content, response);
@@ -81,7 +81,7 @@ namespace IctBaden.Stonehenge3.Test.Hosting
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                _logger.LogError(ex, nameof(Host_MultipleInstances_StartupOk_RespondsOnHttpRequest));
                 Assert.True(false, ex.Message);
             }
 

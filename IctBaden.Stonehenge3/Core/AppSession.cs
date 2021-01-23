@@ -9,6 +9,8 @@ using System.Threading;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.ViewModel;
+using Microsoft.Extensions.Logging;
+
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable UnusedMember.Global
@@ -58,6 +60,8 @@ namespace IctBaden.Stonehenge3.Core
         public bool IsWaitingForEvents { get; private set; }
 
         public bool SecureCookies { get; private set; }
+
+        public readonly ILogger Logger;
 
         // ReSharper disable once ReturnTypeCanBeEnumerable.Global
         public string[] CollectEvents()
@@ -128,7 +132,7 @@ namespace IctBaden.Stonehenge3.Core
             if(resourceLoader == null)
             {
                 ViewModel = null;
-                Debug.WriteLine("Could not create ViewModel - No resourceLoader specified:" + typeName);
+                Logger.LogError("Could not create ViewModel - No resourceLoader specified:" + typeName);
                 return null;
             }
 
@@ -139,7 +143,7 @@ namespace IctBaden.Stonehenge3.Core
             if (newViewModelType == null)
             {
                 ViewModel = null;
-                Debug.WriteLine("Could not create ViewModel:" + typeName);
+                Logger.LogError("Could not create ViewModel:" + typeName);
                 return null;
             }
 
@@ -182,7 +186,7 @@ namespace IctBaden.Stonehenge3.Core
                 }
                 catch (Exception ex)
                 {
-                    Trace.TraceError($"AppSession.CreateType({type.Name}): " + ex.Message);
+                    Logger.LogError($"AppSession.CreateType({type.Name}): " + ex.Message);
                 }
             }
 
@@ -297,8 +301,13 @@ namespace IctBaden.Stonehenge3.Core
                     .Distinct()
                     .ToList();
 
-                var loader = new ResourceLoader(assemblies, Assembly.GetCallingAssembly());
-                resourceLoader = new StonehengeResourceLoader(new List<IStonehengeResourceProvider>{ loader });
+                var logger = StonehengeLogger.DefaultLogger;
+                var loader = new ResourceLoader(logger, assemblies, Assembly.GetCallingAssembly());
+                resourceLoader = new StonehengeResourceLoader(logger, new List<IStonehengeResourceProvider>{ loader });
+            }
+            else
+            {
+                Logger = resourceLoader.Logger;
             }
 
             _resourceLoader = resourceLoader;
@@ -313,14 +322,14 @@ namespace IctBaden.Stonehenge3.Core
             UseBasicAuth = options.UseBasicAuth;
             if (UseBasicAuth)
             {
-                var htpasswd = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ".htpasswd");
+                var htpasswd = Path.Combine(StonehengeApplication.BaseDirectory, ".htpasswd");
                 if (File.Exists(htpasswd))
                 {
                     Passwords = new Passwords(htpasswd);
                 }
                 else
                 {
-                    Trace.TraceError("Option UseBasicAuth requires .htpasswd file " + htpasswd);
+                    Logger.LogError("Option UseBasicAuth requires .htpasswd file " + htpasswd);
                 }
             }
             
@@ -329,7 +338,7 @@ namespace IctBaden.Stonehenge3.Core
             try
             {
                 if (Assembly.GetEntryAssembly() == null) return;
-                var cfg = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Stonehenge3.cfg");
+                var cfg = Path.Combine(StonehengeApplication.BaseDirectory, "Stonehenge3.cfg");
                 if (!File.Exists(cfg)) return;
 
                 var settings = File.ReadAllLines(cfg);

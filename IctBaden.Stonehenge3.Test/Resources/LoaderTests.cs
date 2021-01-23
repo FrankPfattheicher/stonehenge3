@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using Xunit;
 
@@ -26,10 +27,10 @@ namespace IctBaden.Stonehenge3.Test.Resources
                 }
                 .Distinct()
                 .ToList();
-            var resLoader = new ResourceLoader(assemblies, Assembly.GetCallingAssembly());
-            var fileLoader = new FileLoader(Path.GetTempPath());
+            var resLoader = new ResourceLoader(StonehengeLogger.DefaultLogger, assemblies, Assembly.GetCallingAssembly());
+            var fileLoader = new FileLoader(StonehengeLogger.DefaultLogger, Path.GetTempPath());
 
-            _loader = new StonehengeResourceLoader(new List<IStonehengeResourceProvider>
+            _loader = new StonehengeResourceLoader(StonehengeLogger.DefaultLogger, new List<IStonehengeResourceProvider>
             {
                 fileLoader,
                 resLoader

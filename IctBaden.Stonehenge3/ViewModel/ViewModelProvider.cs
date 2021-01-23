@@ -10,6 +10,7 @@ using System.Web;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -17,6 +18,13 @@ namespace IctBaden.Stonehenge3.ViewModel
 {
     public class ViewModelProvider : IStonehengeResourceProvider
     {
+        private readonly ILogger _logger;
+
+        public ViewModelProvider(ILogger logger)
+        {
+            _logger = logger;
+        }
+        
         public void InitProvider(StonehengeResourceLoader loader, StonehengeHostOptions options)
         {
         }
@@ -37,7 +45,7 @@ namespace IctBaden.Stonehenge3.ViewModel
                 if (appCommandsType != null)
                 {
                     var appCommands = Activator.CreateInstance(appCommandsType);
-                    var commandHandler = appCommands.GetType().GetMethod(commandName);
+                    var commandHandler = appCommands?.GetType().GetMethod(commandName);
                     if (commandHandler != null)
                     {
                         commandHandler.Invoke(appCommands, new object[] {session});
@@ -71,27 +79,27 @@ namespace IctBaden.Stonehenge3.ViewModel
 
             if (session.ViewModel == null)
             {
-                Trace.TraceWarning($"Stonehenge3.ViewModelProvider: Set VM={vmTypeName}, no current VM");
+                _logger.LogWarning($"ViewModelProvider: Set VM={vmTypeName}, no current VM");
                 session.SetViewModelType(vmTypeName);
             }
 
             foreach (var data in formData)
             {
-                Trace.TraceInformation($"Stonehenge3.ViewModelProvider: Set {data.Key}={data.Value}");
-                SetPropertyValue(session.ViewModel, data.Key, data.Value);
+                _logger.LogDebug($"ViewModelProvider: Set {data.Key}={data.Value}");
+                SetPropertyValue(_logger, session.ViewModel, data.Key, data.Value);
             }
 
             var vmType = session.ViewModel.GetType();
             if (vmType.Name != vmTypeName)
             {
-                Trace.TraceWarning($"Stonehenge3.ViewModelProvider: Request for VM={vmTypeName}, current VM={vmType.Name}");
+                _logger.LogWarning($"ViewModelProvider: Request for VM={vmTypeName}, current VM={vmType.Name}");
                 return new Resource(resourceName, "ViewModelProvider", ResourceType.Json, "{ \"StonehengeContinuePolling\":false }", Resource.Cache.None);
             }
 
             var method = vmType.GetMethod(methodName);
             if (method == null)
             {
-                Trace.TraceWarning($"Stonehenge3.ViewModelProvider: ActionMethod {methodName} not found.");
+                _logger.LogWarning($"ViewModelProvider: ActionMethod {methodName} not found.");
                 return null;
             }
 
@@ -122,10 +130,10 @@ namespace IctBaden.Stonehenge3.ViewModel
             {
                 if (ex.InnerException != null) ex = ex.InnerException;
                 
-                Trace.TraceError($"Stonehenge3.ViewModelProvider: ActionMethod {methodName} has {method.GetParameters().Length} params.");
-                Trace.TraceError($"Stonehenge3.ViewModelProvider: Called with {parameters.Count} params.");
-                Trace.TraceError("Stonehenge3.ViewModelProvider: " + ex.Message);
-                Trace.TraceError("Stonehenge3.ViewModelProvider: " + ex.StackTrace);
+                _logger.LogError($"ViewModelProvider: ActionMethod {methodName} has {method.GetParameters().Length} params.");
+                _logger.LogError($"ViewModelProvider: Called with {parameters.Count} params.");
+                _logger.LogError("ViewModelProvider: " + ex.Message);
+                _logger.LogError("ViewModelProvider: " + ex.StackTrace);
 
                 var exResource = new JObject
                 {
@@ -165,7 +173,7 @@ namespace IctBaden.Stonehenge3.ViewModel
             return null;
         }
 
-        private static bool SetViewModel(AppSession session, string resourceName)
+        private bool SetViewModel(AppSession session, string resourceName)
         {
             var vmTypeName = Path.GetFileNameWithoutExtension(resourceName);
             if ((session.ViewModel != null) && (session.ViewModel.GetType().Name == vmTypeName)) return true;
@@ -174,7 +182,7 @@ namespace IctBaden.Stonehenge3.ViewModel
                 return true;
             }
 
-            Trace.TraceError("Could not set ViewModel type to " + vmTypeName);
+            _logger.LogError("Could not set ViewModel type to " + vmTypeName);
             return false;
         }
 
@@ -231,10 +239,9 @@ namespace IctBaden.Stonehenge3.ViewModel
         {
             if (!string.IsNullOrEmpty(activeVm.MessageBoxTitle) || !string.IsNullOrEmpty(activeVm.MessageBoxText))
             {
-                var title = activeVm.MessageBoxTitle;
-                var text = activeVm.MessageBoxText;
-                var script =
-                    $"alert('{HttpUtility.JavaScriptStringEncode(title)}\\r\\n{HttpUtility.JavaScriptStringEncode(text)}');";
+                var title = activeVm.MessageBoxTitle ?? "";
+                var text = activeVm.MessageBoxText ?? "";
+                var script = $"alert('{HttpUtility.JavaScriptStringEncode(title)}\\r\\n{HttpUtility.JavaScriptStringEncode(text)}');";
                 data.Add($"\"StonehengeEval\":{JsonSerializer.SerializeObjectString(null, script)}");
                 activeVm.MessageBoxTitle = null;
                 activeVm.MessageBoxText = null;
@@ -305,7 +312,7 @@ namespace IctBaden.Stonehenge3.ViewModel
         }
 
 
-        private static object DeserializePropertyValue(string propValue, Type propType)
+        private static object DeserializePropertyValue(ILogger logger, string propValue, Type propType)
         {
             try
             {
@@ -325,13 +332,13 @@ namespace IctBaden.Stonehenge3.ViewModel
             }
             catch (Exception ex)
             {
-                Trace.TraceError("DeserializePropertyValue: " + ex.Message);
+                logger.LogError("DeserializePropertyValue: " + ex.Message);
             }
 
             return null;
         }
 
-        private static void SetPropertyValue(object vm, string propName, string newValue)
+        private static void SetPropertyValue(ILogger logger, object vm, string propName, string newValue)
         {
             try
             {
@@ -355,7 +362,7 @@ namespace IctBaden.Stonehenge3.ViewModel
                                     var mProp = pi.PropertyType.GetProperty(member.Key);
                                     if (mProp != null)
                                     {
-                                        var val = DeserializePropertyValue(member.Value, mProp.PropertyType);
+                                        var val = DeserializePropertyValue(logger, member.Value, mProp.PropertyType);
                                         mProp.SetValue(structObj, val, null);
                                     }
                                 }
@@ -366,7 +373,7 @@ namespace IctBaden.Stonehenge3.ViewModel
                     }
                     else if (pi.PropertyType.IsGenericType && pi.PropertyType.Name.StartsWith("Notify`"))
                     {
-                        var val = DeserializePropertyValue(newValue, pi.PropertyType.GenericTypeArguments[0]);
+                        var val = DeserializePropertyValue(logger, newValue, pi.PropertyType.GenericTypeArguments[0]);
                         var type = typeof(Notify<>).MakeGenericType(pi.PropertyType.GenericTypeArguments[0]);
                         var notify = Activator.CreateInstance(type);
                         var valueField = type.GetField("_value", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -375,7 +382,7 @@ namespace IctBaden.Stonehenge3.ViewModel
                     }
                     else
                     {
-                        var val = DeserializePropertyValue(newValue, pi.PropertyType);
+                        var val = DeserializePropertyValue(logger, newValue, pi.PropertyType);
                         activeVm.TrySetMember(propName, val);
                     }
                 }
@@ -385,25 +392,23 @@ namespace IctBaden.Stonehenge3.ViewModel
                     if ((pi == null) || !pi.CanWrite)
                         return;
 
-                    var val = DeserializePropertyValue(newValue, pi.PropertyType);
+                    var val = DeserializePropertyValue(logger, newValue, pi.PropertyType);
                     pi.SetValue(vm, val, null);
                 }
             }
-            // ReSharper disable EmptyGeneralCatchClause
             catch (Exception ex)
             {
-                Trace.TraceError($"SetPropertyValue({propName}): " + ex.Message);
+                logger.LogError($"SetPropertyValue({propName}): " + ex.Message);
             }
-            // ReSharper restore EmptyGeneralCatchClause
         }
 
-        private static string GetViewModelJson(object viewModel)
+        private string GetViewModelJson(object viewModel)
         {
             var watch = new Stopwatch();
             watch.Start();
             
             var ty = viewModel.GetType();
-            Trace.TraceInformation("Stonehenge3.ViewModelProvider: ViewModel=" + ty.Name);
+            _logger.LogDebug("ViewModelProvider: ViewModel=" + ty.Name);
 
             var data = new List<string>();
             try
@@ -430,8 +435,8 @@ namespace IctBaden.Stonehenge3.ViewModel
             }
             catch (Exception ex)
             {
-                Trace.TraceError(ex.Message);
-                Trace.TraceError(ex.StackTrace);
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
 
                 var exResource = new JObject
                 {
@@ -444,7 +449,7 @@ namespace IctBaden.Stonehenge3.ViewModel
             var json = "{" + string.Join(",", data) + "}";
             
             watch.Stop();
-            Debug.WriteLine($"GetViewModelJson: {watch.ElapsedMilliseconds}ms");
+            _logger.LogTrace($"GetViewModelJson: {watch.ElapsedMilliseconds}ms");
             return json;
         }
     }

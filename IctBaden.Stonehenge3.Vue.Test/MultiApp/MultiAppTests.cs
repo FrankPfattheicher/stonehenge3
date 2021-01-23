@@ -1,12 +1,14 @@
 using System;
-using System.Diagnostics;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Vue.TestApp2.ViewModels;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace IctBaden.Stonehenge3.Vue.Test.MultiApp
 {
     public class MultiAppTests : IDisposable
     {
+        private readonly ILogger _logger = StonehengeLogger.DefaultLogger;
         private readonly VueTestApp _app1;
         private readonly VueTestApp _app2;
 
@@ -38,7 +40,7 @@ namespace IctBaden.Stonehenge3.Vue.Test.MultiApp
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                _logger.LogError(ex, nameof(RunningMultipleAppsShouldNotMixUpContent));
             }
 
             Assert.NotNull(response);
@@ -56,7 +58,7 @@ namespace IctBaden.Stonehenge3.Vue.Test.MultiApp
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                _logger.LogError(ex, nameof(RunningMultipleAppsShouldNotMixUpContent));
             }
 
             Assert.NotNull(response);

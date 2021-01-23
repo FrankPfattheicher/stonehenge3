@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace IctBaden.Stonehenge3.Test.Resources
 {
     public class FileLoaderTests : IDisposable
     {
+        private readonly ILogger _logger = StonehengeLogger.DefaultLogger;
         private readonly FileLoader _loader;
         private readonly AppSession _session = new AppSession();
         private string _fullFileName;
@@ -17,7 +19,7 @@ namespace IctBaden.Stonehenge3.Test.Resources
         public FileLoaderTests()
         {
             var path = Path.GetTempPath();
-            _loader = new FileLoader(path);
+            _loader = new FileLoader(_logger, path);
         }
 
         public void Dispose()
@@ -41,7 +43,7 @@ namespace IctBaden.Stonehenge3.Test.Resources
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                _logger.LogError(ex, nameof(CreateTextFile));
             }
         }
 
@@ -57,7 +59,7 @@ namespace IctBaden.Stonehenge3.Test.Resources
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                _logger.LogError(ex, nameof(CreateBinaryFile));
             }
         }
 

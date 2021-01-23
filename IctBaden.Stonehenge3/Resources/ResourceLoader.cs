@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -11,12 +10,15 @@ using System.Text.RegularExpressions;
 using IctBaden.Stonehenge3.Client;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace IctBaden.Stonehenge3.Resources
 {
     public class ResourceLoader : IStonehengeResourceProvider
     {
         public readonly List<Assembly> ResourceAssemblies;
+        private readonly ILogger _logger;
+
         /// <summary>
         /// Assembly containing the embedded application resources
         /// in the app folder.
@@ -29,9 +31,10 @@ namespace IctBaden.Stonehenge3.Resources
             ResourceAssemblies.Clear();
         }
 
-        public ResourceLoader(IEnumerable<Assembly> assembliesToUse, Assembly appAssembly)
+        public ResourceLoader(ILogger logger, IEnumerable<Assembly> assembliesToUse, Assembly appAssembly)
         {
             ResourceAssemblies = assembliesToUse.ToList();
+            _logger = logger;
             AppAssembly = appAssembly;
 
             _resources = new Lazy<Dictionary<string, AssemblyResource>>(
@@ -78,7 +81,7 @@ namespace IctBaden.Stonehenge3.Resources
             AddAssemblyResources(assembly, asmResources);
         }
 
-        private static void AddAssemblyResources(Assembly assembly, IDictionary<string, AssemblyResource> dict)
+        private void AddAssemblyResources(Assembly assembly, IDictionary<string, AssemblyResource> dict)
         {
             foreach (var resource in assembly.GetManifestResourceNames())
             {
@@ -103,7 +106,7 @@ namespace IctBaden.Stonehenge3.Resources
                 var asmResource = new AssemblyResource(resource, shortName, assembly);
                 if (!dict.ContainsKey(resourceId))
                 {
-                    Trace.TraceInformation($"ResourceLoader.AddAssemblyResources: Added {shortName}");
+                    _logger.LogDebug($"ResourceLoader.AddAssemblyResources: Added {shortName}");
                     dict.Add(resourceId, asmResource);
                 }
             }
@@ -128,7 +131,7 @@ namespace IctBaden.Stonehenge3.Resources
                 .FirstOrDefault(res => string.Compare(res.Key, resourceName, true, CultureInfo.InvariantCulture) == 0);
             if (asmResource.Key == null)
             {
-                //Debug.WriteLine($"ResourceLoader({resourceName}): not found");
+                _logger.LogInformation($"ResourceLoader({resourceName}): not found");
                 return null;
             }
 
@@ -136,7 +139,7 @@ namespace IctBaden.Stonehenge3.Resources
             var resourceType = ResourceType.GetByExtension(resourceExtension);
             if (resourceType == null)
             {
-                Debug.WriteLine($"ResourceLoader({resourceName}): not found");
+                _logger.LogInformation($"ResourceLoader({resourceName}): not found");
                 return null;
             }
 
@@ -150,7 +153,7 @@ namespace IctBaden.Stonehenge3.Resources
                         using (var reader = new BinaryReader(stream))
                         {
                             var data = reader.ReadBytes((int)stream.Length);
-                            Debug.WriteLine($"ResourceLoader({resourceName}): {asmResource.Value.FullName}");
+                            _logger.LogDebug($"ResourceLoader({resourceName}): {asmResource.Value.FullName}");
                             return new Resource(resourceName, "res://" + asmResource.Value.FullName, resourceType, data, Resource.Cache.Revalidate);
                         }
                     }
@@ -160,7 +163,7 @@ namespace IctBaden.Stonehenge3.Resources
                         using (var reader = new StreamReader(stream))
                         {
                             var text = reader.ReadToEnd();
-                            Debug.WriteLine($"ResourceLoader({resourceName}): {asmResource.Value.FullName}");
+                            _logger.LogDebug($"ResourceLoader({resourceName}): {asmResource.Value.FullName}");
                             text = text.Replace("{.min}", session.IsDebug ? "" : ".min");
                             if (resourceName?.EndsWith("index.html", StringComparison.InvariantCultureIgnoreCase) ?? false)
                             {
@@ -173,7 +176,7 @@ namespace IctBaden.Stonehenge3.Resources
                 }
             }
 
-            Debug.WriteLine($"ResourceLoader({resourceName}): not found");
+            _logger.LogInformation($"ResourceLoader({resourceName}): not found");
             return null;
         }
     }
