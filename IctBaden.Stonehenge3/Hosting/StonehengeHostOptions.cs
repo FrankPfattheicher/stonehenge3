@@ -88,7 +88,7 @@ namespace IctBaden.Stonehenge3.Hosting
             }
             if (ServerPushMode == ServerPushModes.ShortPolling)
             {
-                if(PollIntervalMs > 1) return (PollIntervalMs * 1000) + 100;
+                if(PollIntervalMs > 1) return PollIntervalMs + 100;
             }
             return 5000;
         }
