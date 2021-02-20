@@ -1,25 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.ViewModel;
+using Microsoft.Extensions.Logging;
+
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace IctBaden.Stonehenge3.Resources
 {
     public class StonehengeResourceLoader : IStonehengeResourceProvider
     {
+        public readonly ILogger Logger;
+        
         public List<IStonehengeResourceProvider> Providers { get; }
         public readonly ServiceContainer Services;
 
-        public StonehengeResourceLoader(List<IStonehengeResourceProvider> loaders = null)
+        public StonehengeResourceLoader(ILogger logger, List<IStonehengeResourceProvider> loaders)
         {
-            Providers = loaders ?? new List<IStonehengeResourceProvider>();
+            Logger = logger;
+            Providers = loaders;
             Services = new ServiceContainer();
         }
 
@@ -63,7 +67,7 @@ namespace IctBaden.Stonehenge3.Resources
                 }
                 catch (Exception ex)
                 {
-                    Trace.TraceError($"StonehengeResourceLoader.{loader.GetType().Name}({resourceName}) exception: {ex.Message}" + 
+                    Logger.LogError($"StonehengeResourceLoader.{loader.GetType().Name}({resourceName}) exception: {ex.Message}" + 
                                      Environment.NewLine + ex.StackTrace);
                 }
                 if (loadedResource != null) break;
@@ -112,11 +116,11 @@ namespace IctBaden.Stonehenge3.Resources
             return replaced;
         }
 
-        public static StonehengeResourceLoader CreateDefaultLoader(IStonehengeResourceProvider provider)
+        public static StonehengeResourceLoader CreateDefaultLoader(ILogger logger, IStonehengeResourceProvider provider)
         {
-            return CreateDefaultLoader(provider, Assembly.GetCallingAssembly());
+            return CreateDefaultLoader(logger, provider, Assembly.GetCallingAssembly());
         }
-        public static StonehengeResourceLoader CreateDefaultLoader(IStonehengeResourceProvider provider, Assembly appAssembly)
+        public static StonehengeResourceLoader CreateDefaultLoader(ILogger logger, IStonehengeResourceProvider provider, Assembly appAssembly)
         {
             var assemblies = new List<Assembly>
                  {
@@ -128,18 +132,18 @@ namespace IctBaden.Stonehenge3.Resources
                 .Distinct()
                 .ToList();
 
-            var resLoader = new ResourceLoader(assemblies, appAssembly);
+            var resLoader = new ResourceLoader(logger, assemblies, appAssembly);
             if (provider != null)
             {
                 resLoader.AddAssembly(provider.GetType().Assembly);
             }
 
             var path = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location) ?? Directory.GetCurrentDirectory();
-            var fileLoader = new FileLoader(Path.Combine(path, "app"));
+            var fileLoader = new FileLoader(logger, Path.Combine(path, "app"));
 
-            var viewModelCreator = new ViewModelProvider();
+            var viewModelCreator = new ViewModelProvider(logger);
 
-            var loader = new StonehengeResourceLoader(new List<IStonehengeResourceProvider> { fileLoader, resLoader, viewModelCreator });
+            var loader = new StonehengeResourceLoader(logger, new List<IStonehengeResourceProvider> { fileLoader, resLoader, viewModelCreator });
             if (provider != null)
             {
                 loader.Providers.Add(provider);

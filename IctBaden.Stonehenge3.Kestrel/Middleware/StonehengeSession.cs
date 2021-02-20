@@ -9,6 +9,7 @@ using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace IctBaden.Stonehenge3.Kestrel.Middleware
 {
@@ -53,6 +54,8 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
         // ReSharper disable once UnusedMember.Global
         public async Task Invoke(HttpContext context)
         {
+            var logger = context.Items["stonehenge.Logger"] as ILogger;
+            
             var timer = new Stopwatch();
             timer.Start();
 
@@ -60,9 +63,9 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
 
             if (path.ToLower().Contains("/user/"))
             {
-                Trace.TraceInformation($"Stonehenge3.Kestrel Begin USER {context.Request.Method} {path}");
+                logger.LogTrace($"Kestrel Begin USER {context.Request.Method} {path}");
                 await _next.Invoke(context);
-                Trace.TraceInformation($"Stonehenge3.Kestrel End USER {context.Request.Method} {path}");
+                logger.LogTrace($"Kestrel End USER {context.Request.Method} {path}");
                 return;
             }
 
@@ -87,15 +90,15 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 }
             }
 
-            Trace.TraceInformation($"Stonehenge3.Kestrel[{stonehengeId}] Begin {context.Request.Method} {path}{context.Request.QueryString}");
+            logger.LogTrace($"Kestrel[{stonehengeId}] Begin {context.Request.Method} {path}{context.Request.QueryString}");
 
-            CleanupTimedOutSessions(appSessions);
+            CleanupTimedOutSessions(logger, appSessions);
             var session = appSessions.FirstOrDefault(s => s.Id == stonehengeId);
             if (string.IsNullOrEmpty(stonehengeId) || session == null)
             {
                 // session not found - redirect to new session
                 var resourceLoader = context.Items["stonehenge.ResourceLoader"] as StonehengeResourceLoader;
-                session = NewSession(appSessions, context, resourceLoader);
+                session = NewSession(logger, appSessions, context, resourceLoader);
 
                 context.Response.Headers.Add("Set-Cookie",
                     session.SecureCookies
@@ -113,15 +116,14 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
 
                 var remoteIp = context.Connection.RemoteIpAddress;
                 var remotePort = context.Connection.RemotePort;
-                Trace.TraceInformation(
-                    $"Stonehenge3.Kestrel[{stonehengeId}] From IP {remoteIp}:{remotePort} - redirect to {session.Id}");
+                logger.LogTrace($"Kestrel[{stonehengeId}] From IP {remoteIp}:{remotePort} - redirect to {session.Id}");
                 return;
             }
 
             var etag = context.Request.Headers["If-None-Match"];
             if (context.Request.Method == "GET" && etag == session.GetResourceETag(path))
             {
-                Debug.WriteLine("ETag match.");
+                logger.LogTrace("ETag match.");
                 context.Response.StatusCode = (int) HttpStatusCode.NotModified;
             }
             else
@@ -134,16 +136,14 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
 
             if (context.RequestAborted.IsCancellationRequested)
             {
-                Trace.TraceWarning(
-                    $"Stonehenge3.Kestrel[{stonehengeId}] Canceled {context.Request.Method}={context.Response.StatusCode} {path}, {timer.ElapsedMilliseconds}ms");
+                logger.LogTrace($"Kestrel[{stonehengeId}] Canceled {context.Request.Method}={context.Response.StatusCode} {path}, {timer.ElapsedMilliseconds}ms");
                 throw new TaskCanceledException();
             }
 
-            Trace.TraceInformation(
-                $"Stonehenge3.Kestrel[{stonehengeId}] End {context.Request.Method}={context.Response.StatusCode} {path}, {timer.ElapsedMilliseconds}ms");
+            logger.LogTrace($"Kestrel[{stonehengeId}] End {context.Request.Method}={context.Response.StatusCode} {path}, {timer.ElapsedMilliseconds}ms");
         }
 
-        private static void CleanupTimedOutSessions(ICollection<AppSession> appSessions)
+        private static void CleanupTimedOutSessions(ILogger logger, ICollection<AppSession> appSessions)
         {
             var timedOutSessions = appSessions.Where(s => s.IsTimedOut).ToArray();
             foreach (var timedOut in timedOutSessions)
@@ -152,13 +152,13 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 vm?.Dispose();
                 timedOut.ViewModel = null;
                 appSessions.Remove(timedOut);
-                Trace.TraceInformation($"Stonehenge3.Kestrel Session timed out {timedOut.Id}.");
+                logger.LogInformation($"Kestrel Session timed out {timedOut.Id}.");
             }
 
-            Trace.TraceInformation($"Stonehenge3.Kestrel {appSessions.Count} sessions.");
+            logger.LogInformation($"Kestrel {appSessions.Count} sessions.");
         }
 
-        private static AppSession NewSession(ICollection<AppSession> appSessions, HttpContext context,
+        private static AppSession NewSession(ILogger logger, ICollection<AppSession> appSessions, HttpContext context,
             StonehengeResourceLoader resourceLoader)
         {
             var options = (StonehengeHostOptions) context.Items["stonehenge.HostOptions"];
@@ -170,7 +170,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             var hostDomain = context.Request.Host.Value;
             session.Initialize(hostDomain, isLocal, clientAddress, userAgent);
             appSessions.Add(session);
-            Trace.TraceInformation($"Stonehenge3.Kestrel New session {session.Id}. {appSessions.Count} sessions.");
+            logger.LogInformation($"Kestrel New session {session.Id}. {appSessions.Count} sessions.");
             return session;
         }
     }

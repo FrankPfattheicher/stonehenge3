@@ -1,12 +1,14 @@
 using System;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
+using IctBaden.Stonehenge3.Hosting;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace IctBaden.Stonehenge3.Vue.Test.Content
 {
     public class ContentPagesDetectionTests : IDisposable
     {
+        private readonly ILogger _logger = StonehengeLogger.DefaultLogger;
         private readonly VueTestApp _app;
         private readonly string _response;
 
@@ -25,7 +27,7 @@ namespace IctBaden.Stonehenge3.Vue.Test.Content
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                _logger.LogError(ex, nameof(ContentPagesDetectionTests));
             }
 
         }

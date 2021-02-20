@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using IctBaden.Stonehenge3.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace IctBaden.Stonehenge3.Kestrel.Middleware
 {
@@ -20,10 +21,14 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
 
         public async Task Invoke(HttpContext context)
         {
+            var logger = context.Items["stonehenge.Logger"] as ILogger;
+            
             try
             {
                 if (_headers == null)
-                    LoadHeaders();
+                {
+                    LoadHeaders(logger);
+                }
                 // ReSharper disable once PossibleNullReferenceException
                 foreach (var header in _headers)
                 {
@@ -32,20 +37,20 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             }
             catch (Exception ex)
             {
-                Trace.TraceError("Error handling default headers: " + ex.Message);
+                logger.LogError("Error handling default headers: " + ex.Message);
             }
             await _next.Invoke(context);
         }
 
-        private void LoadHeaders()
+        private void LoadHeaders(ILogger logger)
         {
             _headers = new Dictionary<string, string>();
 
-            var path = AppDomain.CurrentDomain.BaseDirectory;
+            var path = StonehengeApplication.BaseDirectory;
             var headersFile = Path.Combine(path, "defaultheaders.txt");
             if (!File.Exists(headersFile)) return;
 
-            Trace.TraceInformation("Adding default headers from: " + headersFile);
+            logger.LogDebug("Adding default headers from: " + headersFile);
             var headers = File.ReadAllLines(headersFile);
             foreach (var header in headers)
             {
@@ -58,7 +63,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 var value = header.Substring(colon + 1).Trim();
                 if (!string.IsNullOrEmpty(key) && !string.IsNullOrEmpty(value))
                 {
-                    Trace.TraceInformation($"Add header: {key}: {value}");
+                    logger.LogDebug($"Add header: {key}: {value}");
                     _headers.Add(key, value);
                 }
             }

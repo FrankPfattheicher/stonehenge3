@@ -1,11 +1,13 @@
 using System;
-using System.Diagnostics;
+using IctBaden.Stonehenge3.Hosting;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace IctBaden.Stonehenge3.Vue.Test.ViewModelTests
 {
     public class OnLoadTests : IDisposable
-        {
+    {
+        private readonly ILogger _logger = StonehengeLogger.DefaultLogger;
         private readonly VueTestApp _app;
 
         public OnLoadTests()
@@ -33,7 +35,7 @@ namespace IctBaden.Stonehenge3.Vue.Test.ViewModelTests
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                _logger.LogError(ex, nameof(OnLoadShouldBeCalledForStartVmAfterFirstCall));
             }
 
             Assert.NotNull(response);

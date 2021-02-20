@@ -9,6 +9,7 @@ using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.ViewModel;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -16,6 +17,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
 {
     internal class VueAppCreator
     {
+        private readonly ILogger _logger;
         private readonly string _appTitle;
         private string _startPage;
         private readonly StonehengeResourceLoader _loader;
@@ -27,10 +29,11 @@ namespace IctBaden.Stonehenge3.Vue.Client
         private readonly string _controllerTemplate;
         private readonly string _elementTemplate;
 
-        public VueAppCreator(string appTitle, string startPage, 
+        public VueAppCreator(ILogger logger, string appTitle, string startPage, 
             StonehengeResourceLoader loader, StonehengeHostOptions options,
             Assembly appAssembly, Dictionary<string, Resource> vueContent)
         {
+            _logger = logger;
             _appTitle = appTitle;
             _startPage = startPage;
             _loader = loader;
@@ -101,7 +104,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
 
             if (!contentPages.Any())
             {
-                Trace.TraceError("Stonehenge3.VueAppCreator: No content pages found.");
+                _logger.LogError("VueAppCreator: No content pages found.");
             }
             else if (string.IsNullOrEmpty(_startPage))
             {
@@ -139,12 +142,12 @@ namespace IctBaden.Stonehenge3.Vue.Client
                 {
                     if (string.IsNullOrEmpty(viewModel.ViewModel.VmName))
                     {
-                        Trace.TraceError($"VueAppCreator.CreateComponents: <UNKNOWN VM> => src.{viewModel.Name}.js");
+                        _logger.LogError($"VueAppCreator.CreateComponents: <UNKNOWN VM> => src.{viewModel.Name}.js");
                         continue;
                     }
                     try
                     {
-                        Trace.TraceInformation($"VueAppCreator.CreateComponents: {viewModel.ViewModel.VmName} => src.{viewModel.Name}.js");
+                        _logger.LogInformation($"VueAppCreator.CreateComponents: {viewModel.ViewModel.VmName} => src.{viewModel.Name}.js");
 
                         var name = _appAssembly?.GetManifestResourceNames()
                             .FirstOrDefault(rn => rn.EndsWith($".app.{viewModel.Name}_user.js"));
@@ -162,7 +165,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
                     }
                     catch(Exception ex)
                     {
-                        Trace.TraceError($"VueAppCreator.CreateComponents: {viewModel.ViewModel.VmName} EXCEPTION: {ex.Message}");
+                        _logger.LogError($"VueAppCreator.CreateComponents: {viewModel.ViewModel.VmName} EXCEPTION: {ex.Message}");
                     }
                 }
             }
@@ -195,7 +198,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
             var vmType = GetVmType(vmName);
             if (vmType == null)
             {
-                Trace.TraceError($"No VM for type {vmName} defined.");
+                _logger.LogError($"No VM for type {vmName} defined.");
                 return null;
             }
 
@@ -259,7 +262,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
             }
             catch (Exception ex)
             {
-                Trace.TraceError($"Failed to create ViewModel '{vmType.Name}' : " + ex.Message);
+                _logger.LogError($"Failed to create ViewModel '{vmType.Name}' : " + ex.Message);
                 return null;
             }
         }

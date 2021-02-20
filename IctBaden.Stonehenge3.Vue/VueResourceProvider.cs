@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -10,18 +9,22 @@ using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.Types;
 using IctBaden.Stonehenge3.Vue.Client;
+using Microsoft.Extensions.Logging;
+
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace IctBaden.Stonehenge3.Vue
 {
     public class VueResourceProvider : IStonehengeResourceProvider
     {
+        private readonly ILogger _logger;
         private Dictionary<string, Resource> _vueContent;
         private List<Assembly> _assemblies;
         private Assembly _appAssembly;
 
-        public VueResourceProvider()
+        public VueResourceProvider(ILogger logger)
         {
+            _logger = logger;
             _assemblies = new List<Assembly>
             {
                 Assembly.GetEntryAssembly(), 
@@ -40,7 +43,7 @@ namespace IctBaden.Stonehenge3.Vue
                 _appAssembly = resourceLoader.AppAssembly;
             }
             
-            var appCreator = new VueAppCreator(options.Title, options.StartPage, loader, options, _appAssembly, _vueContent);
+            var appCreator = new VueAppCreator(_logger, options.Title, options.StartPage, loader, options, _appAssembly, _vueContent);
 
             AddFileSystemContent(options.AppFilesPath);
             AddResourceContent();
@@ -103,7 +106,7 @@ namespace IctBaden.Stonehenge3.Vue
 
         private void AddFileSystemContent(string appFilesPath)
         {
-            Trace.TraceInformation("VueResourceProvider: Using file system app path " + appFilesPath);
+            _logger.LogInformation("VueResourceProvider: Using file system app path " + appFilesPath);
             if (Directory.Exists(appFilesPath))
             {
                 var appPath = Path.DirectorySeparatorChar + "app" + Path.DirectorySeparatorChar;
@@ -148,7 +151,7 @@ namespace IctBaden.Stonehenge3.Vue
                         .Replace("._9", ".9");
                     if (_vueContent.ContainsKey(resourceId))
                     {
-                        Trace.TraceWarning("VueResourceProvider.AddResourceContent: Resource with id {0} already exits", resourceId);
+                        _logger.LogWarning("VueResourceProvider.AddResourceContent: Resource with id {0} already exits", resourceId);
                         continue;
                     }
 

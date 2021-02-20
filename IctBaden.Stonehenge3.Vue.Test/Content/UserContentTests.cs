@@ -1,11 +1,13 @@
 using System;
-using System.Diagnostics;
+using IctBaden.Stonehenge3.Hosting;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace IctBaden.Stonehenge3.Vue.Test.Content
 {
     public class UserContentTests : IDisposable
     {
+        private readonly ILogger _logger = StonehengeLogger.DefaultLogger;
         private readonly VueTestApp _app;
 
         public UserContentTests()
@@ -32,7 +34,7 @@ namespace IctBaden.Stonehenge3.Vue.Test.Content
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                _logger.LogError(ex, nameof(IndexShouldContainUserStylesRef));
             }
 
             Assert.NotNull(response);
@@ -53,7 +55,7 @@ namespace IctBaden.Stonehenge3.Vue.Test.Content
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                _logger.LogError(ex, nameof(IndexShouldContainUserScriptsRef));
             }
 
             Assert.NotNull(response);
@@ -74,7 +76,7 @@ namespace IctBaden.Stonehenge3.Vue.Test.Content
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                _logger.LogError(ex, nameof(StartJsShouldContainStartUserScript));
             }
 
             Assert.NotNull(response);

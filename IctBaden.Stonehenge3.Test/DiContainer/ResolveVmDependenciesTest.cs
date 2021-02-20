@@ -18,7 +18,7 @@ namespace IctBaden.Stonehenge3.Test.DiContainer
         public ResolveVmDependenciesTest()
         {
             Id = Guid.NewGuid();
-            _loader = StonehengeResourceLoader.CreateDefaultLoader(null);
+            _loader = StonehengeResourceLoader.CreateDefaultLoader(StonehengeLogger.DefaultLogger, null);
             _loader.Services.AddService(typeof(ResolveVmDependenciesTest), this);
             _session = new AppSession(_loader, new StonehengeHostOptions());
         }

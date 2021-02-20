@@ -38,10 +38,10 @@ namespace IctBaden.Stonehenge3.Hosting
         
         /// <summary>
         /// Interval for client site polling modes.
-        /// [Milliseconds]
+        /// [Seconds]
         /// Set to 0 to use system default.
         /// </summary>
-        public int PollIntervalMs { get; set; }
+        public int PollIntervalSec { get; set; }
 
         /// <summary>
         /// Forth NTLM authentication using HttpSys.
@@ -88,7 +88,7 @@ namespace IctBaden.Stonehenge3.Hosting
             }
             if (ServerPushMode == ServerPushModes.ShortPolling)
             {
-                if(PollIntervalMs > 1) return (PollIntervalMs * 1000) + 100;
+                if(PollIntervalSec > 1) return (PollIntervalSec * 1000) + 100;
             }
             return 5000;
         }
@@ -101,7 +101,7 @@ namespace IctBaden.Stonehenge3.Hosting
         {
             if(ServerPushMode == ServerPushModes.LongPolling)
             {
-                if(PollIntervalMs > 1) return PollIntervalMs + 100;
+                if(PollIntervalSec > 1) return (PollIntervalSec * 1000) + 100;
                 return 10000;
             }
             return 100;

@@ -18,8 +18,8 @@ namespace IctBaden.Stonehenge3.Vue.Test.Client
         public ControllerCreationTests()
         {
             _options = new StonehengeHostOptions();
-            _vue = new VueResourceProvider();
-            _loader = StonehengeResourceLoader.CreateDefaultLoader(_vue);
+            _vue = new VueResourceProvider(StonehengeLogger.DefaultLogger);
+            _loader = StonehengeResourceLoader.CreateDefaultLoader(StonehengeLogger.DefaultLogger, _vue);
             _loader.InitProvider(_loader, _options);
             _loader.Services.AddService(typeof(DiDependency), new DiDependency());
             _session = new AppSession(_loader, _options);

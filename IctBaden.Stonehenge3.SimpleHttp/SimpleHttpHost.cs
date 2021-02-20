@@ -9,6 +9,7 @@ using IctBaden.Stonehenge3.Caching;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
@@ -55,7 +56,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
                 + (hostAddress ?? "127.0.0.1")
                 + ":" + hostPort;
 
-            _server = new SimpleHttpServer(hostPort);
+            _server = new SimpleHttpServer(StonehengeLogger.DefaultLogger, hostPort);
             _server.HandleGet += ServerOnHandleGet;
             _server.HandlePost += ServerOnHandlePost;
 
@@ -66,6 +67,11 @@ namespace IctBaden.Stonehenge3.SimpleHttp
         public void Terminate()
         {
             _server?.Terminate();
+        }
+
+        public void SetLogLevel(LogLevel level)
+        {
+            // TODO
         }
 
         private AppSession GetSession(SimpleHttpProcessor httpProcessor)
