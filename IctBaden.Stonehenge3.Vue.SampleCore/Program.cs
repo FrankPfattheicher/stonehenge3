@@ -34,7 +34,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
                 Title = "VueSample",
                 
                 ServerPushMode = ServerPushModes.LongPolling,
-                PollIntervalMs = 5000,
+                PollIntervalSec = 5,
                 SessionIdMode = SessionIdModes.CookiesOnly
                 // SslCertificatePath = Path.Combine(StonehengeApplication.BaseDirectory, "stonehenge.pfx"),
                 // SslCertificatePassword = "test"
