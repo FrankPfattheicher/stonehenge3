@@ -1,4 +1,5 @@
 
+* 3.17.2 - Removed dependency Microsoft.AspNetCore.Authentication
 * 3.17.1 - Moved from System.Trace to ILogger. PollIntervalMs changed to PollIntervalSec.
 * 3.16.8 - Introduced StonehengeApplication to determine base directory also for single-file published apps.
 * 3.16.7 - Moved from "Microsoft.AspNetCore.Http" to "Microsoft.Extensions.Http".
