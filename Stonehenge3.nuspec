@@ -17,7 +17,6 @@
         <dependencies>
             <dependency id="CryptSharpStandard" version="1.0.0" />
             <dependency id="HttpMultipartParser" version="4.3.1" />
-            <dependency id="Microsoft.AspNetCore.Authentication" version="2.2.0" />
             <dependency id="Microsoft.AspNetCore.Cors" version="2.2.0"/>
             <dependency id="Microsoft.AspNetCore.ResponseCompression" version="2.2.0"/>
             <dependency id="Microsoft.AspNetCore.Server.HttpSys" version="2.2.6" />
