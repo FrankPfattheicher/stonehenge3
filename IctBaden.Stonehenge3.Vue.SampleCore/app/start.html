@@ -26,7 +26,7 @@
         <a href="/Data/Test.txt">Load user file Test.txt</a>
         <form action="/Data/Test.txt" method="post" enctype="multipart/form-data">
             <input type="file" name="uploadFile">
-            <input type="submit">
+            <input class="btn btn-secondary" type="submit">
         </form>
     </p>
     <p>
@@ -44,19 +44,19 @@
         <input v-model="Test" />
     </p>
     <p>
-        <button v-on:click="Save(1,2)">Test</button>
+        <button class="btn btn-secondary" v-on:click="Save(1,2)">Test</button> Use input, prefix with "1", append "2"
     </p>
     <p>
-        <button v-on:click="ShowMessageBox()">MessageBox</button>
+        <button class="btn btn-secondary" v-on:click="ShowMessageBox()">MessageBox</button>
     </p>
     <p>
-        <button v-on:click="ExecJavaScript()">Execute JavaScript Code</button>
+        <button class="btn btn-secondary" v-on:click="ExecJavaScript()">Execute JavaScript Code</button>
     </p>
     <p>
-        <button v-on:click="NavigateToTree()">Navigate To Tree</button>
+        <button class="btn btn-secondary" v-on:click="NavigateToTree()">Navigate To Tree</button>
     </p>
     <p>
-        <button v-on:click="NavigateOnPage()">Navigate On Page (top of page)</button>
+        <button class="btn btn-secondary" v-on:click="NavigateOnPage()">Navigate On Page (top of page)</button>
     </p>
 
 </div>

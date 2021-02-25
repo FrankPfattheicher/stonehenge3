@@ -52,13 +52,8 @@ namespace IctBaden.Stonehenge3.Kestrel
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
             app.UseMiddleware<ServerExceptionLogger>();
             app.UseMiddleware<StonehengeAcme>();
             app.UseResponseCompression();
