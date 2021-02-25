@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -6,14 +6,13 @@
     <Company>ICT Baden GmbH</Company>
     <Authors>Frank Pfattheicher</Authors>
     <Product>Web Application Framework</Product>
-    <LangVersion>8</LangVersion>
+    <LangVersion>9</LangVersion>
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="HttpMultipartParser" Version="4.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCompression" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Server.HttpSys" Version="2.2.6" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.2.0" />

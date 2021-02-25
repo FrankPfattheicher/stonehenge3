@@ -7,7 +7,7 @@
     <Authors>Frank Pfattheicher</Authors>
     <Product>Web Application Framework</Product>
     <ApplicationIcon>app\favicon.ico</ApplicationIcon>
-    <LangVersion>8</LangVersion>
+    <LangVersion>9</LangVersion>
     <PackageIcon>icon64.png</PackageIcon>
   </PropertyGroup>
   

@@ -6,7 +6,7 @@
     <Company>ICT Baden GmbH</Company>
     <Authors>Frank Pfattheicher</Authors>
     <Product>Web Application Framework</Product>
-    <LangVersion>8</LangVersion>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
