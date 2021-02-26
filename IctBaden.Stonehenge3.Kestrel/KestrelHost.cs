@@ -160,6 +160,13 @@ namespace IctBaden.Stonehenge3.Kestrel
                 _cancel = new CancellationTokenSource();
                 _host = _webApp.RunAsync(_cancel.Token);
 
+                if (_host.IsFaulted)
+                {
+                    if (_host.Exception != null)
+                    {
+                        throw _host.Exception;
+                    }
+                }
                 _logger.LogInformation("KestrelHost.Start: succeeded.");
             }
             catch (Exception ex)
@@ -181,10 +188,11 @@ namespace IctBaden.Stonehenge3.Kestrel
                 }
 
                 _logger.LogError("KestrelHost.Start: " + message);
-                _webApp = null;
+                _host.Dispose();
+                _host = null;
             }
 
-            return _webApp != null;
+            return _host != null;
         }
 
         public void Terminate()

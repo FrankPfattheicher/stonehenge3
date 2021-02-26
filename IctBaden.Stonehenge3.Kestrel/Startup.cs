@@ -4,11 +4,9 @@ using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Kestrel.Middleware;
 using IctBaden.Stonehenge3.Resources;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -52,7 +50,7 @@ namespace IctBaden.Stonehenge3.Kestrel
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseMiddleware<ServerExceptionLogger>();
             app.UseMiddleware<StonehengeAcme>();
