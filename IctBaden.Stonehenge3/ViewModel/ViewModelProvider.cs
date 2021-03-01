@@ -411,17 +411,21 @@ namespace IctBaden.Stonehenge3.ViewModel
             _logger.LogDebug("ViewModelProvider: ViewModel=" + ty.Name);
 
             var data = new List<string>();
+            var context = "";
             try
             {
                 if (viewModel is ActiveViewModel activeVm)
                 {
                     foreach (var model in activeVm.ActiveModels)
                     {
+                        context = model.TypeName;
                         data.AddRange(JsonSerializer.SerializeObject(model.Prefix, model.Model));
                     }
 
+                    context = "internal properties";
                     AddStonehengeInternalProperties(data, activeVm);
 
+                    context = "dictionary names";
                     // ReSharper disable once LoopCanBeConvertedToQuery
                     foreach (var name in activeVm.GetDictionaryNames())
                     {
@@ -431,10 +435,12 @@ namespace IctBaden.Stonehenge3.ViewModel
                     }
                 }
 
+                context = "view model";
                 data.AddRange(JsonSerializer.SerializeObject(null, viewModel));
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Exception serializing ViewModel({ty.Name}) : {context}");
                 _logger.LogError(ex.Message);
                 _logger.LogError(ex.StackTrace);
 
