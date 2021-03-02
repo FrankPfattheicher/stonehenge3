@@ -151,8 +151,8 @@ namespace IctBaden.Stonehenge3.Kestrel
 
                 if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                 {
-                    // _logger.LogInformation("KestrelHost.Start: Enable hosting in IIS");
-                    // builder = WindowsHosting.EnableIIS(builder);
+                    _logger.LogInformation("KestrelHost.Start: Enable hosting in IIS");
+                    builder = WindowsHosting.EnableIIS(builder);
                 }
 
                 _webApp = builder.Build();

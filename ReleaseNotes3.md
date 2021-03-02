@@ -1,4 +1,5 @@
 
+* 3.17.5 - IISIntegration added again
 * 3.17.4 - Removed unused Configure parameter in Startup leading to unnecessary dependency
 * 3.17.3 - Removed dependency  Microsoft.AspNetCore.Http.Abstractions, App has to use Microsoft.NET.Sdk.Web
 * 3.17.2 - Removed dependency Microsoft.AspNetCore.Authentication
