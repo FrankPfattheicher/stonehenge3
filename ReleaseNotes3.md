@@ -1,4 +1,5 @@
 
+* 3.17.7 - CopyToClipboard
 * 3.17.6 - Support in-proc and out-of-proc IIS hosting
 * 3.17.5 - IISIntegration added again
 * 3.17.4 - Removed unused Configure parameter in Startup leading to unnecessary dependency
