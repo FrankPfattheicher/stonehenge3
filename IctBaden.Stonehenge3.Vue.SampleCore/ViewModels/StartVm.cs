@@ -59,30 +59,32 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
                 ? Session.Parameters["test"]
                 : "0-0";
         }
+
+        [ActionMethod]
+        public void CopyTest()
+        {
+            CopyToClipboard(Test);            
+        }
         
         [ActionMethod]
-        // ReSharper disable once UnusedMember.Global
         public void Save(int number, string text)
         {
             Test = number + Test + text;
         }
 
         [ActionMethod]
-        // ReSharper disable once UnusedMember.Global
         public void ShowMessageBox()
         {
             MessageBox("Stonehenge 3", $"Server side message box request. {Test}");
         }
 
         [ActionMethod]
-        // ReSharper disable once UnusedMember.Global
         public void NavigateToTree()
         {
             NavigateTo("tree");
         }
 
         [ActionMethod]
-        // ReSharper disable once UnusedMember.Global
         public void NavigateOnPage()
         {
             NavigateTo("#pagetop");

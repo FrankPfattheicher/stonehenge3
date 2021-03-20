@@ -113,7 +113,7 @@ namespace IctBaden.Stonehenge3.ViewModel
                 _originalDescriptor?.SetValue(component, value);
             }
 
-            public override bool IsReadOnly => _readOnly || ((_originalDescriptor != null) && _originalDescriptor.IsReadOnly);
+            public override bool IsReadOnly => _readOnly || (_originalDescriptor is {IsReadOnly: true});
 
             public override Type PropertyType
               => _originalDescriptor == null ? typeof(object) : _originalDescriptor.PropertyType;
@@ -231,7 +231,7 @@ namespace IctBaden.Stonehenge3.ViewModel
         
         protected void SetParent(ActiveViewModel parent)
         {
-            PropertyChanged += (sender, args) => parent.NotifyPropertyChanged(args.PropertyName);
+            PropertyChanged += (_, args) => parent.NotifyPropertyChanged(args.PropertyName);
         }
 
         public object TryGetMember(string name)
@@ -604,7 +604,7 @@ namespace IctBaden.Stonehenge3.ViewModel
 
         #endregion
 
-        #region Serve site navigation
+        #region Server site navigation
 
         public string NavigateToRoute;
 
@@ -623,6 +623,18 @@ namespace IctBaden.Stonehenge3.ViewModel
         public void ExecuteClientScript(string script)
         {
             ClientScript = script;
+        }
+
+        #endregion
+
+        #region Clipboard support
+
+        public void CopyToClipboard(string text)
+        {
+            text = text
+                .Replace("'", "\\'")
+                .Replace("\\", "\\\\");
+            ExecuteClientScript($"stonehengeCopyToClipboard('{text}')");
         }
 
         #endregion
