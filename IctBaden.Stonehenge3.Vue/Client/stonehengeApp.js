@@ -1,6 +1,24 @@
 ﻿
 // Stonehenge3 application
 
+function stonehengeCancelRequests() {
+
+    try {
+        app.activeRequests.forEach(rq => {
+            rq.abort();
+        });
+        app.activeRequests.clear();
+    } catch (error) {
+        //debugger;
+        if (console && console.log) console.log(error);
+    }
+}
+
+function stonehengeReloadOnError(error) {
+    if (console && console.log) console.log(error);
+    window.location.reload();
+}
+
 function stonehengeMakeRequest(method, url) {
     return new Promise(function (resolve, reject) {
 
@@ -53,16 +71,16 @@ async function stonehengeLoadComponent(name) {
     );
 }
 function stonehengeGetCookie(name) {
-    var i = 0; //Suchposition im Cookie
-    var suche = name + "=";
-    var maxlen = document.cookie.length;
-    while (i < maxlen) {
-        if (document.cookie.substring(i, i + suche.length) === suche) {
-            var ende = document.cookie.indexOf(";", i + suche.length);
-            if (ende < 0) {
-                ende = maxlen;
+    let i = 0; //Suchposition im Cookie
+    const search = name + "=";
+    const maxLen = document.cookie.length;
+    while (i < maxLen) {
+        if (document.cookie.substring(i, i + search.length) === search) {
+            let end = document.cookie.indexOf(";", i + search.length);
+            if (end < 0) {
+                end = maxLen;
             }
-            var cook = document.cookie.substring(i + suche.length, ende);
+            const cook = document.cookie.substring(i + search.length, end);
             return unescape(cook);
         }
         i++;
@@ -99,9 +117,13 @@ function AppCommand(cmdName) {
 // App
 const app = new Vue({
     data: {
+        stonehengeReloadOnError: stonehengeReloadOnError,
+        stonehengeCancelRequests: stonehengeCancelRequests,
         stonehengeMakeRequest: stonehengeMakeGetRequest,
         routes: routes,
-        title: 'stonehengeAppTitle'
+        title: 'stonehengeAppTitle',
+        activeViewModelName: '',
+        activeRequests: new Set()
     },
     router: router
 }).$mount('#app');

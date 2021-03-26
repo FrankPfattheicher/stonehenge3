@@ -1,19 +1,10 @@
-
-
 stonehengeViewModelName = function component() {
 
 
     let vm = {
 
-        StonehengeCancelRequests: function () {
-            try {
-                if (app.previousRequest) {
-                    app.previousRequest.abort();
-                }
-            } catch (error) {
-                //debugger;
-                if (console && console.log) console.log(error);
-            }
+        StonehengeCancelVmRequests: function () {
+            stonehengeCancelRequests();
             this.model.StonehengePollEventsActive = null;
         },
 
@@ -24,7 +15,7 @@ stonehengeViewModelName = function component() {
                     if (target.startsWith('#')) {
                         try {
                             document.getElementById(target.substring(1))
-                                .scrollIntoView({ block: 'end', behaviour: 'smooth' });
+                                .scrollIntoView({block: 'end', behaviour: 'smooth'});
                         } catch (error) {
                             // ignore
                             if (console && console.log) {
@@ -54,19 +45,21 @@ stonehengeViewModelName = function component() {
                 if (typeof (stonehengeViewModelName_InitialLoaded) == 'function') {
                     try {
                         stonehengeViewModelName_InitialLoaded(app.stonehengeViewModelName.model);
-                    } catch (e) { }
+                    } catch (e) {
+                    }
                 }
             } else {
                 if (typeof (stonehengeViewModelName_DataLoaded) == 'function') {
                     try {
                         stonehengeViewModelName_DataLoaded(app.stonehengeViewModelName.model);
-                    } catch (e) { }
+                    } catch (e) {
+                    }
                 }
             }
         },
 
         StonehengePost: function (urlWithParams) {
-            this.StonehengeCancelRequests();
+            this.StonehengeCancelVmRequests();
 
             let props = ['propNames'];
             let formData = {};
@@ -77,7 +70,7 @@ stonehengeViewModelName = function component() {
             Vue.http.post(urlWithParams, JSON.stringify(formData),
                 {
                     before(request) {
-                        app.previousRequest = request;
+                        app.activeRequests.add(request);
                     }
                 })
                 .then(response => {
@@ -88,28 +81,35 @@ stonehengeViewModelName = function component() {
                         this.StonehengeSetViewModelData(data);
                         this.StonehengePostActive = false;
                     }
-                    if (this.StonehengePollEventsActive === null) {
-                        setTimeout(function () { app.stonehengeViewModelName.StonehengePollEvents(true); }, this.StonehengePollDelay);
+                    if (!this.StonehengePollEventsActive) {
+                        setTimeout(function () {
+                            app.stonehengeViewModelName.StonehengePollEvents(true);
+                        }, this.StonehengePollDelay);
                     }
                 })
                 .catch(error => {
                     if (error.status >= 400) {
-                        this.StonehengeIsDisconnected = true;
                         //debugger;
-                        window.location.reload();
+                        this.StonehengeIsDisconnected = true;
+                        app.stonehengeReloadOnError(error);
                     }
                 });
         },
 
         StonehengePollEvents: function (continuePolling) {
-            if (!app.stonehengeViewModelName.model.StonehengeActive || app.stonehengeViewModelName.model.StonehengePostActive
-                || app.stonehengeViewModelName.model.StonehengePollEventsActive !== null) return;
+            if (!app.stonehengeViewModelName.model.StonehengeActive
+                || app.stonehengeViewModelName.model.StonehengePostActive) return;
+            if (app.stonehengeViewModelName.model.StonehengePollEventsActive
+                || app.activeViewModelName !== 'stonehengeViewModelName') {
+                //debugger;
+                return;
+            }
             let ts = new Date().getTime();
             Vue.http.get('Events/stonehengeViewModelName?ts=' + ts,
                 {
                     before(request) {
                         app.stonehengeViewModelName.model.StonehengePollEventsActive = request;
-                        app.previousRequest = request;
+                        app.activeRequests.add(request);
                     }
                 })
                 .then(response => {
@@ -123,43 +123,52 @@ stonehengeViewModelName = function component() {
                         app.stonehengeViewModelName.model.StonehengeIsDisconnected = false;
                         app.stonehengeViewModelName.StonehengeSetViewModelData(data);
                     } catch (error) {
-                        setTimeout(function () { window.location.reload(); }, 100);
+                        setTimeout(function () {
+                            app.stonehengeReloadOnError(error);
+                        }, 100);
                     }
                     if (continuePolling || app.stonehengeViewModelName.model.StonehengeContinuePolling) {
-                        setTimeout(function () { app.stonehengeViewModelName.StonehengePollEvents(false); }, app.stonehengeViewModelName.model.StonehengePollDelay);
+                        setTimeout(function () {
+                            app.stonehengeViewModelName.StonehengePollEvents(false);
+                        }, app.stonehengeViewModelName.model.StonehengePollDelay);
                     }
                 })
                 .catch(error => {
-                    if (app.stonehengeViewModelName.model.StonehengePollEventsActive !== null) {
-                        app.stonehengeViewModelName.model.StonehengeIsDisconnected = true;
+                    if (app.stonehengeViewModelName.model.StonehengePollEventsActive
+                        && app.activeViewModelName === 'stonehengeViewModelName') {
                         //debugger;
+                        app.stonehengeViewModelName.model.StonehengeIsDisconnected = true;
                     }
                     if (error.status >= 400) {
-                        setTimeout(function () { window.location.reload(); }, 1000);
+                        setTimeout(function (app) {
+                            app.stonehengeReloadOnError(error);
+                        }, 1000);
                     } else {
                         app.stonehengeViewModelName.model.StonehengePollEventsActive = null;
                         if (!app.stonehengeViewModelName.model.StonehengePostActive) {
-                            setTimeout(function () { app.stonehengeViewModelName.StonehengePollEvents(true); }, app.stonehengeViewModelName.model.StonehengePollDelay);
+                            setTimeout(function () {
+                                app.stonehengeViewModelName.StonehengePollEvents(true);
+                            }, app.stonehengeViewModelName.model.StonehengePollDelay);
                         }
                     }
                 });
         },
 
         StonehengeGetViewModel: function () {
-            this.StonehengeCancelRequests();
+            app.activeViewModelName = 'stonehengeViewModelName';
+            this.StonehengeCancelVmRequests();
             Vue.http.get('ViewModel/stonehengeViewModelName',
                 {
                     before(request) {
-                        app.previousRequest = request;
+                        app.activeRequests.add(request);
                     }
                 })
                 .then(response => {
-                    var cookie = response.headers.get("cookie");
-                    var match = (/stonehenge-id=([0-9a-fA-F]+)/).exec(cookie);
+                    let cookie = response.headers.get("cookie");
+                    let match = (/stonehenge-id=([0-9a-fA-F]+)/).exec(cookie);
                     if (match == null) {
                         app.stonehengeViewModelName.model.StonehengeSession = stonehengeGetCookie("stonehenge-id");
-                    }
-                    else {
+                    } else {
                         app.stonehengeViewModelName.model.StonehengeSession = match[1];
                     }
                     try {
@@ -170,19 +179,21 @@ stonehengeViewModelName = function component() {
                     }
                     app.stonehengeViewModelName.model.StonehengeInitialLoading = false;
                     app.stonehengeViewModelName.model.StonehengeIsLoading = false;
-                    if (app.stonehengeViewModelName.model.StonehengePollEventsActive === null) {
-                        setTimeout(function () { app.stonehengeViewModelName.StonehengePollEvents(true); }, app.stonehengeViewModelName.model.StonehengePollDelay);
+                    if (!app.stonehengeViewModelName.model.StonehengePollEventsActive) {
+                        setTimeout(function () {
+                            app.stonehengeViewModelName.StonehengePollEvents(true);
+                        }, app.stonehengeViewModelName.model.StonehengePollDelay);
                     }
                 })
                 .catch(error => {
-                    app.stonehengeViewModelName.model.StonehengeIsDisconnected = true;
-                    //debugger;
-                    if (console && console.log) console.log(error);
-                    setTimeout(function () { window.location.reload(); }, 1000);
-                    window.location.reload();
+                    if (error.status) {
+                        //debugger;
+                        app.stonehengeViewModelName.model.StonehengeIsDisconnected = true;
+                        app.stonehengeReloadOnError(error);
+                    }
                 });
 
-            if(stonehengeDebugBuild) console.log('stonehengeViewModelName loaded');
+            if (stonehengeDebugBuild) console.log('stonehengeViewModelName loaded');
         },
 
         model: {
@@ -201,7 +212,7 @@ stonehengeViewModelName = function component() {
         },
 
         data: function () {
-            if(stonehengeDebugBuild) console.log('stonehengeViewModelName get data');
+            if (stonehengeDebugBuild) console.log('stonehengeViewModelName get data');
             //debugger;
             app.stonehengeViewModelName.StonehengeGetViewModel();
             app.stonehengeViewModelName.model.StonehengeActive = true;
@@ -213,8 +224,9 @@ stonehengeViewModelName = function component() {
         }
     };
 
+    stonehengeCancelRequests();
     app.stonehengeViewModelName = vm;
-    if(stonehengeDebugBuild) console.log('stonehengeViewModelName created');
+    if (stonehengeDebugBuild) console.log('stonehengeViewModelName created');
 
     return vm;
 };

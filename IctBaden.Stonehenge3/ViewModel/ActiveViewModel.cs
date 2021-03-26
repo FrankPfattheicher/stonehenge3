@@ -252,6 +252,7 @@ namespace IctBaden.Stonehenge3.ViewModel
             set => TrySetMember(name, value);
         }
 
+        [Obsolete("Will be remove in future release. Use class property instead.")]
         public void SetModel(object model, bool readOnly = false)
         {
             if (model == null)
@@ -259,6 +260,7 @@ namespace IctBaden.Stonehenge3.ViewModel
             SetModel(null, model, readOnly);
         }
 
+        [Obsolete("Will be remove in future release. Use class property instead.")]
         public void SetModel(string prefix, object model, bool readOnly = false)
         {
             if (model == null)
@@ -276,11 +278,13 @@ namespace IctBaden.Stonehenge3.ViewModel
             GetProperties();
         }
 
+        [Obsolete("Will be remove in future release. Use class property instead.")]
         public void UpdateModel(object model)
         {
             UpdateModel(null, model);
         }
 
+        [Obsolete("Will be remove in future release. Use class property instead.")]
         public void UpdateModel(string prefix, object model)
         {
             if (!ModelTypeExists(prefix, model))

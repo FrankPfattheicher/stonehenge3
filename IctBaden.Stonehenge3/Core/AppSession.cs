@@ -67,12 +67,22 @@ namespace IctBaden.Stonehenge3.Core
         public string[] CollectEvents()
         {
             IsWaitingForEvents = true;
+            var eventVm = ViewModel;
             _eventRelease.WaitOne(TimeSpan.FromMilliseconds(_eventTimeoutMs));
-            // wait for maximum 500ms for more events - if there is none within 100ms - continue
-            var max = 50;
-            while (_eventRelease.WaitOne(100) && (max > 0))
+
+            if (ViewModel == eventVm)
             {
-                max--;
+                // wait for maximum 500ms for more events - if there is none within 100ms - continue
+                var max = 50;
+                while (_eventRelease.WaitOne(100) && (max > 0))
+                {
+                    max--;
+                }
+            }
+            else
+            {
+                // VM has changed
+                EventsClear(false);
             }
             IsWaitingForEvents = false;
             lock (_events)
@@ -122,8 +132,12 @@ namespace IctBaden.Stonehenge3.Core
             if (oldViewModel != null)
             {
                 if ((oldViewModel.GetType().FullName == typeName))
+                {
+                    // no change
                     return oldViewModel;
+                }
 
+                EventsClear(true);
                 var disposable = oldViewModel as IDisposable;
                 disposable?.Dispose();
             }
@@ -426,6 +440,7 @@ namespace IctBaden.Stonehenge3.Core
 
         public void EventsClear(bool forceEnd)
         {
+            Logger.LogTrace($"Session({Id}).EventsClear({forceEnd})");
             lock (_events)
             {
                 //var privateEvents = Events.Where(e => e.StartsWith(AppService.PropertyNameId)).ToList();

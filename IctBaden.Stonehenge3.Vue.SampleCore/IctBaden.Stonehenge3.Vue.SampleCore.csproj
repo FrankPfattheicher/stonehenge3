@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>VueSampleCore</AssemblyName>
     <LangVersion>9</LangVersion>
+    <AssemblyVersion>3.17</AssemblyVersion>
+    <FileVersion>3.17</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="app\cookie.html" />
