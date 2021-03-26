@@ -63,7 +63,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
 
             Console.WriteLine(@"Starting server");
             var terminate = new AutoResetEvent(false);
-            Console.CancelKeyPress += (sender, eventArgs) => { terminate.Set(); };
+            Console.CancelKeyPress += (_, _) => { terminate.Set(); };
 
             var host = Environment.CommandLine.Contains("/localhost") ? "localhost" : "*";
             if (_server.Start(host, 32000))

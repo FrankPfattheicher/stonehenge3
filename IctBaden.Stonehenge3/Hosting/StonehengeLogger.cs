@@ -148,7 +148,7 @@ namespace IctBaden.Stonehenge3.Hosting
         }
 
         public ILogger CreateLogger(string categoryName) =>
-            _loggers.GetOrAdd(categoryName, name => new TraceLogger(_context));
+            _loggers.GetOrAdd(categoryName, _ => new TraceLogger(_context));
 
         public void Dispose() => _loggers.Clear();
     }
