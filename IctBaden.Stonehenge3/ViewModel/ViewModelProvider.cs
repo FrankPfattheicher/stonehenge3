@@ -203,15 +203,22 @@ namespace IctBaden.Stonehenge3.ViewModel
             var vmTypeName = parts[1];
             var vmType = session.ViewModel?.GetType();
 
-            string json;
+            var json = "{ \"StonehengeContinuePolling\":false }";
             if (vmTypeName != vmType?.Name)
             {
-                json = "{ \"StonehengeContinuePolling\":false }";
+                // view model changed !
                 return new Resource(resourceName, "ViewModelProvider", ResourceType.Json, json, Resource.Cache.None);
             }
 
             var data = new List<string> {"\"StonehengeContinuePolling\":true"};
             var events = session.CollectEvents();
+            
+            if (vmTypeName != vmType?.Name)
+            {
+                // view model changed !
+                return new Resource(resourceName, "ViewModelProvider", ResourceType.Json, json, Resource.Cache.None);
+            }
+
             if (session.ViewModel is ActiveViewModel activeVm)
             {
                 try
@@ -375,7 +382,7 @@ namespace IctBaden.Stonehenge3.ViewModel
                     {
                         var val = DeserializePropertyValue(logger, newValue, pi.PropertyType.GenericTypeArguments[0]);
                         var type = typeof(Notify<>).MakeGenericType(pi.PropertyType.GenericTypeArguments[0]);
-                        var notify = Activator.CreateInstance(type);
+                        var notify = Activator.CreateInstance(type, new[] { activeVm, pi.Name, val });
                         var valueField = type.GetField("_value", BindingFlags.Instance | BindingFlags.NonPublic);
                         valueField?.SetValue(notify, val);
                         activeVm.TrySetMember(propName, notify);

@@ -12,6 +12,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
     internal static class Program
     {
         private static IStonehengeHost _server;
+        public static ILoggerFactory LoggerFactory = StonehengeLogger.DefaultFactory;
 
         /// <summary>
         /// The main entry point for the application.
@@ -20,8 +21,8 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
         private static void Main()
         {
             Trace.Listeners.Add(new System.Diagnostics.ConsoleTraceListener());
-            var loggerFactory = StonehengeLogger.DefaultFactory;
-            var logger = loggerFactory.CreateLogger("stonehenge");
+            StonehengeLogger.DefaultLevel = LogLevel.Trace;
+            var logger = LoggerFactory.CreateLogger("stonehenge");
 
             Console.WriteLine(@"");
             Console.WriteLine(@"Stonehenge 3 sample");

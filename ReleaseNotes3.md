@@ -1,4 +1,6 @@
 
+
+* 3.17.8 - Fixed setting Notify<T>. Client event handling improved. Abort ALL pending client requests.
 * 3.17.7 - CopyToClipboard
 * 3.17.6 - Support in-proc and out-of-proc IIS hosting
 * 3.17.5 - IISIntegration added again
