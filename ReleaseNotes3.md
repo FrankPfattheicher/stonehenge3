@@ -1,5 +1,6 @@
 
 
+* 3.17.9 - Fixed CopyToClipboard with text containing new lines.
 * 3.17.8 - Fixed setting Notify<T>. Client event handling improved. Abort ALL pending client requests.
 * 3.17.7 - CopyToClipboard
 * 3.17.6 - Support in-proc and out-of-proc IIS hosting
