@@ -7,7 +7,7 @@
         Theme: Index = {{ThemeIndex}} Used CSS = 'theme{{Theme}}.css'<br />
     </p>
     <p>
-        <select v-model="Theme" 
+        <select v-model="Theme" v-focus
                 onchange="document.cookie='theme=' + this.value; location.reload();" >
             <option value="">Light</option>
             <option value="dark">Dark</option>

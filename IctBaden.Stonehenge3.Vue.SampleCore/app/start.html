@@ -36,12 +36,10 @@
         <h3>Application wide commands</h3>
         <a href="#" onclick="AppCommand('FileOpen')">AppCommand FileOpen</a>
     </p>
-    <p>
+
     <h3>Form input</h3>
-    
-    </p>
     <p>
-        <input v-model="Test" />
+        <input v-model="Test" v-focus />
         <button class="btn btn-sm btn-secondary" v-on:click="Save(1,2)">Prefix with "1", append "2"</button>
     </p>
     <p>
