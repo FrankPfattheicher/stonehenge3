@@ -6,7 +6,7 @@
 	<p>
 		<b>Range</b>
 		<br/>
-		<input type="range" style="width: 300px;"
+		<input type="range" style="width: 300px;" v-focus
 			   :min="RangeMin" :max="RangeMax" v-model="Range" 
 			   @change="RangeChanged()" />
 		{{Range}}%

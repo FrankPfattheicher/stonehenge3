@@ -1,5 +1,5 @@
 
-
+* 3.17.10 - Added v-focus custom directive to replace no longer working autofocus.
 * 3.17.9 - Fixed CopyToClipboard with text containing new lines.
 * 3.17.8 - Fixed setting Notify<T>. Client event handling improved. Abort ALL pending client requests.
 * 3.17.7 - CopyToClipboard
