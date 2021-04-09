@@ -212,7 +212,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                         break;
                 }
 
-                if (appSession?.StonehengeCookieSet == false)
+                if (appSession is {StonehengeCookieSet: false} && appSession.HostOptions.AllowCookies)
                 {
                     context.Response.Headers.Add("Set-Cookie",
                         appSession.SecureCookies
