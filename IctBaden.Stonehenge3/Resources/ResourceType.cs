@@ -19,6 +19,7 @@ namespace IctBaden.Stonehenge3.Resources
         }
 
         public static readonly ResourceType Text = new ResourceType("txt", "text/plain", false);
+        public static readonly ResourceType TextUtf8 = new ResourceType("txt", "text/plain; charset=utf-8", false);
         public static readonly ResourceType Htm = new ResourceType("htm", "text/html", false);
         public static readonly ResourceType Html = new ResourceType("html", "text/html" , false);
         public static readonly ResourceType Css = new ResourceType("css", "text/css", false);
