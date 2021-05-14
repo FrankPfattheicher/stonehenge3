@@ -59,7 +59,6 @@ jobs:
         version=$(grep -oP -m 1 '\* \K[0-9]*\.[0-9]*\.[0-9]*' ReleaseNotes3.md)
         echo Version=$version
         cd artifacts
-        nuget pack ../Stonehenge3.nuspec
         nuget pack ../Stonehenge3.nuspec -BasePath . 
         nuget pack ../Stonehenge3.nuspec -BasePath . -Version $version
     - uses: actions/upload-artifact@v2
