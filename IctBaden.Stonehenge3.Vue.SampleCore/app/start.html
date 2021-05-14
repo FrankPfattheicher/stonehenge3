@@ -39,7 +39,7 @@
 
     <h3>Form input</h3>
     <p>
-        <input v-model="Test" v-focus />
+        <input v-model="Test" v-select />
         <button class="btn btn-sm btn-secondary" v-on:click="Save(1,2)">Prefix with "1", append "2"</button>
     </p>
     <p>
@@ -50,6 +50,9 @@
     </p>
     <p>
         <button class="btn btn-sm btn-secondary" v-on:click="ExecJavaScript()">Execute JavaScript Code</button>
+    </p>
+    <p>
+        <a href="#/tree">Link To Tree</a>
     </p>
     <p>
         <button class="btn btn-sm btn-secondary" v-on:click="NavigateToTree()">Navigate To Tree</button>

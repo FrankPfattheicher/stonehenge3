@@ -164,10 +164,10 @@ namespace IctBaden.Stonehenge3.Resources
                         {
                             var text = reader.ReadToEnd();
                             _logger.LogDebug($"ResourceLoader({resourceName}): {asmResource.Value.FullName}");
-                            text = text.Replace("{.min}", session.IsDebug ? "" : ".min");
+                            text = text.Replace("{.min}", (session?.IsDebug ?? false) ? "" : ".min");
                             if (resourceName?.EndsWith("index.html", StringComparison.InvariantCultureIgnoreCase) ?? false)
                             {
-                                text = UserContentLinks.InsertUserCssLinks(AppAssembly, "", text, session.SubDomain);
+                                text = UserContentLinks.InsertUserCssLinks(AppAssembly, "", text, session?.SubDomain ?? "");
                                 text = UserContentLinks.InsertUserJsLinks(AppAssembly, "", text);
                             }
                             return new Resource(resourceName, "res://" + asmResource.Value.FullName, resourceType, text, Resource.Cache.Revalidate);

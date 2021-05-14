@@ -108,5 +108,6 @@ namespace IctBaden.Stonehenge3.Hosting
         }
         public bool AllowCookies => SessionIdMode != SessionIdModes.UrlParameterOnly;
         public bool AddUrlSessionParameter => SessionIdMode != SessionIdModes.CookiesOnly;
+
     }
 }

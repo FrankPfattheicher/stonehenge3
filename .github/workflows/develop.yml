@@ -19,7 +19,7 @@ jobs:
       with:
         dotnet-version: 3.1.404
     - name: Setup Nuget
-      uses: NuGet/setup-nuget@v1.0.5
+      uses: NuGet/setup-nuget@v1
     - name: Prepare Artifacts
       run: |
         mkdir artifacts

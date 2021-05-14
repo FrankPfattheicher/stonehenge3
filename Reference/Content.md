@@ -5,5 +5,6 @@
 * Menu
 
 **Special Features**
-* Focus / Autofocus
+* Focus / Autofocus form element
+* Select / Autofocus and select all text
 

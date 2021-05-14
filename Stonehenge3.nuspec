@@ -7,8 +7,8 @@
         <owners>Frank Pfattheicher</owners>
         <summary>X-Platform Web Application Framework</summary>
         <license type="expression">MIT</license>
+        <icon>images/icon64.png</icon>
         <projectUrl>https://github.com/FrankPfattheicher/stonehenge3</projectUrl>
-        <iconUrl>https://image.ibb.co/hVjxsf/icon64.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>X-Platform Web Application Framework</description>
         <releaseNotes>Stable</releaseNotes>

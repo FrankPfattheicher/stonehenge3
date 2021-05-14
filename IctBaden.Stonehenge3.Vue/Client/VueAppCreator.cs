@@ -56,15 +56,10 @@ namespace IctBaden.Stonehenge3.Vue.Client
         {
             var resourceText = string.Empty;
 
-            using (var stream = assembly.GetManifestResourceStream(resourceName))
-            {
-              if (stream == null) return resourceText;
-              // ReSharper disable once ConvertToUsingDeclaration
-              using (var reader = new StreamReader(stream))
-              {
-                resourceText = reader.ReadToEnd();
-              }
-            }
+            using var stream = assembly.GetManifestResourceStream(resourceName);
+            if (stream == null) return resourceText;
+            using var reader = new StreamReader(stream);
+            resourceText = reader.ReadToEnd();
 
             return resourceText;
         }
@@ -160,7 +155,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
                             }
                         }
 
-                        var resource = new Resource($"{viewModel.Name}.js", "VueResourceProvider", ResourceType.Js, controllerJs, Resource.Cache.Revalidate);
+                        var resource = new Resource($"{viewModel.Name}.js", "ViewModel", ResourceType.Js, controllerJs, Resource.Cache.Revalidate);
                         _vueContent.Add(resource.Name, resource);
                     }
                     catch(Exception ex)
