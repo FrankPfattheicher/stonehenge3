@@ -111,7 +111,17 @@ Vue.directive('focus', {
     // When the bound element is inserted into the DOM...
     inserted: function (el) {
         // Focus the element
-        el.focus()
+        el.focus();
+    }
+})
+
+// Register a global custom directive called `v-focus`
+Vue.directive('select', {
+    // When the bound element is inserted into the DOM...
+    inserted: function (el) {
+        // Focus the element
+        el.focus();
+        el.select();
     }
 })
 

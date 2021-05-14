@@ -1,4 +1,5 @@
 
+* 3.17.11 - Added v-select custom directive.
 * 3.17.10 - Added v-focus custom directive to replace no longer working autofocus.
 * 3.17.9 - Fixed CopyToClipboard with text containing new lines.
 * 3.17.8 - Fixed setting Notify<T>. Client event handling improved. Abort ALL pending client requests.
@@ -13,7 +14,7 @@
 * 3.16.7 - Moved from "Microsoft.AspNetCore.Http" to "Microsoft.Extensions.Http".
 * 3.16.6 - Moved Windows specific code to static class WindowsHosting.
 * 3.16.5 - Moved from "Microsoft.AspNetCore.Hosting.Abstractions" to "Microsoft.Extensions.Hosting.Abstractions".
-* 3.16.4 - UseIIS on windows only.
+* 3.16.4 - UseIIS on Windows only.
 * 3.16.3 - Fixed nuspec (netcoreapp3.1).
 * 3.16.2 - Removed UseSSL option. Using SSL if cert path is given and exists.
 * 3.16.1 - Moved to netcoreapp3.1 and C# 8. Removed synchronous writes. Supporting IIS hosting.
