@@ -15,7 +15,6 @@
         <copyright>Copyright ICT Baden GmbH 2013-2021</copyright>
         <tags>.NET Core HTML CSS Kestrel Vue</tags>
         <dependencies>
-            <group targetFramework="netcoreapp3.1" />
             <dependency id="CryptSharpStandard" version="1.0.0" />
             <dependency id="HttpMultipartParser" version="4.3.1" />
             <dependency id="Microsoft.AspNetCore.Cors" version="2.2.0"/>
@@ -36,10 +35,12 @@
             <dependency id="System.IdentityModel.Tokens.Jwt" version="6.8.0" />
         </dependencies>
         <references>
-            <reference file="IctBaden.Stonehenge3.dll"/>
-            <reference file="IctBaden.Stonehenge3.Vue.dll"/>
-            <reference file="IctBaden.Stonehenge3.Kestrel.dll"/>
-            <reference file="IctBaden.Stonehenge3.SimpleHttp.dll"/>
+            <group targetFramework="netcoreapp3.1" >
+                <reference file="IctBaden.Stonehenge3.dll"/>
+                <reference file="IctBaden.Stonehenge3.Vue.dll"/>
+                <reference file="IctBaden.Stonehenge3.Kestrel.dll"/>
+                <reference file="IctBaden.Stonehenge3.SimpleHttp.dll"/>
+            </group>
         </references>
     </metadata>
     <files>
