@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
@@ -90,7 +91,10 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                     return;
                 }
 
-                appSession?.SetUser(GetUserNameFromContext(context));
+                if (appSession != null && string.IsNullOrEmpty(appSession.UserIdentity))
+                {
+                    appSession.SetUser(GetUserNameFromContext(context));
+                }
 
                 Resource content = null;
                 switch (requestVerb)
@@ -277,22 +281,37 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             if (identityName != null) return identityName;
 
             var auth = context.Request.Headers["Authorization"].FirstOrDefault();
-            if (auth == null) return null;
-
-            if (auth.StartsWith("Basic ", StringComparison.InvariantCultureIgnoreCase))
+            if (auth != null)
             {
-                var userPassword = Encoding.ASCII.GetString(Convert.FromBase64String(auth.Substring(6)));
-                identityName = userPassword.Split(':').FirstOrDefault();
-            }
-            else if (auth.StartsWith("Bearer ", StringComparison.InvariantCultureIgnoreCase))
-            {
-                var token = auth.Substring(7);
-                var handler = new JwtSecurityTokenHandler();
-                var jwtToken = handler.ReadToken(token) as JwtSecurityToken;
-                identityName = jwtToken?.Subject;
-            }
+                if (auth.StartsWith("Basic ", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var userPassword = Encoding.ASCII.GetString(Convert.FromBase64String(auth.Substring(6)));
+                    identityName = userPassword.Split(':').FirstOrDefault();
+                }
+                else if (auth.StartsWith("Bearer ", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var token = auth.Substring(7);
+                    var handler = new JwtSecurityTokenHandler();
+                    var jwtToken = handler.ReadToken(token) as JwtSecurityToken;
+                    identityName = jwtToken?.Subject;
+                }
 
-            return identityName;
+                return identityName;
+            }
+            
+            var isLocal = context.IsLocal();
+            if (!isLocal) return null;
+
+            var explorers = Process.GetProcessesByName("explorer");
+            if (explorers.Length == 1)
+            {
+                identityName = $"{Environment.UserDomainName}\\{Environment.UserName}";
+                return identityName;
+            }
+            
+            // RDP with more than one session: How to find app and session using request's client IP port
+
+            return null;
         }
 
         private void HandleIndexContent(HttpContext context, Resource content)

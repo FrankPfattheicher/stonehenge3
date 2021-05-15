@@ -29,6 +29,7 @@ namespace IctBaden.Stonehenge3.Core
         public bool IsLocal { get; private set; }
         public bool IsDebug { get; private set; }
         public string ClientAddress { get; private set; }
+        public int ClientPort { get; private set; }
         public string UserAgent { get; private set; }
         public string Platform { get; private set; }
         public string Browser { get; private set; }
@@ -379,12 +380,14 @@ namespace IctBaden.Stonehenge3.Core
             return assembly.GetCustomAttributes(false).OfType<DebuggableAttribute>().Any(da => da.IsJITTrackingEnabled);
         }
         
-        public void Initialize(StonehengeHostOptions hostOptions, string hostDomain, bool isLocal, string clientAddress, string userAgent)
+        public void Initialize(StonehengeHostOptions hostOptions, string hostDomain, 
+            bool isLocal, string clientAddress, int clientPort, string userAgent)
         {
             HostOptions = hostOptions;
             HostDomain = hostDomain;
             IsLocal = isLocal;
             ClientAddress = clientAddress;
+            ClientPort = clientPort;
             UserAgent = userAgent;
             ConnectedSince = DateTime.Now;
 
