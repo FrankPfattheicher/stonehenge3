@@ -39,6 +39,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IctBaden.Stonehenge3.Vue.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reference", "Reference\Reference.csproj", "{F7A68EA0-1231-46BA-BEDD-83E230EF666E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IctBaden.Stonehenge3.App", "IctBaden.Stonehenge3.App\IctBaden.Stonehenge3.App.csproj", "{6A8DDB28-E367-4B15-8285-1F0632BC93AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IctBaden.Stonehenge3.TreeView", "IctBaden.Stonehenge3.TreeView\IctBaden.Stonehenge3.TreeView.csproj", "{151398EB-410E-4CEB-9ED8-87D25554EE2B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +85,14 @@ Global
 		{F7A68EA0-1231-46BA-BEDD-83E230EF666E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7A68EA0-1231-46BA-BEDD-83E230EF666E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7A68EA0-1231-46BA-BEDD-83E230EF666E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A8DDB28-E367-4B15-8285-1F0632BC93AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A8DDB28-E367-4B15-8285-1F0632BC93AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A8DDB28-E367-4B15-8285-1F0632BC93AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A8DDB28-E367-4B15-8285-1F0632BC93AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{151398EB-410E-4CEB-9ED8-87D25554EE2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{151398EB-410E-4CEB-9ED8-87D25554EE2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{151398EB-410E-4CEB-9ED8-87D25554EE2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{151398EB-410E-4CEB-9ED8-87D25554EE2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,6 +12,7 @@ using IctBaden.Stonehenge3.ViewModel;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 // ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 namespace IctBaden.Stonehenge3.Vue.Client
 {
@@ -99,7 +100,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
 
             if (!contentPages.Any())
             {
-                _logger.LogError("VueAppCreator: No content pages found.");
+                _logger.LogError("VueAppCreator: No content pages found");
             }
             else if (string.IsNullOrEmpty(_startPage))
             {

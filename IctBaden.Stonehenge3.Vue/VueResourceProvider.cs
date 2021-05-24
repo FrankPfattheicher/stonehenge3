@@ -10,6 +10,7 @@ using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.Types;
 using IctBaden.Stonehenge3.Vue.Client;
 using Microsoft.Extensions.Logging;
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -151,7 +152,7 @@ namespace IctBaden.Stonehenge3.Vue
                         .Replace("._9", ".9");
                     if (_vueContent.ContainsKey(resourceId))
                     {
-                        _logger.LogWarning("VueResourceProvider.AddResourceContent: Resource with id {0} already exits", resourceId);
+                        _logger.LogWarning($"VueResourceProvider.AddResourceContent: Resource with id {resourceId} already exits");
                         continue;
                     }
 

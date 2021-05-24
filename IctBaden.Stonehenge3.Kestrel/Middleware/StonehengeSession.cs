@@ -10,6 +10,7 @@ using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 namespace IctBaden.Stonehenge3.Kestrel.Middleware
 {
@@ -125,7 +126,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             var etag = context.Request.Headers["If-None-Match"];
             if (context.Request.Method == "GET" && !string.IsNullOrEmpty(etag) && etag == session.GetResourceETag(path))
             {
-                logger.LogTrace("ETag match.");
+                logger.LogTrace("ETag match");
                 context.Response.StatusCode = (int) HttpStatusCode.NotModified;
             }
             else

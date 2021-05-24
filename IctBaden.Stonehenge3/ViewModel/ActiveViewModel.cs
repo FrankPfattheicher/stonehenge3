@@ -35,6 +35,7 @@ using System.Reflection;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Resources;
 using Microsoft.Extensions.Logging;
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable UnusedMember.Global

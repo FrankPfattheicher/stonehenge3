@@ -18,6 +18,7 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 // ReSharper disable ConvertToUsingDeclaration
 

@@ -3,6 +3,7 @@ using System.IO;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Hosting;
 using Microsoft.Extensions.Logging;
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 

@@ -13,6 +13,7 @@ using IctBaden.Stonehenge3.Resources;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 namespace IctBaden.Stonehenge3.ViewModel
 {

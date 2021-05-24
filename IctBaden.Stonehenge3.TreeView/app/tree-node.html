@@ -1,0 +1,14 @@
+<!--CustomElement:node-->
+<li v-if="node.IsVisible" style="margin-right: 1em;">
+    <div :class="node.Class" style="padding-left: .5em;">
+        <span v-if="node.HasChildren" class="tree-expand" :class="node.ExpandIcon" style="cursor: pointer; width: 1em;"
+              @click="$emit('toggle', node.Id)"></span>
+        <span :class="node.Icon" @click="$emit('toggle', node.Id)"></span>
+        <span style="cursor: pointer;" @click="$emit('select', node.Id)">&nbsp;{{node.Name}}</span>
+    </div>
+    <ul style="list-style-type: none;">
+        <tree-node v-for="child of node.Children" :node="child" :key="child.Id"
+                   @select="$emit('select', $event)" @toggle="$emit('toggle', $event)">
+        </tree-node>
+    </ul>
+</li>
