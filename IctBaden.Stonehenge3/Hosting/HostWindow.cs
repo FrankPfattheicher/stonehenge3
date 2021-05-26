@@ -61,6 +61,7 @@ namespace IctBaden.Stonehenge3.Hosting
         /// <summary>
         /// Open a UI window using an installed browser 
         /// in kino mode - if possible.
+        /// This method does not return until the window is closed.
         /// </summary>
         /// <returns></returns>
         public bool Open()
@@ -72,9 +73,10 @@ namespace IctBaden.Stonehenge3.Hosting
                          ShowWindowEpiphany() ||
                          ShowWindowChrome1(path) ||
                          ShowWindowChrome2(path) ||
-                         ShowWindowInternetExplorer() ||
+                         ShowWindowEdge(path) ||
                          ShowWindowFirefox() ||
-                         ShowWindowSafari();
+                         ShowWindowSafari() ||
+                         ShowWindowInternetExplorer();
             if (!opened)
             {
                 Trace.TraceError("Could not create main window");
@@ -136,6 +138,40 @@ namespace IctBaden.Stonehenge3.Hosting
                 {
                     return false;
                 }
+                Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _startUrl);
+                ui.WaitForExit();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LastError = ex.Message;
+                return false;
+            }
+        }
+
+
+        private bool ShowWindowEdge(string path)
+        {
+            try
+            {
+                var pi = new ProcessStartInfo
+                {
+                    FileName = "msedge",
+                    CreateNoWindow = true,
+                    Arguments = $"--app={_startUrl}/?title={HttpUtility.UrlEncode(_title)} --window-size={_windowSize.X},{_windowSize.Y} --disable-translate --user-data-dir=\"{path}\"",
+                    UseShellExecute = Environment.OSVersion.Platform != PlatformID.Unix
+                };
+                if (Environment.OSVersion.Platform == PlatformID.Unix)
+                {
+                    pi.Arguments += " --disable-gpu";
+                }
+                var ui = Process.Start(pi);
+                Thread.Sleep(100);    // unexpected exit on linux
+                if ((ui == null) || ui.HasExited)
+                {
+                    return false;
+                }
+
                 Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _startUrl);
                 ui.WaitForExit();
                 return true;
