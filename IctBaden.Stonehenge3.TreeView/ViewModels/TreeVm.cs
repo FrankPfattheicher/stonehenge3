@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.ViewModel;
+// ReSharper disable MemberCanBeProtected.Global
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 // ReSharper disable MemberCanBePrivate.Global
@@ -15,7 +16,7 @@ namespace IctBaden.Stonehenge3.TreeView.ViewModels
         private TreeNodeVm _rootNode;
 
         public List<TreeNodeVm> RootNodes { get; private set; }
-        public TreeNodeVm SelectedNodeVm;
+        public TreeNodeVm SelectedNode { get; private set; }
 
         // ReSharper disable once UnusedMember.Global
         protected TreeVm(AppSession session) : base (session)
@@ -38,6 +39,9 @@ namespace IctBaden.Stonehenge3.TreeView.ViewModels
             }
         }
 
+        public IEnumerable<TreeNodeVm> AllNodes() => _rootNode.AllNodes();
+        
+        
         [ActionMethod]
         // ReSharper disable once UnusedMember.Global
         public void TreeToggle(string nodeId)
@@ -60,7 +64,7 @@ namespace IctBaden.Stonehenge3.TreeView.ViewModels
                 treeNode.IsSelected = false;
             }
             node.IsSelected = true;
-            SelectedNodeVm = node;
+            SelectedNode = node;
             SelectionChanged();
         }
 

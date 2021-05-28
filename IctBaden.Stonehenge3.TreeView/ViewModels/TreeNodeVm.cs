@@ -38,8 +38,8 @@ namespace IctBaden.Stonehenge3.TreeView.ViewModels
         
         public TreeNodeVm(TreeNodeVm parentNodeVm, object item, IExpandedProvider expanded = null)
         {
-            Id = Guid.NewGuid().ToString("N");
             Item = item;
+            Id = (GetItemProperty("Id") as string) ?? Guid.NewGuid().ToString("N");
             _expanded = expanded;
             Parent = parentNodeVm;
             Children = new List<TreeNodeVm>();
@@ -55,6 +55,7 @@ namespace IctBaden.Stonehenge3.TreeView.ViewModels
 
         private object GetItemProperty(string propertyName)
         {
+            if (Item == null) return null;
             var prop = Item.GetType().GetProperty(propertyName);
             return prop == null ? null : prop.GetValue(Item);
         }
