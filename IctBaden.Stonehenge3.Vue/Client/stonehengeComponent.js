@@ -70,7 +70,8 @@ stonehengeViewModelName = function component() {
             Vue.http.post(urlWithParams, JSON.stringify(formData),
                 {
                     before(request) {
-                        app.activeRequests.add(request);
+                        request.headers.append('Stonehenge-Id', app.stonehengeViewModelName.model.StonehengeSession);
+                        //app.activeRequests.add(request);
                     }
                 })
                 .then(response => {
@@ -109,6 +110,7 @@ stonehengeViewModelName = function component() {
                 {
                     before(request) {
                         app.stonehengeViewModelName.model.StonehengePollEventsActive = request;
+                        request.headers.append('Stonehenge-Id', app.stonehengeViewModelName.model.StonehengeSession);
                         app.activeRequests.add(request);
                     }
                 })
@@ -160,7 +162,8 @@ stonehengeViewModelName = function component() {
             Vue.http.get('ViewModel/stonehengeViewModelName?stonehenge-id=' + app.stonehengeViewModelName.model.StonehengeSession,
                 {
                     before(request) {
-                        app.activeRequests.add(request);
+                        request.headers.append('Stonehenge-Id', app.stonehengeViewModelName.model.StonehengeSession);
+                        //app.activeRequests.add(request);
                     }
                 })
                 .then(response => {

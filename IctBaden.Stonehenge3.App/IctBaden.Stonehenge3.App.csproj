@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <IsPackable>false</IsPackable>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <LangVersion>9</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\IctBaden.Stonehenge3.Kestrel\IctBaden.Stonehenge3.Kestrel.csproj" />
+      <ProjectReference Include="..\IctBaden.Stonehenge3.Vue\IctBaden.Stonehenge3.Vue.csproj" />
+      <ProjectReference Include="..\IctBaden.Stonehenge3\IctBaden.Stonehenge3.csproj" />
+    </ItemGroup>
+
+</Project>

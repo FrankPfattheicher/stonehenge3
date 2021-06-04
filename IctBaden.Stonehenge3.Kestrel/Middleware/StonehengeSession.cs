@@ -10,6 +10,7 @@ using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 namespace IctBaden.Stonehenge3.Kestrel.Middleware
 {
@@ -125,7 +126,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             var etag = context.Request.Headers["If-None-Match"];
             if (context.Request.Method == "GET" && !string.IsNullOrEmpty(etag) && etag == session.GetResourceETag(path))
             {
-                logger.LogTrace("ETag match.");
+                logger.LogTrace("ETag match");
                 context.Response.StatusCode = (int) HttpStatusCode.NotModified;
             }
             else
@@ -169,8 +170,9 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             var userAgent = context.Request.Headers["User-Agent"];
             var httpContext = context.Request?.HttpContext;
             var clientAddress = httpContext?.Connection.RemoteIpAddress.ToString();
+            var clientPort = httpContext?.Connection.RemotePort ?? 0;
             var hostDomain = context.Request.Host.Value;
-            session.Initialize(options, hostDomain, isLocal, clientAddress, userAgent);
+            session.Initialize(options, hostDomain, isLocal, clientAddress, clientPort, userAgent);
             appSessions.Add(session);
             logger.LogInformation($"Kestrel New session {session.Id}. {appSessions.Count} sessions.");
             return session;

@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using Xunit;
 using JsonSerializer = IctBaden.Stonehenge3.ViewModel.JsonSerializer;
 // ReSharper disable LocalFunctionCanBeMadeStatic
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 namespace IctBaden.Stonehenge3.Test.Serializer
 {

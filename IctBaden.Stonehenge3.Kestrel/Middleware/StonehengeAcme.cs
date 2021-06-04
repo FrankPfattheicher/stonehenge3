@@ -39,7 +39,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                     return;
                 }
 
-                logger.LogError("No ACME data found.");
+                logger.LogError("No ACME data found");
             }
 
             await _next.Invoke(context);

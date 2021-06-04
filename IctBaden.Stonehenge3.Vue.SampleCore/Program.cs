@@ -76,7 +76,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
                     var wnd = new HostWindow(_server.BaseUrl, options.Title);
                     if (!wnd.Open())
                     {
-                        logger.LogError("Failed to open main window.");
+                        logger.LogError("Failed to open main window");
                         terminate.Set();
                     }
                 }

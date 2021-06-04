@@ -11,6 +11,7 @@ using IctBaden.Stonehenge3.Client;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Hosting;
 using Microsoft.Extensions.Logging;
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 namespace IctBaden.Stonehenge3.Resources
 {
@@ -129,6 +130,14 @@ namespace IctBaden.Stonehenge3.Resources
 
             var asmResource = _resources.Value
                 .FirstOrDefault(res => string.Compare(res.Key, resourceName, true, CultureInfo.InvariantCulture) == 0);
+
+            if (asmResource.Key == null)
+            {
+                var shortName = GetShortResourceName(".app.", resourceName);
+                asmResource = _resources.Value
+                    .FirstOrDefault(res => string.Compare(res.Key, shortName, true, CultureInfo.InvariantCulture) == 0);
+            }
+            
             if (asmResource.Key == null)
             {
                 _logger.LogInformation($"ResourceLoader({resourceName}): not found");

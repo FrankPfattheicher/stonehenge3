@@ -13,6 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using AuthenticationSchemes = Microsoft.AspNetCore.Server.HttpSys.AuthenticationSchemes;
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
+// ReSharper disable StringLiteralTypo
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 
@@ -116,7 +118,7 @@ namespace IctBaden.Stonehenge3.Kestrel
 
                 if (_options.UseNtlmAuthentication)
                 {
-                    _logger.LogInformation("KestrelHost.Start: Using HttpSys mode (NTLM authentication).");
+                    _logger.LogInformation("KestrelHost.Start: Using HttpSys mode (NTLM authentication)");
                     builder = builder
                         .UseHttpSys(options =>
                         {
@@ -130,7 +132,7 @@ namespace IctBaden.Stonehenge3.Kestrel
                 }
                 else
                 {
-                    _logger.LogInformation("KestrelHost.Start: Using Kestrel/Sockets mode.");
+                    _logger.LogInformation("KestrelHost.Start: Using Kestrel/Sockets mode");
                     builder = builder
                         .UseSockets()
                         .UseKestrel(options =>
@@ -167,7 +169,7 @@ namespace IctBaden.Stonehenge3.Kestrel
                         throw _host.Exception;
                     }
                 }
-                _logger.LogInformation("KestrelHost.Start: succeeded.");
+                _logger.LogInformation("KestrelHost.Start: succeeded");
             }
             catch (Exception ex)
             {
@@ -222,7 +224,7 @@ namespace IctBaden.Stonehenge3.Kestrel
                 Console.WriteLine(ex.Message);
             }
 
-            _logger.LogInformation("KestrelHost.Terminate: Terminated.");
+            _logger.LogInformation("KestrelHost.Terminate: Terminated");
         }
         
         public void SetLogLevel(LogLevel level)

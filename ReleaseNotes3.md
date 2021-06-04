@@ -1,4 +1,6 @@
 
+* 3.18.01 - Do NOT cancel POST and VM requests, event queries only. Removed lang from index html.
+* 3.17.12 - Added request header 'Stonehenge-Id'.
 * 3.17.11 - Added v-select custom directive.
 * 3.17.10 - Added v-focus custom directive to replace no longer working autofocus.
 * 3.17.9 - Fixed CopyToClipboard with text containing new lines.
