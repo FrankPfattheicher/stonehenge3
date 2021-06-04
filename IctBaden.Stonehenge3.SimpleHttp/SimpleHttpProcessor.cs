@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Web;
 using Microsoft.Extensions.Logging;
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -156,7 +157,7 @@ namespace IctBaden.Stonehenge3.SimpleHttp
                 }
 
                 var value = line.Substring(pos, line.Length - pos);
-                _logger.LogTrace("header: {0}:{1}", name, value);
+                _logger.LogTrace($"header: {name}:{value}");
                 Headers[name] = value;
             }
         }
@@ -188,9 +189,9 @@ namespace IctBaden.Stonehenge3.SimpleHttp
                 var toRead = contentLen;
                 while (toRead > 0)
                 {
-                    _logger.LogTrace("starting Read, toRead={0}", toRead);
+                    _logger.LogTrace($"starting Read, toRead={toRead}");
                     var numRead = _inputStream.Read(buf, 0, Math.Min(BufSize, toRead));
-                    _logger.LogTrace("read finished, numRead={0}", numRead);
+                    _logger.LogTrace($"read finished, numRead={numRead}");
                     if (numRead == 0)
                     {
                         // ReSharper disable once ConditionIsAlwaysTrueOrFalse

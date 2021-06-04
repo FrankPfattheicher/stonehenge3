@@ -6,8 +6,19 @@
 	<p>
 		<b>Range</b>
 		<br/>
-		<input type="range" style="width: 300px;" v-focus
-			   :min="RangeMin" :max="RangeMax" v-model="Range" 
+		<datalist id="steplist">
+			<option>0</option>
+			<option>5</option>
+			<option>10</option>
+			<option>15</option>
+			<option>20</option>
+			<option>25</option>
+			<option>30</option>
+			<option>35</option>
+			<option>40</option>
+		</datalist>
+		<input type="range" style="width: 300px;" v-focus list="steplist"
+			   :min="RangeMin" :max="RangeMax"  v-model="Range" 
 			   @change="RangeChanged()" />
 		{{Range}}%
 	</p>

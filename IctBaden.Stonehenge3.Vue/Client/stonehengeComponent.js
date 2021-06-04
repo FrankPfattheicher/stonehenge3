@@ -71,7 +71,7 @@ stonehengeViewModelName = function component() {
                 {
                     before(request) {
                         request.headers.append('Stonehenge-Id', app.stonehengeViewModelName.model.StonehengeSession);
-                        app.activeRequests.add(request);
+                        //app.activeRequests.add(request);
                     }
                 })
                 .then(response => {
@@ -163,7 +163,7 @@ stonehengeViewModelName = function component() {
                 {
                     before(request) {
                         request.headers.append('Stonehenge-Id', app.stonehengeViewModelName.model.StonehengeSession);
-                        app.activeRequests.add(request);
+                        //app.activeRequests.add(request);
                     }
                 })
                 .then(response => {

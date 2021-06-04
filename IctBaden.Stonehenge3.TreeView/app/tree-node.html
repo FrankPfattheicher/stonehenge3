@@ -4,7 +4,7 @@
         <span v-if="node.HasChildren" class="tree-expand" :class="node.ExpandIcon" style="cursor: pointer; width: 1em;"
               @click="$emit('toggle', node.Id)"></span>
         <span :class="node.Icon" @click="$emit('toggle', node.Id)"></span>
-        <span style="cursor: pointer;" @click="$emit('select', node.Id)">&nbsp;{{node.Name}}</span>
+        <span style="cursor: pointer;" @click.exact="$emit('select', node.Id)" @dblclick.exact="$emit('toggle', node.Id)">&nbsp;{{node.Name}}</span>
     </div>
     <ul style="list-style-type: none;">
         <tree-node v-for="child of node.Children" :node="child" :key="child.Id"
