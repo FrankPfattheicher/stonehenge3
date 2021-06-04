@@ -12,13 +12,13 @@ using System.Web;
 using HttpMultipartParser;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Resources;
-using IctBaden.Stonehenge3.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
 // ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 // ReSharper disable ConvertToUsingDeclaration
@@ -192,10 +192,6 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                                 JsonConvert.SerializeObject(exResource), Resource.Cache.None);
                         }
 
-                        if (appSession?.ViewModel is ActiveViewModel avm)
-                        {
-                            avm.NotifyAllPropertiesChanged();
-                        }
                         break;
                 }
 
