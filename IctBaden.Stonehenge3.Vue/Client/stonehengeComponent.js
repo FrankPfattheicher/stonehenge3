@@ -58,8 +58,17 @@ stonehengeViewModelName = function component() {
             }
         },
 
-        StonehengePost: function (urlWithParams) {
+        StonehengeSleep: function (milliseconds) {
+            return new Promise(resolve => setTimeout(resolve, milliseconds));
+        },
+    
+        StonehengePost: async function (urlWithParams) {
             this.StonehengeCancelVmRequests();
+
+            let w = 3;
+            while (this.StonehengePostActive && w > 0) {
+                await this.StonehengeSleep(100);
+            }
 
             let props = ['propNames'];
             let formData = {};
