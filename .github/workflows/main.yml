@@ -15,7 +15,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.404
+        dotnet-version: 3.1.409
     - name: Setup Nuget
       uses: NuGet/setup-nuget@v1.0.5
     - name: Prepare Artifacts

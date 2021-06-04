@@ -585,7 +585,7 @@ namespace IctBaden.Stonehenge3.ViewModel
             }
         }
 
-        protected void NotifyAllPropertiesChanged()
+        public void NotifyAllPropertiesChanged()
         {
             foreach (PropertyDescriptorEx prop in properties)
             {
