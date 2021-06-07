@@ -5,6 +5,7 @@ using IctBaden.Stonehenge3.Kestrel;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.Vue;
 using Microsoft.Extensions.Logging;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace IctBaden.Stonehenge3.App
 {
@@ -13,8 +14,8 @@ namespace IctBaden.Stonehenge3.App
         public IStonehengeHost Server;
         public readonly ILogger Logger;
 
-        private StonehengeResourceLoader _loader;
-        private StonehengeHostOptions _options;
+        private readonly StonehengeResourceLoader _loader;
+        private readonly StonehengeHostOptions _options;
         
         public StonehengeUi(string title)
         : this(new StonehengeHostOptions
