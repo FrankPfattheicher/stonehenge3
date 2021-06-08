@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Web;
 using HttpMultipartParser;
 using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -202,20 +203,30 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 }
 
                 context.Response.ContentType = content.ContentType;
-                switch (content.CacheMode)
+
+                if (context.Items["stonehenge.HostOptions"] is StonehengeHostOptions {DisableClientCache: true})
                 {
-                    case Resource.Cache.None:
-                        context.Response.Headers.Add("Cache-Control", new[] {"no-cache"});
-                        break;
-                    case Resource.Cache.Revalidate:
-                        context.Response.Headers.Add("Cache-Control",
-                            new[] {"max-age=3600", "must-revalidate", "proxy-revalidate"});
-                        var etag = appSession?.GetResourceETag(path);
-                        context.Response.Headers.Add(HeaderNames.ETag, new StringValues(etag));
-                        break;
-                    case Resource.Cache.OneDay:
-                        context.Response.Headers.Add("Cache-Control", new[] {"max-age=86400"});
-                        break;
+                    context.Response.Headers.Add("Cache-Control", new[] {"no-cache", "no-store", "must-revalidate", "proxy-revalidate"});
+                    context.Response.Headers.Add("Pragma", new[] {"no-cache"});
+                    context.Response.Headers.Add("Expires", new[] {"0"});
+                }
+                else
+                {
+                    switch (content.CacheMode)
+                    {
+                        case Resource.Cache.None:
+                            context.Response.Headers.Add("Cache-Control", new[] {"no-cache"});
+                            break;
+                        case Resource.Cache.Revalidate:
+                            context.Response.Headers.Add("Cache-Control",
+                                new[] {"max-age=3600", "must-revalidate", "proxy-revalidate"});
+                            var etag = appSession?.GetResourceETag(path);
+                            context.Response.Headers.Add(HeaderNames.ETag, new StringValues(etag));
+                            break;
+                        case Resource.Cache.OneDay:
+                            context.Response.Headers.Add("Cache-Control", new[] {"max-age=86400"});
+                            break;
+                    }
                 }
 
                 if (appSession is {StonehengeCookieSet: false} && appSession.HostOptions.AllowCookies)

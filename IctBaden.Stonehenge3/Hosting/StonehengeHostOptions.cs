@@ -69,6 +69,15 @@ namespace IctBaden.Stonehenge3.Hosting
         /// </summary>
         public string SslCertificatePassword { get; set; }
 
+        /// <summary>
+        /// Host is using the following headers to disable clients
+        /// to cache any content.
+        ///     Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate
+        ///     Pragma: no-cache
+        ///     Expires: 0 
+        /// </summary>
+        public bool DisableClientCache { get; set; } = false;
+        
         public StonehengeHostOptions()
         {
             Title = Assembly.GetEntryAssembly()?.GetName().Name;
@@ -106,6 +115,7 @@ namespace IctBaden.Stonehenge3.Hosting
             }
             return 100;
         }
+        
         public bool AllowCookies => SessionIdMode != SessionIdModes.UrlParameterOnly;
         public bool AddUrlSessionParameter => SessionIdMode != SessionIdModes.CookiesOnly;
 
