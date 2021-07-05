@@ -1,4 +1,6 @@
 
+* 3.18.05 - Fixed CopyToClipboard escaping
+* 3.18.04 - StonehengeHostOptions.DisableClientCache
 * 3.18.03 - Cleanup NotifyAllProperty changes. Delay concurrent client posts in client. 
 * 3.18.02 - NotifyAllPropertiesChanged after handling POST.
 * 3.18.01 - Do NOT cancel POST and VM requests, event queries only. Removed lang from index html.

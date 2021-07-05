@@ -637,8 +637,8 @@ namespace IctBaden.Stonehenge3.ViewModel
         public void CopyToClipboard(string text)
         {
             text = text
-                .Replace("'", "\\'", StringComparison.Ordinal)
                 .Replace("\\", "\\\\", StringComparison.Ordinal)
+                .Replace("'", "\\'", StringComparison.Ordinal)
                 .Replace("\r", "\\r", StringComparison.Ordinal)
                 .Replace("\n", "\\n", StringComparison.Ordinal);
             ExecuteClientScript($"stonehengeCopyToClipboard('{text}')");
