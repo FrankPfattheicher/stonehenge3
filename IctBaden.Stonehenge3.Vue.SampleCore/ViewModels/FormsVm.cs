@@ -19,6 +19,8 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
 
         public C3Chart ChartData { get; }
 
+        public bool ShowCookies { get; private set; }
+        
         public FormsVm(AppSession session) : base(session)
         {
             Range = 20;
@@ -39,6 +41,13 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
                 .Concat(new object[] { Range })
                 .ToArray();
             ChartData.Data.SetData(0, newData);
+        }
+
+        [ActionMethod]
+        public void ToggleShowCookies()
+        {
+            ShowCookies = !ShowCookies;
+            EnableRoute("cookie", ShowCookies);
         }
         
     }

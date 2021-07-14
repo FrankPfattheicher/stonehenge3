@@ -1,4 +1,6 @@
 
+* 3.19.01 - Start page name convention fixed. Log improved. 
+  Initial disabled pages option. EnableRoute method in ActiveViewModel. 
 * 3.18.05 - Fixed CopyToClipboard escaping
 * 3.18.04 - StonehengeHostOptions.DisableClientCache
 * 3.18.03 - Cleanup NotifyAllProperty changes. Delay concurrent client posts in client. 
