@@ -1,5 +1,6 @@
 
-* 3.19.02 - Initial disabled pages using negative index. EnableRoute method inIStonehengeHost.
+* 3.19.03 - Fixed automatic start page using negative indexes.
+* 3.19.02 - Initial disabled pages using negative index. EnableRoute method in IStonehengeHost.
 * 3.19.01 - Start page name convention fixed. Log improved. 
   Initial disabled pages option. EnableRoute method in ActiveViewModel. 
 * 3.18.05 - Fixed CopyToClipboard escaping

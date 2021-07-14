@@ -55,6 +55,8 @@
     <EmbeddedResource Include="app\c3gauge.html" />
     <None Remove="app\c3gauge.js" />
     <EmbeddedResource Include="app\c3gauge.js" />
+    <None Remove="app\info.html" />
+    <EmbeddedResource Include="app\info.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IctBaden.Stonehenge3.Kestrel\IctBaden.Stonehenge3.Kestrel.csproj" />
