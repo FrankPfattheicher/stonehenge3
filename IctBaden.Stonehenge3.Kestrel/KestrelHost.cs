@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
+using IctBaden.Stonehenge3.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Memory;
@@ -30,6 +32,7 @@ namespace IctBaden.Stonehenge3.Kestrel
         private readonly IStonehengeResourceProvider _resourceProvider;
         private readonly StonehengeHostOptions _options;
         private readonly ILogger _logger;
+        private Startup _startup;
 
         public KestrelHost(IStonehengeResourceProvider provider)
             : this(provider, new StonehengeHostOptions())
@@ -109,12 +112,14 @@ namespace IctBaden.Stonehenge3.Kestrel
                     .Add(mem)
                     .Build();
 
+                _startup = new Startup(_logger, config, _resourceProvider);
+                
                 var builder = new WebHostBuilder()
                     .UseConfiguration(config)
                     .ConfigureServices(s => { s.AddSingleton(_logger); })
                     .ConfigureServices(s => { s.AddSingleton<IConfiguration>(config); })
                     .ConfigureServices(s => { s.AddSingleton(_resourceProvider); })
-                    .UseStartup<Startup>();
+                    .ConfigureServices(s => { s.AddSingleton<IStartup>(_startup); });
 
                 if (_options.UseNtlmAuthentication)
                 {
@@ -232,5 +237,16 @@ namespace IctBaden.Stonehenge3.Kestrel
             // TODO
         }
 
+        public void EnableRoute(string route, bool enabled)
+        {
+            var sessions = _startup?.AppSessions;
+            if (sessions == null) return;
+            
+            foreach (var viewModel in sessions.Select(session => session?.ViewModel as ActiveViewModel))
+            {
+                viewModel?.EnableRoute(route, enabled);
+            }
+        }
+        
     }
 }

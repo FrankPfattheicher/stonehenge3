@@ -84,15 +84,13 @@ namespace IctBaden.Stonehenge3.Vue.Client
                 .ThenBy(route => route.Vm.SortIndex)
                 .ToList();
 
-            bool RouteVisible(string name) => (_options.InitialDisabledPages == null) ||
-                                              _options.InitialDisabledPages.All(p => p != name);
             var pages = contentPages
                 .Select(route => string.Format(pageTemplate,
                                             "/" + route.Name,
                                             route.Name,
                                             route.Vm.Title,
                                             route.Name,
-                                            (route.Vm.Visible && RouteVisible(route.Name)) ? "true" : "false" ))
+                                            route.Vm.Visible ? "true" : "false" ))
                 .ToList();
 
             var startPageName = _options.StartPage;

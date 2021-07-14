@@ -29,5 +29,11 @@ namespace IctBaden.Stonehenge3.Hosting
         /// <param name="level">The new log level</param>
         void SetLogLevel(LogLevel level);
 
+        /// <summary>
+        /// Enable route (page) of all app sessions 
+        /// </summary>
+        /// <param name="route"></param>
+        /// <param name="enabled"></param>
+        void EnableRoute(string route, bool enabled);
     }
 }

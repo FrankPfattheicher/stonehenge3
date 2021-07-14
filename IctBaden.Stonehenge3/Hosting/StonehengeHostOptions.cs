@@ -23,12 +23,6 @@ namespace IctBaden.Stonehenge3.Hosting
         public string StartPage { get; set; }
 
         /// <summary>
-        /// Initial disabled (not visible) pages.
-        /// By default all pages with sort index != 0 are visible. 
-        /// </summary>
-        public string[] InitialDisabledPages { get; set; }
-
-        /// <summary>
         /// Path to the file based content.
         /// </summary>
         public string AppFilesPath { get; set; }
