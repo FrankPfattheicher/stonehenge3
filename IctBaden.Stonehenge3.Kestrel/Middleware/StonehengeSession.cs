@@ -70,8 +70,8 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 return;
             }
 
-            var appSessions = context.Items["stonehenge.AppSessions"] as List<AppSession>
-                              ?? new List<AppSession>();
+            var appSessions = context.Items["stonehenge.AppSessions"] as List<AppSession>;
+            Debug.Assert(appSessions != null);
 
             // URL id has priority
             var stonehengeId = context.Request.Query["stonehenge-id"];

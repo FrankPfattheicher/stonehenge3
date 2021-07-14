@@ -59,7 +59,7 @@ namespace IctBaden.Stonehenge3.Vue
 
         private static readonly Regex ExtractName = new Regex("<!--ViewModel:(\\w+)-->");
         private static readonly Regex ExtractElement = new Regex("<!--CustomElement(:([\\w, ]+))?-->");
-        private static readonly Regex ExtractTitle = new Regex("<!--Title:([^:]*)(:(\\d*))?-->");
+        private static readonly Regex ExtractTitle = new Regex("<!--Title:([^:]*)(:(-?\\d*))?-->");
 
         private static ViewModelInfo GetViewModelInfo(string route, string pageText)
         {
@@ -102,6 +102,8 @@ namespace IctBaden.Stonehenge3.Vue
                     info.Title = route;
                 }
             }
+            info.Visible = info.SortIndex > 0;
+            info.SortIndex = Math.Abs(info.SortIndex);
             return info;
         }
 
