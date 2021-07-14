@@ -126,6 +126,8 @@ namespace IctBaden.Stonehenge3.Resources
         
         public Resource Get(AppSession session, string name, Dictionary<string, string> parameters)
         {
+            if (name.StartsWith("Events/")) return null;
+            
             var resourceName = GetAssemblyResourceName(name);
 
             var asmResource = _resources.Value

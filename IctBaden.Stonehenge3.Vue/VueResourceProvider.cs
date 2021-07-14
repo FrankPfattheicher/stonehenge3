@@ -44,7 +44,7 @@ namespace IctBaden.Stonehenge3.Vue
                 _appAssembly = resourceLoader.AppAssembly;
             }
             
-            var appCreator = new VueAppCreator(_logger, options.Title, options.StartPage, loader, options, _appAssembly, _vueContent);
+            var appCreator = new VueAppCreator(_logger, loader, options, _appAssembly, _vueContent);
 
             AddFileSystemContent(options.AppFilesPath);
             AddResourceContent();

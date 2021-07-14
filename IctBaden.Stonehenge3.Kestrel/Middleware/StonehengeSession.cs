@@ -157,8 +157,10 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 appSessions.Remove(timedOut);
                 logger.LogInformation($"Kestrel Session timed out {timedOut.Id}.");
             }
-
-            logger.LogInformation($"Kestrel {appSessions.Count} sessions.");
+            if (timedOutSessions.Any())
+            {
+                logger.LogInformation($"Kestrel {appSessions.Count} sessions.");
+            }
         }
 
         private static AppSession NewSession(ILogger logger, ICollection<AppSession> appSessions, HttpContext context,

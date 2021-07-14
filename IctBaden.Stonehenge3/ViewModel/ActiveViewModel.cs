@@ -609,14 +609,25 @@ namespace IctBaden.Stonehenge3.ViewModel
 
         #endregion
 
-        #region Server site navigation
+        #region Server side page enabling
+
+        public void EnableRoute(string route, bool enabled)
+        {
+            route = route.Replace("-", "_");
+            Session.Logger.LogInformation($"ActiveViewModel.EnableRoute({route}) = {enabled}");
+            ExecuteClientScript($"stonehengeEnableRoute('{route}', {enabled.ToString().ToLower()})");
+        }
+
+        #endregion
+
+        #region Server side navigation
 
         public string NavigateToRoute;
 
         public void NavigateTo(string route)
         {
             Session.Logger.LogInformation("ActiveViewModel.NavigateTo: " + route);
-            NavigateToRoute = route;
+            NavigateToRoute = route.Replace("-", "_");
         }
 
         #endregion

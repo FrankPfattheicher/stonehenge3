@@ -15,11 +15,18 @@ namespace IctBaden.Stonehenge3.Hosting
         /// Default is the entry assembly name.
         /// </summary>
         public string Title { get; set; }
+        
         /// <summary>
         /// Initial page to be activated.
         /// By default the first page (by sort index) is used. 
         /// </summary>
         public string StartPage { get; set; }
+
+        /// <summary>
+        /// Initial disabled (not visible) pages.
+        /// By default all pages with sort index != 0 are visible. 
+        /// </summary>
+        public string[] InitialDisabledPages { get; set; }
 
         /// <summary>
         /// Path to the file based content.
