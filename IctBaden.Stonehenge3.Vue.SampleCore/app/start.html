@@ -40,25 +40,25 @@
     <h3>Form input</h3>
     <p>
         <input v-model="Test" v-select />
-        <button class="btn btn-sm btn-secondary" v-on:click="Save(1,2)">Prefix with "1", append "2"</button>
+        <button class="btn btn-sm btn-secondary" @click="Save(1,2)">Prefix with "1", append "2"</button>
     </p>
     <p>
-        <button class="btn btn-sm btn-secondary" v-on:click="CopyTest()">Copy To Clipboard</button>
+        <button class="btn btn-sm btn-secondary" @click="CopyTest()">Copy To Clipboard</button>
     </p>
     <p>
-        <button class="btn btn-sm btn-secondary" v-on:click="ShowMessageBox()">MessageBox</button>
+        <button class="btn btn-sm btn-secondary" @click="ShowMessageBox()">MessageBox</button>
     </p>
     <p>
-        <button class="btn btn-sm btn-secondary" v-on:click="ExecJavaScript()">Execute JavaScript Code</button>
+        <button class="btn btn-sm btn-secondary" @click="ExecJavaScript()">Execute JavaScript Code</button>
     </p>
     <p>
         <a href="#/tree">Link To Tree</a>
     </p>
     <p>
-        <button class="btn btn-sm btn-secondary" v-on:click="NavigateToTree()">Navigate To Tree</button>
+        <button class="btn btn-sm btn-secondary" @click="NavigateToTree()">Navigate To Tree</button>
     </p>
     <p>
-        <button class="btn btn-sm btn-secondary" v-on:click="NavigateOnPage()">Navigate On Page (top of page)</button>
+        <button class="btn btn-sm btn-secondary" @click="NavigateOnPage()">Navigate On Page (top of page)</button>
     </p>
 
 </div>

@@ -78,6 +78,7 @@ namespace IctBaden.Stonehenge3.Kestrel
                         _logger.LogError("KestrelHost.Start: NOT using SSL - certificate not found: " + _options.SslCertificatePath);
                     }
                 }
+
                 var protocol = useSsl ? "https" : "http";
                 string httpSysAddress;
                 switch (hostAddress)
