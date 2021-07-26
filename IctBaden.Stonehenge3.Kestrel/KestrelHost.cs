@@ -9,6 +9,7 @@ using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.ViewModel;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Memory;
 using Microsoft.Extensions.DependencyInjection;
@@ -174,6 +175,13 @@ namespace IctBaden.Stonehenge3.Kestrel
                         throw _host.Exception;
                     }
                 }
+
+                var serverAddressesFeature = _webApp.ServerFeatures.Get<IServerAddressesFeature>();
+                foreach (var address in serverAddressesFeature.Addresses)
+                {
+                    _logger.LogInformation($"KestrelHost.Start: Listening on {address}");
+                }
+
                 _logger.LogInformation("KestrelHost.Start: succeeded");
             }
             catch (Exception ex)
