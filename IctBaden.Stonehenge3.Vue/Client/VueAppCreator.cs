@@ -101,7 +101,15 @@ namespace IctBaden.Stonehenge3.Vue.Client
             {
                 startPageName = contentPages.First(p => p.Vm.Visible).Name;
             }
-            startPageName = startPageName.Replace("-", "_");
+
+            if (string.IsNullOrEmpty(startPageName))
+            {
+                _logger.LogError("VueAppCreator: No content start page found");
+            }
+            else
+            {
+                startPageName = startPageName.Replace("-", "_");
+            }
             
             var (key, value) = _vueContent.FirstOrDefault(page => page.Value.Name == startPageName);
             if(key != null)
