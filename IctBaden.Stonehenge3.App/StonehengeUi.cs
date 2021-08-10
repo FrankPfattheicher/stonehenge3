@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.Reflection;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Kestrel;
@@ -52,7 +53,6 @@ namespace IctBaden.Stonehenge3.App
         }
 
         public bool Start() => Start(0, false);
-
         public bool Start(int port, bool publicReachable)
         {
             var host = publicReachable ? "*" : "localhost";
@@ -64,5 +64,8 @@ namespace IctBaden.Stonehenge3.App
         {
             Server.Terminate();
         }
+
+        public ServiceContainer Services => _loader?.Services;
+
     }
 }

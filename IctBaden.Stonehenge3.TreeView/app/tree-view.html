@@ -1,5 +1,5 @@
 <!--CustomElement:rootNodes-->
-<ul style="list-style-type: none; -webkit-padding-start: 1em;">
+<ul style="list-style-type: none; -webkit-padding-start: 1em; padding-left: 1em;">
     <tree-node v-for="child of rootNodes" :node="child" :key="child.Id"
                @select="$emit('select', $event)" @toggle="$emit('toggle', $event)">
     </tree-node>
