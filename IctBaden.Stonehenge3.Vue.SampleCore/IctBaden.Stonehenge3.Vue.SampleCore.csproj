@@ -25,6 +25,7 @@
   <ItemGroup>
     <EmbeddedResource Include="app\cookie.html" />
     <EmbeddedResource Include="app\forms.html" />
+    <EmbeddedResource Include="app\graph.html" />
     <EmbeddedResource Include="app\invisible.html" />
     <EmbeddedResource Include="app\scripts\c3.js" />
     <EmbeddedResource Include="app\scripts\d3.js" />
