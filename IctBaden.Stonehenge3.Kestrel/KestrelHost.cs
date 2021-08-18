@@ -9,6 +9,7 @@ using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.ViewModel;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Memory;
 using Microsoft.Extensions.DependencyInjection;
@@ -77,6 +78,7 @@ namespace IctBaden.Stonehenge3.Kestrel
                         _logger.LogError("KestrelHost.Start: NOT using SSL - certificate not found: " + _options.SslCertificatePath);
                     }
                 }
+
                 var protocol = useSsl ? "https" : "http";
                 string httpSysAddress;
                 switch (hostAddress)
@@ -174,6 +176,13 @@ namespace IctBaden.Stonehenge3.Kestrel
                         throw _host.Exception;
                     }
                 }
+
+                var serverAddressesFeature = _webApp.ServerFeatures.Get<IServerAddressesFeature>();
+                foreach (var address in serverAddressesFeature.Addresses)
+                {
+                    _logger.LogInformation($"KestrelHost.Start: Listening on {address}");
+                }
+
                 _logger.LogInformation("KestrelHost.Start: succeeded");
             }
             catch (Exception ex)

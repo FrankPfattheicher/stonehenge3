@@ -1,10 +1,11 @@
 
+* 3.20.01 - Added session method UpdatePropertyImmediately.
 * 3.19.03 - Fixed automatic start page using negative indexes.
 * 3.19.02 - Initial disabled pages using negative index. EnableRoute method in IStonehengeHost.
 * 3.19.01 - Start page name convention fixed. Log improved. 
   Initial disabled pages option. EnableRoute method in ActiveViewModel. 
 * 3.18.05 - Fixed CopyToClipboard escaping
-* 3.18.04 - StonehengeHostOptions.DisableClientCache
+* 3.18.04 - StonehengeHostOptions DisableClientCache.
 * 3.18.03 - Cleanup NotifyAllProperty changes. Delay concurrent client posts in client. 
 * 3.18.02 - NotifyAllPropertiesChanged after handling POST.
 * 3.18.01 - Do NOT cancel POST and VM requests, event queries only. Removed lang from index html.
