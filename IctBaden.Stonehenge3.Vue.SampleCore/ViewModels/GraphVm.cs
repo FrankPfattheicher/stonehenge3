@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Threading;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.ViewModel;
@@ -26,7 +27,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
         
         public GraphVm(AppSession session) : base(session)
         {
-            _speed = 300;
+            _speed = 500;
             
             const string column1 = "Sinus";
             ChartData = new C3Chart(new []{column1});
@@ -59,7 +60,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
         public void ToggleSpeed()
         {
             _timer.Dispose();
-            _speed = 400 - _speed;
+            _speed = 600 - _speed;
             _timer = new Timer(UpdateGraph, this, _speed, _speed);
         }
         

@@ -73,26 +73,28 @@ namespace IctBaden.Stonehenge3.Core
             IsWaitingForEvents = true;
             var eventVm = ViewModel;
             
-            if (!_forceUpdate)
+            // wait _eventTimeoutMs for events - if there is one - continue
+            var max = _eventTimeoutMs / 100;
+            while (!_forceUpdate && !_eventRelease.WaitOne(100) && (max > 0))
             {
-                _eventRelease.WaitOne(TimeSpan.FromMilliseconds(_eventTimeoutMs));
-
-                if (ViewModel == eventVm)
-                {
-                    // wait for maximum 500ms for more events - if there is none within 100ms - continue
-                    var max = 50;
-                    while (!_forceUpdate && _eventRelease.WaitOne(100) && (max > 0))
-                    {
-                        max--;
-                    }
-                }
-                else
-                {
-                    // VM has changed
-                    EventsClear(false);
-                }
+                max--;
             }
 
+            if (ViewModel == eventVm)
+            {
+                // wait for maximum 500ms for more events - if there is none within - continue
+                max = 50;
+                while (!_forceUpdate && _eventRelease.WaitOne(10) && (max > 0))
+                {
+                    max--;
+                }
+            }
+            else
+            {
+                // VM has changed
+                EventsClear(false);
+            }
+            
             _forceUpdate = false;
             IsWaitingForEvents = false;
             
