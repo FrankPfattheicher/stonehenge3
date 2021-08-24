@@ -1,5 +1,5 @@
 <!--CustomElement:node-->
-<li v-if="node.IsVisible" style="margin-right: 1em; display: inline-grid;">
+<li v-if="node.IsVisible" style="margin-right: 1em;">
     <div :class="node.Class" style="padding-left: .5em; display: flow-root;">
         <span v-if="node.HasChildren" class="tree-expand" :class="node.ExpandIcon" style="cursor: pointer; width: 1em; display: table-cell;"
               @click="$emit('toggle', node.Id)"></span>
