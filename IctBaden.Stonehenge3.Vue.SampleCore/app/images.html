@@ -1,0 +1,17 @@
+﻿<!--Title:Images:40-->
+<div>
+
+    <audio id="on" preload="auto" src="switch_on.wav"></audio>
+    <audio id="off" preload="auto" src="switch_off.wav"></audio>
+
+    <h1>Image animations</h1>
+    <p>
+        Use switch to control lamp.
+    </p>
+    <div style="display: inline-block;">
+        <img style="cursor: pointer;" title="click to toggle switch" @click="Switch()" 
+             :src="SwitchImg" />
+        <div style="display: inline-block;" :style="{ color: IsOn ? 'red' : 'black' }" >▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬</div>
+        <img :src="LampImg" title="see switching result" />
+    </div>
+</div>
