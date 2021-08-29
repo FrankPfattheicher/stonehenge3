@@ -335,8 +335,10 @@ namespace IctBaden.Stonehenge3.ViewModel
                     if (DateTime.TryParse(propValue, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
                         return dt;
                 }
-
-                return JsonConvert.DeserializeObject(propValue, propType);
+                if (propValue != null)
+                {
+                    return JsonConvert.DeserializeObject(propValue, propType);
+                }
             }
             catch (Exception ex)
             {
