@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Web;
+
 // ReSharper disable CommentTypo
 // ReSharper disable StringLiteralTypo
 
@@ -44,7 +45,7 @@ namespace IctBaden.Stonehenge3.Hosting
             : this(startUrl, null, DefaultWindowSize)
         {
         }
-        
+
         public HostWindow(string startUrl, string title)
             : this(startUrl, title, DefaultWindowSize)
         {
@@ -90,6 +91,7 @@ namespace IctBaden.Stonehenge3.Hosting
             {
                 // ignore
             }
+
             return opened;
         }
 
@@ -99,17 +101,19 @@ namespace IctBaden.Stonehenge3.Hosting
             {
                 var pi = new ProcessStartInfo
                 {
-                    FileName = Environment.OSVersion.Platform == PlatformID.Unix ? "chromium" : "chrome",
+                    FileName = Environment.OSVersion.Platform == PlatformID.Unix ? "google-Xchrome" : "chrome",
                     CreateNoWindow = true,
-                    Arguments = $"--app={_startUrl}/?title={HttpUtility.UrlEncode(_title)} --window-size={_windowSize.X},{_windowSize.Y} --disable-translate --user-data-dir=\"{path}\"",
+                    Arguments = "--disable-translate --new-window --no-default-browser-check "
+                                + $"--app={_startUrl}/?title={HttpUtility.UrlEncode(_title)} --window-size={_windowSize.X},{_windowSize.Y} --user-data-dir=\"{path}\"",
                     UseShellExecute = Environment.OSVersion.Platform != PlatformID.Unix
                 };
                 if (Environment.OSVersion.Platform == PlatformID.Unix)
                 {
                     pi.Arguments += " --disable-gpu";
                 }
+
                 var ui = Process.Start(pi);
-                Thread.Sleep(100);    // unexpected exit on linux
+                Thread.Sleep(100); // unexpected exit on linux
                 if ((ui == null) || ui.HasExited)
                 {
                     return false;
@@ -132,12 +136,14 @@ namespace IctBaden.Stonehenge3.Hosting
 
             {
                 var cmd = Environment.OSVersion.Platform == PlatformID.Unix ? "chromium-browser" : "chrome.exe";
-                var parameter = $"--app={_startUrl}/?title={HttpUtility.UrlEncode(_title)} --window-size={_windowSize.X},{_windowSize.Y} --disable-translate --user-data-dir=\"{path}\"";
+                var parameter =
+                    $"--app={_startUrl}/?title={HttpUtility.UrlEncode(_title)} --window-size={_windowSize.X},{_windowSize.Y} --disable-translate --user-data-dir=\"{path}\"";
                 var ui = Process.Start(cmd, parameter);
                 if ((ui == null) || ui.HasExited)
                 {
                     return false;
                 }
+
                 Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _startUrl);
                 ui.WaitForExit();
                 return true;
@@ -158,15 +164,17 @@ namespace IctBaden.Stonehenge3.Hosting
                 {
                     FileName = "msedge",
                     CreateNoWindow = true,
-                    Arguments = $"--app={_startUrl}/?title={HttpUtility.UrlEncode(_title)} --window-size={_windowSize.X},{_windowSize.Y} --disable-translate --user-data-dir=\"{path}\"",
+                    Arguments =
+                        $"--app={_startUrl}/?title={HttpUtility.UrlEncode(_title)} --window-size={_windowSize.X},{_windowSize.Y} --disable-translate --user-data-dir=\"{path}\"",
                     UseShellExecute = Environment.OSVersion.Platform != PlatformID.Unix
                 };
                 if (Environment.OSVersion.Platform == PlatformID.Unix)
                 {
                     pi.Arguments += " --disable-gpu";
                 }
+
                 var ui = Process.Start(pi);
-                Thread.Sleep(100);    // unexpected exit on linux
+                Thread.Sleep(100); // unexpected exit on linux
                 if ((ui == null) || ui.HasExited)
                 {
                     return false;
@@ -197,6 +205,7 @@ namespace IctBaden.Stonehenge3.Hosting
                 {
                     return false;
                 }
+
                 Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _startUrl);
                 ui.WaitForExit();
                 return true;
@@ -221,6 +230,7 @@ namespace IctBaden.Stonehenge3.Hosting
                 {
                     return false;
                 }
+
                 Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _startUrl);
                 ui.WaitForExit();
                 return true;
@@ -246,6 +256,7 @@ namespace IctBaden.Stonehenge3.Hosting
                 {
                     return false;
                 }
+
                 Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _startUrl);
                 ui.WaitForExit();
                 return true;
@@ -262,12 +273,14 @@ namespace IctBaden.Stonehenge3.Hosting
             try
             {
                 var cmd = Environment.OSVersion.Platform == PlatformID.Unix ? "firefox" : "firefox.exe";
-                var parameter = $"{_startUrl}/?title={HttpUtility.UrlEncode(_title)} -width {_windowSize.X} -height {_windowSize.Y}";
+                var parameter =
+                    $"{_startUrl}/?title={HttpUtility.UrlEncode(_title)} -width {_windowSize.X} -height {_windowSize.Y}";
                 var ui = Process.Start(cmd, parameter);
                 if ((ui == null) || ui.HasExited)
                 {
                     return false;
                 }
+
                 Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _startUrl);
                 ui.WaitForExit();
                 return true;
@@ -287,12 +300,14 @@ namespace IctBaden.Stonehenge3.Hosting
             try
             {
                 const string cmd = "safari.exe";
-                var parameter = $"-url {_startUrl}/?title={HttpUtility.UrlEncode(_title)} -width {_windowSize.X} -height {_windowSize.Y}";
+                var parameter =
+                    $"-url {_startUrl}/?title={HttpUtility.UrlEncode(_title)} -width {_windowSize.X} -height {_windowSize.Y}";
                 var ui = Process.Start(cmd, parameter);
                 if ((ui == null) || ui.HasExited)
                 {
                     return false;
                 }
+
                 Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _startUrl);
                 ui.WaitForExit();
                 return true;
@@ -303,6 +318,5 @@ namespace IctBaden.Stonehenge3.Hosting
                 return false;
             }
         }
-
     }
 }
