@@ -36,6 +36,7 @@ namespace IctBaden.Stonehenge3.Resources
         public static readonly ResourceType Jpeg = new("jpeg", "image/jpeg", true);
         public static readonly ResourceType Wav = new("wav", "audio/x-wav", true);
         public static readonly ResourceType Ico = new("ico", "image/x-icon", true);
+        public static readonly ResourceType Svg = new("svg", "image/svg+xml", false);
 
         public static readonly List<ResourceType> KnownTypes = new()
         {
@@ -49,7 +50,8 @@ namespace IctBaden.Stonehenge3.Resources
             Json,
             Png, Gif, Jpg, Jpeg,
             Wav,
-            Ico
+            Ico,
+            Svg
         };
 
         public static ResourceType GetByExtension(string extension)

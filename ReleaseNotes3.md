@@ -1,4 +1,5 @@
 
+* 3.20.03 - Session.UpdatePropertiesImmediately. SVG media type added.
 * 3.20.02 - Optimized cyclic update precision.
 * 3.20.01 - Added session method UpdatePropertyImmediately.
 * 3.19.03 - Fixed automatic start page using negative indexes.

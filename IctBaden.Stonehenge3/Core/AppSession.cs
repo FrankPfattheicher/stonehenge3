@@ -473,6 +473,11 @@ namespace IctBaden.Stonehenge3.Core
         public void UpdatePropertyImmediately(string name)
         {
             UpdateProperty(name);
+            UpdatePropertiesImmediately();
+        }
+
+        public void UpdatePropertiesImmediately()
+        {
             _forceUpdate = true;
         }
 
