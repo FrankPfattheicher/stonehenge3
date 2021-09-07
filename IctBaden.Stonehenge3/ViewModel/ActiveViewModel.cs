@@ -591,6 +591,7 @@ namespace IctBaden.Stonehenge3.ViewModel
             {
                 NotifyPropertyChanged(prop.Name);
             }
+            Session.UpdatePropertiesImmediately();
         }
         
         #endregion
