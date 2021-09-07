@@ -1,4 +1,5 @@
 
+* 3.20.04 - Fixed nuget dependency System.IdentityModel.Tokens.Jwt
 * 3.20.03 - Session.UpdatePropertiesImmediately. SVG media type added.
 * 3.20.02 - Optimized cyclic update precision.
 * 3.20.01 - Added session method UpdatePropertyImmediately.
