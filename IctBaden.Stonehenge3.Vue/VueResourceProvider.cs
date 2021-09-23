@@ -139,7 +139,7 @@ namespace IctBaden.Stonehenge3.Vue
                   .Where(name => (name.EndsWith(".html")) && !name.Contains("index.html") && !name.Contains("src.app.html"))
                   .OrderBy(name => name))
                 {
-                    var resourceId = ResourceLoader.GetShortResourceName(".app.", resourceName)
+                    var resourceId = ResourceLoader.GetShortResourceName(_appAssembly, ".app.", resourceName)
                         .Replace("@", "_")
                         .Replace("-", "_")
                         .Replace("._0", ".0")
