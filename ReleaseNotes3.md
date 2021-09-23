@@ -1,4 +1,5 @@
 
+* 3.20.05 - Fix problem with solution name ending ".app"
 * 3.20.04 - Fixed nuget dependency System.IdentityModel.Tokens.Jwt
 * 3.20.03 - Session.UpdatePropertiesImmediately. SVG media type added.
 * 3.20.02 - Optimized cyclic update precision.
