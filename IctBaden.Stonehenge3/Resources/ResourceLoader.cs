@@ -54,8 +54,9 @@ namespace IctBaden.Stonehenge3.Resources
         {
         }
 
-        public static string GetShortResourceName(string baseName, string resourceName)
+        public static string GetShortResourceName(Assembly appAssembly, string baseName, string resourceName)
         {
+            resourceName = resourceName.Replace(appAssembly.GetName().Name, "_");
             var ixBase = resourceName.IndexOf(baseName, StringComparison.InvariantCultureIgnoreCase);
             return ixBase >= 0 
                 ? resourceName.Substring(ixBase + baseName.Length) 
@@ -86,7 +87,7 @@ namespace IctBaden.Stonehenge3.Resources
         {
             foreach (var resource in assembly.GetManifestResourceNames())
             {
-                var shortName = GetShortResourceName(".app.", resource);
+                var shortName = GetShortResourceName(AppAssembly, ".app.", resource);
                 if (string.IsNullOrEmpty(shortName))
                 {
                     continue;
@@ -135,7 +136,7 @@ namespace IctBaden.Stonehenge3.Resources
 
             if (asmResource.Key == null)
             {
-                var shortName = GetShortResourceName(".app.", resourceName);
+                var shortName = GetShortResourceName(AppAssembly, ".app.", resourceName);
                 asmResource = _resources.Value
                     .FirstOrDefault(res => string.Compare(res.Key, shortName, true, CultureInfo.InvariantCulture) == 0);
             }
