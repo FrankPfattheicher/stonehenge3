@@ -43,7 +43,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
                 .Interval(TimeSpan.FromSeconds(2))
                 .Subscribe(_ =>
                 {
-                    AutoNotify.Update(TimeStamp);
+                    AutoNotify?.Update(TimeStamp);
                 });
         }
 
