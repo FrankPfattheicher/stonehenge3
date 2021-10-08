@@ -11,6 +11,7 @@ using IctBaden.Stonehenge3.Client;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Hosting;
 using Microsoft.Extensions.Logging;
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 namespace IctBaden.Stonehenge3.Resources
 {
@@ -53,8 +54,9 @@ namespace IctBaden.Stonehenge3.Resources
         {
         }
 
-        public static string GetShortResourceName(string baseName, string resourceName)
+        public static string GetShortResourceName(Assembly appAssembly, string baseName, string resourceName)
         {
+            resourceName = resourceName.Replace(appAssembly.GetName().Name, "_");
             var ixBase = resourceName.IndexOf(baseName, StringComparison.InvariantCultureIgnoreCase);
             return ixBase >= 0 
                 ? resourceName.Substring(ixBase + baseName.Length) 
@@ -85,7 +87,7 @@ namespace IctBaden.Stonehenge3.Resources
         {
             foreach (var resource in assembly.GetManifestResourceNames())
             {
-                var shortName = GetShortResourceName(".app.", resource);
+                var shortName = GetShortResourceName(AppAssembly, ".app.", resource);
                 if (string.IsNullOrEmpty(shortName))
                 {
                     continue;
@@ -125,10 +127,20 @@ namespace IctBaden.Stonehenge3.Resources
         
         public Resource Get(AppSession session, string name, Dictionary<string, string> parameters)
         {
+            if (name.StartsWith("Events/")) return null;
+            
             var resourceName = GetAssemblyResourceName(name);
 
             var asmResource = _resources.Value
                 .FirstOrDefault(res => string.Compare(res.Key, resourceName, true, CultureInfo.InvariantCulture) == 0);
+
+            if (asmResource.Key == null)
+            {
+                var shortName = GetShortResourceName(AppAssembly, ".app.", resourceName);
+                asmResource = _resources.Value
+                    .FirstOrDefault(res => string.Compare(res.Key, shortName, true, CultureInfo.InvariantCulture) == 0);
+            }
+            
             if (asmResource.Key == null)
             {
                 _logger.LogInformation($"ResourceLoader({resourceName}): not found");
@@ -164,10 +176,10 @@ namespace IctBaden.Stonehenge3.Resources
                         {
                             var text = reader.ReadToEnd();
                             _logger.LogDebug($"ResourceLoader({resourceName}): {asmResource.Value.FullName}");
-                            text = text.Replace("{.min}", session.IsDebug ? "" : ".min");
+                            text = text.Replace("{.min}", (session?.IsDebug ?? false) ? "" : ".min");
                             if (resourceName?.EndsWith("index.html", StringComparison.InvariantCultureIgnoreCase) ?? false)
                             {
-                                text = UserContentLinks.InsertUserCssLinks(AppAssembly, "", text, session.SubDomain);
+                                text = UserContentLinks.InsertUserCssLinks(AppAssembly, "", text, session?.SubDomain ?? "");
                                 text = UserContentLinks.InsertUserJsLinks(AppAssembly, "", text);
                             }
                             return new Resource(resourceName, "res://" + asmResource.Value.FullName, resourceType, text, Resource.Cache.Revalidate);

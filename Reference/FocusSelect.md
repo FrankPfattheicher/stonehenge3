@@ -22,3 +22,17 @@ To have a kind of autofocus functionality a custom directive is included as desc
 This allows automatically setting the input focus on that element if the page shows up.
 
 For more information see [Vue.js Custom Directives...](https://vuejs.org/v2/guide/custom-directive.html)
+
+
+## Select
+
+**Support using Custom Directive**
+
+To have an autofocus functionality also selecting the entire input a custom directive is included.
+
+``` html
+    <input v-model="Test" v-select />
+```
+
+This allows automatically setting the input focus on that element and select all text if the page shows up.
+

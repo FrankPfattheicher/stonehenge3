@@ -1,0 +1,17 @@
+<!--CustomElement:node-->
+<li v-if="node.IsVisible">
+    <div :class="node.Class" style="padding-left: .5em; display: flow-root;">
+        <span v-if="node.HasChildren" class="tree-expand" :class="node.ExpandIcon" style="cursor: pointer; width: 1em; display: table-cell;"
+              @click="$emit('toggle', node.Id)"></span>
+        <span :class="node.Icon" @click="$emit('toggle', node.Id)" style="display: table-cell;"></span>
+        <span style="cursor: pointer; display: table-cell; white-space: nowrap;" 
+              @click.exact="$emit('select', node.Id)" @dblclick.exact="$emit('toggle', node.Id)">
+            &nbsp;{{node.Name}}&nbsp;&nbsp;
+        </span>
+    </div>
+    <ul style="list-style-type: none;">
+        <tree-node v-for="child of node.Children" :node="child" :key="child.Id"
+                   @select="$emit('select', $event)" @toggle="$emit('toggle', $event)">
+        </tree-node>
+    </ul>
+</li>

@@ -10,6 +10,7 @@ using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.Types;
 using IctBaden.Stonehenge3.Vue.Client;
 using Microsoft.Extensions.Logging;
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -43,7 +44,7 @@ namespace IctBaden.Stonehenge3.Vue
                 _appAssembly = resourceLoader.AppAssembly;
             }
             
-            var appCreator = new VueAppCreator(_logger, options.Title, options.StartPage, loader, options, _appAssembly, _vueContent);
+            var appCreator = new VueAppCreator(_logger, loader, options, _appAssembly, _vueContent);
 
             AddFileSystemContent(options.AppFilesPath);
             AddResourceContent();
@@ -58,7 +59,7 @@ namespace IctBaden.Stonehenge3.Vue
 
         private static readonly Regex ExtractName = new Regex("<!--ViewModel:(\\w+)-->");
         private static readonly Regex ExtractElement = new Regex("<!--CustomElement(:([\\w, ]+))?-->");
-        private static readonly Regex ExtractTitle = new Regex("<!--Title:([^:]*)(:(\\d*))?-->");
+        private static readonly Regex ExtractTitle = new Regex("<!--Title:([^:]*)(:(-?\\d*))?-->");
 
         private static ViewModelInfo GetViewModelInfo(string route, string pageText)
         {
@@ -101,6 +102,8 @@ namespace IctBaden.Stonehenge3.Vue
                     info.Title = route;
                 }
             }
+            info.Visible = info.SortIndex > 0;
+            info.SortIndex = Math.Abs(info.SortIndex);
             return info;
         }
 
@@ -136,7 +139,7 @@ namespace IctBaden.Stonehenge3.Vue
                   .Where(name => (name.EndsWith(".html")) && !name.Contains("index.html") && !name.Contains("src.app.html"))
                   .OrderBy(name => name))
                 {
-                    var resourceId = ResourceLoader.GetShortResourceName(".app.", resourceName)
+                    var resourceId = ResourceLoader.GetShortResourceName(_appAssembly, ".app.", resourceName)
                         .Replace("@", "_")
                         .Replace("-", "_")
                         .Replace("._0", ".0")
@@ -151,7 +154,7 @@ namespace IctBaden.Stonehenge3.Vue
                         .Replace("._9", ".9");
                     if (_vueContent.ContainsKey(resourceId))
                     {
-                        _logger.LogWarning("VueResourceProvider.AddResourceContent: Resource with id {0} already exits", resourceId);
+                        _logger.LogWarning($"VueResourceProvider.AddResourceContent: Resource with id {resourceId} already exits");
                         continue;
                     }
 

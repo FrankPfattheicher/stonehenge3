@@ -1,4 +1,20 @@
 
+* 3.20.05 - Fix problem with solution name ending ".app"
+* 3.20.04 - Fixed nuget dependency System.IdentityModel.Tokens.Jwt
+* 3.20.03 - Session.UpdatePropertiesImmediately. SVG media type added.
+* 3.20.02 - Optimized cyclic update precision.
+* 3.20.01 - Added session method UpdatePropertyImmediately.
+* 3.19.03 - Fixed automatic start page using negative indexes.
+* 3.19.02 - Initial disabled pages using negative index. EnableRoute method in IStonehengeHost.
+* 3.19.01 - Start page name convention fixed. Log improved. 
+  Initial disabled pages option. EnableRoute method in ActiveViewModel. 
+* 3.18.05 - Fixed CopyToClipboard escaping
+* 3.18.04 - StonehengeHostOptions DisableClientCache.
+* 3.18.03 - Cleanup NotifyAllProperty changes. Delay concurrent client posts in client. 
+* 3.18.02 - NotifyAllPropertiesChanged after handling POST.
+* 3.18.01 - Do NOT cancel POST and VM requests, event queries only. Removed lang from index html.
+* 3.17.12 - Added request header 'Stonehenge-Id'.
+* 3.17.11 - Added v-select custom directive.
 * 3.17.10 - Added v-focus custom directive to replace no longer working autofocus.
 * 3.17.9 - Fixed CopyToClipboard with text containing new lines.
 * 3.17.8 - Fixed setting Notify<T>. Client event handling improved. Abort ALL pending client requests.
@@ -13,7 +29,7 @@
 * 3.16.7 - Moved from "Microsoft.AspNetCore.Http" to "Microsoft.Extensions.Http".
 * 3.16.6 - Moved Windows specific code to static class WindowsHosting.
 * 3.16.5 - Moved from "Microsoft.AspNetCore.Hosting.Abstractions" to "Microsoft.Extensions.Hosting.Abstractions".
-* 3.16.4 - UseIIS on windows only.
+* 3.16.4 - UseIIS on Windows only.
 * 3.16.3 - Fixed nuspec (netcoreapp3.1).
 * 3.16.2 - Removed UseSSL option. Using SSL if cert path is given and exists.
 * 3.16.1 - Moved to netcoreapp3.1 and C# 8. Removed synchronous writes. Supporting IIS hosting.

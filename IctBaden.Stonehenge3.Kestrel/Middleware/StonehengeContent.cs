@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 using System.Web;
 using HttpMultipartParser;
 using IctBaden.Stonehenge3.Core;
+using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -17,6 +19,8 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 // ReSharper disable ConvertToUsingDeclaration
 
@@ -90,7 +94,10 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                     return;
                 }
 
-                appSession?.SetUser(GetUserNameFromContext(context));
+                if (appSession != null && string.IsNullOrEmpty(appSession.UserIdentity))
+                {
+                    appSession.SetUser(GetUserNameFromContext(context));
+                }
 
                 Resource content = null;
                 switch (requestVerb)
@@ -196,23 +203,33 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 }
 
                 context.Response.ContentType = content.ContentType;
-                switch (content.CacheMode)
+
+                if (context.Items["stonehenge.HostOptions"] is StonehengeHostOptions {DisableClientCache: true})
                 {
-                    case Resource.Cache.None:
-                        context.Response.Headers.Add("Cache-Control", new[] {"no-cache"});
-                        break;
-                    case Resource.Cache.Revalidate:
-                        context.Response.Headers.Add("Cache-Control",
-                            new[] {"max-age=3600", "must-revalidate", "proxy-revalidate"});
-                        var etag = appSession?.GetResourceETag(path);
-                        context.Response.Headers.Add(HeaderNames.ETag, new StringValues(etag));
-                        break;
-                    case Resource.Cache.OneDay:
-                        context.Response.Headers.Add("Cache-Control", new[] {"max-age=86400"});
-                        break;
+                    context.Response.Headers.Add("Cache-Control", new[] {"no-cache", "no-store", "must-revalidate", "proxy-revalidate"});
+                    context.Response.Headers.Add("Pragma", new[] {"no-cache"});
+                    context.Response.Headers.Add("Expires", new[] {"0"});
+                }
+                else
+                {
+                    switch (content.CacheMode)
+                    {
+                        case Resource.Cache.None:
+                            context.Response.Headers.Add("Cache-Control", new[] {"no-cache"});
+                            break;
+                        case Resource.Cache.Revalidate:
+                            context.Response.Headers.Add("Cache-Control",
+                                new[] {"max-age=3600", "must-revalidate", "proxy-revalidate"});
+                            var etag = appSession?.GetResourceETag(path);
+                            context.Response.Headers.Add(HeaderNames.ETag, new StringValues(etag));
+                            break;
+                        case Resource.Cache.OneDay:
+                            context.Response.Headers.Add("Cache-Control", new[] {"max-age=86400"});
+                            break;
+                    }
                 }
 
-                if (appSession?.StonehengeCookieSet == false)
+                if (appSession is {StonehengeCookieSet: false} && appSession.HostOptions.AllowCookies)
                 {
                     context.Response.Headers.Add("Set-Cookie",
                         appSession.SecureCookies
@@ -277,22 +294,37 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             if (identityName != null) return identityName;
 
             var auth = context.Request.Headers["Authorization"].FirstOrDefault();
-            if (auth == null) return null;
-
-            if (auth.StartsWith("Basic ", StringComparison.InvariantCultureIgnoreCase))
+            if (auth != null)
             {
-                var userPassword = Encoding.ASCII.GetString(Convert.FromBase64String(auth.Substring(6)));
-                identityName = userPassword.Split(':').FirstOrDefault();
-            }
-            else if (auth.StartsWith("Bearer ", StringComparison.InvariantCultureIgnoreCase))
-            {
-                var token = auth.Substring(7);
-                var handler = new JwtSecurityTokenHandler();
-                var jwtToken = handler.ReadToken(token) as JwtSecurityToken;
-                identityName = jwtToken?.Subject;
-            }
+                if (auth.StartsWith("Basic ", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var userPassword = Encoding.ASCII.GetString(Convert.FromBase64String(auth.Substring(6)));
+                    identityName = userPassword.Split(':').FirstOrDefault();
+                }
+                else if (auth.StartsWith("Bearer ", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var token = auth.Substring(7);
+                    var handler = new JwtSecurityTokenHandler();
+                    var jwtToken = handler.ReadToken(token) as JwtSecurityToken;
+                    identityName = jwtToken?.Subject;
+                }
 
-            return identityName;
+                return identityName;
+            }
+            
+            var isLocal = context.IsLocal();
+            if (!isLocal) return null;
+
+            var explorers = Process.GetProcessesByName("explorer");
+            if (explorers.Length == 1)
+            {
+                identityName = $"{Environment.UserDomainName}\\{Environment.UserName}";
+                return identityName;
+            }
+            
+            // RDP with more than one session: How to find app and session using request's client IP port
+
+            return null;
         }
 
         private void HandleIndexContent(HttpContext context, Resource content)

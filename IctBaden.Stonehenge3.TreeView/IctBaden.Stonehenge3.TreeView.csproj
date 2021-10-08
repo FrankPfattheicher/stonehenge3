@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <IsPackable>false</IsPackable>
+        <LangVersion>9</LangVersion>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="app\tree-node.html" />
+      <EmbeddedResource Include="app\tree-node.html" />
+      <None Remove="app\tree-view.html" />
+      <EmbeddedResource Include="app\tree-view.html" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\IctBaden.Stonehenge3\IctBaden.Stonehenge3.csproj" />
+    </ItemGroup>
+
+</Project>

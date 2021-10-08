@@ -97,6 +97,14 @@ function stonehengeCopyToClipboard(text) {
     textarea.remove()
 }
 
+function stonehengeEnableRoute(route, enabled) {
+    // { path: '/rrrr', name: 'rrrr', title: 'rrrr', component: () => Promise.resolve(stonehengeLoadComponent('rrrr')), visible: true }
+    let found = routes.filter(function (item) { return item.name === route; })[0] || null;
+    if(found) {
+        found.visible = enabled;
+    }
+}
+
 // Router
 const routes = [
     //stonehengeAppRoutes
@@ -108,10 +116,20 @@ const router = new VueRouter({
 
 // Register a global custom directive called `v-focus`
 Vue.directive('focus', {
-    // When the bound element is inserted into the DOM...
+    // When the bound element inserted into the DOM...
     inserted: function (el) {
         // Focus the element
-        el.focus()
+        el.focus();
+    }
+})
+
+// Register a global custom directive called `v-focus`
+Vue.directive('select', {
+    // When the bound element inserted into the DOM...
+    inserted: function (el) {
+        // Focus the element
+        el.focus();
+        el.select();
     }
 })
 

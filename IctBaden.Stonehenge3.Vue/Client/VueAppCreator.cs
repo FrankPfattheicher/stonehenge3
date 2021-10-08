@@ -12,14 +12,13 @@ using IctBaden.Stonehenge3.ViewModel;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 // ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 namespace IctBaden.Stonehenge3.Vue.Client
 {
     internal class VueAppCreator
     {
         private readonly ILogger _logger;
-        private readonly string _appTitle;
-        private string _startPage;
         private readonly StonehengeResourceLoader _loader;
         private readonly StonehengeHostOptions _options;
         private readonly Assembly _appAssembly;
@@ -29,13 +28,10 @@ namespace IctBaden.Stonehenge3.Vue.Client
         private readonly string _controllerTemplate;
         private readonly string _elementTemplate;
 
-        public VueAppCreator(ILogger logger, string appTitle, string startPage, 
-            StonehengeResourceLoader loader, StonehengeHostOptions options,
+        public VueAppCreator(ILogger logger, StonehengeResourceLoader loader, StonehengeHostOptions options,
             Assembly appAssembly, Dictionary<string, Resource> vueContent)
         {
             _logger = logger;
-            _appTitle = appTitle;
-            _startPage = startPage;
             _loader = loader;
             _options = options;
             _appAssembly = appAssembly;
@@ -56,15 +52,10 @@ namespace IctBaden.Stonehenge3.Vue.Client
         {
             var resourceText = string.Empty;
 
-            using (var stream = assembly.GetManifestResourceStream(resourceName))
-            {
-              if (stream == null) return resourceText;
-              // ReSharper disable once ConvertToUsingDeclaration
-              using (var reader = new StreamReader(stream))
-              {
-                resourceText = reader.ReadToEnd();
-              }
-            }
+            using var stream = assembly.GetManifestResourceStream(resourceName);
+            if (stream == null) return resourceText;
+            using var reader = new StreamReader(stream);
+            resourceText = reader.ReadToEnd();
 
             return resourceText;
         }
@@ -89,10 +80,9 @@ namespace IctBaden.Stonehenge3.Vue.Client
             var contentPages = _vueContent
                 .Where(res => res.Value.ViewModel?.ElementName == null)
                 .Select(res => new {res.Value.Name, Vm = res.Value.ViewModel})
-                .OrderBy(route => route.Vm.Visible ? 0 : 1)
-                .ThenBy(route => route.Vm.SortIndex)
+                .OrderBy(route => Math.Abs(route.Vm.SortIndex))
                 .ToList();
-            
+
             var pages = contentPages
                 .Select(route => string.Format(pageTemplate,
                                             "/" + route.Name,
@@ -102,26 +92,36 @@ namespace IctBaden.Stonehenge3.Vue.Client
                                             route.Vm.Visible ? "true" : "false" ))
                 .ToList();
 
+            var startPageName = _options.StartPage;
             if (!contentPages.Any())
             {
-                _logger.LogError("VueAppCreator: No content pages found.");
+                _logger.LogError("VueAppCreator: No content pages found");
             }
-            else if (string.IsNullOrEmpty(_startPage))
+            else if (string.IsNullOrEmpty(startPageName))
             {
-                _startPage = contentPages.First().Name;
+                startPageName = contentPages.First(p => p.Vm.Visible).Name;
+            }
+
+            if (string.IsNullOrEmpty(startPageName))
+            {
+                _logger.LogError("VueAppCreator: No content start page found");
+            }
+            else
+            {
+                startPageName = startPageName.Replace("-", "_");
             }
             
-            var startPage = _vueContent.FirstOrDefault(page => page.Value.Name == _startPage);
-            if(startPage.Key != null)
+            var (key, value) = _vueContent.FirstOrDefault(page => page.Value.Name == startPageName);
+            if(key != null)
             {
-                pages.Insert(0, string.Format(pageTemplate, "", "", startPage.Value.ViewModel.Title, startPage.Value.Name, "false"));
+                pages.Insert(0, string.Format(pageTemplate, "", "", value.ViewModel.Title, value.Name, "false"));
             }
             
             var routes = string.Join("," + Environment.NewLine, pages);
             pageText = pageText
                 .Replace(routesInsertPoint, routes)
-                .Replace(stonehengeAppTitleInsertPoint, _appTitle)
-                .Replace(stonehengeRootPageInsertPoint, _startPage);
+                .Replace(stonehengeAppTitleInsertPoint, _options.Title)
+                .Replace(stonehengeRootPageInsertPoint, startPageName);
 
             return pageText;
         }
@@ -160,7 +160,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
                             }
                         }
 
-                        var resource = new Resource($"{viewModel.Name}.js", "VueResourceProvider", ResourceType.Js, controllerJs, Resource.Cache.Revalidate);
+                        var resource = new Resource($"{viewModel.Name}.js", "ViewModel", ResourceType.Js, controllerJs, Resource.Cache.Revalidate);
                         _vueContent.Add(resource.Name, resource);
                     }
                     catch(Exception ex)

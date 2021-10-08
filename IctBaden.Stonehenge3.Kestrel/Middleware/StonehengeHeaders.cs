@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using IctBaden.Stonehenge3.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 namespace IctBaden.Stonehenge3.Kestrel.Middleware
 {

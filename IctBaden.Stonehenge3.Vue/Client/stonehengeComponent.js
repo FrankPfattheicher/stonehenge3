@@ -58,8 +58,17 @@ stonehengeViewModelName = function component() {
             }
         },
 
-        StonehengePost: function (urlWithParams) {
+        StonehengeSleep: function (milliseconds) {
+            return new Promise(resolve => setTimeout(resolve, milliseconds));
+        },
+    
+        StonehengePost: async function (urlWithParams) {
             this.StonehengeCancelVmRequests();
+
+            let w = 3;
+            while (this.StonehengePostActive && w > 0) {
+                await this.StonehengeSleep(100);
+            }
 
             let props = ['propNames'];
             let formData = {};
@@ -70,7 +79,8 @@ stonehengeViewModelName = function component() {
             Vue.http.post(urlWithParams, JSON.stringify(formData),
                 {
                     before(request) {
-                        app.activeRequests.add(request);
+                        request.headers.append('Stonehenge-Id', app.stonehengeViewModelName.model.StonehengeSession);
+                        //app.activeRequests.add(request);
                     }
                 })
                 .then(response => {
@@ -105,10 +115,11 @@ stonehengeViewModelName = function component() {
                 return;
             }
             let ts = new Date().getTime();
-            Vue.http.get('Events/stonehengeViewModelName?ts=' + ts,
+            Vue.http.get('Events/stonehengeViewModelName?ts=' + ts + '&stonehenge-id=' + app.stonehengeViewModelName.model.StonehengeSession,
                 {
                     before(request) {
                         app.stonehengeViewModelName.model.StonehengePollEventsActive = request;
+                        request.headers.append('Stonehenge-Id', app.stonehengeViewModelName.model.StonehengeSession);
                         app.activeRequests.add(request);
                     }
                 })
@@ -157,10 +168,11 @@ stonehengeViewModelName = function component() {
         StonehengeGetViewModel: function () {
             app.activeViewModelName = 'stonehengeViewModelName';
             this.StonehengeCancelVmRequests();
-            Vue.http.get('ViewModel/stonehengeViewModelName',
+            Vue.http.get('ViewModel/stonehengeViewModelName?stonehenge-id=' + app.stonehengeViewModelName.model.StonehengeSession,
                 {
                     before(request) {
-                        app.activeRequests.add(request);
+                        request.headers.append('Stonehenge-Id', app.stonehengeViewModelName.model.StonehengeSession);
+                        //app.activeRequests.add(request);
                     }
                 })
                 .then(response => {
@@ -206,7 +218,7 @@ stonehengeViewModelName = function component() {
             StonehengeIsDirty: false,
             StonehengeIsDisconnected: false,
             StonehengePostActive: false,
-            StonehengeSession: '<none>'
+            StonehengeSession: ''
             //stonehengeProperties
 
         },

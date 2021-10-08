@@ -10,6 +10,7 @@ using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using IctBaden.Stonehenge3.ViewModel;
 using Microsoft.Extensions.Logging;
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -24,10 +25,12 @@ namespace IctBaden.Stonehenge3.Core
     {
         public string AppInstanceId { get; private set; }
 
+        public StonehengeHostOptions HostOptions { get; private set; }
         public string HostDomain { get; private set; }
         public bool IsLocal { get; private set; }
         public bool IsDebug { get; private set; }
         public string ClientAddress { get; private set; }
+        public int ClientPort { get; private set; }
         public string UserAgent { get; private set; }
         public string Platform { get; private set; }
         public string Browser { get; private set; }
@@ -56,6 +59,7 @@ namespace IctBaden.Stonehenge3.Core
         private readonly int _eventTimeoutMs;
         private readonly List<string> _events = new List<string>();
         private readonly AutoResetEvent _eventRelease = new AutoResetEvent(false);
+        private bool _forceUpdate;
 
         public bool IsWaitingForEvents { get; private set; }
 
@@ -68,13 +72,19 @@ namespace IctBaden.Stonehenge3.Core
         {
             IsWaitingForEvents = true;
             var eventVm = ViewModel;
-            _eventRelease.WaitOne(TimeSpan.FromMilliseconds(_eventTimeoutMs));
+            
+            // wait _eventTimeoutMs for events - if there is one - continue
+            var max = _eventTimeoutMs / 100;
+            while (!_forceUpdate && !_eventRelease.WaitOne(100) && (max > 0))
+            {
+                max--;
+            }
 
             if (ViewModel == eventVm)
             {
-                // wait for maximum 500ms for more events - if there is none within 100ms - continue
-                var max = 50;
-                while (_eventRelease.WaitOne(100) && (max > 0))
+                // wait for maximum 500ms for more events - if there is none within - continue
+                max = 50;
+                while (!_forceUpdate && _eventRelease.WaitOne(10) && (max > 0))
                 {
                     max--;
                 }
@@ -84,7 +94,10 @@ namespace IctBaden.Stonehenge3.Core
                 // VM has changed
                 EventsClear(false);
             }
+            
+            _forceUpdate = false;
             IsWaitingForEvents = false;
+            
             lock (_events)
             {
                 var events = _events.ToArray();
@@ -112,7 +125,7 @@ namespace IctBaden.Stonehenge3.Core
                         }
                         lock (avm.Session._events)
                         {
-                            avm.Session.EventAdd(args.PropertyName);
+                            avm.Session.UpdateProperty(args.PropertyName);
                         }
                     };
                 }
@@ -378,11 +391,14 @@ namespace IctBaden.Stonehenge3.Core
             return assembly.GetCustomAttributes(false).OfType<DebuggableAttribute>().Any(da => da.IsJITTrackingEnabled);
         }
         
-        public void Initialize(string hostDomain, bool isLocal, string clientAddress, string userAgent)
+        public void Initialize(StonehengeHostOptions hostOptions, string hostDomain, 
+            bool isLocal, string clientAddress, int clientPort, string userAgent)
         {
+            HostOptions = hostOptions;
             HostDomain = hostDomain;
             IsLocal = isLocal;
             ClientAddress = clientAddress;
+            ClientPort = clientPort;
             UserAgent = userAgent;
             ConnectedSince = DateTime.Now;
 
@@ -454,13 +470,25 @@ namespace IctBaden.Stonehenge3.Core
             }
         }
 
-        public void EventAdd(string name)
+        public void UpdatePropertyImmediately(string name)
+        {
+            UpdateProperty(name);
+            UpdatePropertiesImmediately();
+        }
+
+        public void UpdatePropertiesImmediately()
+        {
+            _forceUpdate = true;
+        }
+
+        public void UpdateProperty(string name)
         {
             lock (_events)
             {
                 if (!_events.Contains(name))
+                {
                     _events.Add(name);
-
+                }
                 _eventRelease.Set();
             }
         }

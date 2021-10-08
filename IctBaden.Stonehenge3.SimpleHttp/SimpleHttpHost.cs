@@ -74,6 +74,11 @@ namespace IctBaden.Stonehenge3.SimpleHttp
             // TODO
         }
 
+        public void EnableRoute(string route, bool enabled)
+        {
+            // TODO
+        }
+
         private AppSession GetSession(SimpleHttpProcessor httpProcessor)
         {
             // get session

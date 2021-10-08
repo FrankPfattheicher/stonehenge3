@@ -12,7 +12,8 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
     internal static class Program
     {
         private static IStonehengeHost _server;
-        public static ILoggerFactory LoggerFactory = StonehengeLogger.DefaultFactory;
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static readonly ILoggerFactory LoggerFactory = StonehengeLogger.DefaultFactory;
 
         /// <summary>
         /// The main entry point for the application.
@@ -35,8 +36,8 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
                 Title = "VueSample",
                 
                 ServerPushMode = ServerPushModes.LongPolling,
-                PollIntervalSec = 5,
-                SessionIdMode = SessionIdModes.CookiesOnly
+                PollIntervalSec = 10,
+                SessionIdMode = SessionIdModes.Automatic
                 // SslCertificatePath = Path.Combine(StonehengeApplication.BaseDirectory, "stonehenge.pfx"),
                 // SslCertificatePassword = "test"
             };
@@ -75,7 +76,7 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
                     var wnd = new HostWindow(_server.BaseUrl, options.Title);
                     if (!wnd.Open())
                     {
-                        logger.LogError("Failed to open main window.");
+                        logger.LogError("Failed to open main window");
                         terminate.Set();
                     }
                 }

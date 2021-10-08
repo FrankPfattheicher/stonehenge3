@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>VueSampleCore</AssemblyName>
     <LangVersion>9</LangVersion>
     <AssemblyVersion>3.17</AssemblyVersion>
     <FileVersion>3.17</FileVersion>
+    <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="app\cookie.html" />
@@ -25,6 +25,7 @@
   <ItemGroup>
     <EmbeddedResource Include="app\cookie.html" />
     <EmbeddedResource Include="app\forms.html" />
+    <EmbeddedResource Include="app\graph.html" />
     <EmbeddedResource Include="app\invisible.html" />
     <EmbeddedResource Include="app\scripts\c3.js" />
     <EmbeddedResource Include="app\scripts\d3.js" />
@@ -55,6 +56,22 @@
     <EmbeddedResource Include="app\c3gauge.html" />
     <None Remove="app\c3gauge.js" />
     <EmbeddedResource Include="app\c3gauge.js" />
+    <None Remove="app\info.html" />
+    <EmbeddedResource Include="app\info.html" />
+    <None Remove="app\switch_on.wav" />
+    <EmbeddedResource Include="app\switch_on.wav" />
+    <None Remove="app\switch_off.wav" />
+    <EmbeddedResource Include="app\switch_off.wav" />
+    <None Remove="app\images.html" />
+    <EmbeddedResource Include="app\images.html" />
+    <None Remove="app\images\lightbulb.png" />
+    <EmbeddedResource Include="app\images\lightbulb.png" />
+    <None Remove="app\images\lightbulb_on.png" />
+    <EmbeddedResource Include="app\images\lightbulb_on.png" />
+    <None Remove="app\images\switch_off.png" />
+    <EmbeddedResource Include="app\images\switch_off.png" />
+    <None Remove="app\images\switch_on.png" />
+    <EmbeddedResource Include="app\images\switch_on.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IctBaden.Stonehenge3.Kestrel\IctBaden.Stonehenge3.Kestrel.csproj" />

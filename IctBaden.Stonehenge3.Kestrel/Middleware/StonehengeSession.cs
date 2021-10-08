@@ -10,6 +10,7 @@ using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 namespace IctBaden.Stonehenge3.Kestrel.Middleware
 {
@@ -39,7 +40,7 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             return false;
         }
     }
-
+    
     // ReSharper disable once ClassNeverInstantiated.Global
     public class StonehengeSession
     {
@@ -69,8 +70,8 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 return;
             }
 
-            var appSessions = context.Items["stonehenge.AppSessions"] as List<AppSession>
-                              ?? new List<AppSession>();
+            var appSessions = context.Items["stonehenge.AppSessions"] as List<AppSession>;
+            Debug.Assert(appSessions != null);
 
             // URL id has priority
             var stonehengeId = context.Request.Query["stonehenge-id"];
@@ -94,20 +95,22 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
 
             CleanupTimedOutSessions(logger, appSessions);
             var session = appSessions.FirstOrDefault(s => s.Id == stonehengeId);
-            if (string.IsNullOrEmpty(stonehengeId) || session == null)
+            if (session == null)
             {
                 // session not found - redirect to new session
                 var resourceLoader = context.Items["stonehenge.ResourceLoader"] as StonehengeResourceLoader;
                 session = NewSession(logger, appSessions, context, resourceLoader);
 
-                context.Response.Headers.Add("Set-Cookie",
-                    session.SecureCookies
-                        ? new[] {"stonehenge-id=" + session.Id, "Secure"}
-                        : new[] {"stonehenge-id=" + session.Id});
+                if (session.HostOptions.AllowCookies)
+                {
+                    context.Response.Headers.Add("Set-Cookie",
+                        session.SecureCookies
+                            ? new[] {"stonehenge-id=" + session.Id, "Secure"}
+                            : new[] {"stonehenge-id=" + session.Id});
+                }
 
-                var options = (StonehengeHostOptions) context.Items["stonehenge.HostOptions"];
                 var redirectUrl = "/index.html";
-                if (options.AddUrlSessionParameter)
+                if (session.HostOptions.AddUrlSessionParameter)
                 {
                     redirectUrl += "?stonehenge-id=" + session.Id;
                 }
@@ -121,9 +124,9 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             }
 
             var etag = context.Request.Headers["If-None-Match"];
-            if (context.Request.Method == "GET" && etag == session.GetResourceETag(path))
+            if (context.Request.Method == "GET" && !string.IsNullOrEmpty(etag) && etag == session.GetResourceETag(path))
             {
-                logger.LogTrace("ETag match.");
+                logger.LogTrace("ETag match");
                 context.Response.StatusCode = (int) HttpStatusCode.NotModified;
             }
             else
@@ -154,8 +157,10 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 appSessions.Remove(timedOut);
                 logger.LogInformation($"Kestrel Session timed out {timedOut.Id}.");
             }
-
-            logger.LogInformation($"Kestrel {appSessions.Count} sessions.");
+            if (timedOutSessions.Any())
+            {
+                logger.LogInformation($"Kestrel {appSessions.Count} sessions.");
+            }
         }
 
         private static AppSession NewSession(ILogger logger, ICollection<AppSession> appSessions, HttpContext context,
@@ -167,8 +172,9 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             var userAgent = context.Request.Headers["User-Agent"];
             var httpContext = context.Request?.HttpContext;
             var clientAddress = httpContext?.Connection.RemoteIpAddress.ToString();
+            var clientPort = httpContext?.Connection.RemotePort ?? 0;
             var hostDomain = context.Request.Host.Value;
-            session.Initialize(hostDomain, isLocal, clientAddress, userAgent);
+            session.Initialize(options, hostDomain, isLocal, clientAddress, clientPort, userAgent);
             appSessions.Add(session);
             logger.LogInformation($"Kestrel New session {session.Id}. {appSessions.Count} sessions.");
             return session;

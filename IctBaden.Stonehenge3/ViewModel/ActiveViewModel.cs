@@ -35,6 +35,7 @@ using System.Reflection;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Resources;
 using Microsoft.Extensions.Logging;
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable UnusedMember.Global
@@ -584,12 +585,13 @@ namespace IctBaden.Stonehenge3.ViewModel
             }
         }
 
-        protected void NotifyAllPropertiesChanged()
+        public void NotifyAllPropertiesChanged()
         {
             foreach (PropertyDescriptorEx prop in properties)
             {
                 NotifyPropertyChanged(prop.Name);
             }
+            Session.UpdatePropertiesImmediately();
         }
         
         #endregion
@@ -608,14 +610,25 @@ namespace IctBaden.Stonehenge3.ViewModel
 
         #endregion
 
-        #region Server site navigation
+        #region Server side page enabling
+
+        public void EnableRoute(string route, bool enabled)
+        {
+            route = route.Replace("-", "_");
+            Session.Logger.LogInformation($"ActiveViewModel.EnableRoute({route}) = {enabled}");
+            ExecuteClientScript($"stonehengeEnableRoute('{route}', {enabled.ToString().ToLower()})");
+        }
+
+        #endregion
+
+        #region Server side navigation
 
         public string NavigateToRoute;
 
         public void NavigateTo(string route)
         {
             Session.Logger.LogInformation("ActiveViewModel.NavigateTo: " + route);
-            NavigateToRoute = route;
+            NavigateToRoute = route.Replace("-", "_");
         }
 
         #endregion
@@ -636,8 +649,8 @@ namespace IctBaden.Stonehenge3.ViewModel
         public void CopyToClipboard(string text)
         {
             text = text
-                .Replace("'", "\\'", StringComparison.Ordinal)
                 .Replace("\\", "\\\\", StringComparison.Ordinal)
+                .Replace("'", "\\'", StringComparison.Ordinal)
                 .Replace("\r", "\\r", StringComparison.Ordinal)
                 .Replace("\n", "\\n", StringComparison.Ordinal);
             ExecuteClientScript($"stonehengeCopyToClipboard('{text}')");

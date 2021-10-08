@@ -5,7 +5,7 @@
         <span v-if="node.HasChildren" :class="node.Icon" style="cursor: pointer;"
               @click="$emit('toggle', node.Id)"></span>
         <span v-else class="far fa-circle" @click="$emit('toggle', node.Id)"></span>
-        <span style="cursor: pointer;" @click="$emit('select', node.Id)">&nbsp;{{node.Name}}</span>
+        <span style="cursor: pointer;" @click.exact="$emit('select', node.Id)" @dblclick.exact="$emit('toggle', node.Id)">&nbsp;{{node.Name}}</span>
     </div>
     <ul style="list-style-type: none;">
         <tree-node v-for="child of node.Children" v-bind:node="child" :key="child.Id"

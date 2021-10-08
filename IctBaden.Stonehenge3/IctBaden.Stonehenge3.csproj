@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Copyright>Copyright ©2013-2021 ICT Baden GmbH</Copyright>
     <Company>ICT Baden GmbH</Company>
     <Authors>Frank Pfattheicher</Authors>
@@ -9,6 +8,7 @@
     <ApplicationIcon>app\favicon.ico</ApplicationIcon>
     <LangVersion>9</LangVersion>
     <PackageIcon>icon64.png</PackageIcon>
+    <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
   
   <ItemGroup>

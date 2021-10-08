@@ -7,8 +7,8 @@
         <owners>Frank Pfattheicher</owners>
         <summary>X-Platform Web Application Framework</summary>
         <license type="expression">MIT</license>
+        <icon>images/icon64.png</icon>
         <projectUrl>https://github.com/FrankPfattheicher/stonehenge3</projectUrl>
-        <iconUrl>https://image.ibb.co/hVjxsf/icon64.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>X-Platform Web Application Framework</description>
         <releaseNotes>Stable</releaseNotes>
@@ -32,13 +32,15 @@
             <dependency id="Microsoft.Extensions.Logging" version="3.1.10" />
             <dependency id="Microsoft.Extensions.Logging.Abstractions" version="3.1.10" />
             <dependency id="Newtonsoft.Json" version="12.0.3"/>
-            <dependency id="System.IdentityModel.Tokens.Jwt" version="6.8.0" />
+            <dependency id="System.IdentityModel.Tokens.Jwt" version="6.12.2" />
         </dependencies>
         <references>
-            <reference file="IctBaden.Stonehenge3.dll"/>
-            <reference file="IctBaden.Stonehenge3.Vue.dll"/>
-            <reference file="IctBaden.Stonehenge3.Kestrel.dll"/>
-            <reference file="IctBaden.Stonehenge3.SimpleHttp.dll"/>
+            <group targetFramework="netcoreapp3.1" >
+                <reference file="IctBaden.Stonehenge3.dll"/>
+                <reference file="IctBaden.Stonehenge3.Vue.dll"/>
+                <reference file="IctBaden.Stonehenge3.Kestrel.dll"/>
+                <reference file="IctBaden.Stonehenge3.SimpleHttp.dll"/>
+            </group>
         </references>
     </metadata>
     <files>

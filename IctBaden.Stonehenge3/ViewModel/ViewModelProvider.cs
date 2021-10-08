@@ -13,6 +13,7 @@ using IctBaden.Stonehenge3.Resources;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 namespace IctBaden.Stonehenge3.ViewModel
 {
@@ -83,10 +84,10 @@ namespace IctBaden.Stonehenge3.ViewModel
                 session.SetViewModelType(vmTypeName);
             }
 
-            foreach (var data in formData)
+            foreach (var (key, value) in formData)
             {
-                _logger.LogDebug($"ViewModelProvider: Set {data.Key}={data.Value}");
-                SetPropertyValue(_logger, session.ViewModel, data.Key, data.Value);
+                _logger.LogDebug($"ViewModelProvider: Set {key}={value}");
+                SetPropertyValue(_logger, session.ViewModel, key, value);
             }
 
             var vmType = session.ViewModel.GetType();
@@ -213,7 +214,7 @@ namespace IctBaden.Stonehenge3.ViewModel
             var data = new List<string> {"\"StonehengeContinuePolling\":true"};
             var events = session.CollectEvents();
             
-            if (vmTypeName != vmType?.Name)
+            if (vmTypeName != vmType.Name)
             {
                 // view model changed !
                 return new Resource(resourceName, "ViewModelProvider", ResourceType.Json, json, Resource.Cache.None);
@@ -334,8 +335,10 @@ namespace IctBaden.Stonehenge3.ViewModel
                     if (DateTime.TryParse(propValue, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
                         return dt;
                 }
-
-                return JsonConvert.DeserializeObject(propValue, propType);
+                if (propValue != null)
+                {
+                    return JsonConvert.DeserializeObject(propValue, propType);
+                }
             }
             catch (Exception ex)
             {

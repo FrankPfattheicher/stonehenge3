@@ -41,14 +41,14 @@ namespace IctBaden.Stonehenge3.Client
                 // ReSharper disable once LoopCanBeConvertedToQuery
                 foreach (var resourceName in cssResources.Where(name => name.Contains(baseNameStyles)))
                 {
-                    var css = ResourceLoader.GetShortResourceName(resourceBaseName, resourceName).Replace(".", "/").Replace("/css", ".css");
+                    var css = ResourceLoader.GetShortResourceName(appAssembly, resourceBaseName, resourceName).Replace(".", "/").Replace("/css", ".css");
                     styleSheets += Environment.NewLine + string.Format(CssLinkTemplate, css);
                 }
                 // then themes
                 // ReSharper disable once LoopCanBeConvertedToQuery
                 foreach (var resourceName in cssResources.Where(name => name.Contains(baseNameTheme + theme)))
                 {
-                    var css = ResourceLoader.GetShortResourceName(resourceBaseName, resourceName).Replace(".", "/").Replace("/css", ".css");
+                    var css = ResourceLoader.GetShortResourceName(appAssembly, resourceBaseName, resourceName).Replace(".", "/").Replace("/css", ".css");
                     styleSheets += Environment.NewLine + string.Format(CssLinkTemplate, css);
                 }
 
@@ -86,7 +86,7 @@ namespace IctBaden.Stonehenge3.Client
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var resourceName in jsResources.Where(name => name.Contains(baseNameScripts)))
             {
-                var js = ResourceLoader.GetShortResourceName(resourceBaseName, resourceName)
+                var js = ResourceLoader.GetShortResourceName(userAssembly, resourceBaseName, resourceName)
                     .Replace(".", "/")
                     .Replace("/js", ".js");
                 scripts += Environment.NewLine + string.Format(JsLinkTemplate, js);
