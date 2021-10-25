@@ -56,7 +56,7 @@ namespace IctBaden.Stonehenge3.Resources
 
         public static string GetShortResourceName(Assembly appAssembly, string baseName, string resourceName)
         {
-            resourceName = resourceName.Replace(appAssembly.GetName().Name, "_");
+            resourceName = resourceName.Replace(appAssembly.GetName().Name ?? "_", "_");
             var ixBase = resourceName.IndexOf(baseName, StringComparison.InvariantCultureIgnoreCase);
             return ixBase >= 0 
                 ? resourceName.Substring(ixBase + baseName.Length) 
