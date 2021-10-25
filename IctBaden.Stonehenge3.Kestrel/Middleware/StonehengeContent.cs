@@ -110,7 +110,10 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                         {
                             logger.LogError(
                                 $"Invalid path in index resource {resourceName} - redirecting to root index");
-                            context.Response.Redirect("/index.html");
+
+                            var query = HttpUtility.ParseQueryString(context.Request.QueryString.ToString() ?? string.Empty);
+                            query["stonehenge-id"] = appSession.Id;
+                            context.Response.Redirect($"/index.html?{query}");
                             return;
                         }
                         else if (string.Compare(resourceName, "index.html",

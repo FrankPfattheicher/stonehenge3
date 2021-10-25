@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
@@ -112,7 +113,9 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
                 var redirectUrl = "/index.html";
                 if (session.HostOptions.AddUrlSessionParameter)
                 {
-                    redirectUrl += "?stonehenge-id=" + session.Id;
+                    var query = HttpUtility.ParseQueryString(context.Request.QueryString.ToString() ?? string.Empty);
+                    query["stonehenge-id"] = session.Id;
+                    redirectUrl += $"?{query}";
                 }
 
                 context.Response.Redirect(redirectUrl);

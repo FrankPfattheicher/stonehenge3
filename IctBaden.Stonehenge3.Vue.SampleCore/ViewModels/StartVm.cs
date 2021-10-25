@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
 using IctBaden.Stonehenge3.Core;
@@ -28,6 +29,9 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore.ViewModels
         public bool IsLocal => Session?.IsLocal ?? true;
         public string ClientAddress => Session.ClientAddress ?? "(unknown)";
         public string UserIdentity => Session.UserIdentity ?? "(unknown)";
+        
+        public string Parameters => 
+            string.Join(", ", Session.Parameters.Select(p => $"{p.Key}={p.Value}"));
 
         public string NotInitialized { get; set; }
 

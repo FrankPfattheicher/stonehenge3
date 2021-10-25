@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Http;
 
 namespace IctBaden.Stonehenge3.Kestrel.Middleware
@@ -20,7 +21,8 @@ namespace IctBaden.Stonehenge3.Kestrel.Middleware
             var path = context.Request.Path.Value.Replace("//", "/");
             if (path == "/")
             {
-                context.Response.Redirect("/index.html");
+                var query = HttpUtility.ParseQueryString(context.Request.QueryString.ToString() ?? string.Empty);
+                context.Response.Redirect($"/index.html?{query}");
                 return;
             }
 
