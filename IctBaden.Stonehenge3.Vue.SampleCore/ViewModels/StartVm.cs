@@ -134,12 +134,11 @@ END:VCALENDAR
         [ActionMethod]
         public void ExecJavaScript()
         {
-            var js = "var dateSpan = document.createElement('span');"
-                     + $"dateSpan.innerHTML = '{DateTime.Now:U}';"
-                     + "var insert = document.getElementById('insertion-point');"
-                     + "insert.appendChild(dateSpan);"
-                     + "insert.appendChild(document.createElement('br'));";
-            ExecuteClientScript(js);
+            ExecuteClientScript("var dateSpan = document.createElement('span');");
+            ExecuteClientScript($"dateSpan.innerHTML = '{DateTime.Now:U}';");
+            ExecuteClientScript("var insert = document.getElementById('insertion-point');");
+            ExecuteClientScript("insert.appendChild(dateSpan)");
+            ExecuteClientScript("insert.appendChild(document.createElement('br'));");
         }
     }
 }
