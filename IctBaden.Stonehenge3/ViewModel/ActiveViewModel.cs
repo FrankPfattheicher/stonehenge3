@@ -639,7 +639,19 @@ namespace IctBaden.Stonehenge3.ViewModel
 
         public void ExecuteClientScript(string script)
         {
-            ClientScript = script;
+            script = script.Trim();
+            if (!script.EndsWith(";"))
+            {
+                script += "; ";
+            }
+            
+            if (string.IsNullOrEmpty(ClientScript))
+            {
+                ClientScript = script;
+                return;
+            }
+
+            ClientScript += script;
         }
 
         #endregion
