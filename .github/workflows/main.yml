@@ -16,16 +16,18 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.x
-    - name: Setup .NET Core 5
+    - name: Setup .NET Core 6
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.x
+        dotnet-version: 6.x
     - name: Setup Nuget
       uses: NuGet/setup-nuget@v1.0.5
     - name: Prepare Artifacts
       run: |
         mkdir artifacts
         mkdir artifacts/lib
+        mkdir artifacts/lib/netcoreapp3.1
+        mkdir artifacts/lib/net6.0
         mkdir artifacts/images
         cp IctBaden.Stonehenge3/icon64.png artifacts/images
     - name: Build Core
@@ -33,25 +35,36 @@ jobs:
         version=$(grep -oP -m 1 '\* \K[0-9]*\.[0-9]*\.[0-9]*' ReleaseNotes3.md)
         echo Version=$version
         dotnet build --configuration Release ./IctBaden.Stonehenge3/IctBaden.Stonehenge3.csproj -p:AssemblyVersion=$version -p:Version=3.0
-        cp IctBaden.Stonehenge3/bin/Release/netcoreapp3.1/IctBaden.Stonehenge3.dll artifacts/lib
+        cp IctBaden.Stonehenge3/bin/Release/netcoreapp3.1/IctBaden.Stonehenge3.dll artifacts/lib/netcoreapp3.1
+        cp IctBaden.Stonehenge3/bin/Release/net6.0/IctBaden.Stonehenge3.dll artifacts/lib/net6.0
     - name: Build Kestrel
       run: |
         version=$(grep -oP -m 1 '\* \K[0-9]*\.[0-9]*\.[0-9]*' ReleaseNotes3.md)
         echo Version=$version
         dotnet build --configuration Release ./IctBaden.Stonehenge3.Kestrel/IctBaden.Stonehenge3.Kestrel.csproj -p:AssemblyVersion=$version -p:Version=3.0
-        cp IctBaden.Stonehenge3.Kestrel/bin/Release/netcoreapp3.1/IctBaden.Stonehenge3.Kestrel.dll artifacts/lib
+        cp IctBaden.Stonehenge3.Kestrel/bin/Release/netcoreapp3.1/IctBaden.Stonehenge3.Kestrel.dll artifacts/lib/netcoreapp3.1
+        cp IctBaden.Stonehenge3.Kestrel/bin/Release/net6.0/IctBaden.Stonehenge3.Kestrel.dll artifacts/lib/net6.0
     - name: Build SimpleHttp
       run: |
         version=$(grep -oP -m 1 '\* \K[0-9]*\.[0-9]*\.[0-9]*' ReleaseNotes3.md)
         echo Version=$version
         dotnet build --configuration Release ./IctBaden.Stonehenge3.SimpleHttp/IctBaden.Stonehenge3.SimpleHttp.csproj -p:AssemblyVersion=$version -p:Version=3.0
-        cp IctBaden.Stonehenge3.SimpleHttp/bin/Release/netcoreapp3.1/IctBaden.Stonehenge3.SimpleHttp.dll artifacts/lib
+        cp IctBaden.Stonehenge3.SimpleHttp/bin/Release/netcoreapp3.1/IctBaden.Stonehenge3.SimpleHttp.dll artifacts/lib/netcoreapp3.1
+        cp IctBaden.Stonehenge3.SimpleHttp/bin/Release/net6.0/IctBaden.Stonehenge3.SimpleHttp.dll artifacts/lib/net6.0
     - name: Build Vue
       run: |
         version=$(grep -oP -m 1 '\* \K[0-9]*\.[0-9]*\.[0-9]*' ReleaseNotes3.md)
         echo Version=$version
         dotnet build --configuration Release ./IctBaden.Stonehenge3.Vue/IctBaden.Stonehenge3.Vue.csproj -p:AssemblyVersion=$version -p:Version=3.0
-        cp IctBaden.Stonehenge3.Vue/bin/Release/netcoreapp3.1/IctBaden.Stonehenge3.Vue.dll artifacts/lib
+        cp IctBaden.Stonehenge3.Vue/bin/Release/netcoreapp3.1/IctBaden.Stonehenge3.Vue.dll artifacts/lib/netcoreapp3.1
+        cp IctBaden.Stonehenge3.Vue/bin/Release/net6.0/IctBaden.Stonehenge3.Vue.dll artifacts/lib/net6.0
+    - name: Build App
+      run: |
+        version=$(grep -oP -m 1 '\* \K[0-9]*\.[0-9]*\.[0-9]*' ReleaseNotes3.md)
+        echo Version=$version
+        dotnet build --configuration Release ./IctBaden.Stonehenge3.App/IctBaden.Stonehenge3.App.csproj -p:AssemblyVersion=$version -p:Version=3.0
+        cp IctBaden.Stonehenge3.App/bin/Release/netcoreapp3.1/IctBaden.Stonehenge3.App.dll artifacts/lib/netcoreapp3.1
+        cp IctBaden.Stonehenge3.App/bin/Release/net6.0/IctBaden.Stonehenge3.App.dll artifacts/lib/net6.0
     - name: Test with dotnet
       env: 
         SkipPerformanceTests: true

@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <IsPackable>false</IsPackable>
-    <LangVersion>9</LangVersion>
-    <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
+    <LangVersion>10</LangVersion>
+    <TargetFrameworks>net6.0;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

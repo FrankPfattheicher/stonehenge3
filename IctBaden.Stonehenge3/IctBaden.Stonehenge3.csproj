@@ -6,9 +6,9 @@
     <Authors>Frank Pfattheicher</Authors>
     <Product>Web Application Framework</Product>
     <ApplicationIcon>app\favicon.ico</ApplicationIcon>
-    <LangVersion>9</LangVersion>
+    <LangVersion>10</LangVersion>
     <PackageIcon>icon64.png</PackageIcon>
-    <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net6.0;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
   
   <ItemGroup>

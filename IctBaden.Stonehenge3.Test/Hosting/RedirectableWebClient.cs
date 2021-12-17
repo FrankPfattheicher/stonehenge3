@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Net;
+using static System.Net.WebRequest;
+
+#pragma warning disable CS0618
 
 namespace IctBaden.Stonehenge3.Test.Hosting
 {
@@ -9,7 +12,7 @@ namespace IctBaden.Stonehenge3.Test.Hosting
         {
             for (var redirect = 0; redirect < 10; redirect++)
             {
-                var request = (HttpWebRequest)WebRequest.Create(address);
+                var request = (HttpWebRequest)Create(address);
                 request.AllowAutoRedirect = true;
 
                 var response = GetWebResponse(request);

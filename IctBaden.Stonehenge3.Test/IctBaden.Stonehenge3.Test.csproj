@@ -2,8 +2,16 @@
 
   <PropertyGroup>
     <IsPackable>false</IsPackable>
-    <LangVersion>9</LangVersion>
-    <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
+    <LangVersion>10</LangVersion>
+    <TargetFrameworks>net6.0;netcoreapp3.1</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <NoWarn>1701;1702;SYSLIB0014</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <NoWarn>1701;1702;SYSLIB0014</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

@@ -2,10 +2,10 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <AssemblyName>VueSampleCore</AssemblyName>
-    <LangVersion>9</LangVersion>
+    <LangVersion>10</LangVersion>
     <AssemblyVersion>3.17</AssemblyVersion>
     <FileVersion>3.17</FileVersion>
-    <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net6.0;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="app\cookie.html" />
