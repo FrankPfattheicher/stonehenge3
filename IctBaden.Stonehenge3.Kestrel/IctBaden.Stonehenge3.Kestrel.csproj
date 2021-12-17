@@ -5,9 +5,9 @@
     <Company>ICT Baden GmbH</Company>
     <Authors>Frank Pfattheicher</Authors>
     <Product>Web Application Framework</Product>
-    <LangVersion>9</LangVersion>
+    <LangVersion>10</LangVersion>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net6.0;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

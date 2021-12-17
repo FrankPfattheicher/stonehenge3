@@ -40,6 +40,14 @@
                 <reference file="IctBaden.Stonehenge3.Vue.dll"/>
                 <reference file="IctBaden.Stonehenge3.Kestrel.dll"/>
                 <reference file="IctBaden.Stonehenge3.SimpleHttp.dll"/>
+                <reference file="IctBaden.Stonehenge3.App.dll"/>
+            </group>
+            <group targetFramework="net6.0" >
+                <reference file="IctBaden.Stonehenge3.dll"/>
+                <reference file="IctBaden.Stonehenge3.Vue.dll"/>
+                <reference file="IctBaden.Stonehenge3.Kestrel.dll"/>
+                <reference file="IctBaden.Stonehenge3.SimpleHttp.dll"/>
+                <reference file="IctBaden.Stonehenge3.App.dll"/>
             </group>
         </references>
     </metadata>
@@ -47,5 +55,7 @@
         <file src="../icon64.png" target="images"/>
         <file src="lib/*.dll" target="lib/netcoreapp3.1"/>
         <file src="lib/*.pdb" target="lib/netcoreapp3.1"/>
+        <file src="lib/*.dll" target="lib/net6.0"/>
+        <file src="lib/*.pdb" target="lib/net6.0"/>
     </files>
 </package>
