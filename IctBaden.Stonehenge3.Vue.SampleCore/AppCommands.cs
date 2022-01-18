@@ -1,4 +1,5 @@
-﻿using IctBaden.Stonehenge3.Core;
+﻿using System.Linq;
+using IctBaden.Stonehenge3.Core;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.ViewModel;
 
@@ -13,5 +14,12 @@ namespace IctBaden.Stonehenge3.Vue.SampleCore
             var vm = session.ViewModel as ActiveViewModel;
             vm?.MessageBox("AppCommand", "FileOpen");
         }
+
+        public void WindowResized(AppSession session)
+        {
+            var width = session.Parameters.FirstOrDefault(p => p.Key == "width").Value;
+            var height = session.Parameters.FirstOrDefault(p => p.Key == "height").Value;
+        }
+        
     }
 }

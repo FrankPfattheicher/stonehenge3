@@ -133,11 +133,14 @@ namespace IctBaden.Stonehenge3.Hosting
         private bool ShowWindowChrome2(string path)
         {
             try
-
             {
                 var cmd = Environment.OSVersion.Platform == PlatformID.Unix ? "chromium-browser" : "chrome.exe";
                 var parameter =
                     $"--app={_startUrl}/?title={HttpUtility.UrlEncode(_title)} --window-size={_windowSize.X},{_windowSize.Y} --disable-translate --user-data-dir=\"{path}\"";
+                if (Environment.OSVersion.Platform == PlatformID.Unix)
+                {
+                    parameter += " --disable-gpu";
+                }
                 var ui = Process.Start(cmd, parameter);
                 if ((ui == null) || ui.HasExited)
                 {

@@ -1,4 +1,5 @@
 
+* 3.22.01 - AppCommand WindowResized. HostWindow --disable-gpu on linux.
 * 3.21.01 - net6.0 support, C#10. Assembly IctBaden.Stonehenge3.App added.
 * 3.20.07 - Enable ExecuteClientScript multiple statements.
 * 3.20.06 - Retain initial URL parameters.
