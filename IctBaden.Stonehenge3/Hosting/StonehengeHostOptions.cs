@@ -79,6 +79,11 @@ namespace IctBaden.Stonehenge3.Hosting
         /// </summary>
         public bool DisableClientCache { get; set; } = false;
         
+        /// <summary>
+        /// Enable firing WindowResized AppCommand  
+        /// </summary>
+        public bool HandleWindowResized { get; set; } = false;
+        
         public StonehengeHostOptions()
         {
             Title = Assembly.GetEntryAssembly()?.GetName().Name;

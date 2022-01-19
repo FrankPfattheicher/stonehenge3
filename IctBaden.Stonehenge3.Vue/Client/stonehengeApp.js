@@ -158,25 +158,29 @@ const app = new Vue({
 
 router.push('stonehengeRootPage');
 
-const debounce = (func, arguments, wait, immediate) => {
-    let timeout;
-    return () => {
-        const context = this, args = arguments;
-        const later = function() {
-            timeout = null;
-            if (!immediate) func.apply(context, args);
+if(stonehengeAppHandleWindowResized) {
+
+    const debounce = (func, arguments, wait, immediate) => {
+        let timeout;
+        return () => {
+            const context = this, args = arguments;
+            const later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            const callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
         };
-        const callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) func.apply(context, args);
     };
-};
 
-function stonehengeHandleResize() {
-    //console.log(this.outerWidth, this.outerHeight);
-    stonehengeMakePostRequest('Command/WindowResized?width=' + this.outerWidth + '&height=' + this.outerHeight);
-}
+    function stonehengeHandleResize() {
+        //console.log(this.outerWidth, this.outerHeight);
+        stonehengeMakePostRequest('Command/WindowResized?width=' + this.outerWidth + '&height=' + this.outerHeight);
+    }
 
-window.addEventListener('resize', debounce(stonehengeHandleResize, [], 1000, false),false);
+    window.addEventListener('resize', debounce(stonehengeHandleResize, [], 1000, false),false);
+    
+} 
 
