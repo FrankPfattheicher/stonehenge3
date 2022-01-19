@@ -45,11 +45,19 @@ namespace IctBaden.Stonehenge3.ViewModel
                     .FirstOrDefault(type => type.GetInterfaces().Contains(typeof(IStonehengeAppCommands)));
                 if (appCommandsType != null)
                 {
-                    var appCommands = Activator.CreateInstance(appCommandsType);
+                    var appCommands = session.CreateType(appCommandsType);
+                    
                     var commandHandler = appCommands?.GetType().GetMethod(commandName);
                     if (commandHandler != null)
                     {
-                        commandHandler.Invoke(appCommands, new object[] {session});
+                        var cmdParameters = commandHandler.GetParameters()
+                            .Select(parameter => (object)(parameter.ParameterType == typeof(AppSession)
+                                ? session
+                                : Convert.ChangeType(parameters.FirstOrDefault(kv => kv.Key == parameter.Name).Value, parameter.ParameterType) 
+                            ));
+                        
+                        commandHandler.Invoke(appCommands, cmdParameters.ToArray());
+                        
                         return new Resource(commandName, "Command", ResourceType.Json, "{ 'executed': true }",
                             Resource.Cache.None);
                     }

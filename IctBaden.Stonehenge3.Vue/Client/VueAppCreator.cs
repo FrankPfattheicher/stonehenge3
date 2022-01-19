@@ -75,6 +75,7 @@ namespace IctBaden.Stonehenge3.Vue.Client
             const string routesInsertPoint = "//stonehengeAppRoutes";
             const string stonehengeAppTitleInsertPoint = "stonehengeAppTitle";
             const string stonehengeRootPageInsertPoint = "stonehengeRootPage";
+            const string stonehengeAppHandleWindowResized = "stonehengeAppHandleWindowResized";
             const string pageTemplate = "{{ path: '{0}', name: '{1}', title: '{2}', component: () => Promise.resolve(stonehengeLoadComponent('{3}')), visible: {4} }}";
 
             var contentPages = _vueContent
@@ -121,7 +122,8 @@ namespace IctBaden.Stonehenge3.Vue.Client
             pageText = pageText
                 .Replace(routesInsertPoint, routes)
                 .Replace(stonehengeAppTitleInsertPoint, _options.Title)
-                .Replace(stonehengeRootPageInsertPoint, startPageName);
+                .Replace(stonehengeRootPageInsertPoint, startPageName)
+                .Replace(stonehengeAppHandleWindowResized, _options.HandleWindowResized.ToString().ToLower());
 
             return pageText;
         }

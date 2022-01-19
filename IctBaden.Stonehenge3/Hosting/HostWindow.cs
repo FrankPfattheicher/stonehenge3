@@ -10,11 +10,12 @@ using System.Web;
 
 namespace IctBaden.Stonehenge3.Hosting
 {
-    public class HostWindow
+    public class HostWindow : IDisposable
     {
         private readonly string _title;
         private readonly Point _windowSize;
         private readonly string _startUrl;
+        private Process _ui;
 
         // ReSharper disable once MemberCanBePrivate.Global
         public string LastError;
@@ -57,6 +58,8 @@ namespace IctBaden.Stonehenge3.Hosting
             _startUrl = startUrl;
             _title = title ?? Assembly.GetEntryAssembly()?.GetName().Name ?? "";
             _windowSize = windowSize;
+
+            AppDomain.CurrentDomain.ProcessExit += (_, __) => { Dispose(); };
         }
 
         /// <summary>
@@ -112,15 +115,15 @@ namespace IctBaden.Stonehenge3.Hosting
                     pi.Arguments += " --disable-gpu";
                 }
 
-                var ui = Process.Start(pi);
+                _ui = Process.Start(pi);
                 Thread.Sleep(100); // unexpected exit on linux
-                if ((ui == null) || ui.HasExited)
+                if ((_ui == null) || _ui.HasExited)
                 {
                     return false;
                 }
 
                 Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _startUrl);
-                ui.WaitForExit();
+                _ui.WaitForExit();
                 return true;
             }
             catch (Exception ex)
@@ -133,19 +136,23 @@ namespace IctBaden.Stonehenge3.Hosting
         private bool ShowWindowChrome2(string path)
         {
             try
-
             {
                 var cmd = Environment.OSVersion.Platform == PlatformID.Unix ? "chromium-browser" : "chrome.exe";
                 var parameter =
                     $"--app={_startUrl}/?title={HttpUtility.UrlEncode(_title)} --window-size={_windowSize.X},{_windowSize.Y} --disable-translate --user-data-dir=\"{path}\"";
-                var ui = Process.Start(cmd, parameter);
-                if ((ui == null) || ui.HasExited)
+                if (Environment.OSVersion.Platform == PlatformID.Unix)
+                {
+                    parameter += " --disable-gpu";
+                }
+
+                _ui = Process.Start(cmd, parameter);
+                if ((_ui == null) || _ui.HasExited)
                 {
                     return false;
                 }
 
                 Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _startUrl);
-                ui.WaitForExit();
+                _ui.WaitForExit();
                 return true;
             }
             catch (Exception ex)
@@ -173,15 +180,15 @@ namespace IctBaden.Stonehenge3.Hosting
                     pi.Arguments += " --disable-gpu";
                 }
 
-                var ui = Process.Start(pi);
+                _ui = Process.Start(pi);
                 Thread.Sleep(100); // unexpected exit on linux
-                if ((ui == null) || ui.HasExited)
+                if ((_ui == null) || _ui.HasExited)
                 {
                     return false;
                 }
 
                 Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _startUrl);
-                ui.WaitForExit();
+                _ui.WaitForExit();
                 return true;
             }
             catch (Exception ex)
@@ -200,14 +207,14 @@ namespace IctBaden.Stonehenge3.Hosting
             try
             {
                 var parameter = $"{_startUrl}/?title={HttpUtility.UrlEncode(_title)}";
-                var ui = Process.Start("epiphany", parameter);
-                if ((ui == null) || ui.HasExited)
+                _ui = Process.Start("epiphany", parameter);
+                if ((_ui == null) || _ui.HasExited)
                 {
                     return false;
                 }
 
                 Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _startUrl);
-                ui.WaitForExit();
+                _ui.WaitForExit();
                 return true;
             }
             catch (Exception ex)
@@ -225,14 +232,14 @@ namespace IctBaden.Stonehenge3.Hosting
             try
             {
                 var parameter = $"-e Navigationbar -c {path} -a {_startUrl}/?title={HttpUtility.UrlEncode(_title)}";
-                var ui = Process.Start("midori", parameter);
-                if ((ui == null) || ui.HasExited)
+                _ui = Process.Start("midori", parameter);
+                if ((_ui == null) || _ui.HasExited)
                 {
                     return false;
                 }
 
                 Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _startUrl);
-                ui.WaitForExit();
+                _ui.WaitForExit();
                 return true;
             }
             catch (Exception ex)
@@ -251,14 +258,14 @@ namespace IctBaden.Stonehenge3.Hosting
             {
                 const string cmd = "iexplore.exe";
                 var parameter = $"-private {_startUrl}/?title={HttpUtility.UrlEncode(_title)}";
-                var ui = Process.Start(cmd, parameter);
-                if ((ui == null) || ui.HasExited)
+                _ui = Process.Start(cmd, parameter);
+                if ((_ui == null) || _ui.HasExited)
                 {
                     return false;
                 }
 
                 Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _startUrl);
-                ui.WaitForExit();
+                _ui.WaitForExit();
                 return true;
             }
             catch (Exception ex)
@@ -275,14 +282,14 @@ namespace IctBaden.Stonehenge3.Hosting
                 var cmd = Environment.OSVersion.Platform == PlatformID.Unix ? "firefox" : "firefox.exe";
                 var parameter =
                     $"{_startUrl}/?title={HttpUtility.UrlEncode(_title)} -width {_windowSize.X} -height {_windowSize.Y}";
-                var ui = Process.Start(cmd, parameter);
-                if ((ui == null) || ui.HasExited)
+                _ui = Process.Start(cmd, parameter);
+                if ((_ui == null) || _ui.HasExited)
                 {
                     return false;
                 }
 
                 Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _startUrl);
-                ui.WaitForExit();
+                _ui.WaitForExit();
                 return true;
             }
             catch (Exception ex)
@@ -302,20 +309,33 @@ namespace IctBaden.Stonehenge3.Hosting
                 const string cmd = "safari.exe";
                 var parameter =
                     $"-url {_startUrl}/?title={HttpUtility.UrlEncode(_title)} -width {_windowSize.X} -height {_windowSize.Y}";
-                var ui = Process.Start(cmd, parameter);
-                if ((ui == null) || ui.HasExited)
+                _ui = Process.Start(cmd, parameter);
+                if ((_ui == null) || _ui.HasExited)
                 {
                     return false;
                 }
 
                 Console.WriteLine("AppHost Created at {0}, listening on {1}", DateTime.Now, _startUrl);
-                ui.WaitForExit();
+                _ui.WaitForExit();
                 return true;
             }
             catch (Exception ex)
             {
                 LastError = ex.Message;
                 return false;
+            }
+        }
+
+        public void Dispose()
+        {
+            try
+            {
+                _ui?.Kill(true);
+                _ui?.Dispose();
+            }
+            catch
+            {
+                // ignore
             }
         }
     }
