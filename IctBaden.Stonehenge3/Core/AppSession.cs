@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using IctBaden.Stonehenge3.Hosting;
 using IctBaden.Stonehenge3.Resources;
@@ -18,6 +19,8 @@ using Microsoft.Extensions.Logging;
 // ReSharper disable EventNeverSubscribedTo.Global
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
+
+[assembly: InternalsVisibleTo("IctBaden.Stonehenge3.Test")]
 
 namespace IctBaden.Stonehenge3.Core
 {
@@ -165,7 +168,7 @@ namespace IctBaden.Stonehenge3.Core
 
             var newViewModelType = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())
-                .FirstOrDefault(type => type.FullName?.EndsWith(typeName) ?? false);
+                .FirstOrDefault(type => type.FullName?.EndsWith($".{typeName}") ?? false);
 
             if (newViewModelType == null)
             {
@@ -328,9 +331,9 @@ namespace IctBaden.Stonehenge3.Core
                     .Distinct()
                     .ToList();
 
-                var logger = StonehengeLogger.DefaultLogger;
-                var loader = new ResourceLoader(logger, assemblies, Assembly.GetCallingAssembly());
-                resourceLoader = new StonehengeResourceLoader(logger, new List<IStonehengeResourceProvider>{ loader });
+                Logger = StonehengeLogger.DefaultLogger;
+                var loader = new ResourceLoader(Logger, assemblies, Assembly.GetCallingAssembly());
+                resourceLoader = new StonehengeResourceLoader(Logger, new List<IStonehengeResourceProvider>{ loader });
             }
             else
             {

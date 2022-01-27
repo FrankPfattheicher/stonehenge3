@@ -1,5 +1,6 @@
 
 
+* 3.23.01 - Fix AppSession.SetViewModelType finding correct view model type
 * 3.22.01 - AppCommand WindowResized. HostWindow --disable-gpu on linux.
   IDisposable for HostWindow killing running UI process. 
 * 3.21.01 - net6.0 support, C#10. Assembly IctBaden.Stonehenge3.App added.
