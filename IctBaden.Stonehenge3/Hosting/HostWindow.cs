@@ -19,7 +19,10 @@ namespace IctBaden.Stonehenge3.Hosting
 
         // ReSharper disable once MemberCanBePrivate.Global
         public string LastError;
+        public int ProcessId => _ui?.Id ?? 0;
+        public IntPtr MainWindowHandle => _ui?.MainWindowHandle ?? IntPtr.Zero;
 
+        
         private static Point DefaultWindowSize
         {
             get
