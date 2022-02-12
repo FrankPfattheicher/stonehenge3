@@ -1,4 +1,5 @@
 
+* 3.24.01 - Session property CurrentRoute
 * 3.23.02 - HostWindow properties ProcessId and MainWindowHandle
 * 3.23.01 - Fix AppSession.SetViewModelType finding correct view model type
 * 3.22.01 - AppCommand WindowResized. HostWindow --disable-gpu on linux.

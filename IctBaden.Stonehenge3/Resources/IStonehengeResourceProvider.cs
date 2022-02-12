@@ -8,6 +8,7 @@ namespace IctBaden.Stonehenge3.Resources
     public interface IStonehengeResourceProvider : IDisposable
     {
         void InitProvider(StonehengeResourceLoader loader, StonehengeHostOptions options);
+        List<ViewModelInfo> GetViewModelInfos();
         
         Resource Get(AppSession session, string resourceName, Dictionary<string, string> parameters);
 

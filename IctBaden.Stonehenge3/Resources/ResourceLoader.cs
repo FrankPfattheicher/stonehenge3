@@ -54,6 +54,8 @@ namespace IctBaden.Stonehenge3.Resources
         {
         }
 
+        public List<ViewModelInfo> GetViewModelInfos() => new List<ViewModelInfo>();
+
         public static string GetShortResourceName(Assembly appAssembly, string baseName, string resourceName)
         {
             resourceName = resourceName.Replace(appAssembly.GetName().Name ?? "_", "_");
@@ -123,8 +125,8 @@ namespace IctBaden.Stonehenge3.Resources
             .Replace("@", "_")
             .Replace("-", "_")
             .Replace("/", ".");
-        
-        
+
+
         public Resource Get(AppSession session, string name, Dictionary<string, string> parameters)
         {
             if (name.StartsWith("Events/")) return null;

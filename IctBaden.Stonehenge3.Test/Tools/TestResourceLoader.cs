@@ -21,6 +21,8 @@ namespace IctBaden.Stonehenge3.Test.Tools
         {
         }
 
+        public List<ViewModelInfo> GetViewModelInfos() => new List<ViewModelInfo>();
+
         public void Dispose()
         {
         }
