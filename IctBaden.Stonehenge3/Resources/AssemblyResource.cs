@@ -1,5 +1,6 @@
 ﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 
+using System.IO;
 using System.Reflection;
 
 namespace IctBaden.Stonehenge3.Resources

@@ -45,6 +45,7 @@ namespace IctBaden.Stonehenge3.Core
 
         public DateTime ConnectedSince { get; private set; }
         public DateTime LastAccess { get; private set; }
+        public string CurrentRoute { get; private set; }
         public string Context { get; private set; }
 
         public string UserIdentity { get; private set; }
@@ -178,6 +179,13 @@ namespace IctBaden.Stonehenge3.Core
             }
 
             ViewModel = CreateType(newViewModelType);
+
+            var viewModelInfo = _resourceLoader.Providers
+                .SelectMany(p => p.GetViewModelInfos())
+                .FirstOrDefault(vmi => vmi.VmName == typeName);
+
+            CurrentRoute = viewModelInfo?.Route ?? "";
+            
             return ViewModel;
         }
 

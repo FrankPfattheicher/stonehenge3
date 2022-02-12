@@ -30,6 +30,8 @@ namespace IctBaden.Stonehenge3.ViewModel
         {
         }
 
+        public List<ViewModelInfo> GetViewModelInfos() => new List<ViewModelInfo>();
+
         public void Dispose()
         {
         }
@@ -51,10 +53,9 @@ namespace IctBaden.Stonehenge3.ViewModel
                     if (commandHandler != null)
                     {
                         var cmdParameters = commandHandler.GetParameters()
-                            .Select(parameter => (object)(parameter.ParameterType == typeof(AppSession)
+                            .Select(parameter => parameter.ParameterType == typeof(AppSession)
                                 ? session
-                                : Convert.ChangeType(parameters.FirstOrDefault(kv => kv.Key == parameter.Name).Value, parameter.ParameterType) 
-                            ));
+                                : Convert.ChangeType(parameters.FirstOrDefault(kv => kv.Key == parameter.Name).Value, parameter.ParameterType));
                         
                         commandHandler.Invoke(appCommands, cmdParameters.ToArray());
                         

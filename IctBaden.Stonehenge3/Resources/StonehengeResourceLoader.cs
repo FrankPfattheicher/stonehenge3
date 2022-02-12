@@ -36,6 +36,7 @@ namespace IctBaden.Stonehenge3.Resources
             }
         }
 
+        public List<ViewModelInfo> GetViewModelInfos() => new List<ViewModelInfo>();
 
         
         public void Dispose()
